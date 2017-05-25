@@ -1,0 +1,1506 @@
+/******************************************************
+  基本数据结构
+  "result":0 成功     1失败
+  "msg": 一般失败时会有消息
+  "data"  返回的数据
+
+  开发地址    http://172.16.2.99:8080/wages
+  测试地址    http://120.77.209.222/wagestest
+  正式地址    暂定
+*********************************************************/
+
+[ //忽略此中括号
+
+  /*
+
+todo     1.费用类型列表   costTypes/list.json		get
+
+    费用类型名称:name
+    解释说明:remark
+    childs	如果有值则说明还有子列表
+**/
+  {
+    "result": 0,
+    "msg": "success",
+    "data": [
+      {
+        "flag": 0,
+        "name": "交通",
+        "leval": 1,
+        "remark": "备注",
+        "id": 35,
+        "childs": [
+          {
+            "flag": 0,
+            "name": "飞机",
+            "leval": 2,
+            "remark": "备注",
+            "id": 36,
+            "childs": [],
+            "parentid": 35
+          },
+          {
+            "flag": 0,
+            "name": "轮船",
+            "leval": 2,
+            "remark": "备注",
+            "id": 37,
+            "childs": [],
+            "parentid": 35
+          },
+          {
+            "flag": 0,
+            "name": "汽车",
+            "leval": 2,
+            "remark": "备注",
+            "id": 38,
+            "childs": [],
+            "parentid": 35
+          },
+          {
+            "flag": 0,
+            "name": "火车",
+            "leval": 2,
+            "remark": "备注",
+            "id": 39,
+            "childs": [],
+            "parentid": 35
+          },
+          {
+            "flag": 0,
+            "name": "地铁",
+            "leval": 2,
+            "remark": "备注",
+            "id": 40,
+            "childs": [],
+            "parentid": 35
+          }
+        ]
+      },
+      {
+        "flag": 1,
+        "name": "生物",
+        "leval": 1,
+        "remark": "备注",
+        "id": 41,
+        "childs": [
+          {
+            "flag": 1,
+            "name": "动物",
+            "leval": 2,
+            "remark": "备注",
+            "id": 42,
+            "childs": [],
+            "parentid": 41
+          },
+          {
+            "flag": 1,
+            "name": "植物",
+            "leval": 2,
+            "remark": "备注",
+            "id": 43,
+            "childs": [],
+            "parentid": 41
+          }
+        ]
+      }
+    ]
+  },
+
+  /*
+
+todo     新增或者编辑费用类型时获取部门树   /costTypes/getParentCostTypeDepTree.json		get
+
+**/
+  {
+    "costTypeParentId":1
+  },
+  {
+    "result": 0,
+    "msg": "success",
+    "data": [
+      {
+        "name": "康帕斯",
+        "leval": 1,
+        "id": 1,
+        "childs": [
+          {
+            "name": "捷盈",
+            "leval": 2,
+            "id": 46,
+            "childs": [
+              {
+                "name": "租赁业务部",
+                "leval": 3,
+                "id": 52,
+                "parentid": 46
+              },
+              {
+                "name": "风控部",
+                "leval": 3,
+                "id": 53,
+                "parentid": 46
+              },
+              {
+                "name": "网吧钉钉项目部",
+                "leval": 3,
+                "id": 54,
+                "parentid": 46
+              },
+              {
+                "name": "校园项目部",
+                "leval": 3,
+                "id": 55,
+                "parentid": 46
+              },
+              {
+                "name": "贷后",
+                "leval": 3,
+                "id": 56,
+                "parentid": 46
+              }
+            ],
+            "parentid": 1
+          },
+          {
+            "name": "蜂维",
+            "leval": 2,
+            "id": 47,
+            "childs": [
+              {
+                "name": "部署中心",
+                "leval": 3,
+                "id": 57,
+                "parentid": 47
+              },
+              {
+                "name": "销售部",
+                "leval": 3,
+                "id": 58,
+                "parentid": 47
+              },
+              {
+                "name": "布署及分发运营",
+                "leval": 3,
+                "id": 59,
+                "parentid": 47
+              }
+            ],
+            "parentid": 1
+          },
+          {
+            "name": "众鑫",
+            "leval": 2,
+            "id": 48,
+            "childs": [
+              {
+                "name": "零售事业部",
+                "leval": 3,
+                "id": 49,
+                "parentid": 48
+              },
+              {
+                "name": "网吧行业部",
+                "leval": 3,
+                "id": 50,
+                "parentid": 48
+              },
+              {
+                "name": " INTEL产品部",
+                "leval": 3,
+                "id": 51,
+                "parentid": 48
+              }
+            ],
+            "parentid": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  /*
+
+  todo    2.保存费用类型   /costTypes/save.json    post
+  deptStrs      部门id
+  parentid      父亲id
+  */
+  {
+    "deptStrs": "2,3,4",
+    "name": "部门名称",
+    "parentid": 1,
+    "remark": "备注",
+    "id":1              //为空时新增
+  },
+  {
+    "result": 0,
+    "msg": "success"
+  },
+  /*
+
+   todo  3.费用类型编辑     /costTypes/edit.json    get
+
+   parentCostTypeName   上级部门
+   name                 科目名称
+   remark               解释说明
+   deptsList            适用部门
+  */
+  {
+    "id": 2
+  },
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": {
+      "name": "汽车",
+      "remark": "汽车",
+      "deptsList": [
+        {
+          "name": "it",
+          "id": 2
+        },
+        {
+          "name": "it3",
+          "id": 3
+        }
+      ],
+      "id": 2,
+      "parentCostTypeName": "交通",
+      "parentid": 1
+    }
+  },
+  /*
+      todo  4.部门树    /depts/deptTree.json   get
+
+  **/
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": [
+      {
+        "name": "wages01",
+        "leval": 1,
+        "id": 5,
+        "dingDeptid": 1,
+        "childs": [
+          {
+            "name": "IT",
+            "leval": 2,
+            "id": 24,
+            "dingDeptid": 27311581,
+            "childs": [
+              {
+                "name": "it子部门",
+                "leval": 3,
+                "id": 22,
+                "dingDeptid": 27247731,
+                "childs": [],
+                "parentid": 27311581
+              },
+              {
+                "name": "aaaaaaaa",
+                "leval": 3,
+                "id": 25,
+                "dingDeptid": 29300428,
+                "childs": [],
+                "parentid": 27311581
+              },
+              {
+                "name": "222",
+                "leval": 3,
+                "id": 44,
+                "dingDeptid": 29672378,
+                "childs": [
+                  {
+                    "name": "12",
+                    "leval": 4,
+                    "id": 45,
+                    "dingDeptid": 29641315,
+                    "childs": [],
+                    "parentid": 29672378
+                  }
+                ],
+                "parentid": 27311581
+              }
+            ],
+            "parentid": 1
+          }
+        ]
+      }
+    ]
+  }
+
+
+
+,
+  /*
+      todo  5.费用类型停用启用    /costTypes/disableOrEnable.json    post
+
+  */
+  {
+    "id": 7
+  },
+  {
+    "result": 0,
+    "msg": "ok"
+  },
+
+  /*
+      todo  6.根据部门找用户    /users/findUsersByDeptId.json    get
+
+  */
+  {
+    "deptId": 22
+  },
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": [
+      {
+        "nickName": "长老",
+        "id": 7,
+        "avatar": "http://static.dingtalk.com/media/lADOCt2W5s0B5s0B5g_486_486.jpg"
+      },
+      {
+        "nickName": "吴俊锋",
+        "id": 11,
+        "avatar": ""
+      }
+    ]
+  },
+  /*
+      todo  7.预制流程列表    /presetProcess/list.json    get
+
+
+  */
+  {
+    "type": 1
+  },
+  // 1 个人报销  2 个人代填  3 部门代填
+
+
+
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": [
+      {
+        "deptName": "it子部门",
+        // 部门名称
+        "deptId": 22,
+        // 部门id
+        "id": 8,
+        "ticketFlag": 0,
+        // 0票审禁用  1启用
+        "approvePersonsList": [
+          // 审批环节
+          {
+            "id": 39,
+            "type": 1,
+            "userId": 3,
+            "seq": 1,
+            // 位置
+            "users": {
+              "dingid": "manager7551",
+              "nickName": "liam",
+              // 用户名称
+              "mobile": "15257135019",
+              "id": 3,
+              "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+              // 头像
+            },
+            "presetProcessId": 8
+          },
+          {
+            "presetConditionId": 15,
+            "presetConditions": {
+              //预制条件
+              "maximum": 100.00,
+              // 最大条件金额
+              "id": 15,
+              "position": 1,
+              "minimum": 50.00
+              //最小条件金额
+            },
+            "id": 40,
+            "type": 1,
+            "userId": 4,
+            "seq": 2,
+            "users": {
+              "dingid": "514038131162848",
+              "nickName": "跳跳",
+              "id": 4,
+              "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+            },
+            "presetProcessId": 8
+          }
+        ],
+        "paidPersonsList": [
+          // 发放阶段
+          {
+            "id": 43,
+            "type": 3,
+            "userId": 3,
+            "seq": 5,
+            "users": {
+              "dingid": "manager7551",
+              "nickName": "liam",
+              "mobile": "15257135019",
+              "id": 3,
+              "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+            },
+            "presetProcessId": 8
+          },
+          {
+            "id": 44,
+            "type": 3,
+            "userId": 4,
+            "seq": 6,
+            "users": {
+              "dingid": "514038131162848",
+              "nickName": "跳跳",
+              "id": 4,
+              "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+            },
+            "presetProcessId": 8
+          }
+        ],
+        "ticketPersonsList": [
+          //票审 阶段
+          {
+            "id": 41,
+            "type": 2,
+            "userId": 3,
+            "seq": 3,
+            "users": {
+              "dingid": "manager7551",
+              "nickName": "liam",
+              "mobile": "15257135019",
+              "id": 3,
+              "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+            },
+            "presetProcessId": 8
+          },
+          {
+            "id": 42,
+            "type": 2,
+            "userId": 4,
+            "seq": 4,
+            "users": {
+              "dingid": "514038131162848",
+              "nickName": "跳跳",
+              "id": 4,
+              "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+            },
+            "presetProcessId": 8
+          }
+        ]
+      }
+    ]
+  },
+  /*
+      todo  8.预制流程保存    /presetProcess/save.json    post
+
+
+  */
+  {
+    "presetProcesId":8 ,              //有值编辑,新增
+    "approvePersonsIds": "3,4",
+    // 审批阶段
+    "deptId": 5,
+    // 部门ID
+    "paidPersonsIds": "7,10",
+    // 发放阶段
+    "ticketFlag": 1,
+    // 默认1启用票审
+    "ticketPersonsIds": "11",
+    // 票审阶段
+    "type": 1,
+    // 1 个人报销  2个人代填  3部门代填
+
+    "presetConditions[0].maximum": 100,
+    //预制条件    最大金额
+    "presetConditions[0].minimum": 50,
+    //预制条件    最小金额
+    "presetConditions[0].position": 1,
+    // 限制在第一个人身上  即3,4,7,10,11 中的3
+    "presetConditions[1].maximum": 100,
+    "presetConditions[1].minimum": 50,
+    "presetConditions[1].position": 3
+  },
+  {
+    "result": 0
+  },
+  /*
+    todo 9 修改票审状态 /presetProcess/changeTicketStatus.json  post
+  */
+
+  {
+    "id": 8,
+    "ticketFlag": 0// 0 禁用    1启用
+  }
+  ,
+  {"result":0,"msg":"ok"}
+,
+  /*
+    todo  10. 删除流程  /presetProcess/delete.json  get
+  */
+  {
+    "presetProcessId": 8
+  }
+,
+  {"result":0,"msg":"ok"}
+
+  ,
+  /*
+    todo  11. 预制流程编辑  /presetProcess/edit.json  get
+  */
+  {
+    "presetProcessId": 8
+  }
+,
+  {
+    "result": 0,
+    "msg": "success",
+    "data": {
+      "deptName": "it子部门",    //  部门名称
+      "deptId": 22,             // 部门id
+      "id": 8,
+      "type": 1,
+      "ticketFlag": 0,          // 票审是否禁用 0 禁用  1启用
+      "approvePersonsList": [   // 审批环节
+        {
+          "id": 39,
+          "type": 1,
+          "userId": 3,
+          "seq": 1,
+          "users": {
+            "dingid": "manager7551",
+            "nickName": "liam",       // 用户名
+            "mobile": "15257135019",
+            "id": 3,
+            "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+          },
+          "presetProcessId": 8
+        },
+        {
+          "presetConditionId": 15,
+          "presetConditions": {     // 限制条件
+            "maximum": 100.00,
+            "id": 15,
+            "position": 1,
+            "minimum": 50.00
+          },
+          "id": 40,
+          "type": 1,
+          "userId": 4,
+          "seq": 2,
+          "users": {
+            "dingid": "514038131162848",
+            "nickName": "跳跳",
+            "id": 4,
+            "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+          },
+          "presetProcessId": 8
+        }
+      ],
+      "paidPersonsList": [    // 发放环节
+        {
+          "id": 43,
+          "type": 3,
+          "userId": 3,
+          "seq": 5,
+          "users": {
+            "dingid": "manager7551",
+            "nickName": "liam",
+            "mobile": "15257135019",
+            "id": 3,
+            "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+          },
+          "presetProcessId": 8
+        },
+        {
+          "id": 44,
+          "type": 3,
+          "userId": 4,
+          "seq": 6,
+          "users": {
+            "dingid": "514038131162848",
+            "nickName": "跳跳",
+            "id": 4,
+            "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+          },
+          "presetProcessId": 8
+        }
+      ],
+      "ticketPersonsList": [    // 票审环节
+        {
+          "id": 41,
+          "type": 2,
+          "userId": 3,
+          "seq": 3,
+          "users": {
+            "dingid": "manager7551",
+            "nickName": "liam",
+            "mobile": "15257135019",
+            "id": 3,
+            "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+          },
+          "presetProcessId": 8
+        },
+        {
+          "id": 42,
+          "type": 2,
+          "userId": 4,
+          "seq": 4,
+          "users": {
+            "dingid": "514038131162848",
+            "nickName": "跳跳",
+            "id": 4,
+            "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+          },
+          "presetProcessId": 8
+        }
+      ]
+    }
+  }
+,
+  /*
+      todo  12.统计数据权限     /dataAuthoritys/list.json   get
+  */
+
+  {
+    "result": 0,
+    "data": [
+      {
+        "nickName": "liam",
+        "userId": 3,
+        "depts": "费用部门,IT,it子部门"
+      }
+    ],
+    "page": {
+      "next_page": 1,
+      "total_page": 1,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 10,
+      "current_page": 1,
+      "endNo": 10
+    }
+  },
+
+  /*
+    todo  数据权限删除    /dataAuthoritys/delete.json       get
+  */
+  { "userId": 3},
+
+
+  {"result":0,"msg":"ok"},
+  /*
+    todo    数据权限编辑   /dataAuthoritys/edit.json    get
+  */
+  {
+    "userId": 3
+  },
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": {
+      "nickName": "liam",
+      "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg",
+      "userId": 3,
+      "deptsList": [
+        {
+          "name": "222",
+          "id": 44,
+          "parentid": 27311581
+        },
+        {
+          "name": "12",
+          "id": 45,
+          "parentid": 29672378
+        }
+      ]
+    }
+  }
+
+
+
+
+
+,
+/*
+  todo  13.查询查询企业下所有的有效用户     /users/list.json    get
+
+*/
+  {"nickName":""},
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": [
+      {
+        "nickName": "liam",
+        "id": 3,
+        "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+      }
+    ]
+  }
+,
+  /*
+    todo 14.保存数据权限  /dataAuthoritys/save.json   post
+  */
+
+  {"userId":"2","depts":"2,3,4"},
+
+  {"result":0,"msg":"ok"}
+,
+/*
+  todo  15.收款账号列表   /userAccounts/list.json   get
+
+*/
+  {"search":"","current_page":1},
+  {
+    "result": 0,
+    "data": [
+      {
+        "bankCode": "893",
+        "isDefault": 0,
+        "bankBranchName": "西湖支行",     // 收款银行支行名称
+        "name": "沈龙飞",
+        "mobile": "13558231131",
+        "bankName": "招商银行",           // 收款银行名称
+        "id": 1,                          // id
+        "type": 1,                      // 1银行卡   2 支付宝
+        "userName": "liam",             // 员工姓名
+        "account": "43872989324"        // 收款账号
+      },
+      {
+        "bankCode": "893",
+        "isDefault": 0,
+        "bankBranchName": "西湖支行",
+        "name": "刘松",
+        "mobile": "13558231131",
+        "bankName": "杭州银行",
+        "id": 2,
+        "type": 1,
+        "userName": "liam",
+        "account": "473829893"
+      }
+    ],
+    "page": {
+      "next_page": 2,
+      "total_page": 2,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 10,
+      "current_page": 1,
+      "endNo": 10
+    }
+  }
+,
+  /*
+    todo  16.收款账号批量删除     /userAccounts/deleteBatch.json    post
+  */
+  {"userAccountIds":"1,2,3,4"},
+
+  {"result":0,"msg":"success"}
+
+,
+  /*
+    todo  17.收款账号批量添加   /userAccounts/saveBatch.json     post
+  */
+  {
+    "userAccounts[0].bankName": "西湖银行",           // 收款银行名称
+    "userAccounts[0].BankBranchName": "西湖支行",     // 收款银行支行名称
+    "userAccounts[0].account": "137493208990",        // 收款账号
+    "userAccounts[0].name": "刘松",                   // 收款账号人
+    "userAccounts[0].bankCode": "刘松",                 // 银行行号
+    "userAccounts[0].mobile": "15257135019",          //员工手机号
+    "userAccounts[1].bankName": "西湖银行",           // 收款银行名称
+    "userAccounts[1].BankBranchName": "西湖支行",     // 收款银行支行名称
+    "userAccounts[1].account": "5678788999",        // 收款账号
+    "userAccounts[1].name": "刘松",                   // 收款账号人
+    "userAccounts[1].bankCode": "刘松",                 // 银行行号
+    "userAccounts[1].mobile": "15257135019"           //员工手机号
+  },
+
+  {"result":0,"msg":"success"},
+
+
+  //todo 批量编辑查询   /userAccounts/updateBatch.json      get
+  {
+    "userAccountIds":"1,2,3,4,5"    //要编辑的账号id字符串，逗号隔开
+  },
+  {
+    "result": 0,
+    "msg": "success",
+    "data": [
+      {
+        "bankCode": "3324",
+        "bankBranchName": "西湖支行",
+        "mobile": "15257135019",
+        "bankName": "杭州银行",
+        "type": 1,
+        "userName": "liam",
+        "isDefault": 0,
+        "name": "袁福林",
+        "id": 4,
+        "account": "89183912435345"
+      },
+      {
+        "bankCode": "3324",
+        "bankBranchName": "西湖支行",
+        "mobile": "15257135019",
+        "bankName": "建设银行",
+        "type": 1,
+        "userName": "liam",
+        "isDefault": 0,
+        "name": "长老",
+        "id": 3,
+        "account": "89183912"
+      },
+      {
+        "bankCode": "893",
+        "bankBranchName": "西湖支行",
+        "mobile": "15257135019",
+        "bankName": "杭州银行",
+        "type": 1,
+        "userName": "liam",
+        "isDefault": 0,
+        "name": "刘松",
+        "id": 2,
+        "account": "473829893"
+      },
+      {
+        "bankCode": "137493208990",
+        "bankBranchName": "西湖支行",
+        "mobile": "15257135019",
+        "bankName": "西湖银行",
+        "type": 1,
+        "userName": "liam",
+        "isDefault": 0,
+        "name": "刘松",
+        "id": 1,
+        "account": "13700000000"
+      }
+    ]
+  },
+
+  //todo    /userAccounts/updateBatch.json    批量编辑    post
+  {
+    "userAccounts[0].id": 1,                          // 账号id
+    "userAccounts[0].bankName": "西湖银行",           // 收款银行名称
+    "userAccounts[0].BankBranchName": "西湖支行",     // 收款银行支行名称
+    "userAccounts[0].account": "137493208990",        // 收款账号
+    "userAccounts[0].name": "刘松",                   // 收款账号人
+    "userAccounts[0].bankCode": "刘松",                 // 银行行号
+    "userAccounts[1].id": 2,                          // 账号id
+    "userAccounts[1].bankName": "西湖银行",           // 收款银行名称
+    "userAccounts[1].BankBranchName": "西湖支行",     // 收款银行支行名称
+    "userAccounts[1].account": "5678788999",        // 收款账号
+    "userAccounts[1].name": "刘松",                   // 收款账号人
+    "userAccounts[1].bankCode": "刘松"                 // 银行行号
+  },
+  {"result":0,"msg":"success"},
+
+  //todo 账号Excel模板下载     /userAccounts/downloadUserAccountExcelModel.do     get
+  //入参：无
+  //出参：无
+
+  //todo 账号Excel导入     /userAccounts/importUserAccountFromExcel.json     post
+  //输入参数
+  //file
+  {"result":0,"msg":"success"},
+
+  /*
+    todo 18.红冲列表(后台)    /expensesClaimsReds/list.json     get
+  */
+  {"search":"2017"},
+  {
+    "result": 0,
+    "data": [
+      {
+        "redId":11  ,                     // 红冲id
+        "ticketStageName": "已票审",
+        "claimNo": "DT201702130009",      // 报销单号
+        "sumMoney": 50.00,                // 金额
+        "remark": "调整21",               // 理由 标注
+        "userName": "跳跳",               // 报销人
+        "operator": "liam",               // 操作人
+        "expensesClaimsId": 4,
+        "passTime":"2017-03-02 07:53:51", // 通过时间
+        "isInName": "",
+        "statusName": "待票审",
+        "status": 5
+      }
+    ],
+    "page": {
+      "next_page": 1,
+      "total_page": 1,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 2,
+      "current_page": 1,
+      "endNo": 2
+    }
+  }
+,
+  /*
+    todo  19.红冲处理详情   /expensesClaimsView/approveRedDetail.json     get
+  */
+  {"redId":11},
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": {
+      "ticketList": [                         // 票审意见列表
+        {
+          "updateTime": "2017-02-15",         // 审批时间
+          "remark": "票据有问题",              // 内容
+          "title": "票审意见",                // 标题
+          "userName": "liam"                // 审批人
+        },
+        {
+          "updateTime": "2017-02-15",
+          "remark": "票据有问题",
+          "title": "发放意见",
+          "userName": "跳跳"
+        },
+        {
+          "updateTime": "2017-02-23",
+          "remark": "票据有问题",
+          "title": "发放意见",
+          "userName": "liam"
+        }
+      ],
+      "processList": [              // 审批流程列表
+        {
+          "result": "发起",
+          "userName": "liam"
+        },
+        {
+          "result": "等待审批",
+          "updateTime": "2017-02-13",
+          "userName": "liam"
+        },
+        {
+          "result": "已通过",
+          "updateTime": "2017-02-15",
+          "userName": "liam"
+        },
+        {
+          "result": "已通过",
+          "updateTime": "2017-02-15",
+          "userName": "liam"
+        }
+      ],
+      "sList": [                  //费用类型明细
+        {
+          "money": 50.00,
+          "costTypeName": "交通",
+          "eventTime": "2016-12-31"
+        },
+        {
+          "changeMoney": -11.00,
+          "money": 50.00,
+          "costTypeName": "汽车-奔驰",
+          "eventTime": "2017-01-01"
+        }
+      ],
+      "isIn": {                       // 记账
+        "updateTime": "2017-03-02",
+        "remark": "已记账",
+        "title": "记账",
+        "userName": "liam"
+      },
+      "master": {
+        "deptName": "it子部门",                  // 部门
+        "summoney": 50.00,                      //金额
+        "expensesClaimId": 4,
+        "summoneyCh": "伍拾元整",
+        "remark": "调整21",                     //标注
+        "userName": "跳跳",                     // 报销人
+        "expensesClaimNo": "DT201702130009",    //报销单号
+        "createName": "liam"                    // 制单让人
+      }
+    }
+  }
+,
+/*
+  todo  20.红冲审批   /expensesClaims/approveRed.json       post
+*/
+  {
+    "redId": 11,
+    "status":8,
+    "result": "pass",
+    "remark":"sdf"         // pass  可为空  | reject    必填
+  },
+
+  {"result":0,"msg":"success"},
+
+/*
+  todo    21.红冲通过详情   /expensesClaimsView/approveRedPassDetail.json	      get
+*/
+  {"redId":11},
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": {
+      "sList": [                        // 费用类型明细
+        {
+          "changeMoney": -11.00,
+          "money": -11.00,
+          "costTypeName": "汽车-奔驰",
+          "eventTime": "2017-01-01",
+          "relationClaimNo": "DT201702130009"
+        }
+      ],
+      "master": {                             //主信息
+        "deptName": "it子部门",
+        "summoney": -21.00,
+        "expensesClaimId": 4,
+        "summoneyCh": "负贰拾壹元整",
+        "remark": "调整21",
+        "userName": "跳跳",
+        "expensesClaimNo": "HC201703020001",
+        "createName": "liam"
+      }
+    }
+  }
+,
+ /*
+  todo  22.报销准则添加   /expensesClaimRules/save.json     post
+ */
+  {
+    "title": "标题1",
+    "comment": "内容1",
+    "id": ""                // id 为空就是新增,  不为空就是编辑
+  },
+
+  {"result":0,"msg":"success"}
+
+,
+  /*
+    todo  23.报销准则交换位置 /expensesClaimRules/exchange.json   post
+  */
+  {
+    "sourceRuleId": 8,    // 要交换的准则id
+    "sourceRuleSeq": 1,   // 要交换的准则序号
+    "targetRuleId": 9,    // 被交换的准则id
+    "targetRuleSeq": 2    // 被交换的准则序号
+  }
+,
+  {"result":0,"msg":"success"}
+,
+/*
+  todo 24.报销准则列表    /expensesClaimRules/list.json   get
+*/
+  {
+    "result": 0,
+    "msg": "ok",
+    "title":"wages报销准则",            // 报销准则大标题
+    "data": [
+      {
+        "comment": "内容2",
+        "id": 9,
+        "title": "标题2",
+        "seq": 1
+      },
+      {
+        "comment": "内容1111",
+        "id": 8,
+        "title": "标题1111",
+        "seq": 2
+      },
+      {
+        "comment": "内容3",
+        "id": 10,
+        "title": "标题3",
+        "seq": 3
+      }
+    ]
+  }
+,
+  /*
+  todo   25.报销准则删除   /expensesClaimRules/delete.json   get
+  */
+  {"id":10},
+
+  {"result":0,"msg":"success"}
+
+  ,
+  /*
+    todo 26.项目标签保存      /projects/save.json     post
+  */
+  {
+    "id": 4,                  //ID 为空新增     不为空修改保存
+    "name": "标签44",
+    "remark": "备注44",
+    "depts": "7,8,9"
+  }
+
+  ,{"result":0,"msg":"success"}
+
+  ,
+  /*
+    todo    27.项目标签编辑   /projects/edit.json     get
+  */
+  {"id":5},
+  {
+    "result": 0,
+    "msg": "success",
+    "data": {
+      "flag": 1,
+      "name": "标签11",
+      "remark": "备注11",
+      "deptsList": [
+        {
+          "name": "it",
+          "id": 2,
+          "dingDeptid": 22
+        },
+        {
+          "name": "it3",
+          "id": 3,
+          "dingDeptid": 33
+        }
+      ],
+      "id": 5
+    }
+  }
+,/*
+  todo    28.项目状态修改   /projects/changeFlag.json   get
+*/
+  {
+    "id": 5,
+    "flag": 1           // 0 禁用   1启用
+  },
+  {"result":0,"msg":"ok"}
+
+  ,
+  /*
+    todo 29.项目删除       /projects/delete.json      get
+  */
+  {"id":1},
+  {"result":0,"msg":"ok"}
+  ,
+  /*
+    todo  30.系统日志列表   /systemLogs/list.json     get
+  */
+
+  {"search":"","current_page":1},
+  {
+    "result": 0,
+    "data": [
+      {
+        "createdAt": "2017-03-03 08:48",
+        "loginType": "PC",
+        "ip": "1.1.1.1",
+        "action": "/user/xxx",
+        "id": 1,
+        "userName": "liam",
+        "userId": 3,
+        "url": "/do"
+      }
+    ],
+    "page": {
+      "next_page": 1,
+      "total_page": 1,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 10,
+      "current_page": 1,
+      "endNo": 10
+    }
+  }
+,
+  /*
+    todo 31.预制流程禁用  /presetProcess/changeFlag.json    get
+  */
+  {
+    "presetProcessId": 8,
+    "flag": 0                     // 1 启用      0 禁用
+  }
+  ,
+  {"result":0,"msg":"ok"}
+,
+  /*
+    todo    32.钉钉子管理员列表   /users/adminList.json     get
+
+   ************** 注意 如果data 有值就展示列表。 如果没值再判断checkPassword 如果true 就需要到验证密码页面******************
+
+  */
+
+  {
+    "adminList":"only"      // 一般情况不传常数,只要adminlist的时候才传入
+
+  },
+
+
+  {
+    "result": 0,
+    "msg": "success",
+    "checkPassword":"false",
+    "dingId":"manager1321",           // 当前用户dingid 如果id一样 说明主管理选自己做了超过,跳出设置密码页面
+    "superManDingId":"123",         // 当前超管
+    "data": [
+      {
+        "nickName": "liam",
+        "id": 3,
+        "avatar": "http://static.dingtalk.com/media/lADOABcYgc0CHM0CHA_540_540.jpg"
+      },
+      {
+        "nickName": "跳跳",
+        "id": 4,
+        "avatar": "http://static.dingtalk.com/media/lADOoShcQM0CgM0Cfg_638_640.jpg"
+      }
+    ]
+  }
+,
+  /*
+    todo  33.创建超管   /managers/createSuperMan.json     post
+  */
+  {"userId":3},
+
+  {
+    "result": 0,
+    "msg": "success",
+    "data": 1               // 返回创建成功的ID  用于下一步修改密码。
+  }
+
+  ,
+  /*
+    todo 34.超管修改密码    /managers/updatePassword.json     post
+  */
+  {
+    "id": 23,
+    "password": "123456",
+    "oldPassword": "123"// 修改密码时必传
+  },
+  // 密码复杂度前段校验
+
+  {"result":0}
+
+  ,/*
+    todo 35.验证超管密码    /managers/validatePassword.json     post
+  */
+  {"password":"123456"},
+
+  {"result":0},
+
+
+
+  /*
+    todo    36.项目列表     /projects/list.json     get
+  */
+  {
+    "result": 0,
+    "data": [
+      {
+        "flag": 0,
+        "name": "标签11",
+        "remark": "备注11",
+        "id": 5
+      },
+      {
+        "flag": 1,
+        "name": "标签44",
+        "remark": "备注44",
+        "id": 4
+      },
+      {
+        "flag": 1,
+        "name": "标签11",
+        "remark": "备注11",
+        "id": 3
+      },
+      {
+        "flag": 1,
+        "name": "标签11",
+        "remark": "备注11",
+        "id": 2
+      }
+    ],
+    "page": {
+      "next_page": 1,
+      "total_page": 1,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 10,
+      "current_page": 1,
+      "endNo": 10
+    }
+  },
+
+
+  /*
+  todo  37.保存报销准则大标题  /expensesClaimRules/saveTitle.json      post
+  */
+  {"title":"wages报销准则"},
+
+  {"result":0,"msg":"success"},
+
+/*
+      todo 38.判断是否超管  /managers/authorityInfo.json   get
+*/
+  {},
+  {
+    "result": 0,
+    "msg": "ok",
+    "data": {
+      "id":3,
+      "isMain":true,              //是否主管理园
+      "noPassword": true,
+      "isSuperMan": true        // true  是超管 false 不是    |
+                                  // 如果是超管则要判断noPassword 属性是否为true 如果没密码则跳到第一次设置密码页,
+                                  //有密码 则让他输入密码 再进入首页
+    }
+  },
+
+
+  /*
+    todo    超管重置密码    /managers/resetPassword.json    get
+    */
+
+  {
+    "result": 0,
+    "msg": "ok"},
+
+  /*
+    todo    获取有权限访问的资源url   /users/permissionsUrl.json    get
+  */
+  {},
+  {
+    "result": 0,
+    "msg": "success",
+    "data": [
+      "/expensesClaims/init.json",
+      "/expensesClaims/changeDept.json",
+      "/depts/deptTree.json",
+      "/users/adminList.json",
+      "/users/loginOut.json",
+      "/users/permissionsUrl.json"
+    ]
+  },
+
+
+
+  //角色角色角色角色角色角色角色角色角色角色角色角色
+  //todo   /roles/list.json      get
+  {
+    "current_page":1,     //页码
+    "search":"管"          //搜索字段
+  },
+  {
+    "result": 0,
+    "data": [
+      {
+        "id": 1,                //id
+        "name": "超级管理员",    //角色名称
+        "remark": "超级管理员",   //解释说明
+        "type":"superman"       // 类型  :  superman超管(不能更改权限)
+      },
+      {
+        "id": 2,
+        "name": "超级管理员",
+        "remark": "超级管理员",
+        "type":"superman"
+      }
+    ],
+    "page": {
+      "next_page": 2,
+      "total_page": 2,
+      "startNo": 0,
+      "pre_page": 1,
+      "pageSize": 10,
+      "current_page": 1,
+      "endNo": 10
+    }
+  },
+
+  //todo 编辑   /roles/update.json    get
+  {
+    "id":1    //要编辑的角色的id
+  },
+  {
+    "result": 0,
+    "msg": "success",
+    "data": {
+      "id": 1,
+      "name": "超级管理员",
+      "remark": "我是解释说明",
+      "groups": [                   //组，权限
+        {
+          "isDefault": 0,           //是否默认
+          "isCheck": 1,             //是否勾选
+          "name": "后台-角色管理",    //名称
+          "id": 6                    //id
+        },
+        {
+          "isDefault": 0,
+          "isCheck": 1,
+          "name": "后台-流程管理",
+          "id": 7
+        },
+        {
+          "isDefault": 1,
+          "isCheck": 1,
+          "name": "个人报销",
+          "id": 1
+        },
+        {
+          "isDefault": 1,
+          "isCheck": 1,
+          "name": "我发起的",
+          "id": 2
+        },
+        {
+          "isDefault": 1,
+          "isCheck": 1,
+          "name": "抄送",
+          "id": 3
+        },
+        {
+          "isDefault": 1,
+          "isCheck": 1,
+          "name": "管理-查询",
+          "id": 4
+        },
+        {
+          "isDefault": 0,
+          "isCheck": 0,
+          "name": "报销-代填",
+          "id": 5
+        }
+      ],
+      "users": [              //拥有此角色的员工
+        {
+          "id":1,              //id
+          "nickName": "zcl"   //员工名字
+        },
+        {
+          "id":1,
+          "nickName": "liam"
+        }
+      ]
+    }
+  },
+
+  //todo  编辑操作   /roles/update.json    post
+
+  {
+    "id":1,                   //id
+    "remark":"我是解释说明",    //解释说明
+    "groups[0].id":"6",       //勾选的权限id1
+    "groups[1].id":"7"        //勾选的权限id2
+  },
+  {"result":0,"msg":"success"},         //成功
+  {"result":1,"msg":"id不能为空"},       //失败
+  {"result":1,"msg":"解释说明不能为空"}   //失败
+
+
+
+
+
+]
+

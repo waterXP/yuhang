@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
-import { updateHeader } from '../../../store/header'
+import { getConfig } from '../../../store/root'
 import Home from '../components/Home'
 
+const mapStateToProps = (state) => ({
+})
+
 const mapDispatchToProps = {
-  loader: () => updateHeader({
-    title: '首页',
-    btns: [{
-      text: 'main',
-      onClick: () => { console.log('main') }
-    }]
-  })
+  getConfig
 }
 
-export default connect(undefined, mapDispatchToProps)(Home)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

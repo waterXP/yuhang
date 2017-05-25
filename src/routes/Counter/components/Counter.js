@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Counter extends Component {
-  componentDidMount () {
-    this.props.loader()
-  }
 
   render () {
     const props = this.props
@@ -30,8 +27,7 @@ class Counter extends Component {
 Counter.propTypes = {
   counter     : PropTypes.number.isRequired,
   doubleAsync : PropTypes.func.isRequired,
-  increment   : PropTypes.func.isRequired,
-  loader: PropTypes.func.isRequired
+  increment   : PropTypes.func.isRequired
 }
 
 export default Counter

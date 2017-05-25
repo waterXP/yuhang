@@ -39,7 +39,7 @@ if (project.env === 'development') {
   app.use(express.static(project.paths.public()))
 
   app.use('/api', proxy({
-    target: 'http://localhost:13334/',
+    target: 'http://172.16.2.99:8080/wages/',
     pathRewrite: {'^/api' : ''},
     changeOrigin: true
   }))

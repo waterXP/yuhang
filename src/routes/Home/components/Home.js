@@ -4,10 +4,14 @@ import DuckImage from '../assets/Duck.jpg'
 import './Home.scss'
 
 class Home extends Component {
-  componentDidMount () {
-    this.props.loader()
+  static propTypes = {
+    getConfig: PropTypes.func.isRequired
   }
 
+  componentDidMount () {
+    this.props.getConfig();
+  }
+  
   render () {
     return (
       <div>
@@ -22,7 +26,6 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  loader: PropTypes.func.isRequired
 }
 
 export default Home

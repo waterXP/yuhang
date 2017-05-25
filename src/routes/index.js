@@ -2,6 +2,10 @@
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import CounterRoute from './Counter'
+import ApprovalRoute from './Approval'
+import CountRoute from './Count'
+import NewRoute from './New'
+import SettingsRoute from './Settings'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -11,6 +15,10 @@ export const createRoutes = (store) => ({
   component   : CoreLayout,
   indexRoute  : Home,
   childRoutes : [
+    ApprovalRoute(store),
+    CountRoute(store),
+    NewRoute(store),
+    SettingsRoute(store),
     CounterRoute(store)
   ]
 })

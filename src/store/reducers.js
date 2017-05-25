@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux'
+import rootReducer from './root'
 import locationReducer from './location'
-import headerReducer from './header'
+import footerReducer from './footer'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
+    root: rootReducer,
     location: locationReducer,
-    header: headerReducer,
+    footer: footerReducer,
     ...asyncReducers
   })
 }

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { increment, doubleAsync, testFetch } from '../modules/counter'
-import { updateHeader } from '../../../store/header'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -14,13 +13,6 @@ import Counter from '../components/Counter'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  loader: () => updateHeader({
-    title: '页面A',
-    btns: [{
-      text: 'confirm',
-      onClick: () => { console.log('confirm') }
-    }]
-  }),
   increment : () => increment(1),
   doubleAsync,
   testFetch
