@@ -7,15 +7,15 @@ export const FooterButton = (props) => {
   if (props.homePage) {
     return (
       <IndexLink to={props.linkUrl} activeClassName='active' className={`footer-button ${props.btnType || ''}`}>
-        <i className={`fa ${props.iconClass || ''}`}></i>
-        {props.btnType!=='imgOnly' && <p>{props.title}</p>}
+        <i className={`fa ${props.iconClass || ''}`} />
+        {props.btnType !== 'imgOnly' && <p>{props.title}</p>}
       </IndexLink>
     )
   }
   return (
     <Link to={props.linkUrl} activeClassName='active' className={`footer-button ${props.btnType || ''}`}>
-      <i className={`fa ${props.iconClass || ''}`}></i>
-      {props.btnType!=='imgOnly' && <p>{props.title}</p>}
+      <i className={`fa ${props.iconClass || ''}`} />
+      {props.btnType !== 'imgOnly' && <p>{props.title}</p>}
     </Link>
   )
 }

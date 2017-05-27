@@ -15,13 +15,13 @@ export const Footer = (props) => (
 )
 
 Footer.propTypes = {
- footerBtns: PropTypes.arrayOf(PropTypes.shape({
-  homePage: PropTypes.bool,
-  iconClass: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  linkUrl: PropTypes.string.isRequired,
-  btnType: PropTypes.string
- }).isRequired).isRequired
+  footerBtns: PropTypes.arrayOf(PropTypes.shape({
+    homePage: PropTypes.bool,
+    iconClass: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    linkUrl: PropTypes.string.isRequired,
+    btnType: PropTypes.string
+  }).isRequired).isRequired
 }
 
 export default Footer

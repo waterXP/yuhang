@@ -1,4 +1,12 @@
+import config from '../config'
+
 export const FETCH_FAIL = 'FETCH_FAIL'
+
+export const getUrlParam = (name) => {
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  const r = window.location.search.substr(1).match(reg)
+  if (r != null) return r[2]; return ''
+}
 
 export const get = (url, params = {}) => {
   const headers = new Headers({
@@ -31,7 +39,11 @@ export const post = (url, params = {}) => {
 }
 
 export const fetchData = (action, params = {}) => {
-  const [method, url] = action.split(' ')
+  let [method, url] = action.split(' ')
+  if (url.indexOf('/') === 0) {
+    url = url.substr(1)
+  }
+  url += process.env.NODE_ENV === 'development' ? config.devApi : config.prodApi
   if (method.toLowerCase() === 'get') {
     return get(url, params)
   } else {
@@ -40,11 +52,17 @@ export const fetchData = (action, params = {}) => {
 }
 
 export const fetchFail = (state, action) => {
-  // A Error
   return state
 }
 
+const corpid = getUrlParam('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
+Object.assign(config, {
+  host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
+  corpid
+})
+
 export default {
+  getUrlParam,
   fetchData,
   fetchFail,
   FETCH_FAIL

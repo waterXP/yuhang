@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getConfig } from '../../../store/root'
+// import { getConfig } from '../../../store/root'
 
 import Approval from '../components/Approval'
 

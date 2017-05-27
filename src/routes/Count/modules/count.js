@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+// import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
 
 // export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
 // export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
@@ -57,7 +57,7 @@ const ACTION_HANDLERS = {
 }
 
 const initialState = {}
-export default function  (state = initialState, action) {
+export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }
