@@ -12,10 +12,15 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: #f8f8f8;
 }
 
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+}
+
+.container {
+  padding: 0;
 }

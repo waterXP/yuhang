@@ -23,7 +23,13 @@ export const get = (url, params = {}) => {
   return fetch(queryUrl, {
     method: 'GET',
     headers: headers
-  }).then((response) => response.json())
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json()
+    } else {
+      return response
+    }    
+  })
 }
 
 export const post = (url, params = {}) => {
@@ -35,7 +41,13 @@ export const post = (url, params = {}) => {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(params)
-  }).then((response) => response.json())
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json()
+    } else {
+      return response
+    }    
+  })
 }
 
 export const fetchData = (action, params = {}) => {
@@ -43,7 +55,8 @@ export const fetchData = (action, params = {}) => {
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
   }
-  url += process.env.NODE_ENV === 'development' ? config.devApi : config.prodApi
+  url = (process.env.NODE_ENV === 'development' ? config.devApi : config.prodApi) + url
+
   if (method.toLowerCase() === 'get') {
     return get(url, params)
   } else {

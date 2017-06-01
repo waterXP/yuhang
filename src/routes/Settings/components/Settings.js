@@ -1,24 +1,18 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import { Link } from 'react-router'
+import SettingsAccountsRoute from '../../SettingsAccounts'
+import './Settings.scss'
 
-class Settings extends Component {
-  render () {
-    return (
-      <div />
-    )
-  }
-}
-
-Settings.propTypes = {
- //  settings: PropTypes.func.isRequired,
- //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
- //    homePage: PropTypes.bool,
- //    iconClass: PropTypes.string.isRequired,
- //    title: PropTypes.number,
- //    linkUrl: PropTypes.string.isRequired,
- //    btnType: PropTypes.string
- // }).isRequired).isRequired
-}
+export const Settings = ({ children }) => (
+  <div className='wm-settings'>
+    {children ? children :
+       <ul>
+         <li><Link to="/settings/accounts" activeClassName='active'>个人收款账号</Link></li>
+         <li><Link to="/settings/history">发放历史记录</Link></li>
+       </ul>
+     }
+  </div>
+)
 
 export default Settings
 

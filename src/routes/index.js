@@ -5,7 +5,8 @@ import ApprovalRoute from './Approval'
 import CountRoute from './Count'
 import NewRoute from './New'
 import SettingsRoute from './Settings'
-import CounterRoute from './Counter'
+// import SettingsAccountsRoute from './SettingsAccounts'
+// import CounterRoute from './Counter'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -18,8 +19,9 @@ export const createRoutes = (store) => ({
     ApprovalRoute(store),
     CountRoute(store),
     NewRoute(store),
-    SettingsRoute(store),
-    CounterRoute(store)
+    SettingsRoute(store)
+    // SettingsAccountsRoute(store),
+    // CounterRoute(store)
   ]
 })
 

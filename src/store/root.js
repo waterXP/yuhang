@@ -39,7 +39,6 @@ const ACTION_HANDLERS = {
     if (!action.data.result) {
       const isLogin = !!action.data.isLogin
       const d = action.data.data
-      console.log(d)
       dd.config({
         agentId: d.agentId,
         corpId: d.corpId,

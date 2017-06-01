@@ -1,4 +1,6 @@
 import { injectReducer } from '../../store/reducers'
+import SettingsAccountsRoute from '../SettingsAccounts'
+import SettingsHistoryRoute from '../SettingsHistory'
 
 export default (store) => ({
   path : 'settings',
@@ -10,5 +12,9 @@ export default (store) => ({
       cb(null, Container)
     }, 'settings')
   }
+  , childRoutes: [
+    SettingsAccountsRoute(store),
+    SettingsHistoryRoute(store)
+  ]
 })
 
