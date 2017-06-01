@@ -1,0 +1,32 @@
+.wm-settings ul {
+  padding: 0;
+  list-style-type: none;
+  text-align: left;
+}
+
+.wm-settings li + li {
+  border-top: 2px solid #cfcfd3;
+}
+
+.wm-settings a {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  background-color: #fff;
+  color: #666;
+  font-size: 2rem;
+}
+
+.wm-settings a:after {
+  content: '>';
+  position: absolute;
+  top: 0.6rem;
+  right: 0.5rem;
+  font-size: 2.3rem;
+  color: #cfcfd3;
+}
+
+.wm-settings a:focus, .wm-settings a:hover {
+  text-decoration: none;
+}
