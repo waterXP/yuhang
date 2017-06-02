@@ -11,8 +11,7 @@ export const getAccounts = (page=1) => {
     fetchData('get /userAccounts/list.json', {
       current_page: page
     })
-    .then((data) => {      
-      console.log(data)
+    .then((data) => {
       if (!data.result) {
         accounts = [...accounts, ...data.data]
         pagination = data.page
@@ -51,7 +50,9 @@ const ACTION_HANDLERS = {
     Object.assign({}, state, {accounts: action.accounts})
 }
 
-const initialState = {}
+const initialState = {
+}
+
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state

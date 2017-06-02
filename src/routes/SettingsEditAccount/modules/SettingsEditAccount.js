@@ -17,7 +17,7 @@
 //       setTimeout(() => {
 //         dispatch({
 //           type: EXAMPLE_ASYNC,
-//           data: getState().settings
+//           data: getState().SettingsEditAccount
 //         })
 //         resolve()
 //       }, 200)
@@ -31,7 +31,7 @@
 //     .then((data) => {
 //       return dispatch({
 //         type: EXANPLE_FETCH,
-//         data: getState().settings
+//         data: getState().SettingsEditAccount
 //       })
 //     })
 //     .catch((e) => {
@@ -50,37 +50,13 @@ export const actions = {
 }
 
 const ACTION_HANDLERS = {
-  // [EXAMPLE_NORMAL]    : (state, action) => state,
-  // [EXAMPLE_ASYNC] : (state, action) => state,
-  // [EXANPLE_FETCH]
+  // [EXAMPLE_NORMAL]: (state, action) => state,
+  // [EXAMPLE_ASYNC]: (state, action) => state,
+  // [EXANPLE_FETCH]: (state, action) => state,
   // [FETCH_FAIL]: fetchFail
 }
 
-const initialState = {
-  /* ** test data ** */
-  accounts: [{
-    "bankCode": "893",
-    "isDefault": 0,
-    "bankBranchName": "西湖支行",     // 收款银行支行名称
-    "name": "沈龙飞",
-    "mobile": "13558231131",
-    "bankName": "招商银行",           // 收款银行名称
-    "id": 1,                          // id
-    "type": 1,                      // 1银行卡   2 支付宝
-    "userName": "liam",             // 员工姓名
-    "account": "4387298933324438721111"        // 收款账号
-  }, {
-    "bankCode": "893",
-    "isDefault": 0,
-    "bankBranchName": "西湖支行",
-    "name": "刘松",
-    "mobile": "13558231131",
-    "bankName": "杭州银行",
-    "id": 2,
-    "type": 1,
-    "userName": "liam",
-    "account": "wwwmmm@sina.com"
-  }]}
+const initialState = {}
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state

@@ -4,6 +4,7 @@ import { getAccounts } from '../modules/SettingsAccounts'
 import SettingsAccounts from '../components/SettingsAccounts'
 
 const mapStateToProps = (state) => ({
+  accounts: state.settings.accounts
 })
 
 const mapDispatchToProps = {

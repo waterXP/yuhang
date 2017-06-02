@@ -1,30 +1,29 @@
+@import '../../styles/baseStyle';
+
 .footer-button {
   display: inline-block;
   width: 20%;
-  color: #c7c7cc;
-  text-decoration: none;
+  color: $defaultColor;
   vertical-align: top;
-}
 
-.footer-button:focus, .footer-button:hover {
-  color: #38adff;
-  text-decoration: none;  
-}
+  &.active {
+    color: $activeColor;
+  }
+  &:focus, &:hover {
+    color: $defaultColor;
+  }
+  &.imgOnly {
+    > i {
+      font-size: 4rem;
+      padding-top: 0.5rem;      
+    }
+  }
 
-.footer-button.active {
-  color: #38adff;
-}
-
-.footer-button > i {
-  font-size: 3.5rem;
-  max-width: 100%;
-}
-
-.footer-button.imgOnly > i {
-  font-size: 4rem;
-  padding-top: 0.5rem;
-}
-
-.footer-button > p {
-  font-size: 2rem;
+  > i {
+    font-size: 3.5rem;
+    max-width: 100%;    
+  }
+  > p {
+    font-size: 2rem;
+  }
 }

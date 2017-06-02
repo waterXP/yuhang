@@ -19,7 +19,15 @@ export const createRoutes = (store) => ({
     ApprovalRoute(store),
     CountRoute(store),
     NewRoute(store),
-    SettingsRoute(store)
+    SettingsRoute(store), {
+      path: '*',
+      component: CoreLayout,
+      indexRoute: Home,
+      onEnter: ({params}, replace) => {
+        console.log(params)
+        replace('/')
+      }
+    }
     // SettingsAccountsRoute(store),
     // CounterRoute(store)
   ]

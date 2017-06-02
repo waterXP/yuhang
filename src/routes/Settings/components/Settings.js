@@ -7,8 +7,8 @@ export const Settings = ({ children }) => (
   <div className='wm-settings'>
     {children ? children :
        <ul>
-         <li><Link to="/settings/accounts" activeClassName='active'>个人收款账号</Link></li>
-         <li><Link to="/settings/history">发放历史记录</Link></li>
+         <li className='a-link'><Link to="/settings/accounts" activeClassName='active'>个人收款账号</Link></li>
+         <li className='a-link'><Link to="/settings/history">发放历史记录</Link></li>
        </ul>
      }
   </div>

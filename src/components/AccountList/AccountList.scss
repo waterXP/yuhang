@@ -1,0 +1,26 @@
+@import '../../styles/baseStyle';
+
+.wm-accounts-list {
+  padding: 0;
+  list-style-type: none;
+  text-align: left;
+
+  li {
+    border: 1px solid $defaultColor;
+    border-radius: 0.6rem;
+    margin: 0.6rem 0;
+    padding: 0.6rem;
+    background-color: $backColor;
+  }
+
+  .icon {
+    width: 3rem;
+    border-radius: 50%;
+    vertical-align: top;
+    margin: 1rem;
+  }
+
+  div {
+    display: inline-block;
+  }
+}

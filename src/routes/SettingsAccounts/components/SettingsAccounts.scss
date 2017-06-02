@@ -1,0 +1,13 @@
+@import '../../../styles/baseStyle';
+
+.wm-settings-accounts {
+  padding: 0 0.6rem;
+  text-align: left;
+
+  .btn {
+    color: $activeColor;
+  }
+  .btn + .btn {
+    margin-left: 1rem;
+  }
+}
