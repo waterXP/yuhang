@@ -1,9 +1,9 @@
 import { hashHistory } from 'react-router'
-import config from '../config'
+import config, { dd } from '../config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
 
-export const getUrlParam = (name) => {
+export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const r = window.location.search.substr(1).match(reg)
   if (r != null) return r[2]; return ''
@@ -23,6 +23,7 @@ export const get = (url, params = {}) => {
   }
   return fetch(queryUrl, {
     method: 'GET',
+    credentials: 'same-origin',
     headers: headers
   }).then((response) => {
     if (response.status === 200) {
@@ -40,6 +41,7 @@ export const post = (url, params = {}) => {
   })
   return fetch(url, {
     method: 'POST',
+    credentials: 'same-origin',
     headers: headers,
     body: JSON.stringify(params)
   }).then((response) => {
@@ -69,7 +71,7 @@ export const fetchFail = (state, action) => {
   return state
 }
 
-const corpid = getUrlParam('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
+const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
   host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
   corpid
@@ -119,12 +121,22 @@ export const getCash = (cash=0, symbol='') => {
   return symbol + result
 }
 
+// export const notify = dd.device.notification
+export const alert = (message='', title='', buttonName='确定') => 
+  dd.device.notification.alert({
+    message,
+    title,
+    buttonName
+  })
+
 export default {
-  getUrlParam,
+  getUrlParams,
   fetchData,
   fetchFail,
   FETCH_FAIL,
   goLocation,
   getDate,
-  getCash
+  getCash,
+  // notify,
+  alert
 }

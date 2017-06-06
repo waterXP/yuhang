@@ -11,7 +11,8 @@ export const InputText = (props) => {
         type='text'
         className='form-control'
         defaultValue={props.value}
-        placeholder={props.placeholder} />
+        placeholder={props.placeholder}
+        ref={props.s} />
     </div>
   )
 }

@@ -11,7 +11,7 @@ class SettingsEditAlipay extends Component {
   }
 
   componentDidMount () {
-    this.props.getAccountDetail()
+    // this.props.getAccountDetail()
   }
 
   render () {
@@ -22,7 +22,6 @@ class SettingsEditAlipay extends Component {
         <InputText label='账号' id='m-account' value={props.account} />
         <FormButton text='保存为默认' />
         <FormButton text='保存' />
-        <FormButton text='删除' />        
       </div>
     )
   }

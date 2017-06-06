@@ -7,6 +7,7 @@ import AccountList from '../../../components/AccountList'
 class SettingsAccounts extends Component {
   static propTypes = {
     getAccounts: PropTypes.func.isRequired,
+    initialAccounts: PropTypes.func.isRequired,
     accounts: PropTypes.arrayOf(PropTypes.shape({
       bankBranchName: PropTypes.string.isRequired,
       bankName: PropTypes.string.isRequired,
@@ -14,6 +15,10 @@ class SettingsAccounts extends Component {
       isDefault: PropTypes.number.isRequired,
       account: PropTypes.string.isRequired
     }).isRequired).isRequired
+  }
+
+  componentWillMount () {
+    this.props.initialAccounts()    
   }
 
   componentDidMount () {

@@ -4,7 +4,7 @@ import './FormButton.scss'
 
 export const FormButton = (props) => {
   return (
-    <button className='btn btn-primary wm-form-button'>{props.text}</button>
+    <button className='btn btn-primary wm-form-button' onClick={props.onClick}>{props.text}</button>
   )
 }
 

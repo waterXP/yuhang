@@ -1,10 +1,10 @@
 import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
 
 export const GET_ACCOUNT_DETAIL = 'GET_ACCOUNT_DETAIL'
+export const SAVE_DEFAULT = 'SAVE_DEFAULT'
 
-export const getAccountDetail = () => {
+export const getAccountDetail = (id) => {
   return (dispatch, getState) => {
-    const id = getState().location.query.id
     fetchData('get /userAccounts/updateMyAccount.json', { id })
     .then((data) => {
       if (!data.result) {
@@ -17,18 +17,20 @@ export const getAccountDetail = () => {
   }
 }
 
-export const actions = {
-  getAccountDetail
+export const saveDefault = () => {
+  return (dispatch, getState) => {
+    console.log(getState())
+    return
+    // fetchData('post /userAccounts/updateMyAccount.json', {})
+  }
 }
 
-const ACTION_HANDLERS = {
+export const actions = {
+  getAccountDetail,
+  saveDefault
+}
+
+export const ACTION_HANDLERS = {
   [GET_ACCOUNT_DETAIL]: (state, action) =>
     Object.assign({}, state, {currentAccount: action.account})
 }
-
-const initialState = {}
-export default function (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-  return handler ? handler(state, action) : state
-}
-

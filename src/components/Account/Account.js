@@ -23,8 +23,7 @@ class Account extends Component {
       [first, last] = content.split('@')
       hiddenControl = first.length > 4 ? 4 : 1
       first = first.substr(0, hiddenControl)
-        + new Array(first.length - hiddenControl + 1).join('*')
-      
+        + new Array(first.length - hiddenControl + 1).join('*')      
       marked = first + '@'
       marked += last || ''
     } else {
