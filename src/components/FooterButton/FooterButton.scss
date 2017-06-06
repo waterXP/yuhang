@@ -6,24 +6,27 @@
   color: $defaultColor;
   vertical-align: top;
 
-  &.active {
-    color: $activeColor;
-  }
   &:focus, &:hover {
     color: $defaultColor;
   }
+  &.active {
+    color: $activeColor;
+  }
   &.imgOnly {
     > i {
-      font-size: 4rem;
+      font-size: 3.2rem;
       padding-top: 0.5rem;      
     }
   }
+  &[disabled] {
+    pointer-events: none;
+  }
 
   > i {
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     max-width: 100%;    
   }
   > p {
-    font-size: 2rem;
+    font-size: 1.4rem;
   }
 }

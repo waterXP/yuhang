@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FooterButton from '../FooterButton'
+import FooterButtonContainer from '../../containers/FooterButtonContainer'
 import './Footer.scss'
 
 export const Footer = (props) => (
   <footer className='footer'>
     {props.footerBtns.map((aBtn, index) =>
-      <FooterButton
+      <FooterButtonContainer
         key={index}
         {...aBtn}
       />

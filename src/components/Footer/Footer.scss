@@ -1,6 +1,11 @@
+@import '../../styles/baseStyle';
+
 .footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
+  height: 5rem;
+  padding: 0.5rem 0;
+  background-color: $backColor;
 }

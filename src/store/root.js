@@ -1,6 +1,5 @@
 import { fetchData, fetchFail, FETCH_FAIL } from './base'
-import config from '../config'
-let dd = config.dd
+import config, { dd } from '../config'
 
 export const GET_CONFIG = 'GET_CONFIG'
 
@@ -76,7 +75,7 @@ const ACTION_HANDLERS = {
               alert(config.corpid)
               const code = result.code
 
-              fetchData('get http://120.77.209.222/wagestest/isvLogin', {
+              fetchData('get /isvLogin', {
                 corpid: config.corpid,
                 code: code,
                 loginType: 'Mobile'
@@ -85,7 +84,6 @@ const ACTION_HANDLERS = {
                 if (data.result == "0") {
                     // $("#mdmsg").val("免登入成功: " + JSON.stringify(res.data));
                     alert(JSON.stringify(data.data))
-                    alert('OK, I\'m in')
                   } else {
                     alert(data.msg);
                   }
@@ -93,30 +91,6 @@ const ACTION_HANDLERS = {
               .catch((e) => {
                 alert(e)
               })
-              //获取code,通过code换取用户身份信息
-              // $.ajax({
-              //   url: '${base}/isvLogin',
-              //   data: {
-              //     corpid: config.corpId,
-              //     code: code,
-              //     loginType: 'Mobile'
-              //   },
-              //   type: 'get',
-              //   cache: false,
-              //   dataType: 'json',
-              //   success: function(res) {
-              //     if (res.result == "0") {
-              //       // $("#mdmsg").val("免登入成功: " + JSON.stringify(res.data));
-              //       alert(JSON.stringify(res.data))
-              //       alert('OK, I\'m in')
-              //     } else {
-              //       alert(res.msg);
-              //     }
-              //   },
-              //   error: function(data) {
-              //     alert('服务器异常 ' + JSON.stringify(data));
-              //   }
-              // })
             },
             onFail: function(err) {
               alert("验证失败：" + JSON.stringify(err));

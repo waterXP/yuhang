@@ -1,4 +1,68 @@
 $fontColor: #666;
 $defaultColor: #c7c7cc;
+
+$panelPaddingTop: 2rem;
+
+$panelPadding: 2rem .6rem 0;
+$radiusCycle: 1.2rem;
+
 $activeColor: #38adff;
+$activeHoverColor: #1e84dc;
+
+$activeBorderColor: #3793d4;
+$activeHoverBorderColor: #136ebd;
+
+$successColor: #17c3a3;
+
 $backColor: #fff;
+
+$btnBackColor: #f4f4f4;
+$btnSuccessBackColor: #dcf6ef;
+
+$borderColorSecondary: #c7c7cc;
+
+@mixin left-arrow ($top, $size) {
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: $top;
+    left: -1rem;
+    border: $size solid transparent;
+    border-right: $size solid $borderColorSecondary;
+  }
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: $top;
+    left: -.99rem;
+    border: $size solid transparent;
+    border-right: $size solid $backColor;
+  }  
+}
+
+@mixin avatar ($size) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  vertical-align: top;
+}
+
+.wm-color-important {
+  color: #ff943e;
+}
+
+.wm-color-secondary {
+  color: #ccc;
+}
+
+.wm-color-primary {
+  color: #38adef;
+}
+
+.wm-color-correct {
+  color: #78c06e;
+}
+
+.wm-color-error {
+  color: #d81e06;
+}

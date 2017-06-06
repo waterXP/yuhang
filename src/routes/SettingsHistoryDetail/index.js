@@ -1,14 +1,14 @@
 import { injectReducer } from '../../store/reducers'
 
 export default (store) => ({
-  path : 'account/edit',
+  path : 'histroy/detail',
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
-      const Container = require('./containers/SettingsAccountEditContainer').default
-      const reducer = require('./modules/settingsAccountEdit').default
+      const Container = require('./containers/SettingsHistoryDetailContainer').default
+      const reducer = require('./modules/SettingsHistoryDetail').default
       injectReducer(store, { key: 'settings', reducer })
       cb(null, Container)
-    }, 'accountEdit')
+    }, 'historyDetail')
   }
 })
 

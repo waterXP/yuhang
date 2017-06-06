@@ -1,16 +1,17 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/SettingsEditAccount'
+import { getAccountDetail } from '../modules/SettingsEditAccount'
 
 import SettingsEditAccount from '../components/SettingsEditAccount'
 
 const mapStateToProps = (state) => ({
-  // SettingsEditAccount : state.SettingsEditAccount
+  name: state.settings.currentAccount.name || '',
+  account: state.settings.currentAccount.account || '',
+  bankName: state.settings.currentAccount.bankName || '',
+  bankCode: state.settings.currentAccount.bankCode || ''
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  getAccountDetail
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditAccount)

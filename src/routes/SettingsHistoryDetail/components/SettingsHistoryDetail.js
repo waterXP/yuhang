@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Receipt from '../../../components/Receipt'
 
-class SettingsAccountEdit extends Component {
+class SettingsHistoryDetail extends Component {
   static propTypes = {
-   //  settingsAccountEdit: PropTypes.func.isRequired,
+   //  SettingsHistoryDetail: PropTypes.func.isRequired,
    //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
    //    homePage: PropTypes.bool,
    //    iconClass: PropTypes.string.isRequired,
@@ -15,10 +16,10 @@ class SettingsAccountEdit extends Component {
 
   render () {
     return (
-      <div></div>
+      <Receipt />
     )
   }
 }
 
-export default SettingsAccountEdit
+export default SettingsHistoryDetail
 

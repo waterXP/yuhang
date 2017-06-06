@@ -1,0 +1,29 @@
+@import '../../styles/baseStyle';
+
+.wm-receipt-header {
+  padding: 1rem;
+  background-color: $backColor;
+  border-bottom: 1px solid $borderColorSecondary;
+  text-align: left;
+
+  p {
+    margin: 0;
+  }
+
+  .main-info {
+    margin-bottom: 0.6rem;
+  }
+
+  .avatar {
+    @include avatar(3.2rem);
+  }
+
+  .base-info {
+    display: inline-block;
+    margin-left: 0.5rem;
+
+    p {
+      line-height: 1.6rem;
+    }
+  }
+}

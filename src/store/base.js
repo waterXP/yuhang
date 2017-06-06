@@ -1,3 +1,4 @@
+import { hashHistory } from 'react-router'
 import config from '../config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
@@ -74,9 +75,56 @@ Object.assign(config, {
   corpid
 })
 
+export const goLocation = (location={ pathname: '/' }) =>
+  hashHistory.push(location)
+
+export const getDate = (nDate=(new Date()), fmt='yyyy-MM-dd hh:mm:ss') => {
+  const sDate = new Date(nDate)
+  const dateObj = {
+    'M+': sDate.getMonth() + 1,
+    'd+': sDate.getDate(),
+    'h+': sDate.getHours(),
+    'm+': sDate.getMinutes(),
+    's+': sDate.getSeconds(),
+    'q+': Math.floor((sDate.getMonth() + 3) / 3),
+    'S': sDate.getMilliseconds()
+  }
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (sDate.getFullYear() + '').substr(4 - RegExp.$1.length))
+  }
+  for (const s in dateObj) {
+    if (new RegExp('(' + s + ')').test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ?
+        (dateObj[s]) :
+        (('00' + dateObj[s]).substr(('' + dateObj[s]).length)))
+    }
+  }  
+  return fmt
+}
+
+export const getCash = (cash=0, symbol='') => {
+  if (isNaN(cash)) {
+    return '--'
+  }
+  cash = Math.floor(cash * 100) / 100
+  let result = '' + cash
+  let dot = result.indexOf('.')
+  if (dot < 0) {
+    dot = result.length
+    result += '.'
+  }
+  while (result.length <= dot + 2) {
+    result += '0'
+  }
+  return symbol + result
+}
+
 export default {
   getUrlParam,
   fetchData,
   fetchFail,
-  FETCH_FAIL
+  FETCH_FAIL,
+  goLocation,
+  getDate,
+  getCash
 }

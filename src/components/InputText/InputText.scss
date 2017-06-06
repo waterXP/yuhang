@@ -1,0 +1,12 @@
+@import '../../styles/baseStyle';
+
+.wm-input-text {
+  width: 100%;
+  font-size: 1.6rem;
+  text-align: left;
+  input {
+    width: 100%;
+    font-size: 1.4rem;
+    border-radius: $radiusCycle;
+  }
+}

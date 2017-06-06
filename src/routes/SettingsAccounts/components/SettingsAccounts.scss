@@ -1,7 +1,7 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings-accounts {
-  padding: 0 0.6rem;
+  padding: $panelPadding;
   text-align: left;
 
   .btn {

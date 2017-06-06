@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { goLocation } from '../../store/base'
 import PropTypes from 'prop-types'
 import Account from '../Account'
 import testImg from '../../routes/SettingsAccounts/assets/Duck.jpg'
@@ -18,8 +19,18 @@ class AccountList extends Component {
   render () {
     return (
       <ul className='wm-accounts-list'>
-        {this.props.accounts.map((account) =>
-          <li key={account.id}>
+        {this.props.accounts.map((account) => {
+          const pathname = account.type === 1 ?
+            'settings/edit/account' :
+            'settings/edit/alipay'
+          return <li
+            key={account.id}
+            onClick={goLocation.bind(this, {
+              pathname,
+              query: {
+                id: account.id
+              }
+            })}>
             <img
               alt={account.bankName}
               className='icon'
@@ -29,7 +40,7 @@ class AccountList extends Component {
               <Account content={account.account} type={account.type} />
             </div>
           </li>
-        )}
+        })}
       </ul>
     )
   }

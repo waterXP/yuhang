@@ -24,7 +24,6 @@ export const createRoutes = (store) => ({
       component: CoreLayout,
       indexRoute: Home,
       onEnter: ({params}, replace) => {
-        console.log(params)
         replace('/')
       }
     }

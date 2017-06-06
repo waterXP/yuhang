@@ -1,0 +1,10 @@
+@import '../../styles/baseStyle';
+
+.wm-confirm-button {
+  width: 100%;
+  color: $activeColor;
+  background-color: $backColor;
+  &:focus, &:hover {
+    color: $activeHoverColor;
+  }
+}

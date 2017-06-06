@@ -17,7 +17,7 @@
 //       setTimeout(() => {
 //         dispatch({
 //           type: EXAMPLE_ASYNC,
-//           data: getState().settingsAccountEdit
+//           data: getState().SettingsHistoryDetail
 //         })
 //         resolve()
 //       }, 200)
@@ -31,7 +31,7 @@
 //     .then((data) => {
 //       return dispatch({
 //         type: EXANPLE_FETCH,
-//         data: getState().settingsAccountEdit
+//         data: getState().SettingsHistoryDetail
 //       })
 //     })
 //     .catch((e) => {

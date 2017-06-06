@@ -80,7 +80,9 @@ const initialState = {
     "type": 1,
     "userName": "liam",
     "account": "wwwmmm@sina.com"
-  }]}
+  }],
+  currentAccount: {}
+}
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state

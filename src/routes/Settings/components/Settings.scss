@@ -1,6 +1,8 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings {
+  padding-top: $panelPaddingTop;
+  
   ul {
     padding: 0;
     list-style-type: none;
@@ -14,17 +16,17 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    padding: 1rem 0.5rem;
+    padding: .5rem .4rem;
     background-color: $backColor;
     color: $fontColor;
-    font-size: 2rem;
+    font-size: 1.6rem;
 
     &:after {
       content: '>';
       position: absolute;
-      top: 0.6rem;
+      top: 0.3rem;
       right: 0.5rem;
-      font-size: 2.3rem;
+      font-size: 1.6rem;
       color: $defaultColor;
     }
     &:focus, &:hover {

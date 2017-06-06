@@ -1,0 +1,26 @@
+@import '../../styles/baseStyle';
+
+.wm-send-history-list {
+  width: 100%;
+  border-top: 1px solid $borderColorSecondary;
+  border-bottom: 1px solid $borderColorSecondary;
+  background-color: $backColor;
+
+  td, th {
+    border-top: 1px solid $borderColorSecondary;
+    text-align: center;
+    &:nth-child(1) {
+      width: 30%;
+    }
+    &:nth-child(2) {
+      width: 40%;
+    }
+    &:nth-child(3) {
+      width: 30%;
+    }
+  }
+
+  &+.wm-send-history-list {
+    margin-top: 0.5rem;
+  }
+}

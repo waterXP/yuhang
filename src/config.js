@@ -1,3 +1,5 @@
+export const dd = window.dd
+
 export default {
   dd: window.dd,
   prodApi: 'http://120.77.209.222/wagestest/',
