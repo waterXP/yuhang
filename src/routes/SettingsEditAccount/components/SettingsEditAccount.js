@@ -1,49 +1,46 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import InputText from '../../../components/InputText'
-import FormButton from '../../../components/FormButton'
-import { getUrlParams } from '../../../store/base'
+import AccountEditForm from '../../../components/AccountEditForm'
 import './SettingsEditAccount.scss'
+import { fetchData, goLocation, toast } from '../../../store/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
-    name: PropTypes.string,
-    account: PropTypes.string,
-    bankName: PropTypes.string,
-    bankCode: PropTypes.string,
-    query: PropTypes.object.isRequired,
-    getAccountDetail: PropTypes.func.isRequired,
-    saveDefault: PropTypes.func.isRequired
+    query: PropTypes.object.isRequired
+    // ,
+    // updateAccount: PropTypes.func.isRequired
   }
 
-  componentDidMount () {
-    if (this.props.query.id) {
-      this.props.getAccountDetail(this.props.query.id)
-    }
-  }
-
-  testtest () {
-    // console.log('i')
-    console.log(this)
+  updateAccount = (val) => {
+    let action = 'post /userAccounts/saveMyAccount.json'
+    if (val.id) {
+      action = 'post /userAccounts/updateMyAccount.json' 
+    }    
+    fetchData(action, {
+      type: 1,
+      ...val
+    })
+    .then((data) => {
+      if (data.result === 0) {
+        goLocation({
+          pathname: '/settings/accounts'
+        })
+      } else {
+        toast(data.msg)
+      }
+    })
   }
 
   render () {
-    const props = this.props || {}
+    const props = this.props
     return (
-      <div className='wm-settings-edit-account'>
-        <InputText label='姓名' id='m-name' value={props.name} s={node => {
-          this.form = node
-        }} />
-        <InputText label='银行账号' id='m-account' value={props.account} />
-        <InputText label='开户行名称' id='m-bank-name' value={props.bankName} />
-        <InputText label='开户行行号' id='m-bank-id' value={props.bankCode} />
-        <FormButton text='保存为默认' onClick={this.testtest.bind(this)} />
-        <FormButton text='保存' />
-        {props.query.id && <FormButton text='删除' />}
-      </div>
+      <AccountEditForm
+        className='wm-settings-edit-account'
+        onSubmit={this.updateAccount}
+        type={1}
+        targetId={props.query.id} />
     )
   }
 }
 
 export default SettingsEditAccount
-

@@ -1,6 +1,7 @@
 import { injectReducer } from '../../store/reducers'
-import { ACTION_HANDLERS } from './modules/SettingsEditAccount'
-export const settingsEditAccountHandlers = ACTION_HANDLERS
+// import { ACTION_HANDLERS } from './modules/SettingsEditAccount'
+
+// export const settingsEditAccountHandlers = ACTION_HANDLERS
 
 export default (store) => ({
   path : 'edit/account',

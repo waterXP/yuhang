@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL } from './base'
+import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from './base'
 import config, { dd } from '../config'
 
 export const GET_CONFIG = 'GET_CONFIG'
@@ -6,26 +6,31 @@ export const GET_CONFIG = 'GET_CONFIG'
 export const getConfig = (url) => {
   return (dispatch, getState) => {
     if (process.env.NODE_ENV === 'development') {
-      return dispatch({
-        type: 'IN_DEV'
+      getTestAccount()
+      .then((data) => {
+        config.inDev = true
+        return dispatch({
+          type: 'IN_DEV'
+        })
+      })
+    } else {
+      fetchData('get getConfig.json', {
+        corpid: config.corpid,
+        url: config.host
+      })
+      .then((data) => {
+        return dispatch({
+          type: GET_CONFIG,
+          data: data
+        })
+      })
+      .catch((e) => {
+        return dispatch({
+          type: FETCH_FAIL,
+          err: e
+        })
       })
     }
-    fetchData('get getConfig.json', {
-      corpid: config.corpid,
-      url: config.host
-    })
-    .then((data) => {
-      return dispatch({
-        type: GET_CONFIG,
-        data: data
-      })
-    })
-    .catch((e) => {
-      return dispatch({
-        type: FETCH_FAIL,
-        err: e
-      })
-    })
   }
 }
 
@@ -35,7 +40,7 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [GET_CONFIG]: (state, action) => {
-    if (!action.data.result) {
+    if (action.data.result === 0) {
       const isLogin = !!action.data.isLogin
       const d = action.data.data
       dd.config({
@@ -50,16 +55,6 @@ const ACTION_HANDLERS = {
           'biz.util.openLink' ]
       })
       dd.ready(function () {
-        // dd.biz.navigation.setTitle({
-        //   title: '钉钉demo',
-        //   onSuccess: function (data) {
-        //     alert('y')
-        //   },
-        //   onFail: function (err) {
-        //     alert(err)
-        //   }
-        // })
-        // alert('dd.ready rocks!')
         dd.runtime.info({
           onSuccess: function (info) {
             // alert('runtime info: ' + JSON.stringify(info));
@@ -72,18 +67,17 @@ const ACTION_HANDLERS = {
           dd.runtime.permission.requestAuthCode({
             corpId: config.corpid,
             onSuccess: function(result) {
-              alert(config.corpid)
+              // alert(config.corpid)
               const code = result.code
-
               fetchData('get /isvLogin', {
                 corpid: config.corpid,
                 code: code,
                 loginType: 'Mobile'
               })
               .then((data) => {
-                if (data.result == "0") {
+                if (data.result === 0) {
                     // $("#mdmsg").val("免登入成功: " + JSON.stringify(res.data));
-                    alert(JSON.stringify(data.data))
+                    // alert(JSON.stringify(data.data))
                   } else {
                     alert(data.msg);
                   }
@@ -101,7 +95,6 @@ const ACTION_HANDLERS = {
       dd.error(function(err) {
         alert('dd error: ' + JSON.stringify(err));
       })
-
       return state
     } else {
       return state
@@ -115,4 +108,3 @@ export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }
-

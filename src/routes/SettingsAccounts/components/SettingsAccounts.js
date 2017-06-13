@@ -9,7 +9,7 @@ class SettingsAccounts extends Component {
     getAccounts: PropTypes.func.isRequired,
     initialAccounts: PropTypes.func.isRequired,
     accounts: PropTypes.arrayOf(PropTypes.shape({
-      bankBranchName: PropTypes.string.isRequired,
+      bankBranchName: PropTypes.string,
       bankName: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       isDefault: PropTypes.number.isRequired,

@@ -12,4 +12,13 @@
   &+.wm-form-button {
     margin-top: 1rem;
   }
+  &[disabled], &[disabled]:hover {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: $disabledOpacity;
+    background-color: $disabledColor;
+    border-color: $disabledBorderColor;
+  }
 }

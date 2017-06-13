@@ -36,14 +36,18 @@ export const get = (url, params = {}) => {
 
 export const post = (url, params = {}) => {
   const headers = new Headers({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json; charset=UTF-8'
+    // 'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   })
+  let query = ''
+  for (let str in params) {
+    query += `${str}=${params[str]}&`
+  }
   return fetch(url, {
     method: 'POST',
     credentials: 'same-origin',
     headers: headers,
-    body: JSON.stringify(params)
+    body: query
   }).then((response) => {
     if (response.status === 200) {
       return response.json()
@@ -57,14 +61,31 @@ export const fetchData = (action, params = {}) => {
   let [method, url] = action.split(' ')
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
+  }  
+  url = (process.env.NODE_ENV === 'development'
+    ? config.devApi : config.prodApi) + url
+  for (let v in params) {
+    if (params[v] === null) {
+      delete params[v]
+    }
   }
-  url = (process.env.NODE_ENV === 'development' ? config.devApi : config.prodApi) + url
-
   if (method.toLowerCase() === 'get') {
     return get(url, params)
   } else {
     return post(url, params)
   }
+}
+
+export const getTestAccount = () => {
+  const headers = new Headers({
+    // 'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'    
+  })
+  return fetch('/api/setUser.jsp', {
+    method: 'GET',
+    credentials: 'same-origin',
+    headers: headers    
+  })
 }
 
 export const fetchFail = (state, action) => {
@@ -121,13 +142,28 @@ export const getCash = (cash=0, symbol='') => {
   return symbol + result
 }
 
-// export const notify = dd.device.notification
-export const alert = (message='', title='', buttonName='确定') => 
-  dd.device.notification.alert({
-    message,
-    title,
-    buttonName
-  })
+export const alert = (message='', title='', buttonName='确定') => {
+  if (config.inDev) {
+    window.alert(message)
+  } else {
+    dd.device.notification.alert({
+      message,
+      title,
+      buttonName
+    })    
+  }
+}
+
+export const toast = (text='', icon='') => {
+  if (config.inDev) {
+    window.alert(text)
+  } else {
+    dd.device.notification.toast({
+      icon,
+      text
+    })
+  }
+}
 
 export default {
   getUrlParams,
@@ -137,6 +173,5 @@ export default {
   goLocation,
   getDate,
   getCash,
-  // notify,
   alert
 }

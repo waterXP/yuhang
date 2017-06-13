@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/SettingsHistory'
+import { getPaidHistory } from '../modules/SettingsHistory'
 
 import SettingsHistory from '../components/SettingsHistory'
 
@@ -8,6 +8,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
+  getPaidHistory
   // exampleNormal,
   // exampleAsync,
   // exampleFetch

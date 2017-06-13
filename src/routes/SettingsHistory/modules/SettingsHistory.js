@@ -1,64 +1,40 @@
-// // import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
 
-// // export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
-// // export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
-// // export const EXANPLE_FETCH = 'EXANPLE_FETCH'
+export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 
-// // export function exampleNormal (value = 1) {
-// //   return {
-// //     type: EXAMPLE_NORMAL,
-// //     value: value
-// //   }
-// // }
+export const getPaidHistory = (time) => {
+  let params = {}
+  if (time) {
+    params = {
+      paidTime: tiem
+    }
+  }
+  return (dispatch, getState) => {
+    fetchData('get /expensesClaimPaids/paidHistory', params)
+    .then((data) => {
+      if (!data.result) {
+        return dispatch({
+          type: GET_PAID_HISTORY,
+          history: data.data
+        })
+      } else {
+        return dispatch({
+          type: FETCH_FAIL,
+          err: data.msg || '系统忙，请稍后再试'
+        })
+      }
+    })
+  }
+}
 
-// // export const exampleAsync = () => {
-// //   return (dispatch, getState) => {
-// //     return new Promise((resolve) => {
-// //       setTimeout(() => {
-// //         dispatch({
-// //           type: EXAMPLE_ASYNC,
-// //           data: getState().SettingsHistory
-// //         })
-// //         resolve()
-// //       }, 200)
-// //     })
-// //   }
-// // }
+export const actions = {
+  getPaidHistory
+}
 
-// // export const exampleFetch = (url) => {
-// //   return (dispatch, getState) => {
-// //     fetchData('get /api/test')
-// //     .then((data) => {
-// //       return dispatch({
-// //         type: EXANPLE_FETCH,
-// //         data: getState().SettingsHistory
-// //       })
-// //     })
-// //     .catch((e) => {
-// //       return dispatch({
-// //         type: FETCH_FAIL,
-// //         err: e
-// //       })
-// //     })
-// //   }
-// // }
-
-// export const actions = {
-//   // exampleNormal,
-//   // exampleAsync,
-//   // exampleFetch
-// }
-
-// const ACTION_HANDLERS = {
-//   // [EXAMPLE_NORMAL]: (state, action) => state,
-//   // [EXAMPLE_ASYNC]: (state, action) => state,
-//   // [EXANPLE_FETCH]: (state, action) => state,
-//   // [FETCH_FAIL]: fetchFail
-// }
-
-// const initialState = {}
-// export default function (state = initialState, action) {
-//   const handler = ACTION_HANDLERS[action.type]
-//   return handler ? handler(state, action) : state
-// }
-
+export const ACTIONS_HANDLERS = {
+  [GET_PAID_HISTORY]: (state, action) => {
+    return Object.assign({}, state, {
+      history: action.history
+    })
+  }
+}

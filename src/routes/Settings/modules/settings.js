@@ -1,15 +1,18 @@
 import { settingsAccountsHandlers } from '../../SettingsAccounts/'
-import { settingsEditAccountHandlers } from '../../SettingsEditAccount/'
+import { settingsHistoryHandlers } from '../../SettingsHistory/'
+// import { settingsEditAccountHandlers } from '../../SettingsEditAccount/'
+// import { settingsEditAlipayHandlers } from '../../SettingsEditAlipay/'
 
 const ACTION_HANDLERS = Object.assign(
   {},
   settingsAccountsHandlers,
-  settingsEditAccountHandlers
+  // settingsEditAccountHandlers,
+  // settingsEditAlipayHandlers
 )
 
 const initialState = {
-  accounts: [],
-  currentAccount: {}
+  accounts: []
+  // currentAccount: {}
 }
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

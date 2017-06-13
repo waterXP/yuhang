@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import SendHistoryList from '../../../components/SendHistoryList'
 import './SettingsHistory.scss'
 
 class SettingsHistory extends Component {
-  // static propTypes = {
-  //  //  SettingsHistory: PropTypes.func.isRequired,
-  //  //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
-  //  //    homePage: PropTypes.bool,
-  //  //    iconClass: PropTypes.string.isRequired,
-  //  //    title: PropTypes.number,
-  //  //    linkUrl: PropTypes.string.isRequired,
-  //  //    btnType: PropTypes.string
-  //  // }).isRequired).isRequired
-  // }
+  static propTypes = {
+   //  SettingsHistory: PropTypes.func.isRequired,
+   //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
+   //    homePage: PropTypes.bool,
+   //    iconClass: PropTypes.string.isRequired,
+   //    title: PropTypes.number,
+   //    linkUrl: PropTypes.string.isRequired,
+   //    btnType: PropTypes.string
+   // }).isRequired).isRequired
+   getPaidHistory: PropTypes.func.isRequired
+  }
 
   render () {
     const history = [{
