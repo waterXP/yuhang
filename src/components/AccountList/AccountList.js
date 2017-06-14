@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { goLocation } from '../../store/base'
 import PropTypes from 'prop-types'
+import { goLocation } from '../../lib/base'
 import Account from '../Account'
 import testImg from '../../routes/SettingsAccounts/assets/Duck.jpg'
 import './AccountList.scss'

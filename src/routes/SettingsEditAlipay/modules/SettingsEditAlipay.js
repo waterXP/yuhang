@@ -1,4 +1,4 @@
-// import { fetchData, goLocation, toast } from '../../../store/base'
+// import { fetchData, goLocation, toast } from '../../../lib/base'
 
 // export const updateAccount = (val) => {
 //   return (dispatch, getState) => {

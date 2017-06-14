@@ -1,31 +1,19 @@
-import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+import { asyncFetch } from '../../../lib/base'
 
 export const GET_ACCOUNTS = 'GET_ACCOUNTS'
 export const INITIAL_ACCOUNTS = 'INITIAL_ACCOUNTS'
 
 export const getAccounts = () => {
-  return (dispatch, getState) => {
-    fetchData('get /userAccounts/myAccountList.json')
-    .then((data) => {
-      if (!data.result) {
-        return dispatch({
-          type: GET_ACCOUNTS,
-          accounts: data.data
-        })
-      } else {
-        return dispatch({
-          type: FETCH_FAIL,
-          err: data.msg || '系统忙，请稍后再试'
-        })
-      }
-    })
-    .catch((e) => {
+  return asyncFetch(
+    'get /userAccounts/myAccountList.json',
+    {},
+    (data, dispatch) => {
       return dispatch({
-        type: FETCH_FAIL,
-        err: e
+        type: GET_ACCOUNTS,
+        accounts: data.data
       })
-    })
-  }
+    }
+  )
 }
 
 export const initialAccounts = () => {

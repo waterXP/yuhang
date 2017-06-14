@@ -2,6 +2,7 @@ import { hashHistory } from 'react-router'
 import config, { dd } from '../config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
+export const FETCH_FIN = 'FETCH_FIN'
 
 export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
@@ -57,6 +58,38 @@ export const post = (url, params = {}) => {
   })
 }
 
+export const asyncFetch = (action, params = {}, cb) => {
+  if (!cb) {
+    cb = (datam, dispatch, getState) => {
+      let msg = data.msg || '操作成功'
+      return dispatch({
+        type: FETCH_FIN,
+        msg
+      })
+    }
+  }
+  return (dispatch, getState) => {
+    fetchData(action, params)
+    .then((data) => {
+      if (!data.result) {
+        return cb(data, dispatch, getState)
+      } else {
+        toast(data.msg)
+        return dispatch({
+          type: FETCH_FAIL,
+          err: data.msg || '系统忙，请稍后再试'
+        })
+      }
+    })
+    .catch((e) => {
+      return dispatch({
+        type: FETCH_FAIL,
+        err: e
+      })
+    })
+  }
+}
+
 export const fetchData = (action, params = {}) => {
   let [method, url] = action.split(' ')
   if (url.indexOf('/') === 0) {
@@ -89,6 +122,10 @@ export const getTestAccount = () => {
 }
 
 export const fetchFail = (state, action) => {
+  return state
+}
+
+export const fetchFin = (state, action) => {
   return state
 }
 
@@ -169,9 +206,12 @@ export default {
   getUrlParams,
   fetchData,
   fetchFail,
+  fetchFin,
   FETCH_FAIL,
+  FETCH_FIN,
   goLocation,
   getDate,
   getCash,
-  alert
+  alert,
+  toast
 }

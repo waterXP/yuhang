@@ -1,16 +1,18 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/SettingsDateFilter'
+import { cleanFilter, selMonth, selYear, toggleYears, changeYears } from '../modules/SettingsDateFilter'
 
 import SettingsDateFilter from '../components/SettingsDateFilter'
 
 const mapStateToProps = (state) => ({
-  // SettingsDateFilter : state.SettingsDateFilter
+  filter : state.settings.filter
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  cleanFilter,
+  selMonth,
+  selYear,
+  toggleYears,
+  changeYears
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsDateFilter)

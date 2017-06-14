@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { goLocation } from '../../../store/base'
+import { goLocation } from '../../../lib/base'
 import PropTypes from 'prop-types'
 import './SettingsAccounts.scss'
 import AccountList from '../../../components/AccountList'

@@ -1,4 +1,4 @@
-// import { fetchData, goLocation, toast } from '../../../store/base'
+// import { fetchData, goLocation, toast } from '../../../lib/base'
 
 // // export const GET_ACCOUNT_DETAIL = 'GET_ACCOUNT_DETAIL'
 

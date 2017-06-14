@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '../../../components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast } from '../../../store/base'
+import { fetchData, goLocation, toast } from '../../../lib/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired
-    // ,
-    // updateAccount: PropTypes.func.isRequired
   }
 
   updateAccount = (val) => {

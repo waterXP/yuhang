@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+import { asyncFetch } from '../../../lib/base'
 
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 
@@ -6,25 +6,34 @@ export const getPaidHistory = (time) => {
   let params = {}
   if (time) {
     params = {
-      paidTime: tiem
+      paidTime: time
     }
   }
-  return (dispatch, getState) => {
-    fetchData('get /expensesClaimPaids/paidHistory', params)
-    .then((data) => {
-      if (!data.result) {
-        return dispatch({
-          type: GET_PAID_HISTORY,
-          history: data.data
-        })
-      } else {
-        return dispatch({
-          type: FETCH_FAIL,
-          err: data.msg || '系统忙，请稍后再试'
-        })
-      }
-    })
-  }
+  return asyncFetch(
+    'get /expensesClaimPaids/paidHistory.json',
+    params,
+    (data, dispatch) => {
+      let paidHistory = []
+      let monthStr = ''
+      let temp
+      data.data.forEach((v) => {
+        let paid = v.paidTime.split('-')
+        v.paidDay = [paid[1], paid[2]].join('-')
+        v.paidMonth = [paid[0], paid[1]].join('-')
+        if (monthStr === v.paidMonth) {
+          temp.push(v)
+        } else {
+          temp = paidHistory[paidHistory.length] = []
+          monthStr = v.paidMonth
+          temp.push(v)
+        }
+      })
+      return dispatch({
+        type: GET_PAID_HISTORY,
+        paidHistory
+      })
+    }
+  )
 }
 
 export const actions = {
@@ -34,7 +43,7 @@ export const actions = {
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
     return Object.assign({}, state, {
-      history: action.history
+      paidHistory: action.paidHistory
     })
   }
 }

@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from './base'
+import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from '../lib/base'
 import config, { dd } from '../config'
 
 export const GET_CONFIG = 'GET_CONFIG'

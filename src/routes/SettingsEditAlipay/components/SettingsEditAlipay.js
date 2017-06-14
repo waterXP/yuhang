@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '../../../components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, toast } from '../../../store/base'
+import { fetchData, goLocation, toast } from '../../../lib/base'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
@@ -29,7 +29,7 @@ class SettingsEditAlipay extends Component {
       } else {
         toast(data.msg)
       }
-    })    
+    })
   }
 
   render () {

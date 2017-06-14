@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, initialize } from 'redux-form'
 import InputText from '../InputText'
 import FormButton from '../FormButton'
-import { fetchData, goLocation, toast } from '../../store/base'
+import { fetchData, goLocation, toast } from '../../lib/base'
 import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
@@ -73,14 +73,6 @@ class AccountEditForm extends Component {
     )
   }
 }
-
-// AccountEditForm = reduxForm({
-//   form: 'accountEditForm'
-// })(AccountEditForm)
-
-// AccountEditForm = connect(
-//   state => ({initialValues: {}})
-// )(AccountEditForm)
 
 export default connect(
   state => ({initialValues: {}})

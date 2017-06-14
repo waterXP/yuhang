@@ -4,14 +4,12 @@ import { getPaidHistory } from '../modules/SettingsHistory'
 import SettingsHistory from '../components/SettingsHistory'
 
 const mapStateToProps = (state) => ({
-  // SettingsHistory : state.SettingsHistory
+  paidHistory : state.settings.paidHistory,
+  query: state.location.query
 })
 
 const mapDispatchToProps = {
   getPaidHistory
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsHistory)

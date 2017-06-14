@@ -1,64 +1,42 @@
-// // import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+import { asyncFetch, fetchData, toast } from '../../../lib/base'
 
-// // export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
-// // export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
-// // export const EXANPLE_FETCH = 'EXANPLE_FETCH'
+const GET_HISTORY_DETAIL = 'GET_HISTORY_DETAIL'
+const ADD_COMMENT = 'ADD_COMMENT'
 
-// // export function exampleNormal (value = 1) {
-// //   return {
-// //     type: EXAMPLE_NORMAL,
-// //     value: value
-// //   }
-// // }
+export const getHistoryDetail = (id) => {
+  return asyncFetch(
+    'get /expensesClaimsView/approveDetail.json', {
+      expensesClaimsId: id,
+      showAttachments: true,
+      type: 'afterApproval'
+    }, (data, dispatch) => {
+      return dispatch({
+        type: GET_HISTORY_DETAIL,
+        data: data.data
+      })
+    }
+  )
+}
 
-// // export const exampleAsync = () => {
-// //   return (dispatch, getState) => {
-// //     return new Promise((resolve) => {
-// //       setTimeout(() => {
-// //         dispatch({
-// //           type: EXAMPLE_ASYNC,
-// //           data: getState().SettingsHistoryDetail
-// //         })
-// //         resolve()
-// //       }, 200)
-// //     })
-// //   }
-// // }
+export const addComment = (expensesClaimId, remark) => {
+  return (dispatch, getState) => {
+    fetchData('post /expensesClaimComments/add.json', {
+      expensesClaimId,
+      remark
+    }).then((data) => {
+      if (data.result === 0) {
+        getHistoryDetail(expensesClaimId)
+      } else {
+        toast(data.msg)
+      }
+    })
+  }
+}
 
-// // export const exampleFetch = (url) => {
-// //   return (dispatch, getState) => {
-// //     fetchData('get /api/test')
-// //     .then((data) => {
-// //       return dispatch({
-// //         type: EXANPLE_FETCH,
-// //         data: getState().SettingsHistoryDetail
-// //       })
-// //     })
-// //     .catch((e) => {
-// //       return dispatch({
-// //         type: FETCH_FAIL,
-// //         err: e
-// //       })
-// //     })
-// //   }
-// // }
-
-// export const actions = {
-//   // exampleNormal,
-//   // exampleAsync,
-//   // exampleFetch
-// }
-
-// const ACTION_HANDLERS = {
-//   // [EXAMPLE_NORMAL]: (state, action) => state,
-//   // [EXAMPLE_ASYNC]: (state, action) => state,
-//   // [EXANPLE_FETCH]: (state, action) => state,
-//   // [FETCH_FAIL]: fetchFail
-// }
-
-// const initialState = {}
-// export default function (state = initialState, action) {
-//   const handler = ACTION_HANDLERS[action.type]
-//   return handler ? handler(state, action) : state
-// }
-
+export const ACTIONS_HANDLERS = {
+  [GET_HISTORY_DETAIL]: (state, action) => {
+    return Object.assign({}, state, {
+      historyDetail: action.data
+    })
+  }
+}
