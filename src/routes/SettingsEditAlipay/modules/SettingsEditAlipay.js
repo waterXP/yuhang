@@ -1,64 +1,30 @@
-// import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+// import { fetchData, goLocation, toast } from '../../../lib/base'
 
-// export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
-// export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
-// export const EXANPLE_FETCH = 'EXANPLE_FETCH'
-
-// export function exampleNormal (value = 1) {
-//   return {
-//     type: EXAMPLE_NORMAL,
-//     value: value
-//   }
-// }
-
-// export const exampleAsync = () => {
+// export const updateAccount = (val) => {
 //   return (dispatch, getState) => {
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         dispatch({
-//           type: EXAMPLE_ASYNC,
-//           data: getState().SettingsEditAlipay
-//         })
-//         resolve()
-//       }, 200)
+//     let action = 'post /userAccounts/saveMyAccount.json'
+//     if (val.id) {
+//       action = 'post /userAccounts/updateMyAccount.json' 
+//     }
+//     fetchData(action, {
+//       type: 2,
+//       bankName: '支付宝',
+//       ...val
 //     })
-//   }
-// }
-
-// export const exampleFetch = (url) => {
-//   return (dispatch, getState) => {
-//     fetchData('get /api/test')
 //     .then((data) => {
-//       return dispatch({
-//         type: EXANPLE_FETCH,
-//         data: getState().SettingsEditAlipay
-//       })
-//     })
-//     .catch((e) => {
-//       return dispatch({
-//         type: FETCH_FAIL,
-//         err: e
-//       })
+//       if (data.result === 0) {
+//         goLocation({
+//           pathname: '/settings/accounts'
+//         })
+//       } else {
+//         toast(data.msg)
+//       }
 //     })
 //   }
 // }
 
-export const actions = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
-}
+// export const actions = {
+//   updateAccount
+// }
 
-const ACTION_HANDLERS = {
-  // [EXAMPLE_NORMAL]: (state, action) => state,
-  // [EXAMPLE_ASYNC]: (state, action) => state,
-  // [EXANPLE_FETCH]: (state, action) => state,
-  // [FETCH_FAIL]: fetchFail
-}
-
-const initialState = {}
-export default function (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-  return handler ? handler(state, action) : state
-}
-
+// export const ACTION_HANDLERS = {}

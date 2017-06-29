@@ -1,9 +1,10 @@
 import { hashHistory } from 'react-router'
-import config from '../config'
+import config, { dd } from '../config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
+export const FETCH_FIN = 'FETCH_FIN'
 
-export const getUrlParam = (name) => {
+export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const r = window.location.search.substr(1).match(reg)
   if (r != null) return r[2]; return ''
@@ -23,6 +24,7 @@ export const get = (url, params = {}) => {
   }
   return fetch(queryUrl, {
     method: 'GET',
+    credentials: 'same-origin',
     headers: headers
   }).then((response) => {
     if (response.status === 200) {
@@ -35,13 +37,18 @@ export const get = (url, params = {}) => {
 
 export const post = (url, params = {}) => {
   const headers = new Headers({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json; charset=UTF-8'
+    // 'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   })
+  let query = ''
+  for (let str in params) {
+    query += `${str}=${params[str]}&`
+  }
   return fetch(url, {
     method: 'POST',
+    credentials: 'same-origin',
     headers: headers,
-    body: JSON.stringify(params)
+    body: query
   }).then((response) => {
     if (response.status === 200) {
       return response.json()
@@ -51,13 +58,50 @@ export const post = (url, params = {}) => {
   })
 }
 
+export const asyncFetch = (action, params = {}, cb) => {
+  if (!cb) {
+    cb = (datam, dispatch, getState) => {
+      let msg = data.msg || '操作成功'
+      return dispatch({
+        type: FETCH_FIN,
+        msg
+      })
+    }
+  }
+  return (dispatch, getState) => {
+    fetchData(action, params)
+    .then((data) => {
+      if (!data.result) {
+        return cb(data, dispatch, getState)
+      } else {
+        toast(data.msg)
+        return dispatch({
+          type: FETCH_FAIL,
+          err: data.msg || '系统忙，请稍后再试'
+        })
+      }
+    })
+    .catch((e) => {
+      return dispatch({
+        type: FETCH_FAIL,
+        err: e
+      })
+    })
+  }
+}
+
 export const fetchData = (action, params = {}) => {
   let [method, url] = action.split(' ')
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
+  }  
+  url = (process.env.NODE_ENV === 'development'
+    ? config.devApi : config.prodApi) + url
+  for (let v in params) {
+    if (params[v] === null) {
+      delete params[v]
+    }
   }
-  url = (process.env.NODE_ENV === 'development' ? config.devApi : config.prodApi) + url
-
   if (method.toLowerCase() === 'get') {
     return get(url, params)
   } else {
@@ -65,11 +109,27 @@ export const fetchData = (action, params = {}) => {
   }
 }
 
+export const getTestAccount = () => {
+  const headers = new Headers({
+    // 'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'    
+  })
+  return fetch('/api/setUser.jsp', {
+    method: 'GET',
+    credentials: 'same-origin',
+    headers: headers    
+  })
+}
+
 export const fetchFail = (state, action) => {
   return state
 }
 
-const corpid = getUrlParam('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
+export const fetchFin = (state, action) => {
+  return state
+}
+
+const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
   host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
   corpid
@@ -119,12 +179,39 @@ export const getCash = (cash=0, symbol='') => {
   return symbol + result
 }
 
+export const alert = (message='', title='', buttonName='确定') => {
+  if (config.inDev) {
+    window.alert(message)
+  } else {
+    dd.device.notification.alert({
+      message,
+      title,
+      buttonName
+    })    
+  }
+}
+
+export const toast = (text='', icon='') => {
+  if (config.inDev) {
+    window.alert(text)
+  } else {
+    dd.device.notification.toast({
+      icon,
+      text
+    })
+  }
+}
+
 export default {
-  getUrlParam,
+  getUrlParams,
   fetchData,
   fetchFail,
+  fetchFin,
   FETCH_FAIL,
+  FETCH_FIN,
   goLocation,
   getDate,
-  getCash
+  getCash,
+  alert,
+  toast
 }

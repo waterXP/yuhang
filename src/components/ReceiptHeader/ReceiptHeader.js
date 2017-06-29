@@ -1,28 +1,24 @@
 import React from 'react'
-import { getCash } from '../../store/base'
+import { getCash } from '../../lib/base'
+import { approveStatus } from '../../lib/enums'
+import userImage from '../../assets/user.png'
 import './ReceiptHeader.scss'
 
 export const ReceiptHeader = (props) => {
-  const info = {
-    name: '张三君',
-    status: 1,
-    cash: 500,
-    code: 'btx201401012233',
-    author: '李四好'
-  }
+  const data = props.data
   return (
     <div className='wm-receipt-header clearfix'>
       <div>
         <div className='main-info'>
-          <img className='avatar' src='./imgs/test.jpeg' />
+          <img className='avatar' src={data.avatar || userImage} />
           <div className='base-info'>
-            <p>{info.name}</p>
-            <p className='wm-color-secondary'>{info.status ? '已完成' : '未完成'}</p>
+            <p>{data.userName}</p>
+            <p className='wm-color-secondary'>{approveStatus[data.status]}</p>
           </div>
         </div>
-        <p>总金额&nbsp;<span className='wm-color-important'>{getCash(info.cash)}</span>&nbsp;元</p>
+        <p>总金额&nbsp;<span className='wm-color-important'>{getCash(data.summoney)}</span>&nbsp;元</p>
       </div>
-      <p>{info.code}<span className='wm-color-primary'>{info.author}</span>制单</p>
+      <p>{data.expensesClaimNo}&nbsp;由<span className='wm-color-primary'>{data.createName}</span>制单</p>
     </div>
   )
 }

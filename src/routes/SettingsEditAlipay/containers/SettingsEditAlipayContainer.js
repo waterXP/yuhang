@@ -1,17 +1,14 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/SettingsEditAlipay'
+import { updateAccount } from '../modules/SettingsEditAlipay'
 
 import SettingsEditAlipay from '../components/SettingsEditAlipay'
 
 const mapStateToProps = (state) => ({
-  // SettingsEditAlipay : state.SettingsEditAlipay
+  query: state.location.query
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  updateAccount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditAlipay)
-

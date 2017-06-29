@@ -1,29 +1,45 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import InputText from '../../../components/InputText'
-import FormButton from '../../../components/FormButton'
+import AccountEditForm from '../../../components/AccountEditForm'
 import './SettingsEditAlipay.scss'
+import { fetchData, goLocation, toast } from '../../../lib/base'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
-    name: PropTypes.string,
-    account: PropTypes.string
+    query: PropTypes.object.isRequired
+    // ,
+    // updateAccount: PropTypes.func.isRequired
   }
 
-  componentDidMount () {
-    this.props.getAccountDetail()
+  updateAccount = (val) => {
+    let action = 'post /userAccounts/saveMyAccount.json'
+    if (val.id) {
+      action = 'post /userAccounts/updateMyAccount.json' 
+    }
+    fetchData(action, {
+      type: 2,
+      bankName: '支付宝',
+      ...val
+    })
+    .then((data) => {
+      if (data.result === 0) {
+        goLocation({
+          pathname: '/settings/accounts'
+        })
+      } else {
+        toast(data.msg)
+      }
+    })
   }
 
   render () {
-    const props = this.props || {}
+    const props = this.props
     return (
-      <div className='wm-settings-edit-alipay'>
-        <InputText label='姓名' id='m-name' value={props.name} />
-        <InputText label='账号' id='m-account' value={props.account} />
-        <FormButton text='保存为默认' />
-        <FormButton text='保存' />
-        <FormButton text='删除' />        
-      </div>
+      <AccountEditForm
+        className='wm-settings-edit-alipay'
+        onSubmit={this.updateAccount}
+        type={2}
+        targetId={props.query.id} />
     )
   }
 }

@@ -1,16 +1,15 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/SettingsHistory'
+import { getPaidHistory } from '../modules/SettingsHistory'
 
 import SettingsHistory from '../components/SettingsHistory'
 
 const mapStateToProps = (state) => ({
-  // SettingsHistory : state.SettingsHistory
+  paidHistory : state.settings.paidHistory,
+  query: state.location.query
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  getPaidHistory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsHistory)

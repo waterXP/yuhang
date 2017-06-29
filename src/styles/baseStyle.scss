@@ -19,6 +19,10 @@ $backColor: #fff;
 $btnBackColor: #f4f4f4;
 $btnSuccessBackColor: #dcf6ef;
 
+$disabledColor: #666;
+$disabledBorderColor: #666;
+$disabledOpacity: .3;
+
 $borderColorSecondary: #c7c7cc;
 
 @mixin left-arrow ($top, $size) {
@@ -34,7 +38,7 @@ $borderColorSecondary: #c7c7cc;
     content: ' ';
     position: absolute;
     top: $top;
-    left: -.99rem;
+    left: -.95rem;
     border: $size solid transparent;
     border-right: $size solid $backColor;
   }  

@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL } from '../../../store/base'
+import { fetchData, fetchFail, FETCH_FAIL } from '../../../lib/base'
 
 // ------------------------------------
 // Constants
@@ -36,7 +36,7 @@ export const doubleAsync = () => {
 
 export const testFetch = (url) => {
   return (dispatch, getState) => {
-    fetchData('get /api/test')
+    fetchData('get /test')
     .then((data) => {
       return dispatch({
         type    : COUNTER_DOUBLE_ASYNC,

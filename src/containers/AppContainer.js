@@ -8,8 +8,8 @@ import { getConfig } from '../store/root'
 class AppContainer extends Component {
   static propTypes = {
     getConfig: PropTypes.func.isRequired,
-    routes : PropTypes.object.isRequired,
-    store  : PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
   }
 
   componentDidMount () {

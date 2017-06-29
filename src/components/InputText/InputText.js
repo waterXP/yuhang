@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Field } from 'redux-form'
 import './InputText.scss'
 
 export const InputText = (props) => {
   return (
     <div className='wm-input-text form-group'>
       {props.label && <label htmlFor={props.id}>{props.label}</label>}
-      <input
+      <Field
         id={props.id}
+        name={props.name}
+        component='input'
         type='text'
-        className='form-control'
-        defaultValue={props.value}
         placeholder={props.placeholder} />
     </div>
   )
@@ -18,7 +19,8 @@ export const InputText = (props) => {
 
 InputText.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string
 }
 
 export default InputText

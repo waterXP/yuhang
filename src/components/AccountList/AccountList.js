@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { goLocation } from '../../store/base'
 import PropTypes from 'prop-types'
+import { goLocation } from '../../lib/base'
 import Account from '../Account'
 import testImg from '../../routes/SettingsAccounts/assets/Duck.jpg'
 import './AccountList.scss'
@@ -8,7 +8,7 @@ import './AccountList.scss'
 class AccountList extends Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(PropTypes.shape({
-      bankBranchName: PropTypes.string.isRequired,
+      bankBranchName: PropTypes.string,
       bankName: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       isDefault: PropTypes.number.isRequired,
@@ -20,9 +20,9 @@ class AccountList extends Component {
     return (
       <ul className='wm-accounts-list'>
         {this.props.accounts.map((account) => {
-          const pathname = account.type === 1 ?
-            'settings/edit/account' :
-            'settings/edit/alipay'
+          const pathname = account.type === 1
+            ? 'settings/edit/account'
+            : 'settings/edit/alipay'
           return <li
             key={account.id}
             onClick={goLocation.bind(this, {

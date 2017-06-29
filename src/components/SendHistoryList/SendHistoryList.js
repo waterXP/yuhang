@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './SendHistoryList.scss'
-import { getDate, getCash, goLocation } from '../../store/base'
+import { getDate, getCash, goLocation } from '../../lib/base'
 
 export const SendHistoryList = (props) => {
   return (
@@ -15,15 +15,15 @@ export const SendHistoryList = (props) => {
       </thead>}
       <tbody>
         {props.datas.map((data) => (
-          <tr key={data.id} onClick={goLocation.bind(this, {
+          <tr key={data.claimId} onClick={goLocation.bind(this, {
             pathname: 'settings/' + props.pathname,
             query: {
-              id: data.id
+              id: data.claimId
             }
           })}>
-            <td>{getDate(data.date, 'MM-dd')}</td>
-            <td>{getCash(data.cash)}</td>
-            <td>{data.agent}</td>
+            <td>{data.paidDay}</td>
+            <td>{getCash(data.actualMoney)}</td>
+            <td>{data.paidPerson}</td>
           </tr>
         ))}
       </tbody>
