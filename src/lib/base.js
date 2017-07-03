@@ -1,5 +1,5 @@
 import { hashHistory } from 'react-router'
-import config, { dd } from '../config'
+import config, { dd } from '@/config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
@@ -37,7 +37,6 @@ export const get = (url, params = {}) => {
 
 export const post = (url, params = {}) => {
   const headers = new Headers({
-    // 'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   })
   let query = ''
@@ -146,7 +145,7 @@ export const getDate = (nDate=(new Date()), fmt='yyyy-MM-dd hh:mm:ss') => {
     'h+': sDate.getHours(),
     'm+': sDate.getMinutes(),
     's+': sDate.getSeconds(),
-    'q+': Math.floor((sDate.getMonth() + 3) / 3),
+    'q+': ~~((sDate.getMonth() + 3) / 3),
     'S': sDate.getMilliseconds()
   }
   if (/(y+)/.test(fmt)) {
@@ -166,7 +165,7 @@ export const getCash = (cash=0, symbol='') => {
   if (isNaN(cash)) {
     return '--'
   }
-  cash = Math.floor(cash * 100) / 100
+  cash = ~~(cash * 100) / 100
   let result = '' + cash
   let dot = result.indexOf('.')
   if (dot < 0) {
@@ -180,15 +179,20 @@ export const getCash = (cash=0, symbol='') => {
 }
 
 export const alert = (message='', title='', buttonName='确定') => {
-  if (config.inDev) {
-    window.alert(message)
-  } else {
-    dd.device.notification.alert({
-      message,
-      title,
-      buttonName
-    })    
-  }
+  // if (config.inDev) {
+  //   window.alert(message)
+  // } else {
+  //   dd.device.notification.alert({
+  //     message,
+  //     title,
+  //     buttonName
+  //   })    
+  // }
+  dd.device.notification.alert({
+    message,
+    title,
+    buttonName
+  })
 }
 
 export const toast = (text='', icon='') => {

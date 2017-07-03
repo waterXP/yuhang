@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import AccountEditForm from '../../../components/AccountEditForm'
+import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast } from '../../../lib/base'
+import { fetchData, goLocation, toast } from '@/lib/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
@@ -30,13 +30,13 @@ class SettingsEditAccount extends Component {
   }
 
   render () {
-    const props = this.props
+    const { query } = this.props
     return (
       <AccountEditForm
         className='wm-settings-edit-account'
         onSubmit={this.updateAccount}
         type={1}
-        targetId={props.query.id} />
+        targetId={query.id} />
     )
   }
 }

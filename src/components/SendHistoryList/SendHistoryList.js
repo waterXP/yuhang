@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './SendHistoryList.scss'
-import { getDate, getCash, goLocation } from '../../lib/base'
+import { getDate, getCash, goLocation } from '@/lib/base'
 
-export const SendHistoryList = (props) => {
+export const SendHistoryList = ({ thead, datas, pathname }) => {
   return (
     <table className='wm-send-history-list'>
-      {props.thead && <thead>
+      {thead && <thead>
         <tr>
          <th>日期</th>
          <th>金额</th>
@@ -14,9 +14,9 @@ export const SendHistoryList = (props) => {
         </tr>
       </thead>}
       <tbody>
-        {props.datas.map((data) => (
+        {datas.map((data) => (
           <tr key={data.claimId} onClick={goLocation.bind(this, {
-            pathname: 'settings/' + props.pathname,
+            pathname: 'settings/' + pathname,
             query: {
               id: data.claimId
             }

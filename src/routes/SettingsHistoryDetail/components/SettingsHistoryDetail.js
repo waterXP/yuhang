@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Receipt from '../../../components/Receipt'
+import Receipt from '@/components/Receipt'
 
 class SettingsHistoryDetail extends Component {
   static propTypes = {
@@ -18,7 +18,8 @@ class SettingsHistoryDetail extends Component {
   render () {
     const { historyDetail, query, addComment } = this.props
     return (
-      <div>{historyDetail.master && (+query.id === historyDetail.master.expensesClaimId)
+      <div>{historyDetail.master
+        && (+query.id === historyDetail.master.expensesClaimId)
         && <Receipt data={historyDetail} addComment={addComment} />}</div>
     )
   }

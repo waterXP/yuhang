@@ -1,5 +1,5 @@
-import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from '../lib/base'
-import config, { dd } from '../config'
+import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from '@/lib/base'
+import config, { dd } from '@/config'
 
 export const GET_CONFIG = 'GET_CONFIG'
 
@@ -14,11 +14,13 @@ export const getConfig = (url) => {
         })
       })
     } else {
+      // console.dir(config)
       fetchData('get getConfig.json', {
         corpid: config.corpid,
-        url: config.host
+        url: `${config.ddurl}?corpid=${config.corpid}`
       })
       .then((data) => {
+        // console.dir(window)
         return dispatch({
           type: GET_CONFIG,
           data: data
@@ -41,6 +43,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [GET_CONFIG]: (state, action) => {
     if (action.data.result === 0) {
+
       const isLogin = !!action.data.isLogin
       const d = action.data.data
       dd.config({
@@ -57,7 +60,7 @@ const ACTION_HANDLERS = {
       dd.ready(function () {
         dd.runtime.info({
           onSuccess: function (info) {
-            // alert('runtime info: ' + JSON.stringify(info));
+            // alert('runtime info: ' + JSON.stringify(info))
           },
           onFail: function (err) {
             alert('fail: ' + JSON.stringify(err))
@@ -67,7 +70,7 @@ const ACTION_HANDLERS = {
           dd.runtime.permission.requestAuthCode({
             corpId: config.corpid,
             onSuccess: function(result) {
-              // alert(config.corpid)
+              alert(config.corpid)
               const code = result.code
               fetchData('get /isvLogin', {
                 corpid: config.corpid,
@@ -76,7 +79,6 @@ const ACTION_HANDLERS = {
               })
               .then((data) => {
                 if (data.result === 0) {
-                    // $("#mdmsg").val("免登入成功: " + JSON.stringify(res.data));
                     // alert(JSON.stringify(data.data))
                   } else {
                     alert(data.msg);
@@ -87,13 +89,13 @@ const ACTION_HANDLERS = {
               })
             },
             onFail: function(err) {
-              alert("验证失败：" + JSON.stringify(err));
+              alert("验证失败：" + JSON.stringify(err))
             }
           })
         }
       })
       dd.error(function(err) {
-        alert('dd error: ' + JSON.stringify(err));
+        alert('dd error: ' + JSON.stringify(err))
       })
       return state
     } else {

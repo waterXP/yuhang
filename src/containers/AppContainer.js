@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { hashHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
-import { getConfig } from '../store/root'
+import { getConfig } from '@/store/root'
 
 class AppContainer extends Component {
   static propTypes = {

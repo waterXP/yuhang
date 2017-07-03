@@ -363,40 +363,46 @@
 ,
 
   /*
-    todo  个人报销单提交   /expensesClaims/submit.json       post
+    todo  个人报销单提交   /expensesClaims/dingSubmit.json       post
 
-    会有附件 "txfile"
   */
-  {
-    "id": 40    ,                               //
-    "delAttachmentIds":"1,2",                   //要删除的附件ids
 
+  {
+    "deptId": 151,
+    "type": 1, // 个人报销
+    "deptDingId": 35607725, //部门dingid
+    "deptName": "聊天部",
+    "detailses[0].costTypeId": 179,     // 费用类型id
+    "detailses[0].costTypeName": "生物",// 费用类型名称
+    "detailses[0].money": 50,// 明细金额
+    "detailses[0].eventTime": "2017-06-13",// 发生时间
+    "detailses[0].remark": "备注1",
+    "detailses[1].costTypeId": 180,
+    "detailses[1].costTypeName": "运动",
+    "detailses[1].money": 50,
+    "detailses[1].eventTime": "2017-06-13",
+    "detailses[1].remark": "备注1",
+    "summoney": 100,// 总金额
+    "summoneyCh": "壹百元整",
+    "userAccountId": 396,   //收款账号
+    "accountName": "liam 11@qq.com",
+    "projectId": 79,//项目id
+    "projectName": "元旦",// 项目名称
+    "attachmentUrls[0]": "https://static.dingtalk.com/media/lADO2bLI4s0F3s0F3w_1503_1502.jpg",// 图片附件
+    "attachmentUrls[1]": "https://static.dingtalk.com/media/lADO2bLI2s0F6s0F6g_1514_1514.jpg",
+
+    "delAttachmentIds":"1,2",                   //要删除的附件ids
     "resubmit":1,                   //如果是重新提交设为1 必传
     "aliveAttachmentIds" :"2,3",//如果是重新提交必传    传剩下的附件id
 
-    "deptId": 22,                               //部门
-    "detailses[0].costTypeId": 1,               // 费用类型
-    "detailses[0].money": 50,                   // 金额
-    "detailses[0].eventTime": "2017-01-01",     // 发生日期
-    "detailses[0].remark": "备注1",             // 备注
-    "detailses[1].costTypeId": 2,
-    "detailses[1].money": 50,
-    "detailses[1].eventTime": "2017-01-01",
-    "detailses[1].remark": "备注1",
-    "summoney": 100,                          // 总金额
-    "summoneyCh": "壹百元整",
-    "userAccountId": 1,                       //收款账号
-    "projectId": 1,                           //项目id
-    "type": 1                                 // 个人报销
   },
 
   {"result":0,"msg":"ok"},
-
 /*
   todo  报销单审批阶段详情页    /expensesClaimsView/approveDetail.json    get
 */
   {"expensesClaimsId":27,
-    "type":"approval",//approval审批中的详情   	afterApproval  审批后的详情
+    "type":"approval",//approval审批中的详情    afterApproval  审批后的详情
     "showAttachments":"false" ,  // 如果不要附件直接传false
     "isRead":"true"     // ⃣已读
   },
@@ -756,7 +762,7 @@
     "page":{"pre_page":1,"current_page":1,"next_page":1,"total_page":1,"pageNumber":null,"pageSize":10,"orderBy":null,"orderType":null,"search":null,"startNo":0,"endNo":10}
   },
 
-  //todo  我发起的（包括高级搜索）   /expensesClaims/myList.json		get
+  //todo  我发起的（包括高级搜索）   /expensesClaims/myList.json    get
   {
     "current_page":1,                     //页码
     "statusVal":10,                       //状态
@@ -788,7 +794,7 @@
   },
 
 
-  //todo  抄送我的(包括高级搜索)    /expensesClaims/myCCList.json		get
+  //todo  抄送我的(包括高级搜索)    /expensesClaims/myCCList.json   get
   {
     "current_page":1,                     //页码
     "statusVal":8,                       //状态
@@ -910,7 +916,7 @@
   {"result":0,"msg":"success","data":null},
 
 
-  //todo  首页消息数目    /statistics/messageCount.json		get
+  //todo  首页消息数目    /statistics/messageCount.json   get
   //输入参数：无
   {
     "result":0,

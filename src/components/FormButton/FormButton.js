@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './FormButton.scss'
 
-export const FormButton = (props) => {
+export const FormButton = ({ type, disabled, onClick, text }) => {
   return (
     <button
-      type={props.type ? props.type : 'button'}
+      type={type || 'button'}
       className='btn btn-primary wm-form-button'
-      disabled={props.disabled}
-      onClick={props.onClick}>
-      {props.text}
+      disabled={disabled}
+      onClick={onClick}>
+      {text}
     </button>
   )
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import AccountEditForm from '../../../components/AccountEditForm'
+import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, toast } from '../../../lib/base'
+import { fetchData, goLocation, toast } from '@/lib/base'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
@@ -33,13 +33,13 @@ class SettingsEditAlipay extends Component {
   }
 
   render () {
-    const props = this.props
+    const { query } = this.props
     return (
       <AccountEditForm
         className='wm-settings-edit-alipay'
         onSubmit={this.updateAccount}
         type={2}
-        targetId={props.query.id} />
+        targetId={query.id} />
     )
   }
 }

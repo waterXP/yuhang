@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation } from '../../lib/base'
+import { goLocation } from '@/lib/base'
 import Account from '../Account'
-import testImg from '../../routes/SettingsAccounts/assets/Duck.jpg'
+import testImg from '@/routes/SettingsAccounts/assets/Duck.jpg'
 import './AccountList.scss'
 
 class AccountList extends Component {

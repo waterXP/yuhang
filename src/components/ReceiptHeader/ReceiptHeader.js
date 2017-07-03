@@ -1,11 +1,10 @@
 import React from 'react'
-import { getCash } from '../../lib/base'
-import { approveStatus } from '../../lib/enums'
-import userImage from '../../assets/user.png'
+import { getCash } from '@/lib/base'
+import { approveStatus } from '@/lib/enums'
+import userImage from '@/assets/user.png'
 import './ReceiptHeader.scss'
 
-export const ReceiptHeader = (props) => {
-  const data = props.data
+export const ReceiptHeader = ({ data }) => {
   return (
     <div className='wm-receipt-header clearfix'>
       <div>

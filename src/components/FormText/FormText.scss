@@ -1,0 +1,5 @@
+@import '../../styles/baseStyle';
+
+.wm-form-text {
+  @include form-control;
+}

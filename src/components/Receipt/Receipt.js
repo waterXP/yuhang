@@ -8,7 +8,7 @@ import ConfirmButton from '../ConfirmButton'
 class Receipt extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    addComment: PropTypes.func.isRequired    
+    addComment: PropTypes.func.isRequired
   }
 
   handleClick = () => {
@@ -16,8 +16,7 @@ class Receipt extends Component {
   }
 
   render () {
-    const props = this.props
-    const data = props.data
+    const { data } = this.props
     return (
       <div className='wm-receipt'>
         <ReceiptHeader data={data.master} />

@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import { IndexLink, Link } from 'react-router'
 import './FooterButton.scss'
 
-export const FooterButton = (props) => {
-  if (props.homePage) {
+export const FooterButton = ({ homePage, linkUrl, iconClass, btnType, title, pathname }) => {
+  if (homePage) {
     return (
-      <IndexLink to={props.linkUrl} activeClassName='active' className={`footer-button ${props.btnType || ''}`} disabled={props.pathname === props.linkUrl}>
-        <i className={`fa ${props.iconClass || ''}`} />
-        {props.btnType !== 'imgOnly' && <p>{props.title}</p>}
+      <IndexLink to={linkUrl} activeClassName='active' className={`footer-button ${btnType || ''}`} disabled={pathname === linkUrl}>
+        <i className={`fa ${iconClass || ''}`} />
+        {btnType !== 'imgOnly' && <p>{title}</p>}
       </IndexLink>
     )
   }
   return (
-    <Link to={props.linkUrl} activeClassName='active' className={`footer-button ${props.btnType || ''}`} disabled={props.pathname.indexOf(props.linkUrl) === 0}>
-      <i className={`fa ${props.iconClass || ''}`} />
-      {props.btnType !== 'imgOnly' && <p>{props.title}</p>}
+    <Link to={linkUrl} activeClassName='active' className={`footer-button ${btnType || ''}`} disabled={pathname.indexOf(linkUrl) === 0}>
+      <i className={`fa ${iconClass || ''}`} />
+      {btnType !== 'imgOnly' && <p>{title}</p>}
     </Link>
   )
 }

@@ -15,8 +15,7 @@ export default (store) => ({
       injectReducer(store, { key: 'settings', reducer })
       cb(null, Container)
     }, 'settings')
-  }
-  , childRoutes: [
+  }, childRoutes: [
     SettingsAccountsRoute(store),
     SettingsEditAlipayRoute(store),
     SettingsEditAccountRoute(store),

@@ -19,7 +19,7 @@
     padding: .5rem .4rem;
     background-color: $backColor;
     color: $fontColor;
-    font-size: 1.6rem;
+    font-size: $inputFontSize;
 
     &:after {
       content: '>';
