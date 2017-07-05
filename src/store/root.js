@@ -70,7 +70,7 @@ const ACTION_HANDLERS = {
           dd.runtime.permission.requestAuthCode({
             corpId: config.corpid,
             onSuccess: function(result) {
-              alert(config.corpid)
+              // alert(config.corpid)
               const code = result.code
               fetchData('get /isvLogin', {
                 corpid: config.corpid,
