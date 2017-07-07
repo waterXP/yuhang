@@ -1,9 +1,10 @@
 import React from 'react'
-import { getDate } from '../../lib/base'
+import { getDate } from '@/lib/base'
+import { approveDetailType } from '@/lib/enums'
+import userImage from '@/assets/user.png'
 import './ReceiptFlow.scss'
 
-export const ReceiptFlow = (props) => {
-  const { processList, attachmentList } = props
+export const ReceiptFlow = ({ processList, attachmentList }) => {
   return (
     <div className='wm-receipt-flow'>
       {attachmentList.length > 0 && <div className='attachment-box'>
@@ -24,13 +25,11 @@ export const ReceiptFlow = (props) => {
               : 'fa fa-info-circle wm-color-primary'
             }></span>
             <div className='detail'>
-              <img className='avatar' src={data.src} />
+              <img className='avatar' src={data.avatar || userImage} />
               <div className='info'>
                 <p>{data.userName}<span className='pull-right wm-color-secondary'>{getDate(new Date(data.updateTime), 'yyyy.MM.dd')}</span></p>
-                {data.status !== undefined &&
-                  <p className='wm-color-primary'>{data.status === 1
-                    ? '已通过'
-                    : '没通过'}</p>}
+                {data.type !== undefined &&
+                  <p className={`${data.type !== 2 ? 'wm-color-primary' : 'wm-color-error'}`}>{approveDetailType[data.type]}</p>}
                 {data.remark && <p className='comment'>{data.remark}</p>}
               </div>
             </div>

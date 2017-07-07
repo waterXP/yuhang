@@ -1,9 +1,8 @@
 import React from 'react'
-import { getDate, getCash } from '../../lib/base'
+import { getDate, getCash } from '@/lib/base'
 import './ReceiptDetails.scss'
 
-export const ReceiptDetails = (props) => {
-  const data = props.data
+export const ReceiptDetails = ({ data }) => {
   return (
     <div className='wm-receipt-details'>
       {data.map((v, i) => {

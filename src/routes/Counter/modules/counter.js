@@ -1,4 +1,4 @@
-import { fetchData, fetchFail, FETCH_FAIL } from '../../../lib/base'
+import { fetchData, fetchFail, FETCH_FAIL } from '@/lib/base'
 
 // ------------------------------------
 // Constants

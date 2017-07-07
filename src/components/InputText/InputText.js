@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import './InputText.scss'
 
-export const InputText = (props) => {
+export const InputText = ({ label, id, name, placeholder }) => {
   return (
     <div className='wm-input-text form-group'>
-      {props.label && <label htmlFor={props.id}>{props.label}</label>}
+      {label && <label htmlFor={id}>{label}</label>}
       <Field
-        id={props.id}
-        name={props.name}
+        id={id}
+        name={name}
         component='input'
         type='text'
-        placeholder={props.placeholder} />
+        placeholder={placeholder} />
     </div>
   )
 }

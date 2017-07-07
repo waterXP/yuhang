@@ -1,4 +1,4 @@
-import { injectReducer } from '../../store/reducers'
+import { injectReducer } from '@/store/reducers'
 // import Settings from '../Settings'
 import { ACTION_HANDLERS } from './modules/SettingsAccounts'
 export const settingsAccountsHandlers = ACTION_HANDLERS

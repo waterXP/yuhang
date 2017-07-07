@@ -9,8 +9,7 @@ class Account extends Component {
   }
   
   render () {
-    let content = this.props.content
-    let type = this.props.type
+    let { content, type } = this.props
 
     let length = content.length
     let marked = ''
@@ -30,7 +29,7 @@ class Account extends Component {
       if (length > 8) {
         marked = content.substr(0, first)
         let rest = length - first        
-        let count = Math.floor(rest / 4)
+        let count = ~~(rest / 4)
 
         last = rest % 4
         if (last === 0) {

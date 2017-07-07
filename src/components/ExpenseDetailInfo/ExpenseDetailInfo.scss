@@ -1,0 +1,13 @@
+@import '../../styles/baseStyle';
+
+.wm-expense-detail-info {
+  &>button {
+    float: right;
+    color: $activeColor;
+  }
+  .close-button {
+    &+div {
+      clear: both;
+    }
+  }
+}

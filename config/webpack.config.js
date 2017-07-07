@@ -10,6 +10,11 @@ const __DEV__ = project.globals.__DEV__
 const __PROD__ = project.globals.__PROD__
 const __TEST__ = project.globals.__TEST__
 
+var path = require('path')
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 debug('Creating configuration.')
 const webpackConfig = {
   name    : 'client',
@@ -17,7 +22,10 @@ const webpackConfig = {
   devtool : project.compiler_devtool,
   resolve : {
     root       : project.paths.client(),
-    extensions : ['', '.js', '.jsx', '.json']
+    extensions : ['', '.js', '.jsx', '.json'],
+    alias: {
+      '@': resolve('src')
+    }
   },
   module : {}
 }

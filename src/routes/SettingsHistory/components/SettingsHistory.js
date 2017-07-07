@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SendHistoryList from '../../../components/SendHistoryList'
+import SendHistoryList from '@/components/SendHistoryList'
 import './SettingsHistory.scss'
 
 class SettingsHistory extends Component {
@@ -34,7 +34,7 @@ class SettingsHistory extends Component {
   }
 
   render () {
-    const paidHistory = this.props.paidHistory
+    const { paidHistory } = this.props
     const paidMonths = []
     paidHistory.forEach((paids, index) => {
       if (paids[0]) {

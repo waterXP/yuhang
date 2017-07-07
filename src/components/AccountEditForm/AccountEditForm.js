@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, initialize } from 'redux-form'
 import InputText from '../InputText'
 import FormButton from '../FormButton'
-import { fetchData, goLocation, toast } from '../../lib/base'
+import { fetchData, goLocation, toast } from '@/lib/base'
 import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
@@ -38,10 +38,10 @@ class AccountEditForm extends Component {
   }
 
   render () {
-    const { handleSubmit, pristine, submitting, type } = this.props
+    const { handleSubmit, pristine, submitting, type, onSubmit, targetId } = this.props
     const isBankAccount = type === 1
     return (
-      <form className='wm-account-edit-form' onSubmit={handleSubmit}>
+      <form className='wm-account-edit-form' onSubmit={ handleSubmit }>
         <InputText label='姓名' name='name' id='field-name' />
         <InputText label='账号' name='account' id='field-account' />
         {isBankAccount && <InputText label='银行名称' name='bankName' id='field-bank-name' />}
@@ -51,7 +51,7 @@ class AccountEditForm extends Component {
           disabled={pristine || submitting}
           text='保存为默认'
           onClick={handleSubmit(values =>
-            this.props.onSubmit({
+            onSubmit({
               ...values,
               isDefault: 1
             })
@@ -60,15 +60,15 @@ class AccountEditForm extends Component {
           disabled={pristine || submitting}
           text='保存'
           onClick={handleSubmit(values =>
-            this.props.onSubmit({
+            onSubmit({
               ...values,
               isDefault: 0
             })
           )}  />
-        {this.props.targetId && <FormButton
+        {targetId && <FormButton
           disabled={pristine || submitting}
           text='删除'
-          onClick={this.deleteAccount.bind(this, this.props.targetId)} />}
+          onClick={this.deleteAccount.bind(this, targetId)} />}
       </form>
     )
   }

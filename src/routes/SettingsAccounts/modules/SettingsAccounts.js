@@ -1,4 +1,4 @@
-import { asyncFetch } from '../../../lib/base'
+import { asyncFetch } from '@/lib/base'
 
 export const GET_ACCOUNTS = 'GET_ACCOUNTS'
 export const INITIAL_ACCOUNTS = 'INITIAL_ACCOUNTS'

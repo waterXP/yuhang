@@ -1,4 +1,4 @@
-import { asyncFetch } from '../../../lib/base'
+import { asyncFetch } from '@/lib/base'
 
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 

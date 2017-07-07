@@ -1,21 +1,38 @@
-import { asyncFetch, fetchData, toast } from '../../../lib/base'
+import { fetchData, toast, FETCH_FAIL } from '@/lib/base'
 
 const GET_HISTORY_DETAIL = 'GET_HISTORY_DETAIL'
 const ADD_COMMENT = 'ADD_COMMENT'
 
-export const getHistoryDetail = (id) => {
-  return asyncFetch(
-    'get /expensesClaimsView/approveDetail.json', {
-      expensesClaimsId: id,
-      showAttachments: true,
-      type: 'afterApproval'
-    }, (data, dispatch) => {
+const fetchHistoryDetail = (dispatch, id) => {
+  fetchData('get /expensesClaimsView/approveDetail.json', {
+    expensesClaimsId: id,
+    showAttachments: true,
+    type: 'afterApproval'
+  }).then((data) => {
+    if (data.result === 0) {
       return dispatch({
         type: GET_HISTORY_DETAIL,
         data: data.data
+      })            
+    } else {
+      toast(data.msg)
+      return dispatch({
+        type: FETCH_FAIL,
+        err: data.msg || '系统忙，请稍后再试'
       })
     }
-  )
+  }).catch((e) => {
+    return dispatch({
+      type: FETCH_FAIL,
+      err: e
+    })
+  })
+}
+
+export const getHistoryDetail = (id) => {
+  return (dispatch, getState) => {
+    fetchHistoryDetail(dispatch, id)
+  }
 }
 
 export const addComment = (expensesClaimId, remark) => {
@@ -25,7 +42,7 @@ export const addComment = (expensesClaimId, remark) => {
       remark
     }).then((data) => {
       if (data.result === 0) {
-        getHistoryDetail(expensesClaimId)
+        fetchHistoryDetail(dispatch, expensesClaimId)
       } else {
         toast(data.msg)
       }
