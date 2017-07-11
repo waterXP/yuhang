@@ -1,0 +1,18 @@
+@import '../../styles/baseStyle';
+
+.wm-cover {
+  padding-top: 4rem;
+  div {
+    display: inline-block;
+    padding: 1rem .8rem;
+  }
+  i {
+    font-size: 26px;
+    line-height: 30px;
+    color: $borderColorSecondary;
+  }
+  p {
+    margin: 0;
+    color: $borderColorSecondary;
+  }
+}

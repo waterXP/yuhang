@@ -1,0 +1,16 @@
+@import '../../styles/baseStyle';
+
+.wm-approval-conditions {
+  a {
+    display: inline-block;
+    width: 50%;
+    padding: 1rem 0;
+    color: $fontColor;
+    background-color: $btnBackColor;
+    border: none;
+    outline: none;
+  }
+  i {
+    font-size: 18px;
+  }
+}

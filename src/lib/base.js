@@ -206,6 +206,14 @@ export const toast = (text='', icon='') => {
   }
 }
 
+export const getArray = (obj) => {
+  let result = []
+  for (const i in obj) {
+    result[i] = obj[i]
+  }
+  return result
+}
+
 export default {
   getUrlParams,
   fetchData,

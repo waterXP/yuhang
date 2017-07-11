@@ -1,0 +1,38 @@
+@import '../../styles/baseStyle';
+
+.wm-search-form {
+  padding: 1rem 0 1rem 1rem;
+  text-align: center;
+  i, input {
+    background-color: $btnBackColor;
+    color: $borderColorSecondary;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    display: inline-block;
+    line-height: 18px;
+  }
+  i {
+    width: 2rem;
+    padding: .2rem 0;
+    text-align: center;
+  }
+  .fa-times-circle {
+    color: $fontColor;
+  }
+  input {
+    padding: .2rem .3rem;
+    width: calc(100% - 8rem);
+  }
+  input.dirty {
+    width: calc(100% - 6rem);
+  }
+  a {
+    display: inline-block;
+    color: $activeColor;
+    padding: .2rem .3rem;
+    width: 4rem;
+    text-align: center;
+  }
+  border-bottom: 1px solid $borderColorSecondary;
+}

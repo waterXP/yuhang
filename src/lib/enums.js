@@ -28,3 +28,10 @@ export const approveDetailType = {
   '11': '记账',
   '12': '红冲'
 }
+
+export const approvalStatus = {
+  '1': '待我审批',
+  '2': '我发起的',
+  '3': '抄送我的',
+  '4': '我已审批'
+}
