@@ -9,11 +9,16 @@ class Filter extends Component {
       <div className='wm-filter'>
         { title && <p className='topic'>
           <span className='fa fa-circle' />
-          &nbsp;选择筛选条件
+          &nbsp;{ title }
         </p> }
         { conditions.map((v) => {
           return (
-            <button key={ v.id } type='button' className={ `btn${v.sel ? ' active' : ''}` } onClick={ clickHandler.bind(this, v.id) }>
+            <button
+              key={ v.id }
+              type='button'
+              className={ `btn${v.sel ? ' active' : ''}` }
+              onClick={ clickHandler && clickHandler.bind(this, v.id) }
+            >
               { v.text }
             </button>
           )

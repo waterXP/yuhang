@@ -18,7 +18,7 @@
     font-weight: bold;
     padding-top: .5rem;
     padding-bottom: .5rem;
-    border-radius: 1rem;
+    border-radius: $borderRadius;
   }
 
   .year-filter {
@@ -65,23 +65,6 @@
         color: $successColor;
         background-color: $btnSuccessBackColor;
       }
-    }
-  }
-
-  .month-filter button {
-    width: calc(50% - .4rem);
-    margin-top: .2rem;
-    margin-bottom: .2rem;
-    
-    &.sel {
-      color: $successColor;
-      background-color: $btnSuccessBackColor;
-    }
-    &:nth-child(odd) {
-      margin-left: .2rem;
-    }
-    &:nth-child(even) {
-      margin-right: .2rem;
     }
   }
 

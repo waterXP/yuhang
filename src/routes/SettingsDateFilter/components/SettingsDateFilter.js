@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { goLocation } from '@/lib/base'
+import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import './SettingsDateFilter.scss'
 
@@ -23,21 +24,9 @@ class SettingsDateFilter extends Component {
   }
 
   render () {
-    let selMonths = []
     let selYears = []
-    const { selMonth, selYear, toggleYears, changeYears } = this.props
+    const { selMonth, selYear, toggleYears, changeYears, monthFilter } = this.props
     let { month, year, years, showYears } = this.props.filter
-    for (let i = 0; i < 12; i++) {
-      selMonths.push(
-        <button
-          key={ i }
-          type='button'
-          onClick={ selMonth.bind(this, i) }
-          className={'btn' + (month === i ? ' sel' : '')}>
-          {i + 1}月
-        </button>
-      )
-    }
     if (showYears) {
       years.forEach((aYear) => {
         selYears.push(
@@ -67,10 +56,11 @@ class SettingsDateFilter extends Component {
             <i className='fa fa-arrow-right'><span className='sr-only'>next years</span></i>
             </button>
         </div> }
-        <div className='month-filter'>
-          <p className='topic'><span className='fa fa-circle' />&nbsp;月份</p>
-          { selMonths }
-        </div>
+        <Filter
+          title='月份'
+          conditions={ monthFilter }
+          clickHandler={ selMonth }
+        />
         <FormButton
           onClick={ goLocation.bind(this, {
             pathname: 'settings/history',

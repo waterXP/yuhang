@@ -6,4 +6,7 @@
   bottom: 5rem;
   margin-bottom: 0;
   overflow: auto;
+  &.no-footer {
+    bottom: 0;
+  }
 }

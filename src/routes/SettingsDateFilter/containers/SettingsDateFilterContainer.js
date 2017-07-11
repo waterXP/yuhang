@@ -4,7 +4,8 @@ import { cleanFilter, selMonth, selYear, toggleYears, changeYears } from '../mod
 import SettingsDateFilter from '../components/SettingsDateFilter'
 
 const mapStateToProps = (state) => ({
-  filter : state.settings.filter
+  filter : state.settings.filter,
+  monthFilter: state.settings.monthFilter
 })
 
 const mapDispatchToProps = {
