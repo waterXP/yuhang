@@ -1,59 +1,48 @@
-// import { asyncFetch } from '../../../store/base'
+export const UPDATE_FILTER = 'UPDATE_FILTER'
+export const UPDATE_BILL_RANGE = 'UPDATE_BILL_RANGE'
 
-// export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
-// export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
-// export const EXANPLE_FETCH = 'EXANPLE_FETCH'
+export function updateFilter (targetId) {
+  return {
+    type: UPDATE_FILTER,
+    targetId
+  }
+}
 
-// export function exampleNormal (value = 1) {
-//   return {
-//     type: EXAMPLE_NORMAL,
-//     value: value
-//   }
-// }
+export function updateBillRange (range) {
+  console.log(range)
+  return {
+    type: UPDATE_BILL_RANGE,
+    range
+  }
+}
 
-// export const exampleAsync = () => {
-//   return (dispatch, getState) => {
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         dispatch({
-//           type: EXAMPLE_ASYNC,
-//           data: getState().ApprovalFilter
-//         })
-//         resolve()
-//       }, 200)
-//     })
-//   }
-// }
+export const actions = {
+  updateFilter,
+  updateBillRange
+}
 
-// export const exampleFetch = (url) => {
-//   return asyncFetch(
-//     'get /expensesClaimPaids/paidHistory.json',
-//     params,
-//     (data, dispatch) => {
-//       return dispatch({
-//         type: EXAMPLE_FETCH,
-//         data: data.data        
-//       })
-//     }
-//   )
-// }
-
-// export const actions = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
-// }
-
-// export const ACTION_HANDLERS = {
-  // [EXAMPLE_NORMAL]: (state, action) => state,
-  // [EXAMPLE_ASYNC]: (state, action) => state,
-  // [EXANPLE_FETCH]: (state, action) => state,
-  // [FETCH_FAIL]: fetchFail
-// }
-
-// const initialState = {}
-// export default function (state = initialState, action) {
-//  const handler = ACTION_HANDLERS[action.type]
-//  return handler ? handler(state, action) : state
-// }
-
+export const ACTION_HANDLERS = {
+  [UPDATE_FILTER]: (state, action) => {
+    let filter = [...state.filter]
+    let target = filter.find((v) => v.id === action.targetId)
+    target.sel = !target.sel
+    return (Object.assign({}, state, { filter }))
+  },
+  [UPDATE_BILL_RANGE]: (state, action) => {
+    let [start, end] = action.range
+    console.log(start)
+    return (Object.assign(
+      {},
+      state,
+      {
+        billRange: [{
+          value: start || '',
+          holder: '最小值'
+        }, {
+          value: end || '',
+          holder: '最大值'
+        }]
+      }
+    ))
+  }
+}

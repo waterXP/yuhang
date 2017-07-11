@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalFilter.scss'
+import Range from '@/components/Range'
+import Filter from '@/components/Filter'
+import FormButton from '@/components/FormButton'
 
 class ApprovalFilter extends Component {
   static propTypes = {
-   //  ApprovalFilter: PropTypes.func.isRequired,
-   //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
-   //    homePage: PropTypes.bool,
-   //    iconClass: PropTypes.string.isRequired,
-   //    title: PropTypes.number,
-   //    linkUrl: PropTypes.string.isRequired,
-   //    btnType: PropTypes.string
-   // }).isRequired).isRequired
+    filter: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      sel: PropTypes.boolean
+    }).isRequired).isRequired,
+    billRange: PropTypes.arrayOf(PropTypes.shape({
+      holder: PropTypes.string,
+      value: PropTypes.string
+    }).isRequired).isRequired,
+    updateFilter: PropTypes.func.isRequired,
+    updateBillRange: PropTypes.func.isRequired
   }
-
   render () {
+    const { filter, billRange, updateFilter, updateBillRange } = this.props
     return (
       <div className='wm-approval-filter'>
-        <div className='bill-filter'>
-          <p className='topic'><span className='fa fa-circle'></span>&nbsp;输入金额区间</p>
+        <div className='filter'>
+          <Range title='输入金额区间' range={ billRange } dec={ 2 } updateRange={ updateBillRange } />
+          <Filter
+            title='选择筛选条件'
+            conditions={ filter }
+            multiple={ true }
+            clickHandler={ updateFilter }
+          />
         </div>
-        <div className='type-filter'>
-          <p className='topic'><span className='fa fa-circle'></span>&nbsp;选择筛选条件</p>
-        </div>
+        <FormButton text='确认' />
       </div>
     )
   }

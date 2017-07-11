@@ -1,6 +1,7 @@
 import { injectReducer } from '@/store/reducers'
-// import { ACTION_HANDLERS } from './modules/ApprovalFilter'
-// export const ApprovalFilterHandlers = ACTION_HANDLERS
+
+import { ACTION_HANDLERS } from './modules/ApprovalFilter'
+export const approvalFilterHandlers = ACTION_HANDLERS
 
 export default (store) => ({
   path : 'filter',

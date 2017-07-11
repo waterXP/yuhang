@@ -1,0 +1,21 @@
+@import '../../styles/baseStyle';
+
+.wm-range {
+  .fa {
+    color: $successColor;
+  }
+  p {
+    margin: 1rem .6rem 0;
+    text-align: left;
+  }
+  input {
+    width: calc(50% - 1.3rem);
+    margin: .5rem;
+    padding: $inputPadding;
+    border: 1px solid $borderColor;
+    border-radius: $borderRadius;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}

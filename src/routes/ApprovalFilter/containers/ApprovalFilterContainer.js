@@ -1,16 +1,17 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/ApprovalFilter'
 
 import ApprovalFilter from '../components/ApprovalFilter'
 
+import { updateFilter, updateBillRange } from '../modules/ApprovalFilter'
+
 const mapStateToProps = (state) => ({
-  // ApprovalFilter : state.ApprovalFilter
+  filter: state.approval.filter,
+  billRange: state.approval.billRange
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  updateFilter,
+  updateBillRange
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalFilter)
