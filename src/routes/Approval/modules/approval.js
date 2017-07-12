@@ -1,160 +1,78 @@
-import { approvalFilterHandlers } from '../../ApprovalFilter'
+import { asyncFetch } from '@/lib/base'
+// import { approvalMainHandlers } from '../../ApprovalMain/'
+// console.log(approvalMainHandlers)
+// import { xx } from '../../ApprovalMain/modules/ApprovalMain'
+// console.log(xx)
 
+export const GET_LIST = 'GET_LIST'
+export const IN_BUSY = 'IN_BUSY'
 export const UPDATE_ACTIVE = 'UPDATE_ACTIVE'
 
-export function updateActive (payload = 'wait') {
+export const inBusy = (state) => {
   return {
-    type: UPDATE_ACTIVE,
-    payload
+    type: IN_BUSY,
+    state
+  }
+}
+
+export const getList = (status = 1, params = { current_page: 1 }) => {
+  let action = 'get /expensesClaims/waitMeList.json'
+  if (!params.current_page) {
+    params.current_page = 1
+  }
+  switch (status) {
+    case 2:
+      action = 'get /expensesClaims/myList.json'
+      break
+    case 3:
+      action = 'get /expensesClaims/myCCList.json'
+      break
+    case 4:
+      action = 'get /expensesClaims/alreadyApprove.json'
+  }
+  return asyncFetch(
+    action,
+    params,
+    (data, dispatch) => {
+      return dispatch({
+        type: GET_LIST,
+        list: data.data || []
+      })
+    }
+  )
+}
+
+export const updateActive = (status) => {
+  return (dispatch, state) => {
+    dispatch(inBusy(true))
+    dispatch(getList(status))
+    return dispatch({
+      type: UPDATE_ACTIVE,
+      status
+    })
   }
 }
 
 export const actions = {
+  getList,
+  inBusy,
   updateActive
 }
 
-const ACTION_HANDLERS = Object.assign({
+const ACTION_HANDLERS = Object.assign({}, {
+  [IN_BUSY]: (state, action) =>
+    Object.assign({}, state, { isBusy: action.state }),
+  [GET_LIST]: (state, { list }) =>
+    Object.assign({}, state, { list, isBusy: false }),
   [UPDATE_ACTIVE]: (state, action) =>
-    Object.assign({}, state, action.payload)
-}, approvalFilterHandlers)
+    Object.assign({}, state, { active: action.status })
+})
+// , approvalMainHandlers)
 
 const initialState = {
   active: 1,
-  list: [{
-    id: 1,
-    avatar: 'test',
-    bill: 355000,
-    name: '熊猫',
-    type: 1,
-    status: 1,
-    time: '2017.04.01'
-  }, {
-    id: 2,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 3,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 2,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 4,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 5,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 4,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 6,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 4,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 7,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 8,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 9,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 10,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 11,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }, {
-    id: 12,
-    avatar: 'test',
-    bill: 35000,
-    name: '熊猫2',
-    type: 1,
-    status: 2,
-    time: '2017.04.01'
-  }],
-  filter: [{
-    id: 1,
-    text: '已拒绝'
-  }, {
-    id: 2,
-    text: '审批通过'
-  }, {
-    id: 3,
-    text: '待发放'
-  }, {
-    id: 4,
-    text: '已发放'
-  }, {
-    id: 5,
-    text: '票审搁置'
-  }, {
-    id: 6,
-    text: '发放搁置'
-  }, {
-    id: 7,
-    text: '草稿'
-  }, {
-    id: 8,
-    text: '审批中'
-  }, {
-    id: 9,
-    text: '已撤消'
-  }, {
-    id: 10,
-    text: '作废'
-  }],
-  billRange: [{
-    value: '',
-    holder: '最小值'
-  }, {
-    value: '',
-    holder: '最大值'
-  }]
+  list: [],
+  isBusy: false
 }
 
 export default function (state = initialState, action) {

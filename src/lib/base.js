@@ -4,6 +4,8 @@ import config, { dd } from '@/config'
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
 
+export const history = hashHistory
+
 export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const r = window.location.search.substr(1).match(reg)
@@ -93,9 +95,13 @@ export const fetchData = (action, params = {}) => {
   let [method, url] = action.split(' ')
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
-  }  
-  url = (process.env.NODE_ENV === 'development'
-    ? config.devApi : config.prodApi) + url
+  }
+  if (config.useLocaldata) {
+    url = '/localdata/' + url
+  } else {
+    url = (process.env.NODE_ENV === 'development' ?
+      config.devApi : config.prodApi) + url
+  }
   for (let v in params) {
     if (params[v] === null) {
       delete params[v]
@@ -210,6 +216,17 @@ export const getArray = (obj) => {
   let result = []
   for (const i in obj) {
     result[i] = obj[i]
+  }
+  return result
+}
+
+export const getObjArray = (obj, idLabel = 'id', valueLabel = 'value') => {
+  let result = []
+  for (const i in obj) {
+    let temp = {}
+    temp[idLabel] = i
+    temp[valueLabel] = obj[i]
+    result.push(temp)
   }
   return result
 }

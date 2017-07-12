@@ -2,16 +2,18 @@ import { connect } from 'react-redux'
 
 import ApprovalFilter from '../components/ApprovalFilter'
 
-import { updateFilter, updateBillRange } from '../modules/ApprovalFilter'
+import { getList, inBusy } from '@/routes/Approval/modules/Approval'
 
 const mapStateToProps = (state) => ({
-  filter: state.approval.filter,
-  billRange: state.approval.billRange
+  active : state.approval.active,
+  list: state.approval.list,
+  isBusy: state.approval.isBusy
 })
 
+
 const mapDispatchToProps = {
-  updateFilter,
-  updateBillRange
+  getList,
+  inBusy
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalFilter)

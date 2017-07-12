@@ -4,15 +4,12 @@ import ApprovalInfo from '../ApprovalInfo'
 
 class ApprovalList extends Component {
   render () {
-    const { list, filter } = this.props
+    const { list, active } = this.props
     return (
       <div>
-        { list.map((data, i) => {
-          if (data.type === filter) {
-            return <ApprovalInfo key={ data.id } { ...data } />
-          }
-          return
-        }) }
+        { list.map((data, i) => (
+            <ApprovalInfo key={ `${active}-${data.expensesClaimsId}` } { ...data } />
+        )) }
       </div>
     )
   }

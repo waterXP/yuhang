@@ -3,6 +3,7 @@ import rootReducer from './root'
 import locationReducer from './location'
 import footerReducer from './footer'
 import { reducer as reduxFormReducer } from 'redux-form'
+// import { history } from Route
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -10,6 +11,7 @@ export const makeRootReducer = (asyncReducers) => {
     location: locationReducer,
     footer: footerReducer,
     form: reduxFormReducer,
+    // history: history,
     ...asyncReducers
   })
 }

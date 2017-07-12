@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import './Range.scss'
 
 class Range extends Component {
+  handleFocus (e) {
+    e.target.select()
+  }
   handleBlur (e) {
     let m = +e.target.value
     if (isNaN(m)) {
@@ -24,30 +27,45 @@ class Range extends Component {
       decimal += '0'
     }
     e.target.value = `${integer}.${decimal}`
+    if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
+      if (e.target === this.min) {
+        e.target.value = this.max.value
+      } else {
+        e.target.value = this.min.value
+      }
+    }
     if (updateRange) {
       updateRange([this.min.value, this.max.value])
     }
   }
   render () {
-    const { title, range } = this.props
+    const { title, range, placeholder } = this.props
     const [start, end] = range
+    let startHolder = '', endHolder = ''
+    if (placeholder) {
+      [startHolder, endHolder] = placeholder
+    }
     return (
       <div className='wm-range'>
         { title && <p className='topic'>
           <span className='fa fa-circle' />
-          &nbsp;输入金额区间
+          &nbsp;{ title }
         </p> }
         <input
           type='text'
-          placeholder={ start.holder }
+          placeholder={ startHolder }
+          onFocus={ this.handleFocus.bind(this) }
           onBlur={ this.handleBlur.bind(this) }
+          defaultValue={ start }
           ref={ (e) => { this.min = e } }
         />
         <span>-</span>
         <input
           type='text'
-          placeholder={ end.holder }
+          placeholder={ endHolder }
+          onFocus={ this.handleFocus.bind(this) }
           onBlur={ this.handleBlur.bind(this) }
+          defaultValue={ end }
           ref={ (e) => { this.max = e } }
         />
       </div>

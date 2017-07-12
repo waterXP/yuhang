@@ -12,7 +12,7 @@ class ApprovalNavs extends Component {
   }
 
   handleClick = (active) => {
-    this.props.updateActive({ active })
+    this.props.updateActive(active)
   }
 
   render () {

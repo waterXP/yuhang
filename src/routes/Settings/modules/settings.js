@@ -1,7 +1,7 @@
 import { settingsAccountsHandlers } from '../../SettingsAccounts/'
 import { settingsHistoryHandlers } from '../../SettingsHistory/'
 import { settingsDateFilterHandlers } from '../../SettingsDateFilter/'
-import { settingsHistoryDetailHandlers } from '../../SettingsHistoryDetail'
+import { settingsHistoryDetailHandlers } from '../../SettingsHistoryDetail/'
 
 const ACTION_HANDLERS = Object.assign(
   {},
