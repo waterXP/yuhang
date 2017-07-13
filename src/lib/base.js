@@ -96,8 +96,6 @@ export const fetchData = (action, params = {}) => {
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
   }
-  url = (process.env.NODE_ENV === 'development'
-    ? config.devApi : config.prodApi) + url
 
   if (config.useLocaldata) {
     url = '/localdata/' + url
