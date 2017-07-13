@@ -2,4 +2,11 @@
 
 .wm-approval-search {
   background-color: $backColor;
+  .wm-approval-list {
+    position: absolute;
+    width: 100%;
+    top: 4.15rem;
+    bottom: 0;
+    overflow: auto;
+  }
 }

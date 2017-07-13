@@ -17,14 +17,14 @@ class SearchForm extends Component {
     if (tm) {
       clearTimeout(tm)
     }
+    const target = setTimeout (() => {
+      submitHandler(v)
+      inBusy(false)
+    }, 1000)
+    this.setState({
+      tm: target
+    })
     if (v) {
-      const target = setTimeout (() => {
-        submitHandler(v)
-        inBusy(false)
-      }, 1000)
-      this.setState({
-        tm: target
-      })
       inBusy(true)
     } else {
       inBusy(false)

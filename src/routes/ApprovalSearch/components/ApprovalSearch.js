@@ -18,6 +18,10 @@ class ApprovalSearch extends Component {
       statusName: PropTypes.string.isRequired,
       submitTime: PropTypes.string
     }).isRequired).isRequired,
+    page: PropTypes.shape({
+      current_page: PropTypes.number,
+      total_page: PropTypes.number
+    }).isRequired,
     getList: PropTypes.func.isRequired,
     cleanList: PropTypes.func.isRequired,
     isBusy: PropTypes.bool.isRequired,
@@ -28,36 +32,59 @@ class ApprovalSearch extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      dirty: true
+      dirty: false
     }
   }
 
   componentDidMount () {
     this.props.cleanList()
   }
+  scrolled (e) {
+    const { inBusy, isBusy, page, query, getList } = this.props
+    if (!isBusy) {
+      inBusy(true)
+      getList(+query.status || 1, { current_page: page.next_page })
+    }
+  }
 
   getResult (value) {
-    const { getList, inBusy, query } = this.props
-    inBusy(true)
-    getList(+query.status, {
-      search: value,
-      current_page: 1
-    })
-    this.setState({
-      dirty: false
-    })
+    console.log(value)
+    if (value) {
+      const { getList, inBusy, query } = this.props
+      inBusy(true)
+      getList(+query.status, {
+        search: value,
+        current_page: 1
+      })
+      this.setState({
+        dirty: true
+      })      
+    } else {
+      this.setState({
+        dirty: false
+      })
+    }
   }
 
   render () {
-    const { inBusy, isBusy, list, query } = this.props
+    const { inBusy, isBusy, list, query, page } = this.props
+    let pageEnd = true
+    if (page.current_page && page.total_page && page.current_page < page.total_page) {
+      pageEnd = false
+    }
     const { dirty } = this.state
     return (
       <div className='wm-approval-search'>
         <SearchForm btnLink='/approval/main' inBusy={ inBusy } submitHandler={ this.getResult.bind(this) } />
-        { dirty ? <Cover /> :
-            isBusy ? <NoData type='loading' /> :
-              list.length ? <ApprovalList list={ list } tag={ +query.status || 1 } /> :
-                <NoData type='nodata' />
+        { dirty ? 
+            <ApprovalList
+              list={ list }
+              tag={ +query.status || 1 }
+              handlerScroll={ this.scrolled.bind(this) }
+              pageEnd={ pageEnd }
+              isBusy={ isBusy }
+            /> :
+            <Cover />
         }
       </div>
     )

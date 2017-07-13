@@ -26,9 +26,6 @@ class ApprovalMain extends Component {
     inBusy: PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired
   }
-  // constructor (props) {
-  //   super
-  // }
   componentDidMount () {
     this.props.updateActive(1)
   }
