@@ -1,9 +1,11 @@
-console.log(process.env.NODE_ENV)
+//console.log('process',process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'development' && window.parent) {
   console.log('prod')
 } else {
   console.log('dev')
 }
+
+export const isDev=process.env.NODE_ENV==='development'
 
 export const dd = process.env.NODE_ENV !== 'development' && window.parent ? window.parent.dd : window.parent
 export default {

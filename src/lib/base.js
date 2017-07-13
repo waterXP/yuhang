@@ -1,5 +1,5 @@
 import { hashHistory } from 'react-router'
-import config, { dd } from '@/config'
+import config, { dd ,isDev} from '@/config'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
@@ -31,7 +31,7 @@ export const get = (url, params = {}) => {
       return response.json()
     } else {
       return response
-    }    
+    }
   })
 }
 
@@ -53,7 +53,7 @@ export const post = (url, params = {}) => {
       return response.json()
     } else {
       return response
-    }    
+    }
   })
 }
 
@@ -93,7 +93,7 @@ export const fetchData = (action, params = {}) => {
   let [method, url] = action.split(' ')
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
-  }  
+  }
   url = (process.env.NODE_ENV === 'development'
     ? config.devApi : config.prodApi) + url
   for (let v in params) {
@@ -111,12 +111,12 @@ export const fetchData = (action, params = {}) => {
 export const getTestAccount = () => {
   const headers = new Headers({
     // 'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'    
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   })
   return fetch('/api/setUser.jsp', {
     method: 'GET',
     credentials: 'same-origin',
-    headers: headers    
+    headers: headers
   })
 }
 
@@ -127,6 +127,8 @@ export const fetchFail = (state, action) => {
 export const fetchFin = (state, action) => {
   return state
 }
+
+//dinge66a5fd3ad45cc2a35c2f4657eb6378f
 
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
@@ -157,7 +159,7 @@ export const getDate = (nDate=(new Date()), fmt='yyyy-MM-dd hh:mm:ss') => {
         (dateObj[s]) :
         (('00' + dateObj[s]).substr(('' + dateObj[s]).length)))
     }
-  }  
+  }
   return fmt
 }
 
@@ -178,6 +180,13 @@ export const getCash = (cash=0, symbol='') => {
   return symbol + result
 }
 
+// 将时间的年份去掉
+export const removeYear=(time)=>{
+  time=time.split('-')
+  time.shift()
+  time=time.join('-')
+  return time
+}
 export const alert = (message='', title='', buttonName='确定') => {
   // if (config.inDev) {
   //   window.alert(message)
@@ -186,7 +195,7 @@ export const alert = (message='', title='', buttonName='确定') => {
   //     message,
   //     title,
   //     buttonName
-  //   })    
+  //   })
   // }
   dd.device.notification.alert({
     message,
@@ -206,6 +215,84 @@ export const toast = (text='', icon='') => {
   }
 }
 
+export const confirm=(message='你爱我吗',title='',callback,buttonLabels=['确定','取消'])=>{
+  if(isDev){
+
+  }else{
+    dd.device.notification.confirm({
+      message: message,
+      title: title,
+      buttonLabels: buttonLabels,
+      onSuccess : function(result) {
+          //onSuccess将在点击button之后回调
+          /*
+          {
+              buttonIndex: 0 //被点击按钮的索引值，Number类型，从0开始
+          }
+          */
+          if(result.buttonIndex===0){
+            callback && callback();
+          }
+      },
+      onFail : function(err) {}
+    })
+  }
+}
+
+export const dingSend=(users=[])=>{
+  dd.biz.ding.post({
+    users : users,//用户列表，工号
+    corpId: '', //企业id
+    type: 1, //附件类型 1：image  2：link
+    alertType: 2,
+    alertDate: {"format":"yyyy-MM-dd HH:mm","value":"2017-07-09 08:00"},
+    attachment: {
+        images: [''],
+    }, //附件信息
+    text: '', //消息
+    onSuccess : function() {
+    //onSuccess将在点击发送之后调用
+    },
+    onFail : function() {}
+  })
+}
+export const dingApproveDetail=(url)=>{
+  dd.biz.util.openLink({
+    url: url,//要打开链接的地址
+    onSuccess : function(result) {
+        /**/
+    },
+    onFail : function(err) {}
+  })
+}
+//console.log(config.dd)
+export const dingShowPreLoad=()=>{
+  if(isDev){
+
+  }else{
+    dd.device.notification.showPreloader({
+      text: "使劲加载中..", //loading显示的字符，空表示不显示文字
+      showIcon: true, //是否显示icon，默认true
+      onSuccess : function(result) {
+          /*{}*/
+      },
+      onFail : function(err) {}
+    })
+  }
+}
+export const dingHidePreLoad=()=>{
+  if (isDev) {
+
+  }else{
+    dd.device.notification.hidePreloader({
+      onSuccess : function(result) {
+          /*{}*/
+      },
+      onFail : function(err) {}
+    })
+  }
+}
+
 export default {
   getUrlParams,
   fetchData,
@@ -217,5 +304,18 @@ export default {
   getDate,
   getCash,
   alert,
-  toast
+  toast,
+  confirm,
+  dingSend,
+  dingApproveDetail
 }
+
+
+
+
+
+
+
+
+
+

@@ -4,7 +4,7 @@ import { getHistoryDetail, addComment } from '../modules/SettingsHistoryDetail'
 import SettingsHistoryDetail from '../components/SettingsHistoryDetail'
 
 const mapStateToProps = (state) => ({
-  historyDetail: state.settings.historyDetail,
+  historyDetail: state.home.historyDetail,
   query: state.location.query
 })
 

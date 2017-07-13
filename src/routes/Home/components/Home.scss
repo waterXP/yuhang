@@ -3,3 +3,15 @@
   width: 120px;
   margin: 1.5rem auto;
 }
+.wm-home{
+  padding-top:10px;
+  .homeLine{
+    display: flex; flex-direction:row;
+  }
+  .homeBtnCell{
+    flex:1; height:9rem; text-align:center; overflow:hidden;
+  }
+  .homeCellImg{
+    display: block; width:50px; margin:0 auto; height:50px; border-radius:4px;
+  }
+}

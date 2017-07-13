@@ -17,6 +17,10 @@ class Receipt extends Component {
 
   render () {
     const { data } = this.props
+    console.log('data',data)
+    if(!data.all){
+      data.all=[]
+    }
     return (
       <div className='wm-receipt'>
         <ReceiptHeader data={data.master} />
@@ -24,7 +28,7 @@ class Receipt extends Component {
         <ReceiptFlow processList={[...data.processList, ...data.all]} attachmentList={data.attachmentList} />
         <ConfirmButton text='评论' handleClick={this.handleClick} />
       </div>
-    )    
+    )
   }
 }
 
