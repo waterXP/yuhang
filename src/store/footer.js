@@ -4,7 +4,7 @@ const initialState = {
       homePage: true,
       iconClass: 'fa-home',
       title: '主页',
-      linkUrl: '/'
+      linkUrl: '/home'
     }, {
       homePage: false,
       iconClass: 'fa-coffee',

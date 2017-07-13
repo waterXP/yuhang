@@ -8,12 +8,14 @@ html {
   box-sizing: border-box;
 }
 
+$body-bg-gray:#f8f8f8;
+$body-bg-white:white;
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #f8f8f8;
+  background-color:$body-bg-white;
   color: $fontColor;
 }
 
@@ -29,4 +31,10 @@ a, a:focus, a:hover {
 
 .container {
   padding: 0;
+}
+ul,ol,li{
+  margin:0; padding:0;
+}
+ul,ol,li{
+  list-style:none;
 }

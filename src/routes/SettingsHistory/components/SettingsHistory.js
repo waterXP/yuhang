@@ -29,12 +29,13 @@ class SettingsHistory extends Component {
         str += (+query.month + 1)
       }
       this.props.getPaidHistory(str)
-    }    
+    }
     this.props.getPaidHistory()
   }
 
   render () {
     const { paidHistory } = this.props
+    console.log('paidHistory',paidHistory)
     const paidMonths = []
     paidHistory.forEach((paids, index) => {
       if (paids[0]) {
@@ -50,7 +51,7 @@ class SettingsHistory extends Component {
             key={paidMonths[index]}
             thead={true}
             datas={paids}
-            pathname='histroy/detail' />
+            pathname='detail' />
         ))}
       </div>
     )

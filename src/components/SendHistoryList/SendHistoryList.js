@@ -16,7 +16,7 @@ export const SendHistoryList = ({ thead, datas, pathname }) => {
       <tbody>
         {datas.map((data) => (
           <tr key={data.claimId} onClick={goLocation.bind(this, {
-            pathname: 'settings/' + pathname,
+            pathname: 'home/' + pathname,
             query: {
               id: data.claimId
             }

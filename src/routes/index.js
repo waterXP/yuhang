@@ -1,10 +1,13 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '@/layouts/CoreLayout'
-import Home from './Home'
+//import Home from './Home'
 import ApprovalRoute from './Approval'
 import CountRoute from './Count'
 import NewRoute from './New'
 import SettingsRoute from './Settings'
+import HomeRoute from "./Home"
+import FirstIn from './FirstIn'
+
 // import SettingsAccountsRoute from './SettingsAccounts'
 // import CounterRoute from './Counter'
 
@@ -14,17 +17,20 @@ import SettingsRoute from './Settings'
 export const createRoutes = (store) => ({
   path        : '/',
   component   : CoreLayout,
-  indexRoute  : Home,
+  indexRoute  : FirstIn,
   childRoutes : [
     ApprovalRoute(store),
     CountRoute(store),
     NewRoute(store),
-    SettingsRoute(store), {
+    HomeRoute(store),
+    SettingsRoute(store),
+    {
       path: '*',
       component: CoreLayout,
-      indexRoute: Home,
+      indexRoute: FirstIn
+      ,
       onEnter: ({params}, replace) => {
-        replace('/')
+        replace('/home')
       }
     }
     // SettingsAccountsRoute(store),

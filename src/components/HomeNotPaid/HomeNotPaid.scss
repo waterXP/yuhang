@@ -1,0 +1,22 @@
+@import '../../styles/baseStyle';
+
+.wm-homeNotPaid{
+  padding:0px 6px; background: $homeBg;
+  ul li{
+    display: flex; flex-direction:row; border-bottom:1px solid #ccc; padding:10px 0px;
+  }
+  p{
+    flex:1; margin:0;
+    &:last-child{
+    }
+    &:nth-child(3){
+      flex:1.5; color:$mainColor;
+    }
+  }
+  .waitePaid{
+    margin-top:10px; overflow:hidden;
+    li:first-child{
+      border-top:1px solid #ccc;
+    }
+  }
+}

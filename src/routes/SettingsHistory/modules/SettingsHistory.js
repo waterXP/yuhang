@@ -16,7 +16,8 @@ export const getPaidHistory = (time) => {
       let paidHistory = []
       let monthStr = ''
       let temp
-      data.data.forEach((v) => {
+      //console.log('======================',data)
+      data.data.list.forEach((v) => {
         let paid = v.paidTime.split('-')
         v.paidDay = [paid[1], paid[2]].join('-')
         v.paidMonth = [paid[0], paid[1]].join('-')
@@ -30,7 +31,7 @@ export const getPaidHistory = (time) => {
       })
       return dispatch({
         type: GET_PAID_HISTORY,
-        paidHistory
+        paidHistory:paidHistory
       })
     }
   )
@@ -42,6 +43,7 @@ export const actions = {
 
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
+    //console.log('=======action=======',action.paidHistory)
     return Object.assign({}, state, {
       paidHistory: action.paidHistory
     })
