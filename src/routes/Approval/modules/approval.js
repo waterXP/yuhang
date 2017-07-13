@@ -34,7 +34,8 @@ export const getList = (status = 1, params = { current_page: 1 }) => {
       return dispatch({
         type: GET_LIST,
         addedList: data.data || [],
-        page: data.page || {}
+        page: data.page || {},
+        status
       })
     }
   )
@@ -68,8 +69,16 @@ export const actions = {
 const ACTION_HANDLERS = Object.assign({}, {
   [IN_BUSY]: (state, action) =>
     Object.assign({}, state, { isBusy: action.state }),
-  [GET_LIST]: (state, { addedList, page }) =>
-    Object.assign({}, state, { list: [...state.list, ...addedList], isBusy: false, page }),
+  [GET_LIST]: (state, { addedList, page }) => {
+    let list
+    if (page.current_page === 1) {
+      list = addedList
+    } else {
+      list = [...state.list, ...addedList]
+    }
+    console.log(list)
+    return Object.assign({}, state, { list, isBusy: false, page })
+  },
   [UPDATE_ACTIVE]: (state, action) =>
     Object.assign({}, state, { active: action.status }),
   [CLEAN_LIST]: (state, action) =>

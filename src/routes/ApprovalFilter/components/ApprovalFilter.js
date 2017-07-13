@@ -21,9 +21,14 @@ class ApprovalFilter extends Component {
       statusName: PropTypes.string.isRequired,
       submitTime: PropTypes.string
     }).isRequired).isRequired,
+    page: PropTypes.shape({
+      current_page: PropTypes.number,
+      total_page: PropTypes.number
+    }).isRequired,
     isBusy: PropTypes.bool.isRequired,
     getList: PropTypes.func.isRequired,
-    inBusy: PropTypes.func.isRequired
+    inBusy: PropTypes.func.isRequired,
+    cleanList: PropTypes.func.isRequired
   }
   constructor (props) {
     super(props)
@@ -62,6 +67,17 @@ class ApprovalFilter extends Component {
       params.current_page = 1
       inBusy(true)
       getList(status, params)
+    } else {
+      const { cleanList } = this.props
+      cleanList()
+    }
+  }
+  scrolled (e) {
+    const { inBusy, isBusy, page, query, getList } = this.props
+      const status = +query.status || 1
+    if (!isBusy) {
+      inBusy(true)
+      getList(status, { current_page: page.next_page })
     }
   }
   toggleFilter (targetId) {
@@ -78,9 +94,13 @@ class ApprovalFilter extends Component {
     })
   }
   render () {
-    const { isBusy, list, query } = this.props
+    const { isBusy, list, query, page } = this.props
     const { showResult, range, filter } = this.state
     const status = +query.status || 1
+    let pageEnd = true
+    if (page.current_page && page.total_page && page.current_page < page.total_page) {
+      pageEnd = false
+    }
     const rangeAttr = {
       title: '输入金额区间',
       range,
@@ -98,16 +118,18 @@ class ApprovalFilter extends Component {
             value='变更筛选条件'
             onClick={ this.toggleResult.bind(this, false) }
           />
-          { isBusy ?
-            <NoData type='loading' /> :
-              list.length ? <ApprovalList list={ list } tag={ status } /> :
-                <NoData type='nodata' />
-          }
+          <ApprovalList
+            list={ list }
+            tag={ status }
+            handlerScroll={ this.scrolled.bind(this) }
+            pageEnd={ pageEnd }
+            isBusy={ isBusy }
+          />
         </div>
       )
     } else {
       result = (
-        <div className='wm-approval-filter'>
+        <div className='wm-approval-filter padding'>
           <div className='filter'>
             <Range {...rangeAttr} />
             { status !== 1 && <Filter

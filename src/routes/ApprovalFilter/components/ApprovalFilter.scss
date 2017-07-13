@@ -2,7 +2,6 @@
 
 .wm-approval-filter {
   background-color: $backColor;
-  padding: $panelPadding;
   .filter {
     margin-bottom: 2rem;
   }
@@ -16,8 +15,17 @@
     background-color: $backColor;
     border: 0;
     border-bottom: 1px solid $borderColorSecondary;
+    height: 4rem;
   }
-  .top-btn + div {
-    margin-top: 2rem;
+  .wm-approval-list {
+    position: absolute;
+    padding: 0 .6rem;
+    width: 100%;
+    top: 4rem;
+    bottom: 0;
+    overflow: auto;
+  }
+  &.padding {
+    padding: $panelPadding;
   }
 }
