@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ApprovalNavs from '@/components/ApprovalNavs'
 import ApprovalConditions from '@/components/ApprovalConditions'
 import ApprovalList from '@/components/ApprovalList'
-import NoData from '@/components/NoData'
+import './ApprovalMain.scss'
 
 class ApprovalMain extends Component {
   static propTypes = {
@@ -18,26 +18,48 @@ class ApprovalMain extends Component {
       statusName: PropTypes.string.isRequired,
       submitTime: PropTypes.string
     }).isRequired).isRequired,
-    isBusy: PropTypes.bool.isRequired
+    page: PropTypes.shape({
+      current_page: PropTypes.number,
+      total_page: PropTypes.number
+    }).isRequired,
+    isBusy: PropTypes.bool.isRequired,
+    inBusy: PropTypes.func.isRequired,
+    getList: PropTypes.func.isRequired
   }
+  // constructor (props) {
+  //   super
+  // }
   componentDidMount () {
     this.props.updateActive(1)
   }
+  scrolled (e) {
+    const { inBusy, isBusy, page, active, getList } = this.props
+    if (!isBusy) {
+      inBusy(true)
+      getList(active, { current_page: page.next_page })
+    }
+  }
 
   render () {
-    const { active, updateActive, list, isBusy } = this.props
+    const { active, updateActive, list, isBusy, page } = this.props
+    let pageEnd = true
+    if (page.current_page && page.total_page && page.current_page < page.total_page) {
+      pageEnd = false
+    }
     return (
-      <div>
+      <div className='wm-approval-main'>
         <ApprovalNavs
           active={ active }
           updateActive={ updateActive }
         />
-        <ApprovalConditions />
-        { isBusy ?
-          <NoData type='loading' /> :
-            list.length ? <ApprovalList list={ list } active={ active } /> :
-              <NoData type='nodata' />
-        }
+        <ApprovalConditions status={ active } />
+        <ApprovalList
+          list={ list }
+          tag={ active }
+          handlerScroll={ this.scrolled.bind(this) }
+          pageEnd={ pageEnd }
+          isBusy={ isBusy }
+        />
       </div>
     )
   }

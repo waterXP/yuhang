@@ -1,7 +1,8 @@
 @import '../../styles/baseStyle';
 
 .wm-approval-nav {
-  float: left;
+  display: inline-block;
+  height: 9rem;
   width: 25%;
   padding-bottom: 1px;
   border-bottom: 1px solid $borderColorSecondary;

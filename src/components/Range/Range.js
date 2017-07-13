@@ -7,6 +7,9 @@ class Range extends Component {
     e.target.select()
   }
   handleBlur (e) {
+    if (e.target.value === '') {
+      return
+    }
     let m = +e.target.value
     if (isNaN(m)) {
       e.target.value = ''
@@ -27,6 +30,7 @@ class Range extends Component {
       decimal += '0'
     }
     e.target.value = `${integer}.${decimal}`
+    console.log(this.max.value)
     if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
       if (e.target === this.min) {
         e.target.value = this.max.value

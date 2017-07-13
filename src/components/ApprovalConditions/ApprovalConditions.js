@@ -5,14 +5,21 @@ import './ApprovalConditions.scss'
 
 class ApprovalConditions extends Component {
   render () {
+    const { status } = this.props
     return (
       <div className='wm-approval-conditions'>
-        <Link to='/approval/search'>
-          <i className='fa fa-search'></i>
+        <Link to={{
+          pathname: '/approval/search',
+          query: { status }
+        }}>
+          <i className='fa fa-search' />
           &nbsp;搜索
         </Link>
-        <Link to='/approval/filter'>
-          <i className='fa fa-filter'></i>
+        <Link to={{
+          pathname: '/approval/filter',
+          query: { status }
+        }}>
+          <i className='fa fa-filter' />
           &nbsp;筛选
         </Link>
       </div>

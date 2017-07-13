@@ -231,6 +231,21 @@ export const getObjArray = (obj, idLabel = 'id', valueLabel = 'value') => {
   return result
 }
 
+export const doFetch = (action, params = {}) => {
+  return fetchData(action, params)
+    .then((data) => {
+      if (data.result) {
+        toast(data.msg)
+        toast(data.msg || '系统忙，请稍后再试')
+      }
+      return data
+    })
+    .catch((e) => {
+      toast(e)
+      toast('请求失败，请检查网络并稍后再试')
+    })
+}
+
 export default {
   getUrlParams,
   fetchData,
@@ -242,5 +257,6 @@ export default {
   getDate,
   getCash,
   alert,
-  toast
+  toast,
+  doFetch
 }

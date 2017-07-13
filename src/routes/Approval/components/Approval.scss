@@ -1,7 +1,7 @@
 @import '../../../styles/baseStyle';
 
 .wm-approval {
-  min-height: 100%;
+  height: 100%;
   background-color: $backColor;
-  overflow: auto;
+  overflow: hidden;
 }

@@ -19,7 +19,7 @@ class ApprovalNavs extends Component {
     const { active, updateActive } = this.props
     const arr = getArray(approvalStatus)
     return (
-      <ul className='wm-ApprovalNavs'>
+      <ul className='wm-approval-navs'>
         { arr.map((nav, i) => {
           return <ApprovalNav
             key={ i }

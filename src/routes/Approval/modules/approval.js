@@ -1,12 +1,9 @@
 import { asyncFetch } from '@/lib/base'
-// import { approvalMainHandlers } from '../../ApprovalMain/'
-// console.log(approvalMainHandlers)
-// import { xx } from '../../ApprovalMain/modules/ApprovalMain'
-// console.log(xx)
 
 export const GET_LIST = 'GET_LIST'
 export const IN_BUSY = 'IN_BUSY'
 export const UPDATE_ACTIVE = 'UPDATE_ACTIVE'
+export const CLEAN_LIST = 'CLEAN_LIST'
 
 export const inBusy = (state) => {
   return {
@@ -36,7 +33,8 @@ export const getList = (status = 1, params = { current_page: 1 }) => {
     (data, dispatch) => {
       return dispatch({
         type: GET_LIST,
-        list: data.data || []
+        addedList: data.data || [],
+        page: data.page || {}
       })
     }
   )
@@ -44,6 +42,7 @@ export const getList = (status = 1, params = { current_page: 1 }) => {
 
 export const updateActive = (status) => {
   return (dispatch, state) => {
+    dispatch(cleanList())
     dispatch(inBusy(true))
     dispatch(getList(status))
     return dispatch({
@@ -53,25 +52,34 @@ export const updateActive = (status) => {
   }
 }
 
+export const cleanList = () => {
+  return {
+    type: CLEAN_LIST
+  }
+}
+
 export const actions = {
   getList,
   inBusy,
-  updateActive
+  updateActive,
+  cleanList
 }
 
 const ACTION_HANDLERS = Object.assign({}, {
   [IN_BUSY]: (state, action) =>
     Object.assign({}, state, { isBusy: action.state }),
-  [GET_LIST]: (state, { list }) =>
-    Object.assign({}, state, { list, isBusy: false }),
+  [GET_LIST]: (state, { addedList, page }) =>
+    Object.assign({}, state, { list: [...state.list, ...addedList], isBusy: false, page }),
   [UPDATE_ACTIVE]: (state, action) =>
-    Object.assign({}, state, { active: action.status })
+    Object.assign({}, state, { active: action.status }),
+  [CLEAN_LIST]: (state, action) =>
+    Object.assign({}, state, { list: [], page: {} })
 })
-// , approvalMainHandlers)
 
 const initialState = {
   active: 1,
   list: [],
+  page: {},
   isBusy: false
 }
 

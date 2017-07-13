@@ -1,0 +1,10 @@
+.wm-approval-main{
+  height: 100%;
+  .wm-approval-list {
+    position: absolute;
+    width: 100%;
+    top: 14rem;
+    bottom: 0;
+    overflow: auto;
+  }
+}

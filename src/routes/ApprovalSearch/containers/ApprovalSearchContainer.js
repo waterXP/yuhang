@@ -1,21 +1,18 @@
 import { connect } from 'react-redux'
-// import { exampleNormal, exampleAsync, exampleFetch } from '../modules/ApprovalSearch'
 
 import ApprovalSearch from '../components/ApprovalSearch'
-import { inBusy, getList } from '@/routes/Approval/modules/Approval'
+import { inBusy, getList, cleanList } from '@/routes/Approval/modules/Approval'
 
 const mapStateToProps = (state) => ({
-  active : state.approval.active,
   list: state.approval.list,
-  isBusy: state.approval.isBusy
+  isBusy: state.approval.isBusy,
+  query: state.location.query
 })
 
 const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
   getList,
-  inBusy
+  inBusy,
+  cleanList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalSearch)

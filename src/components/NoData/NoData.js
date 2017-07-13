@@ -8,7 +8,7 @@ class NoData extends Component {
     text: PropTypes.string
   }
   render () {
-    const { text, imgsrc, icon, type } = this.props
+    const { text, imgsrc, icon, type, size } = this.props
     let showText = text
     let showIcon = icon
     let showImg = imgsrc
@@ -21,7 +21,7 @@ class NoData extends Component {
         showText='没有数据'
     }
     return (
-      <div className='no-data'>
+      <div className={`no-data${size ? ' ' + size : ''}`}>
         { showImg ? <img src={ showImg } /> : <i className={`fa ${showIcon ? showIcon : 'fa-smile-o'}`} /> }
         { showText && <p>{ showText }</p> }
       </div>

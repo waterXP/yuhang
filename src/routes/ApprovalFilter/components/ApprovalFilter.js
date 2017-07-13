@@ -11,7 +11,7 @@ import { getObjArray } from '@/lib/base'
 
 class ApprovalFilter extends Component {
   static propTypes = {
-    active: PropTypes.number.isRequired,
+    query: PropTypes.object.isRequired,
     list: PropTypes.arrayOf(PropTypes.shape({
       expensesClaimsId: PropTypes.number.isRequired,
       createdAvatar: PropTypes.string.isRequired,
@@ -38,8 +38,9 @@ class ApprovalFilter extends Component {
       showResult: value
     })
     if (value) {
-      const { active, inBusy, getList } = this.props
+      const { query, inBusy, getList } = this.props
       const { range, filter } = this.state
+      const status = +query.status || 1
       let params = {}
       if (range[0] !== '' && !isNaN(+range[0])) {
         params.summoneyMin = +range[0]
@@ -47,7 +48,7 @@ class ApprovalFilter extends Component {
       if (range[1] !== '' && !isNaN(+range[1])) {
         params.summoneyMax = +range[1]
       }
-      if (active !== 1) {
+      if (status !== 1) {
         let temp = []
         filter.forEach((v) => {
           if (v.sel) {
@@ -60,7 +61,7 @@ class ApprovalFilter extends Component {
       }
       params.current_page = 1
       inBusy(true)
-      getList(active, params)
+      getList(status, params)
     }
   }
   toggleFilter (targetId) {
@@ -77,8 +78,9 @@ class ApprovalFilter extends Component {
     })
   }
   render () {
-    const { isBusy, list, active } = this.props
+    const { isBusy, list, query } = this.props
     const { showResult, range, filter } = this.state
+    const status = +query.status || 1
     const rangeAttr = {
       title: '输入金额区间',
       range,
@@ -98,7 +100,7 @@ class ApprovalFilter extends Component {
           />
           { isBusy ?
             <NoData type='loading' /> :
-              list.length ? <ApprovalList list={ list } active={ active } /> :
+              list.length ? <ApprovalList list={ list } tag={ status } /> :
                 <NoData type='nodata' />
           }
         </div>
@@ -108,7 +110,7 @@ class ApprovalFilter extends Component {
         <div className='wm-approval-filter'>
           <div className='filter'>
             <Range {...rangeAttr} />
-            { active !== 1 && <Filter
+            { status !== 1 && <Filter
               title='选择筛选条件'
               conditions={ filter }
               multiple={ true }
