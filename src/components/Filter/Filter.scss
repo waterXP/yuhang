@@ -1,0 +1,21 @@
+@import '../../styles/baseStyle';
+
+.wm-filter {
+  .fa {
+    color: $successColor;
+  }
+  p {
+    margin: 1rem .6rem .3rem;
+    text-align: left;
+  }
+  button {
+    width: calc(50% - .6rem);
+    background-color: $btnBackColor;
+    border-radius: $borderRadius;
+    margin: .2rem .3rem;
+    &.active {
+      color: $successColor;
+      background-color: $btnSuccessBackColor;
+    }
+  }
+}

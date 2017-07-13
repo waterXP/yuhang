@@ -4,6 +4,8 @@ import config, { dd ,isDev} from '@/config'
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
 
+export const history = hashHistory
+
 export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const r = window.location.search.substr(1).match(reg)
@@ -96,6 +98,14 @@ export const fetchData = (action, params = {}) => {
   }
   url = (process.env.NODE_ENV === 'development'
     ? config.devApi : config.prodApi) + url
+
+  if (config.useLocaldata) {
+    url = '/localdata/' + url
+  } else {
+    url = (process.env.NODE_ENV === 'development' ?
+      config.devApi : config.prodApi) + url
+  }
+
   for (let v in params) {
     if (params[v] === null) {
       delete params[v]
@@ -291,6 +301,39 @@ export const dingHidePreLoad=()=>{
       onFail : function(err) {}
     })
   }
+
+export const getArray = (obj) => {
+  let result = []
+  for (const i in obj) {
+    result[i] = obj[i]
+  }
+  return result
+}
+
+export const getObjArray = (obj, idLabel = 'id', valueLabel = 'value') => {
+  let result = []
+  for (const i in obj) {
+    let temp = {}
+    temp[idLabel] = i
+    temp[valueLabel] = obj[i]
+    result.push(temp)
+  }
+  return result
+}
+
+export const doFetch = (action, params = {}) => {
+  return fetchData(action, params)
+    .then((data) => {
+      if (data.result) {
+        toast(data.msg)
+        toast(data.msg || '系统忙，请稍后再试')
+      }
+      return data
+    })
+    .catch((e) => {
+      toast(e)
+      toast('请求失败，请检查网络并稍后再试')
+    })
 }
 
 export default {
@@ -308,6 +351,7 @@ export default {
   confirm,
   dingSend,
   dingApproveDetail
+  doFetch
 }
 
 

@@ -1,0 +1,26 @@
+@import '../../styles/baseStyle';
+
+.wm-approval-nav {
+  display: inline-block;
+  height: 9rem;
+  width: 25%;
+  padding-bottom: 1px;
+  border-bottom: 1px solid $borderColorSecondary;
+  .nav-btn {
+    width: 80%;
+  }
+  a {
+    display: inline-block;
+  }
+  p {
+    margin: 1rem 0 .5rem;
+    color: $fontColor;
+  }
+  &.active {
+    padding-bottom: 0;
+    border-bottom: 2px solid $activeBorderColor;
+    p {
+      color: $activeHoverColor;
+    }
+  }
+}

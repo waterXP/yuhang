@@ -1,0 +1,31 @@
+@import '../../styles/baseStyle';
+
+.no-data {
+  padding: $panelPadding;
+  margin: 7rem 0;
+  i {
+    color: $activeColor;
+    font-size: 7rem;
+  }
+  img {
+    width: 7rem;
+  }
+  p {
+    margin-top: 2rem;
+    font-size: 16px;
+  }
+  &.small {
+    padding-top: 0;
+    margin: 2rem 0;
+    i {
+      font-size: 3rem;
+    }
+    img {
+      width: 3rem;
+    }
+    p {
+      margin-top: .5rem;
+      font-size: 14px;
+    }
+  }
+}

@@ -1,16 +1,12 @@
 import { connect } from 'react-redux'
-// import { getConfig } from '../../../store/root'
 
 import Approval from '../components/Approval'
 
 const mapStateToProps = (state) => ({
-  // approval : state.approval
+  location: state.location
 })
 
-const mapDispatchToProps = {
-  // exampleNormal,
-  // exampleAsync
-}
+const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Approval)
 

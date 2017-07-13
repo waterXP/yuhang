@@ -12,5 +12,6 @@ export default {
   dd,
   prodApi: 'http://120.77.209.222/wagestest/',
   devApi: '/api/',
-  ddurl: 'http://120.77.209.222/wagestest/'
+  ddurl: 'http://120.77.209.222/wagestest/',
+  useLocaldata: false
 }

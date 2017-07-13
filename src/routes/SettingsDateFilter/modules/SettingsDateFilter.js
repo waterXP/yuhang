@@ -45,22 +45,34 @@ export const actions = {
 
 export const ACTIONS_HANDLERS = {  
   [CLEAN_FILTER]: (state, action) => {
+    let monthFilter = [...state.monthFilter]
     const time = new Date()
+    const year = time.getYear()
+    const month = time.getMonth()
+    monthFilter.forEach((v) => {
+      v.sel = false
+    })
+    monthFilter[month].sel = true
     return Object.assign({}, state, {
       filter: {
         year: time.getFullYear(),
-        month: time.getMonth(),
+        month: month,
         showYears: false
       }
-    })
+    }, { monthFilter })
   },
   [SEL_MONTH]: (state, action) => {
+    let monthFilter = [...state.monthFilter]
+    monthFilter.forEach((v) => {
+      v.sel = false
+    })
+    monthFilter[action.target].sel = true
     return Object.assign({}, state, {
       filter: {
         ...state.filter,
         month: action.target
       }
-    })
+    }, { monthFilter })
   },
   [SEL_YEAR]: (state, action) => {
     return Object.assign({}, state, {

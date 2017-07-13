@@ -24,13 +24,13 @@ class AccountList extends Component {
             ? 'settings/edit/account'
             : 'settings/edit/alipay'
           return <li
-            key={account.id}
-            onClick={goLocation.bind(this, {
+            key={ account.id }
+            onClick={ goLocation.bind(this, {
               pathname,
               query: {
                 id: account.id
               }
-            })}>
+            }) }>
             <img
               alt={account.bankName}
               className='icon'

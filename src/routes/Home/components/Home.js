@@ -20,8 +20,9 @@ class Home extends Component {
       btnsHtml.push(btnsHtmlCell);
     });
     let children =this.props.children;
-    return children ? (<div>{children}</div>):(
-        <div className="wm-home">
+    return children ?
+        (<div>{children}</div>):
+        (<div className="wm-home">
           <div className="homeLine">
             {btnsHtml[0]}
           </div>
@@ -32,9 +33,10 @@ class Home extends Component {
             {btnsHtml[2]}
           </div>
         </div>
-    )
+        ）
   }
 }
+
 Home.prototype.btns=[
   [{
     path:"/home/approveList",

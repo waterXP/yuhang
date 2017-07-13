@@ -1,66 +1,88 @@
-import { fetchFail, FETCH_FAIL } from '@/lib/base'
+import { asyncFetch } from '@/lib/base'
 
-// export const EXAMPLE_NORMAL = 'EXAMPLE_NORMAL'
-// export const EXAMPLE_ASYNC = 'EXAMPLE_ASYNC'
-// export const EXANPLE_FETCH = 'EXANPLE_FETCH'
+export const GET_LIST = 'GET_LIST'
+export const IN_BUSY = 'IN_BUSY'
+export const UPDATE_ACTIVE = 'UPDATE_ACTIVE'
+export const CLEAN_LIST = 'CLEAN_LIST'
 
-// export function exampleNormal (value = 1) {
-//   return {
-//     type: EXAMPLE_NORMAL,
-//     value: value
-//   }
-// }
+export const inBusy = (state) => {
+  return {
+    type: IN_BUSY,
+    state
+  }
+}
 
-// export const exampleAsync = () => {
-//   return (dispatch, getState) => {
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         dispatch({
-//           type: EXAMPLE_ASYNC,
-//           data: getState().approval
-//         })
-//         resolve()
-//       }, 200)
-//     })
-//   }
-// }
+export const getList = (status = 1, params = { current_page: 1 }) => {
+  let action = 'get /expensesClaims/waitMeList.json'
+  if (!params.current_page) {
+    params.current_page = 1
+  }
+  switch (status) {
+    case 2:
+      action = 'get /expensesClaims/myList.json'
+      break
+    case 3:
+      action = 'get /expensesClaims/myCCList.json'
+      break
+    case 4:
+      action = 'get /expensesClaims/alreadyApprove.json'
+  }
+  return asyncFetch(
+    action,
+    params,
+    (data, dispatch) => {
+      return dispatch({
+        type: GET_LIST,
+        addedList: data.data || [],
+        page: data.page || {}
+      })
+    }
+  )
+}
 
-// export const exampleFetch = (url) => {
-//   return (dispatch, getState) => {
-//     fetchData(`get /api/getConfig.json?corpid=${config.corpid}&url=${config.host}?qwe=22`)
-//     .then((data) => {
-//       return dispatch({
-//         type: EXANPLE_FETCH,
-//         data: data
-//       })
-//     })
-//     .catch((e) => {
-//       return dispatch({
-//         type: FETCH_FAIL,
-//         err: e
-//       })
-//     })
-//   }
-// }
+export const updateActive = (status) => {
+  return (dispatch, state) => {
+    dispatch(cleanList())
+    dispatch(inBusy(true))
+    dispatch(getList(status))
+    return dispatch({
+      type: UPDATE_ACTIVE,
+      status
+    })
+  }
+}
+
+export const cleanList = () => {
+  return {
+    type: CLEAN_LIST
+  }
+}
 
 export const actions = {
-  // exampleNormal,
-  // exampleAsync,
-  // exampleFetch
+  getList,
+  inBusy,
+  updateActive,
+  cleanList
 }
 
-const ACTION_HANDLERS = {
-  // [EXAMPLE_NORMAL]    : (state, action) => state,
-  // [EXAMPLE_ASYNC] : (state, action) => state,
-  // [EXANPLE_FETCH]: (state, action) => {
-  //   console.log(action)
-  //   console.log(state)
-  //   return state
-  // },
-  [FETCH_FAIL]: fetchFail
+const ACTION_HANDLERS = Object.assign({}, {
+  [IN_BUSY]: (state, action) =>
+    Object.assign({}, state, { isBusy: action.state }),
+  [GET_LIST]: (state, { addedList, page }) =>
+    Object.assign({}, state, { list: [...state.list, ...addedList], isBusy: false, page }),
+  [UPDATE_ACTIVE]: (state, action) =>
+    Object.assign({}, state, { active: action.status }),
+  [CLEAN_LIST]: (state, action) =>
+    Object.assign({}, state, { list: [], page: {} })
+})
+
+const initialState = {
+  active: 1,
+  list: [],
+  page: {},
+  isBusy: false
 }
 
-const initialState = {}
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
