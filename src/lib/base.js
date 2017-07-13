@@ -136,8 +136,6 @@ export const fetchFin = (state, action) => {
   return state
 }
 
-//dinge66a5fd3ad45cc2a35c2f4657eb6378f
-
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
   host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
@@ -186,6 +184,20 @@ export const getCash = (cash=0, symbol='') => {
     result += '0'
   }
   return symbol + result
+}
+
+export const getNumber = (number = 0, dot = 2) => {
+  if (isNaN(number) || isNaN(dot)) {
+    return ''
+  }
+  dot = ~~dot
+  const str = '' + number
+  let [integer, decimal] = str.split('.')
+  decimal = decimal ? decimal.substr(0, dot) : ''
+  while (decimal.length < dot) {
+    decimal += '0'
+  }
+  return `${integer}.${decimal}`
 }
 
 // 将时间的年份去掉
@@ -352,13 +364,3 @@ export default {
   dingApproveDetail,
   doFetch
 }
-
-
-
-
-
-
-
-
-
-

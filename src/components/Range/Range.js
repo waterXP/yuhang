@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Range.scss'
+import { getNumber } from '@/lib/base'
 
 class Range extends Component {
   handleFocus (e) {
@@ -16,21 +17,7 @@ class Range extends Component {
       return
     }
     let { dec, updateRange } = this.props
-    if (!dec) {
-      dec = 2
-    }
-    const str = '' + m
-    let [integer, decimal] = str.split('.')
-    if (decimal) {
-      decimal = decimal.substr(0, dec)
-    } else {
-      decimal = ''
-    }
-    while (decimal.length < dec) {
-      decimal += '0'
-    }
-    e.target.value = `${integer}.${decimal}`
-    console.log(this.max.value)
+    e.target.value = getNumber(m)
     if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
       if (e.target === this.min) {
         e.target.value = this.max.value

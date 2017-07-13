@@ -1,0 +1,5 @@
+@import '../../styles/baseStyle';
+
+.wm-form-number {
+  @include form-control;
+}

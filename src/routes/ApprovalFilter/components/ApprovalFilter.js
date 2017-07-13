@@ -6,7 +6,7 @@ import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import ApprovalList from '@/components/ApprovalList'
 import NoData from '@/components/NoData'
-import { approvalFilter } from '@/lib/enums'
+import { approveStatus } from '@/lib/enums'
 import { getObjArray } from '@/lib/base'
 
 class ApprovalFilter extends Component {
@@ -33,7 +33,7 @@ class ApprovalFilter extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      filter: getObjArray(approvalFilter, 'id', 'text'),
+      filter: getObjArray(approveStatus, 'id', 'text'),
       range: ['', ''],
       showResult: false
     }

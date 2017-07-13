@@ -12,26 +12,69 @@ import FormTextArea from '../FormTextArea'
 import { fetchData, toast } from '@/lib/base'
 import './ExpenseForm.scss'
 
-const renderDetails = ({ fields }) => {
-  return (
-    <div>
-      {fields && fields.map((v, i) =>
-        <ExpenseDetailInfo
-         key={i}
-         data={v}
-         deleteHandler={() => fields.remove(i)} />
-      )}
-      <ConfirmButton
-        text=' 增加明细'
-        icon='fa-plus'
-        handleClick={() =>  fields.push({})} />
-    </div>
-  )
+class renderDetails extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      tags: [1],
+      nextTag: 2
+    }
+  }
+  deleteInfo (i) {
+    let { fields } = this.props
+    const { tags, nextTag } = this.state
+    let temp = [...tags]
+    temp.splice(i, 1)
+    this.setState({
+      tags: temp,
+    })
+    fields.remove(i)
+  }
+  handleClick () {
+    let { fields } = this.props
+    const { tags, nextTag } = this.state
+    let temp = [...tags]
+    temp.push(nextTag)
+    this.setState({
+      tags: temp,
+      nextTag: nextTag + 1
+    })
+    fields.push({})
+  }
+  render () {
+    let { fields, costType } = this.props
+    const { tags } = this.state
+    return (
+      <div>
+        {fields && fields.map((v, i) =>
+          <ExpenseDetailInfo
+           key={ tags[i] }
+           data={ v }
+           title={ `明细${tags[i]}` }
+           deleteHandler={ this.deleteInfo.bind(this, i) }
+          />
+        )}
+        <ConfirmButton
+          text=' 增加明细'
+          icon='fa-plus'
+          handleClick={ this.handleClick.bind(this) } />
+      </div>
+    )
+  }
 }
 
 class ExpenseForm extends Component {
   componentDidMount () {
     this.initial()
+  }
+
+  getCostType (deptId) {
+    fetchData('get /costTypes/findCostTypeByDeptId.json', { deptId })
+    .then((d) => {
+      if (!d.result) {
+        this.props.change('costType', d.data)
+      }
+    })
   }
 
   initial () {
@@ -46,12 +89,14 @@ class ExpenseForm extends Component {
           initialize('expenseForm', {
             userName,
             accounts: d2.data,
-            selDept: 0,
-            deptName: '请选择(必须)',
+            selDept: deptsList[0].id,
+            deptName: deptsList[0].name,
             deptsList,
-            details: [{}]
+            details: [{}],
+            costType: []
           })
         )
+        this.getCostType(deptsList[0].id)
       }
     })
   }
@@ -61,7 +106,7 @@ class ExpenseForm extends Component {
   }
 
   render () {
-    const { handleSubmit, userName, deptName, totalCash } = this.props
+    const { handleSubmit, userName, deptName, totalCash, costType } = this.props
     const testUserInfo = {
       defaultValue: { type: 'text', text: '请选择(必须)' },
       departments: {
@@ -77,15 +122,12 @@ class ExpenseForm extends Component {
     return (
       <form className='wm-expense-form' onSubmit={ handleSubmit }>
         <ExpenseUserInfo deptName={ deptName } name={ userName } departChange={ this.departChange.bind(this) } />
-        <FieldArray name='details' component={ renderDetails } />
+        <FieldArray name='details' component={ renderDetails } costType={ costType } />
         <ExpenseAccountInfo totalCash={ totalCash() } />
         <ExpenseAttachment />
         <FormTextArea
           name='auditor'
           placeholder='审批人' />
-        <FormTextArea
-          name='cc'
-          placeholder='抄送人' />
         <FormButton text='存草稿' />
         <FormButton
           type='submit'
@@ -101,6 +143,7 @@ export default connect(
   state => ({
     userName: selector(state, 'userName'),
     deptName: selector(state, 'deptName'),
+    costType: selector(state, 'costType'),
     totalCash: () => {
       let totalCash = 0
       let details = selector(state, 'details')
