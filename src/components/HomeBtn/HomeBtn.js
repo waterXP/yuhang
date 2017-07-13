@@ -8,12 +8,12 @@ class HomeBtn extends Component{
       <Link to={cellData.path} className="homeBtnCell">
         <div>
           {
-            cellData.img?(<img
+            cellData.img?<img
               src={cellData.img}
               alt=""
               className="homeCellImg"
               />
-              ):null
+              :null
           }
           <h5>{cellData.name}</h5>
         </div>

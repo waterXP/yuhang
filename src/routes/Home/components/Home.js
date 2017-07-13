@@ -6,34 +6,33 @@ import HomeBtn from "@/components/HomeBtn/HomeBtn";
 
 class Home extends Component {
   render () {
-    console.log(this.props);
-    let btns=this.btns;
-    let btnsHtml=[];
-    let btnsHtmlCell=[];
+    let btns=this.btns
+    let btnsHtml=[]
+    let btnsHtmlCell=[]
     btns.map((cur,index,arr)=>{
-      btnsHtmlCell=[];
+      btnsHtmlCell=[]
       cur.map((subCur,index,arr)=>{
         btnsHtmlCell.push(
           <HomeBtn key={index} cellData={subCur}/>
-        );
+        )
       })
-      btnsHtml.push(btnsHtmlCell);
-    });
-    let children =this.props.children;
-    return children ?
-        (<div>{children}</div>):
-        (<div className="wm-home">
-          <div className="homeLine">
-            {btnsHtml[0]}
-          </div>
-          <div className="homeLine">
-            {btnsHtml[1]}
-          </div>
-          <div className="homeLine">
-            {btnsHtml[2]}
-          </div>
+      btnsHtml.push(btnsHtmlCell)
+    })
+    let children =this.props.children
+
+    return( children ? <div>{children}</div> :
+      <div className="wm-home">
+        <div className="homeLine">
+          {btnsHtml[0]}
         </div>
-        ）
+        <div className="homeLine">
+          {btnsHtml[1]}
+        </div>
+        <div className="homeLine">
+          {btnsHtml[2]}
+        </div>
+      </div>
+    )
   }
 }
 

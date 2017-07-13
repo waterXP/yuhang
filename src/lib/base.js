@@ -301,6 +301,7 @@ export const dingHidePreLoad=()=>{
       onFail : function(err) {}
     })
   }
+}
 
 export const getArray = (obj) => {
   let result = []
@@ -350,7 +351,7 @@ export default {
   toast,
   confirm,
   dingSend,
-  dingApproveDetail
+  dingApproveDetail,
   doFetch
 }
 
