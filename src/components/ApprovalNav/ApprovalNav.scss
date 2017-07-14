@@ -4,13 +4,16 @@
   display: inline-block;
   height: 9rem;
   width: 25%;
+  max-width: 9rem;
   padding-bottom: 1px;
   border-bottom: 1px solid $borderColorSecondary;
   .nav-btn {
     width: 80%;
+    max-width: 7.6rem;
   }
   a {
     display: inline-block;
+    text-align: center;
   }
   p {
     margin: 1rem 0 .5rem;

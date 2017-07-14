@@ -4,19 +4,19 @@ import './ModalSelect.scss'
 
 class ModalSelect extends Component {
   render () {
-    const { options, active, labelId, labelValue, close, select } = this.props
+    const { options, active, labelId, labelName,
+      close, select, scope } = this.props
     let _id = labelId || 'id'
-    let _value = labelValue || 'value'
-
+    let _name = labelName || 'name'
     return (
       <div className='wm-modal-select'>
         <div className='container'>
           <button className='btn btn-xs' onClick={ close }><i className='fa fa-times' /></button>
           <ul>
             {
-              options.map((v) => {
+              options.map((v, i) => {
                 return (
-                  <li key={ v[_id] } onClick={ active !== v[_id] && select.bind(this, v[_id]) } className={ `${active === v[_id] ? 'active' : ''}` }>{ v[_value] }</li>
+                  <li key={ v[_id] } onClick={ active !== i && select.bind(this, i, scope) } className={ `${active === i ? 'active' : ''}` }>{ v[_name] }</li>
                 )
               })
             }

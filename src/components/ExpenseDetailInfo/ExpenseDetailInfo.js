@@ -6,65 +6,65 @@ import FormNumber from '../FormNumber'
 import FormTextArea from '../FormTextArea'
 import './ExpenseDetailInfo.scss'
 
-import ModalSelect from '../ModalSelect'
+import ModalCost from '../ModalCost'
 
 class ExpenseDetailInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
       openModal: false,
-      options: [{ id: 1, value: 55 }, { id: 2, value: 66 }],
-      active: 1
+      active: -1,
+      paths: []
     }
   }
   selType () {
-    console.log('hello how are you')
     this.setState({
       openModal: true
     })
   }
-  modalConfirm (target) {
+  select (target, id, value, paths) {
+    const { setCostType } = this.props
     this.setState({
-      active: target
+      openModal: false,
+      paths
     })
-    this.modalClose()
-  }
-  modalClose () {
-    this.setState({
-      openModal: false
-    })
+    setCostType(target, id, value)
   }
   render () {
-    const { data, deleteHandler, title } = this.props
-    const { openModal, active, options } = this.state
+    const { data, deleteHandler, title, costType, setDate, detail, formatCurrency } = this.props
+    const { openModal, active, paths } = this.state
     return (
       <div className='wm-expense-detail-info'>
         { openModal &&
-          <ModalSelect
-            options={ options }
-            active={ active }
-            select={ this.modalConfirm.bind(this) }
-            close={ this.modalClose.bind(this) }
+          <ModalCost
+            costType={ costType }
+            paths={ paths }
+            select={ this.select.bind(this, `${data}`) }
+            selType={ detail && detail.feeType ? detail.feeType : '' }
           />
         }
         <span>{ title }</span>
         <button type='button' className='close-button' onClick={ deleteHandler }>删除</button>
         <FormLink
           text='费用类型'
-          name={ `${data}.feeType` }
-          value='请选择(必须)'
+          name={ `${data}.feeName` }
+          value={ detail && detail.feeName ? detail.feeName : '请选择(必须)' }
           iconRight='fa-angle-right'
           clickHandler={ this.selType.bind(this) }
         />
         <FormNumber
           text='金额'
           decimal={ 2 }
-          name={ `${data}.cash` } />
+          name={ `${data}.cash` }
+          handlerBlur={ formatCurrency.bind(this, `${data}.cash`) }
+        />
         <FormLink
           text='发生日期'
           name={ `${data}.startDate` }
-          value='请选择(必须)'
-          iconRight='fa-angle-right' />
+          value={ detail && detail.startDate ? detail.startDate : '请选择(必须)' }
+          iconRight='fa-angle-right'
+          clickHandler={ setDate.bind(this) }
+        />
         <FormTextArea
           name={ `${data}.memo` }
           placeholder='备注：' />

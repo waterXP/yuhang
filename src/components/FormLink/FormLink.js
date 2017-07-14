@@ -16,7 +16,7 @@ class FormLink extends Component {
     return (
       <div className='wm-form-link'>
         <label>{text}</label>
-        <Field name={name} component='button' type='button' onClick={ clickHandler }>
+        <Field name={name} component='button' type='button' onClick={ clickHandler && clickHandler.bind(this, name) }>
           {icon && <i className={`fa ${icon}`} />}
           {value}
           {iconRight && ' '}

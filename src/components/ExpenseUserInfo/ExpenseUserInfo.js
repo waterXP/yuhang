@@ -12,7 +12,8 @@ export const ExpenseUserInfo = ({ name, deptName, departChange }) => {
         name='deptName'
         value={ deptName }
         iconRight='fa-angle-right'
-        clickHandler={ departChange } />
+        clickHandler={ departChange }
+      />
     </div>
   )
 }

@@ -11,11 +11,11 @@ class FormNumber extends Component {
     value: PropTypes.string
   }
   render () {
-    const { text, name } = this.props
+    const { text, name, handlerBlur } = this.props
     return (
       <div className='wm-form-text'>
         <label>{ text }</label>
-        <Field name={ name } component='input' type='number' />
+        <Field name={ name } component='input' type='number' onBlur={ handlerBlur.bind(this) } />
       </div>
     )    
   }
