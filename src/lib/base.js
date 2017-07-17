@@ -43,7 +43,16 @@ export const post = (url, params = {}) => {
   })
   let query = ''
   for (let str in params) {
-    query += `${str}=${params[str]}&`
+    if (params[str] instanceof Array) {
+      console.log(params[str])
+      params[str].forEach((v, i) => {
+        for (let child in v) {
+          query += `${str}[${i}].${child}=${v[child]}&`
+        }
+      })
+    } else {
+      query += `${str}=${params[str]}&`
+    }
   }
   return fetch(url, {
     method: 'POST',

@@ -24,10 +24,12 @@ class ApprovalMain extends Component {
     }).isRequired,
     isBusy: PropTypes.bool.isRequired,
     inBusy: PropTypes.func.isRequired,
-    getList: PropTypes.func.isRequired
+    getList: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired
   }
   componentDidMount () {
-    this.props.updateActive(1)
+    const { updateActive, query } = this.props
+    updateActive(+query.active || 1)
   }
   scrolled (e) {
     const { inBusy, isBusy, page, active, getList } = this.props

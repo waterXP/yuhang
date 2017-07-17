@@ -8,7 +8,8 @@ const mapStateToProps = (state) => ({
   list: state.approval.list,
   page: state.approval.page,
   isBusy: state.approval.isBusy,
-  location: state.location
+  location: state.location,
+  query: state.location.query
 })
 
 const mapDispatchToProps = {

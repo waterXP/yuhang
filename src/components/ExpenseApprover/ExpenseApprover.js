@@ -12,7 +12,7 @@ const ExpenseApprover = ({ approvers }) => {
             <img className='avatar' src={ v.avatar } />
             <p>{ v.nickName }</p>
           </div>
-          <i className='fa fa-arrow-right' />
+          { approvers.length !== i + 1 && <i className='fa fa-arrow-right' /> }
         </div>
       )}
     </div>

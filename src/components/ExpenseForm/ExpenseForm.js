@@ -39,6 +39,7 @@ class renderDetails extends Component {
   setCostType (target, id, value) {
     this.props.changeCostType(target, id, value)
   }
+
   render () {
     let { fields, costType, details, formatCurrency, tags } = this.props
     return (
@@ -192,7 +193,8 @@ class ExpenseForm extends Component {
               attachmentList,
               approvers,
               tags,
-              nextTag
+              nextTag,
+              type: 1
             })
           )          
         }
@@ -220,7 +222,8 @@ class ExpenseForm extends Component {
               attachmentList: [],
               approvers: usersList || [],
               tags: [1],
-              nextTag: 2
+              nextTag: 2,
+              type: 1
             })
           )
           this.getCostType(deptsList[0].id)
@@ -263,6 +266,64 @@ class ExpenseForm extends Component {
   }
   updateTags (tags) {
     this.props.change('tags', tags)
+  }
+
+  commit (draft) {
+    const { type, deptsList, selDept, details, totalCash, selAccount, accountList, projectsList, selProj, attachmentList } = this.props
+    const dept = deptsList[selDept]
+    const account = accountList[selAccount]
+    const project = projectsList[selProj]
+    let detailses = []
+    let attachmentUrls = [...attachmentList]
+    if (selDept < 0 || selAccount < 0 || selProj < 0) {
+      toast('提交参数不完整')
+      return
+    }
+    let valid = true
+    details.forEach((v) => {
+      if (!v.id || !v.cash || !v.startDate) {
+        valid = false
+      }
+      detailses.push({
+        costTypeId: v.feeType,
+        costTypeName: v.feeName,
+        money: +v.cash,
+        eventTime: v.startDate,
+        remark: v.memo || ''
+      })
+    })
+    if (!valid) {
+      toast('提交参数不完整')
+      return
+    }
+    let params = {
+      deptId: dept.id,
+      type,
+      deptDingId: dept.dingDeptid,
+      deptName: dept.appendParentName,
+      detailses,
+      summoney: totalCash(),
+      userAccountId: account.id,
+      accountName: account.chooseBankName,
+      projectId: project.id,
+      projectName: project.name,
+      attachmentUrls
+    }
+    const action = draft ? 'post /expensesClaims/dingSave.jso' : 'post /expensesClaims/dingSubmit.json'
+    fetchData(action, params)
+    .then((d) => {
+      if (d.result === 0) {
+        goLocation({
+          pathname: '/approval/main',
+          query: {
+            active: 2
+          }
+        })
+      } else {
+        toast(d.msg)
+      }
+    })
+
   }
 
   render () {
@@ -335,10 +396,12 @@ class ExpenseForm extends Component {
           removeAttachment={ this.removeAttachment.bind(this) }
         />
         <ExpenseApprover approvers={ approvers } />
-        <FormButton text='存草稿' />
+        <FormButton text='存草稿' onClick={ this.commit.bind(this, true) } />
         <FormButton
           type='submit'
-          text='提交'/>
+          text='提交'
+          onClick={ this.commit.bind(this) }
+        />
       </form>
     )    
   }
@@ -375,6 +438,7 @@ export default connect(
     attachmentList: selector(state, 'attachmentList'),
     tags: selector(state, 'tags'),
     nextTag: selector(state, 'nextTag'),
+    type: selector(state, 'type'),
     initialValues: { details: [{}] }
   })
 )(reduxForm({

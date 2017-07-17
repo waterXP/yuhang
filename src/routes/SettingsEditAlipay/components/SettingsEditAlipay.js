@@ -45,7 +45,7 @@ class SettingsEditAlipay extends Component {
       <AccountEditForm
         className='wm-settings-edit-alipay'
         onSubmit={this.updateAccount}
-        type={2}
+        type={ 2 }
         targetId={query.id}
         fromPage={ query.from || '' }
       />
