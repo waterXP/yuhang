@@ -7,8 +7,6 @@ import { fetchData, goLocation, toast } from '@/lib/base'
 class SettingsEditAlipay extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired
-    // ,
-    // updateAccount: PropTypes.func.isRequired
   }
 
   updateAccount = (val) => {
@@ -23,9 +21,18 @@ class SettingsEditAlipay extends Component {
     })
     .then((data) => {
       if (data.result === 0) {
-        goLocation({
-          pathname: '/settings/accounts'
-        })
+        if (val.fromPage) {
+          goLocation({
+            pathname: val.fromPage,
+            query: {
+              from: '/settings/accounts'
+            }
+          })
+        } else {
+          goLocation({
+            pathname: '/settings/accounts'
+          })          
+        }
       } else {
         toast(data.msg)
       }
@@ -39,7 +46,9 @@ class SettingsEditAlipay extends Component {
         className='wm-settings-edit-alipay'
         onSubmit={this.updateAccount}
         type={2}
-        targetId={query.id} />
+        targetId={query.id}
+        fromPage={ query.from || '' }
+      />
     )
   }
 }

@@ -6,41 +6,31 @@ import ExpenseUserInfo from '../ExpenseUserInfo'
 import ExpenseDetailInfo from '../ExpenseDetailInfo'
 import ExpenseAccountInfo from '../ExpenseAccountInfo'
 import ExpenseAttachment from '../ExpenseAttachment'
+import ExpenseApprover from '../ExpenseApprover'
 import ConfirmButton from '../ConfirmButton'
 import FormButton from '../FormButton'
 import FormTextArea from '../FormTextArea'
-import { fetchData, toast, getDate } from '@/lib/base'
+import { fetchData, toast, getDate, getNumber, goLocation } from '@/lib/base'
+import { saveData, loadData } from '@/routes/New/modules/new'
 import './ExpenseForm.scss'
 
 import ModalSelect from '../ModalSelect'
+import testImg from '@/routes/SettingsAccounts/assets/Duck.jpg'
 
 class renderDetails extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      tags: [1],
-      nextTag: 2
-    }
-  }
   deleteInfo (i) {
-    let { fields } = this.props
-    const { tags, nextTag } = this.state
+    let { fields, updateTags, tags, nextTag  } = this.props
     let temp = [...tags]
     temp.splice(i, 1)
-    this.setState({
-      tags: temp,
-    })
+    updateTags(temp)
     fields.remove(i)
   }
   handleClick () {
-    let { fields } = this.props
-    const { tags, nextTag } = this.state
+    let { fields, updateTags, updateNextTag, tags, nextTag } = this.props
     let temp = [...tags]
     temp.push(nextTag)
-    this.setState({
-      tags: temp,
-      nextTag: nextTag + 1
-    })
+    updateTags(temp)
+    updateNextTag(nextTag + 1)
     fields.push({id: nextTag})
   }
   setDate (target) {
@@ -50,11 +40,10 @@ class renderDetails extends Component {
     this.props.changeCostType(target, id, value)
   }
   render () {
-    let { fields, costType, details, formatCurrency } = this.props
-    const { tags } = this.state
+    let { fields, costType, details, formatCurrency, tags } = this.props
     return (
       <div>
-        {fields && fields.map((v, i) =>
+        {tags && fields && fields.map((v, i) =>
           <ExpenseDetailInfo
            key={ tags[i] }
            data={ v }
@@ -90,7 +79,12 @@ class ExpenseForm extends Component {
   }
 
   componentDidMount () {
-    this.initial()
+    let { query, data } = this.props
+    if (query.from && data) {
+      this.initial(data)
+    } else {
+      this.initial()
+    }
   }
 
   modalOpen (options, target, targetName, labelId, labelName) {
@@ -103,7 +97,19 @@ class ExpenseForm extends Component {
       labelName
     })
   }
-  modalConfirm (value, label) {
+  modalConfirm (value, label, id) {
+    if (label === 'selAccount' && id < 0) {
+      this.save()
+      let pathname = id === -.2 ? '/settings/edit/alipay' :
+        '/settings/edit/account'
+      goLocation({
+        pathname,
+        query: {
+          from: '/new'
+        }
+      })
+      return
+    }
     this.props.change(label, value)
     this.modalClose()
   }
@@ -111,6 +117,32 @@ class ExpenseForm extends Component {
     this.setState({
       openModal: false
     })
+  }
+
+  save () {
+    const {
+      userName, accountList, selAccount,
+      selDept, deptsList, details,
+      costType, selProj, projectsList,
+      attachmentList, approvers, dispatch,
+      tags, nextTag
+    } = this.props
+    dispatch(
+      saveData({
+        userName,
+        selAccount,
+        selDept,
+        deptsList,
+        details,
+        costType,
+        selProj,
+        projectsList,
+        attachmentList,
+        approvers,
+        tags,
+        nextTag
+      })
+    )
   }
 
   getCostType (deptId) {
@@ -122,7 +154,6 @@ class ExpenseForm extends Component {
     })
   }
   changeDate (target) {
-    console.log(target)
     this.props.change(target, getDate())
   }
   changeCostType (target, id, value) {
@@ -130,36 +161,72 @@ class ExpenseForm extends Component {
     this.props.change(`${target}.feeName`, value)
   }
   formatCurrency (target, event, newValue, previousValue) {
-    console.log(target)
-    this.props.change(`${target}`, 3)
-    newValue = 5
+    event.preventDefault()
+    this.props.change(`${target}`, getNumber(newValue))
   }
 
-  initial () {
-    Promise.all([
-      fetchData('get /expensesClaims/init.json'),
+  initial (data) {
+    if (data) {
+      const {
+        userName, accountList, selAccount,
+        selDept, deptsList, details,
+        costType, selProj, projectsList,
+        attachmentList, approvers, dispatch,
+        tags, nextTag
+      } = data
       fetchData('get /userAccounts/myAccountList.json')
-    ])
-    .then(([d1, d2]) => {
-      if (!d1.result || !d2.result) {
-        const { userName, deptsList, projectsList } = d1.data
-        const { accountList } = d2.data
-        this.props.dispatch(
-          initialize('expenseForm', {
-            userName,
-            accountList: d2.data,
-            selAccount: -1,
-            selDept: 0,
-            deptsList,
-            details: [{id: 1}],
-            costType: [],
-            selProj: -1,
-            projectsList: projectsList || []
-          })
-        )
-        this.getCostType(deptsList[0].id)
-      }
-    })
+      .then((d) => {
+        if (!d.result) {
+          const accountList = d.data
+          this.props.dispatch(
+            initialize('expenseForm', {
+              userName,
+              accountList: accountList || [],
+              selAccount: accountList.length - 1,
+              selDept,
+              deptsList,
+              details,
+              costType,
+              selProj,
+              projectsList,
+              attachmentList,
+              approvers,
+              tags,
+              nextTag
+            })
+          )          
+        }
+      })
+    } else {
+      Promise.all([
+        fetchData('get /expensesClaims/init.json'),
+        fetchData('get /userAccounts/myAccountList.json')
+      ])
+      .then(([d1, d2]) => {
+        if (!d1.result || !d2.result) {
+          const { userName, deptsList, projectsList, usersList } = d1.data
+          const accountList = d2.data
+          this.props.dispatch(
+            initialize('expenseForm', {
+              userName,
+              accountList: d2.data,
+              selAccount: -1,
+              selDept: 0,
+              deptsList,
+              details: [{id: 1}],
+              costType: [],
+              selProj: -1,
+              projectsList: projectsList || [],
+              attachmentList: [],
+              approvers: usersList || [],
+              tags: [1],
+              nextTag: 2
+            })
+          )
+          this.getCostType(deptsList[0].id)
+        }
+      })      
+    }
   }
 
   departChange () {
@@ -172,13 +239,37 @@ class ExpenseForm extends Component {
   }
   accountChange () {
     const { accountList, selAccount } = this.props
-    this.modalOpen(accountList, selAccount, 'selAccount', 'id', 'chooseBankName')
+    const newCard = accountList.length < 5 ? [{
+        id: -.1,
+        chooseBankName: '新增银行卡'
+      }, {
+        id: -.2,
+        chooseBankName: '新增支付宝'
+      }] : []
+    this.modalOpen([...accountList, ...newCard], selAccount, 'selAccount', 'id', 'chooseBankName')
+  }
+  addAttachment () {
+    let temp = this.props.attachmentList || []
+    this.props.change('attachmentList', [...temp, testImg])
+  }
+  removeAttachment (i) {
+    let temp = [...this.props.attachmentList]
+    temp.splice(i, 1)
+    this.props.change('attachmentList', temp)
+  }
+
+  updateNextTag (nextTag) {
+    this.props.change('nextTag', nextTag)
+  }
+  updateTags (tags) {
+    this.props.change('tags', tags)
   }
 
   render () {
     const { handleSubmit, userName, totalCash, costType,
       deptsList, selDept, projectsList, selProj, accountList,
-      selAccount, details } = this.props
+      selAccount, details, attachmentList, approvers,
+      tags, nextTag } = this.props
     const testUserInfo = {
       defaultValue: { type: 'text', text: '请选择(必须)' },
       departments: {
@@ -213,11 +304,15 @@ class ExpenseForm extends Component {
         <FieldArray
           name='details'
           component={ renderDetails }
+          tags={ tags }
+          nextTag={ nextTag }
           costType={ costType }
           changeDate={ this.changeDate.bind(this) }
           changeCostType={ this.changeCostType.bind(this) }
           formatCurrency={ this.formatCurrency.bind(this) }
           details={ details }
+          updateTags={ this.updateTags.bind(this) }
+          updateNextTag={ this.updateNextTag.bind(this) }
         />
         <ExpenseAccountInfo
           totalCash={ totalCash() }
@@ -234,10 +329,12 @@ class ExpenseForm extends Component {
           }
           accountChange={ this.accountChange.bind(this) }
         />
-        <ExpenseAttachment />
-        <FormTextArea
-          name='auditor'
-          placeholder='审批人' />
+        <ExpenseAttachment
+          attachmentList={ attachmentList }
+          addAttachment={ this.addAttachment.bind(this) }
+          removeAttachment={ this.removeAttachment.bind(this) }
+        />
+        <ExpenseApprover approvers={ approvers } />
         <FormButton text='存草稿' />
         <FormButton
           type='submit'
@@ -252,12 +349,14 @@ const selector = formValueSelector('expenseForm')
 export default connect(
   state => ({
     query: state.location.query,
+    data: state.new.data,
     userName: selector(state, 'userName'),
     costType: selector(state, 'costType'),
     selDept: selector(state, 'selDept'),
     selProj: selector(state, 'selProj'),
     selAccount: selector(state, 'selAccount'),
     details: selector(state, 'details'),
+    approvers: selector(state, 'approvers'),
     totalCash: () => {
       let totalCash = 0
       let details = selector(state, 'details')
@@ -273,6 +372,9 @@ export default connect(
     deptsList: selector(state, 'deptsList'),
     projectsList: selector(state, 'projectsList'),
     accountList: selector(state, 'accountList'),
+    attachmentList: selector(state, 'attachmentList'),
+    tags: selector(state, 'tags'),
+    nextTag: selector(state, 'nextTag'),
     initialValues: { details: [{}] }
   })
 )(reduxForm({

@@ -1,0 +1,40 @@
+@import '../../styles/baseStyle';
+
+.wm-expense-attachment {
+  @include form-control;
+  button, .img {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    margin: .5rem;
+  }
+  .fa-plus {
+    font-size: 4rem;
+  }
+  .fa-times {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    background-color: $defaultColor;
+    font-size: 1.2rem;
+    color: $backColor;
+    padding: .1rem;
+  }
+  button {
+    border: 1px dashed $borderColorSecondary;
+    background-color: transparent;
+    text-align: center;
+    vertical-align: top;
+  }
+  .img {
+    position: relative;
+    padding: .5rem;
+    border: 1px solid transparent;
+  }
+  img {
+    width: 4rem;
+    height: 4rem;
+  }
+  padding-bottom: 1.5rem;
+}

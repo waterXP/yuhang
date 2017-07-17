@@ -15,7 +15,12 @@ class FormNumber extends Component {
     return (
       <div className='wm-form-text'>
         <label>{ text }</label>
-        <Field name={ name } component='input' type='number' onBlur={ handlerBlur.bind(this) } />
+        <Field
+          name={ name }
+          component='input'
+          type='text'
+          onBlur={ handlerBlur.bind(this) }
+        />
       </div>
     )    
   }

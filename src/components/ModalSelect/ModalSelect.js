@@ -16,7 +16,7 @@ class ModalSelect extends Component {
             {
               options.map((v, i) => {
                 return (
-                  <li key={ v[_id] } onClick={ active !== i && select.bind(this, i, scope) } className={ `${active === i ? 'active' : ''}` }>{ v[_name] }</li>
+                  <li key={ v[_id] } onClick={ active !== i && select.bind(this, i, scope, v[_id]) } className={ `${active === i ? 'active' : ''}` }>{ v[_name] }</li>
                 )
               })
             }
