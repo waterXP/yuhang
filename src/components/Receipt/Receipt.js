@@ -7,6 +7,8 @@ import ConfirmButton from '../ConfirmButton'
 import './Receipt.scss'
 import ReceiptDelete from '../ReceiptButton/ReceiptDelete'
 import { goLocation } from '@/lib/base'
+import NoData from '../NoData'
+
 
 class Receipt extends Component {
   static propTypes = {
@@ -14,16 +16,23 @@ class Receipt extends Component {
     addComment: PropTypes.func.isRequired
   }
   handleClick = () => {
-    this.props.addComment(this.props.data.master.expensesClaimId, 'just test')
+    let { type } = this.props
+    let afterApproval=true
+    if(type==2){
+      afterApproval=true
+    }else if( type==4 || type==5 ){
+      afterApproval=false
+    }
+    this.props.addComment(this.props.data.master.expensesClaimId, 'just test',afterApproval)
   }
 
   render () {
-    const { data,type } = this.props
+    const { data,type,isBusy } = this.props
     // type 4 已拒绝
     // type 5 已撤销
 
     if(!data.all){
-      data.all=[]
+      data.all = []
     }
     return (
       <div className='wm-receipt'>
@@ -35,7 +44,9 @@ class Receipt extends Component {
             type==5 || type==4?
             <ReceiptDelete deleteExp={this.deleteExp} reSubmit={this.reSubmit} />
             :
-            <ConfirmButton text='评论' handleClick={this.handleClick} />
+            isBusy ?
+            <NoData type='loading' text='添加评论中……' size='xsmall' /> :
+            <ConfirmButton text='评论' handleClick={ this.handleClick } />
           }
         </div>
       </div>
@@ -46,7 +57,7 @@ class Receipt extends Component {
     this.props.deleteExp(expensesClaimId)
   }
   reSubmit=()=>{
-    console.log(this.props.data.master)
+    //console.log(this.props.data.master)
     let { expensesClaimId,expensesClaimNo } = this.props.data.master
     let url={
           pathname:'/new',

@@ -20,16 +20,4 @@ class New extends Component {
   }
 }
 
-New.propTypes = {
- //  new: PropTypes.func.isRequired,
- //  exampleArray: PropTypes.arrayOf(PropTypes.shape({
- //    homePage: PropTypes.bool,
- //    iconClass: PropTypes.string.isRequired,
- //    title: PropTypes.number,
- //    linkUrl: PropTypes.string.isRequired,
- //    btnType: PropTypes.string
- // }).isRequired).isRequired
-}
-
 export default New
-

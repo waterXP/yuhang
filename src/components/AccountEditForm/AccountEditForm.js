@@ -38,7 +38,7 @@ class AccountEditForm extends Component {
   }
 
   render () {
-    const { handleSubmit, pristine, submitting, type, onSubmit, targetId } = this.props
+    const { handleSubmit, pristine, submitting, type, onSubmit, targetId, fromPage } = this.props
     const isBankAccount = type === 1
     return (
       <form className='wm-account-edit-form' onSubmit={ handleSubmit }>
@@ -53,6 +53,7 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              fromPage,
               isDefault: 1
             })
           )} />
@@ -62,6 +63,7 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              fromPage,
               isDefault: 0
             })
           )}  />

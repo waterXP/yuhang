@@ -1,0 +1,27 @@
+@import '../../styles/baseStyle';
+
+.wm-expense-approver {
+  @include form-control;
+  .approvers {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .approverInfo {
+    display: inline-block;
+    width: 7rem;
+    text-align: center;
+    p {
+      overflow: hidden;
+    }
+  }
+  i {
+    margin-top: 1.8rem;
+    vertical-align: top;
+  }
+  .avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin-bottom: .5rem;
+  }
+}

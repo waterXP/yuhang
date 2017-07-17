@@ -1,0 +1,61 @@
+@import '../../styles/baseStyle';
+
+.wm-modal-cost {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $btnBackColor;
+  padding: $panelPadding;
+  .search {
+    margin-bottom: 1rem;
+  }
+  button {
+    font-size: 1.6rem;
+    padding: .2rem 0;
+    width: 3.4rem;
+    height: 2.2rem;
+    color: $activeColor;
+  }
+  input {
+    width: calc(100% - 5.6rem);
+    height: 2.2rem;
+    background-color: $backColor;
+  }
+  i.fa-search {
+    width: 2.2rem;
+    line-height: 2.2rem;
+    background-color: $backColor;
+  }
+  li {
+    position: relative;
+    text-align: left;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    padding: .4rem 1.4rem;
+    background-color: $backColor;
+    border-bottom: 1px solid $borderColorSecondary;
+    i {
+      position: absolute;
+      right: .8rem;
+      font-size: 2.4rem;
+      line-height: 2.4rem;
+    }
+    &.active {
+      color: $backColor;
+      background-color: $activeColor;
+      i {
+        color: $backColor;
+      }
+    }
+    &.return {
+      margin-bottom: .8rem;
+      border-bottom: none;
+      i {
+        color: $activeColor;
+        font-size: 1.8rem;
+      }
+    }
+  }
+}

@@ -18,7 +18,6 @@ export const getPaidHistory = (time,cPage=1,noMore=false) => {
       let paidHistory = []
       let monthStr = ''
       let temp
-      //console.log('======================',data)
       data.data.list.forEach((v) => {
         let paid = v.paidTime.split('-')
         v.paidDay = [paid[1], paid[2]].join('-')
@@ -62,7 +61,6 @@ export const loadMore=()=>{
 
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
-    //console.log('=======action=======',action.paidHistory)
     return Object.assign({}, state, {
       paidHistory: action.paidHistory,
       isLoading:action.isLoading,

@@ -20,9 +20,18 @@ class SettingsEditAccount extends Component {
     })
     .then((data) => {
       if (data.result === 0) {
-        goLocation({
-          pathname: '/settings/accounts'
-        })
+        if (val.fromPage) {
+          goLocation({
+            pathname: val.fromPage,
+            query: {
+              from: '/settings/accounts'
+            }
+          })
+        } else {
+          goLocation({
+            pathname: '/settings/accounts'
+          })          
+        }
       } else {
         toast(data.msg)
       }
@@ -35,8 +44,10 @@ class SettingsEditAccount extends Component {
       <AccountEditForm
         className='wm-settings-edit-account'
         onSubmit={this.updateAccount}
-        type={1}
-        targetId={query.id} />
+        type={ 1 }
+        targetId={ query.id }
+        fromPage={ query.from || '' }
+      />
     )
   }
 }

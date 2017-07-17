@@ -43,7 +43,7 @@ class HomeApproveDetail extends Component{
 
   }
   deleteExp(expensesClaimId){
-    console.log(expensesClaimId)
+    //console.log(expensesClaimId)
     let message='请确认是否删除此报销单',
         title='提示'
       //this.props.deleteExp(expensesClaimId,this.props.params.type)

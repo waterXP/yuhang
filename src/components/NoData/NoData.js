@@ -14,11 +14,11 @@ class NoData extends Component {
     let showImg = imgsrc
     switch (type) {
       case 'loading':
-        showText = '数据加载中……'
-        showIcon = 'fa-spinner fa-pulse'
+        showText = text || '数据加载中……'
+        showIcon = icon || 'fa-spinner fa-pulse'
         break
       case 'nodata':
-        showText='没有数据'
+        showText = text || '没有数据'
     }
     return (
       <div className={`no-data${size ? ' ' + size : ''}`}>

@@ -56,14 +56,14 @@ export const deleteExp = (expensesClaimsId,type)=>{
   )
 }
 
-export const addComment = (expensesClaimId, remark) => {
+export const addComment = (expensesClaimId, remark,afterApproval) => {
   return (dispatch, getState) => {
     fetchData('post /expensesClaimComments/add.json', {
       expensesClaimId,
       remark
     }).then((data) => {
       if (data.result === 0) {
-        dispatch(getApproveDetail(expensesClaimId))
+        dispatch(getApproveDetail(expensesClaimId,afterApproval))
       } else {
         toast(data.msg)
       }
