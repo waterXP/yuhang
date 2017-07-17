@@ -42,10 +42,15 @@ class HomeDraftCell extends Component{
     let expensesClaimsId=this.props.draftCell.expensesClaimsId
     let url= ''
     if(type===2){
-      url='/home/approveDetail/' + expensesClaimsId
+      url='/home/approve_detail/' + expensesClaimsId +'/'+5
     }else{
       //草稿
-
+      url={
+        pathname:'/new',
+        query: {
+          id: expensesClaimsId
+        }
+      }
     }
     goLocation(url)
   }

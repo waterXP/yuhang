@@ -8,10 +8,11 @@ class HomeDraft extends Component{
   constructor(){
     super()
     //this.confirmNotice=this.confirmNotice.bind(this)
+    //this.clickHandler=this.clickHandler.bind(this)
   }
   render(){
 
-    let type=this.props.type
+    let { type,noMore }=this.props
     let title=''
     let titleRight=''
     let _this=this
@@ -29,6 +30,9 @@ class HomeDraft extends Component{
     let data=this.props.reject
     let list=[];
     let listHtml=[]
+    let noData=false
+    //console.log('=============',this.props)
+    let showBtn=false
     if(data && data.data){
       list=data.data
       if(type===3){
@@ -44,13 +48,16 @@ class HomeDraft extends Component{
           )
         })
       }
+      if(data.page.total_page>1){
+        showBtn=true
+      }
     }
     let className='wm-draft'
     if(type===3){
       className+=' wm-undo'
     }
     return (
-      <div className={className}>
+      <div className={className} ref='draftList'>
         <header>
           <div>{title}</div>
           <div>金额</div>
@@ -59,8 +66,21 @@ class HomeDraft extends Component{
         <ul>
           {listHtml}
         </ul>
+        {
+          noMore?
+          <div className='loadMore'>没有更多</div>:
+          null
+        }
       </div>
     )
+  }
+  componentDidMount(){
+    let height=this.refs.draftList.offsetHeight
+    this.props.getOffsetHeight(this.refs.draftList)
+  }
+  componentDidUpdate(){
+    let height=this.refs.draftList.offsetHeight
+    this.props.getOffsetHeight(this.refs.draftList)
   }
 }
 

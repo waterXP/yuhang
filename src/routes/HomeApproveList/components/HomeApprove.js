@@ -1,41 +1,94 @@
 import React,{Component} from "react"
+import PropTypes from 'prop-types'
 import HomeApproveList from "@/components/HomeApproveList"
-import {alert,dingShowPreLoad} from '@/lib/base'
+import { alert,dingShowPreLoad,dingSetTitle } from '@/lib/base'
+import NoData from '@/components/NoData'
 import Loading from '../loading'
+import './HomeApprove.scss'
 
 class HomeApprove extends Component{
   constructor(){
     super()
-    this.clickHandler=this.clickHandler.bind(this)
+    this.scrollHandler=this.scrollHandler.bind(this)
+    this.getOffsetHeight=this.getOffsetHeight.bind(this)
   }
   render(){
-    //console.log("homeApprove",this.props)
-    let approve=this.props.approve
-    console.log('appove',approve)
+
+    let { approve }=this.props
+    let { loading,loadMore }=approve
+    let hasNoData=false
+    if( !loading ){
+      let subApprove = approve.approve
+      if(subApprove && subApprove.list && subApprove.list.length!==0){
+        //存在数据
+      }else{
+        // 不存在数据
+        hasNoData=true
+      }
+    }
 
     return (
-      <div>
-        { approve.approve && approve.approve.length!=0 ?
-          <HomeApproveList approve={approve} onClick={this.clickHandler} />:<Loading/>
+      <div className='wm-approve-list' onScroll={this.scrollHandler}>
+        { loading ? <NoData type='loading' /> :
+          hasNoData? <NoData type='nodata' /> :
+          <HomeApproveList approve={approve} getOffsetHeight={this.getOffsetHeight} />
         }
+        {loadMore && <NoData type='loading' size='small' />}
       </div>
     )
+  }
+  getOffsetHeight(approveList){
+    let height=0
+    if(approveList){
+      height=approveList.offsetHeight
+    }
+    this.offsetHeight=height
   }
   componentWillMount(){
     this.props.initialApprove()
     this.props.getApproveList()
     this.props.getSumMoney()
-    //dingShowPreLoad()
+    this.props.isLoading()
   }
-  clickHandler(){
+  scrollHandler(e){
+    let cPage = this.props.approve.approve.cPage
+    let pageCount = this.props.approve.approve.pageCount
+    let isLoading = this.props.approve.loadMore
 
-    let cPage=this.props.approve.approve.cPage;
-    let pageCount=this.props.approve.approve.pageCount;
-    if(cPage<pageCount){
-      dingShowPreLoad()
-      this.props.getApproveList(cPage+1)
+    let scrollTop = e.target.scrollTop
+    let height = this.offsetHeight
+    let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
+
+    if(deviceHeight+scrollTop+50>height && !isLoading){
+      if(cPage+1 === pageCount){
+        this.props.loadMore()
+        this.props.getApproveList(cPage+1,true)
+      }else if(cPage+1<pageCount){
+        this.props.loadMore()
+        this.props.getApproveList(cPage+1,false)
+      }
     }
   }
+  componentDidMount(){
+    dingSetTitle('审批中')
+    /*dd.ui.pullToRefresh.enable({
+        onSuccess: function() {
+          console.log('success')
+        },
+        onFail: function() {
+        }
+    })*/
+
+  }
+}
+HomeApprove.propTypes={
+  approve:PropTypes.shape({
+    approve:PropTypes.object.isRequired,
+    loading:PropTypes.bool.isRequired,
+    loadMore:PropTypes.bool.isRequired,
+    noMore:PropTypes.bool.isRequired,
+    approveSumMoney:PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default HomeApprove

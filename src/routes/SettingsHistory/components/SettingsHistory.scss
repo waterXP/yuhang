@@ -1,5 +1,9 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings-history {
-  padding-top: $panelPaddingTop;
+  /* padding-top: $panelPaddingTop; */
+  position:absolute;
+  width:100%;
+  height:100%;
+  overflow:auto;
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SendHistoryList from '@/components/SendHistoryList'
 import './SettingsHistory.scss'
+import NoData from '@/components/NoData'
+import { dingSetNavRight,dingSetNavLeft,goLocation,dingSetTitle,alert,dingSetNavLeftAndroid } from '@/lib/base'
 
 class SettingsHistory extends Component {
   static propTypes = {
@@ -29,13 +31,48 @@ class SettingsHistory extends Component {
         str += (+query.month + 1)
       }
       this.props.getPaidHistory(str)
+      this.str=str
+    }else{
+      this.props.getPaidHistory()
     }
-    this.props.getPaidHistory()
+
+    //====================//
+    dingSetTitle('发放历史')
+    dingSetNavRight('筛选',()=>{
+      goLocation('/home/date/filter')
+    },true)
+    /*===================*/
+
+
+  }
+
+  componentWillMount(){
+
+  }
+  scrollHandler=(e)=>{
+    let cPage = this.props.cPage
+    let pageCount = this.props.total_page
+    let loadMore = this.props.loadMoreBool
+
+    let scrollTop = e.target.scrollTop
+    let height = this.refs.history.offsetHeight
+    let deviceHeight = document.documentElement.clientHeight
+
+    if(deviceHeight+scrollTop+50>height && !loadMore){
+      if(cPage+1 === pageCount){
+        this.props.loadMore()
+        this.props.getPaidHistory(this.str,cPage+1,true)
+      }else if(cPage+1<pageCount){
+        this.props.loadMore()
+        this.props.getPaidHistory(this.str,cPage+1,false)
+      }
+    }
+    //console.log(height,deviceHeight,scrollTop)
   }
 
   render () {
     const { paidHistory } = this.props
-    console.log('paidHistory',paidHistory)
+    //console.log('paidHistory',paidHistory)
     const paidMonths = []
     paidHistory.forEach((paids, index) => {
       if (paids[0]) {
@@ -44,15 +81,31 @@ class SettingsHistory extends Component {
         paidHistory.splice(index, 1)
       }
     })
+    let { loadingBool,loadMoreBool } = this.props
+    let noData=false
+    if(paidHistory && paidHistory.length!==0){
+      // has data
+    }else{
+      noData=true
+    }
+
     return (
-      <div className='wm-settings-history'>
-        {paidHistory.map((paids, index) => (
+      <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
+        {
+          loadingBool?
+          <NoData type='loading' />:
+          noData?
+          <NoData type='nodata' />:
+          paidHistory.map((paids, index) => (
           <SendHistoryList
             key={paidMonths[index]}
             thead={true}
             datas={paids}
             pathname='detail' />
         ))}
+        {
+          loadMoreBool && <NoData type='loading' size='small' />
+        }
       </div>
     )
   }

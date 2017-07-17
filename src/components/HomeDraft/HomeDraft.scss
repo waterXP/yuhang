@@ -16,9 +16,15 @@
   a{
     color:$canClick;
   }
+  .loadMore{
+    padding:6px 0;
+  }
 }
 .wm-undo{
   p:last-child{
     color:red;
+  }
+  .loadMore{
+    padding:6px 0;
   }
 }

@@ -1,16 +1,24 @@
 import { connect } from 'react-redux'
-import {getDraft,initialDraft,deleteExp} from '../modules/HomeDraft'
+import {getDraft,clearDraft,deleteExp,isLoading,loadMore} from '../modules/HomeDraft'
 
 import HomeDraft from '../components/HomeDraft'
 
-const mapStateToProps = (state) => ({
-  draft:state.home.draft,
-})
+const mapStateToProps = (state) => {
+  //console.log('=======state======',state)
+  return{
+    draft:state.home.draft,
+    loading:state.home.isLoading,
+    noMore:state.home.noMore,
+    loadMoreBool:state.home.loadMore
+  }
+}
 
 const mapDispatchToProps = {
   getDraft,
-  initialDraft,
-  deleteExp
+  clearDraft,
+  deleteExp,
+  isLoading,
+  loadMore
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeDraft)

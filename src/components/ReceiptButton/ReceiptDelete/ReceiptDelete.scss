@@ -1,0 +1,11 @@
+@import '../../../styles/baseStyle';
+
+.wm-receipt-delete{
+  display: flex; flex-direction:row; padding:8px 0; z-index:999;
+  a{
+    flex:1; color:$canClick; line-height:20px;
+    &:first-child{
+      border-right:1px solid $canClick;
+    }
+  }
+}

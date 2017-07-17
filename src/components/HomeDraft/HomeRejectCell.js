@@ -22,7 +22,7 @@ class HomeRejectCell extends Component{
   }
   showDetail(){
     let expensesClaimsId=this.props.undoCell.expensesClaimsId
-    let url= '/home/approveDetail/' + expensesClaimsId
+    let url= '/home/approve_detail/' + expensesClaimsId + '/'+4
     goLocation(url)
   }
 }

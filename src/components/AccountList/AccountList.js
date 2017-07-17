@@ -15,7 +15,7 @@ class AccountList extends Component {
       account: PropTypes.string.isRequired
     }).isRequired).isRequired
   }
-  
+
   render () {
     return (
       <ul className='wm-accounts-list'>
@@ -31,13 +31,9 @@ class AccountList extends Component {
                 id: account.id
               }
             }) }>
-            <img
-              alt={account.bankName}
-              className='icon'
-              src={testImg} />
             <div>
               <h5>{account.bankName}</h5>
-              <Account content={account.account} type={account.type} />
+              <Account content={account.account} chooseBankName={account.chooseBankName} type={account.type} />
             </div>
           </li>
         })}

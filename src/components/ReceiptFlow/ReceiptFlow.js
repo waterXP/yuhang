@@ -3,14 +3,24 @@ import { getDate } from '@/lib/base'
 import { approveDetailType } from '@/lib/enums'
 import userImage from '@/assets/user.png'
 import './ReceiptFlow.scss'
+import { dingPreviewImage } from '@/lib/base'
 
 export const ReceiptFlow = ({ processList, attachmentList }) => {
+  let attachmentUrls=[]
+  if(Array.isArray(attachmentList)){
+    attachmentList.map((cur)=>{
+      attachmentUrls.push(cur.url)
+    })
+  }
+  //console.log('========',attachmentUrls)
   return (
     <div className='wm-receipt-flow'>
       {attachmentList.length > 0 && <div className='attachment-box'>
-        <span className='attachment'>附件</span>{attachmentList.map((data) => {
+        <span className='attachment'>附件</span>{attachmentList.map((data,index,arr) => {
           return (
-            <img key={data.id} src={data.url} />
+            <img key={data.id} src={data.url} onClick={()=>{
+              dingPreviewImage(attachmentUrls,data.url)
+            }} />
           )
         })}
       </div>}

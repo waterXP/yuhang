@@ -9,5 +9,8 @@
     font-size: 1.4rem;
     border-radius: $radiusCycle;
     line-height: inherit;
+    border:1px solid $borderColor;
+    padding-left:8px;
+    outline:none;
   }
 }

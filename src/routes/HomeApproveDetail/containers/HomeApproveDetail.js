@@ -1,6 +1,9 @@
 import { connect } from 'react-redux'
 import HomeApproveDetail from '../components/HomeApproveDetail'
-import {initialApproveDetail,getApproveDetail} from '../modules/HomeApproveDetail'
+import {initialApproveDetail,
+  getApproveDetail,
+  deleteExp,
+  addComment } from '../modules/HomeApproveDetail'
 
 
 const mapStateToProps = (state) => {
@@ -12,7 +15,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   initialApproveDetail,
-  getApproveDetail
+  getApproveDetail,
+  deleteExp,
+  addComment
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeApproveDetail)
