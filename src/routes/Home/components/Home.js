@@ -3,6 +3,7 @@ import DuckImage from '../assets/Duck.jpg'
 import HomeImage from '../assets/home2.jpg'
 import './Home.scss'
 import HomeBtn from "@/components/HomeBtn/HomeBtn";
+import { dingSetTitle,dingSetNavRight,alert,dingSetNavLeftAndroid } from '@/lib/base'
 
 class Home extends Component {
   render () {
@@ -34,15 +35,29 @@ class Home extends Component {
       </div>
     )
   }
+  componentDidMount(){
+
+  }
+  componentWillMount(){
+
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    //console.log('=============',nextProps)
+    if(nextProps.location.pathname=='/home'){
+      dingSetTitle('明快报销')
+      dingSetNavRight('')
+    }
+    return true
+  }
 }
 
 Home.prototype.btns=[
   [{
-    path:"/home/approveList",
+    path:"/home/approve_list",
     img:HomeImage,
     name:"审批中"
   },{
-    path:"/home/notPaid",
+    path:"/home/not_paid",
     img:HomeImage,
     name:"未发放"
   },{
@@ -62,9 +77,9 @@ Home.prototype.btns=[
     img:HomeImage,
     name:"草稿"
   }],[{
-    type:2,
+    /*type:2,
     img:HomeImage,
-    name:"开票资料"
+    name:"开票资料"*/
   },{
 
   },{

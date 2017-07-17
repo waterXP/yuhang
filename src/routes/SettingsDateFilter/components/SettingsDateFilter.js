@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation } from '@/lib/base'
+import { goLocation,dingSetTitle } from '@/lib/base'
 import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import './SettingsDateFilter.scss'
@@ -21,6 +21,7 @@ class SettingsDateFilter extends Component {
 
   componentDidMount() {
     this.props.cleanFilter()
+    dingSetTitle('筛选时间选择')
   }
 
   render () {
@@ -63,7 +64,7 @@ class SettingsDateFilter extends Component {
         />
         <FormButton
           onClick={ goLocation.bind(this, {
-            pathname: 'settings/history',
+            pathname: 'home/history',
             query: {
               year: year,
               month: month

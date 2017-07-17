@@ -1,31 +1,41 @@
-import { asyncFetch , goLocation } from '@/lib/base'
+import { asyncFetch , goLocation,pageSize } from '@/lib/base'
 
 export const GET_DRAFT = 'GET_DRAFT'
-export const INITIAL_DRAFT = 'INITIAL_DRAFT'
+export const CLEAR_DRAFT = 'CLEAR_DRAFT'
+export const IS_LOADING_DRAFT='IS_LOADING_DRAFT'
+export const LOAD_MORE = 'LOAD_MORE'
 
-export const getDraft = () => {
+export const getDraft = (cPage=1,noMore=false) => {
   //=====
-  //console.log(22222)
   return asyncFetch(
     'get expensesClaims/myList.json',
     {
-      current_page:1,
-      statusVal:0
+      current_page:cPage,
+      statusVal:0,
+      pageSize:pageSize
     },
     (data, dispatch) => {
-      //console.log(data.data);
       return dispatch({
         type: GET_DRAFT,
-        draft: data
+        draft: data,
+        isLoading:false,
+        noMore:noMore,
+        loadMore:false
       })
     }
   )
   //=====
 }
 
-export const initialDraft = () => {
+export const clearDraft = () => {
   return {
-    type: INITIAL_DRAFT
+    type: CLEAR_DRAFT
+  }
+}
+
+export const isLoading=(state)=>{
+  return {
+    type:IS_LOADING_DRAFT
   }
 }
 
@@ -37,25 +47,37 @@ export const deleteExp=(expensesClaimsId)=>{
     },
     (data,dispatch) => {
       dispatch(getDraft())
-      //console.log(data.data);
-     /* return dispatch({
-        type: GET_DRAFT,
-        draft: data
-      })*/
     }
   )
 }
-
-export const actions = {
-  getDraft,
-  initialDraft
+export const loadMore=()=>{
+  return {
+    type:LOAD_MORE
+  }
 }
 
+/*export const actions = {
+  getDraft,
+  clearDraft,
+  isLoading
+}*/
+
 export const ACTION_HANDLERS = {
-  [GET_DRAFT]: (state, action) => {
-    return Object.assign({}, state, {draft: action.draft})
+  [IS_LOADING_DRAFT]:(state)=>{
+    return Object.assign({},state,{isLoading:true})
   },
-  [INITIAL_DRAFT]: (state, action) => {
+  [GET_DRAFT]: (state, action) => {
+    let approveList=state.draft.data
+    if(!approveList){
+      approveList=[]
+    }
+    if(action.draft.data){
+      action.draft.data=approveList.concat(action.draft.data)
+    }
+    return Object.assign({}, state, {draft: action.draft},
+      {isLoading:action.isLoading},{noMore:action.noMore},{loadMore:action.loadMore})
+  },
+  [CLEAR_DRAFT]: (state, action) => {
     return Object.assign({}, state, {draft: []})
   }
 }

@@ -7,9 +7,9 @@ class Account extends Component {
     content: PropTypes.string.isRequired,
     type: PropTypes.number.isRequired
   }
-  
+
   render () {
-    let { content, type } = this.props
+    let { content, type, chooseBankName } = this.props
 
     let length = content.length
     let marked = ''
@@ -22,13 +22,13 @@ class Account extends Component {
       [first, last] = content.split('@')
       hiddenControl = first.length > 4 ? 4 : 1
       first = first.substr(0, hiddenControl)
-        + new Array(first.length - hiddenControl + 1).join('*')      
+        + new Array(first.length - hiddenControl + 1).join('*')
       marked = first + '@'
       marked += last || ''
     } else {
       if (length > 8) {
         marked = content.substr(0, first)
-        let rest = length - first        
+        let rest = length - first
         let count = ~~(rest / 4)
 
         last = rest % 4
@@ -43,10 +43,10 @@ class Account extends Component {
           + new Array(content.length).join('*')
       }
     }
-    
+
     return (
       <div className='wm-account'>
-        <label>账号</label><h6>{marked}</h6>
+        <label>账号</label><h6>{chooseBankName}</h6>
       </div>
     )
   }

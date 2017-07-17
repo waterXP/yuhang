@@ -4,7 +4,7 @@ import SettingsEditAlipayRoute from '../SettingsEditAlipay'
 import SettingsEditAccountRoute from '../SettingsEditAccount'
 //import SettingsHistoryRoute from '../SettingsHistory'
 //import SettingsHistoryDetailRoute from '../SettingsHistoryDetail'
-import SettingsDateFilterRoute from '../SettingsDateFilter'
+//import SettingsDateFilterRoute from '../SettingsDateFilter'
 
 export default (store) => ({
   path : 'settings',
@@ -21,7 +21,7 @@ export default (store) => ({
     SettingsEditAccountRoute(store),
     //SettingsHistoryRoute(store),
     //SettingsHistoryDetailRoute(store),
-    SettingsDateFilterRoute(store)
+    //aSettingsDateFilterRoute(store)
   ]
 })
 

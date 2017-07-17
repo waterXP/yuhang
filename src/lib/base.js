@@ -1,5 +1,6 @@
 import { hashHistory } from 'react-router'
 import config, { dd ,isDev} from '@/config'
+import React from 'react'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
@@ -195,6 +196,21 @@ export const removeYear=(time)=>{
   time=time.join('-')
   return time
 }
+export const pageSize = 20
+
+export const highLightDate=(str)=>{
+  let strReg=/^[a-zA-Z]{2}[0-9]{8}/,
+    dateReg=/[0-9]{8}$/,
+    fStr=strReg.exec(str)[0]
+  let dateStr=dateReg.exec(fStr)[0],
+    dateArr=str.split(dateStr)
+
+    //str=str.replace(strReg,fStr)
+  return (
+    <span>{dateArr[0]}{<span className='wm-color-important'>{dateStr}</span>}{dateArr[1]}</span>
+  )
+}
+
 export const alert = (message='', title='', buttonName='确定') => {
   // if (config.inDev) {
   //   window.alert(message)
@@ -295,6 +311,75 @@ export const dingHidePreLoad=()=>{
     dd.device.notification.hidePreloader({
       onSuccess : function(result) {
           /*{}*/
+      },
+      onFail : function(err) {}
+    })
+  }
+}
+export const dingPreviewImage=(urls,current)=>{
+  dd.biz.util.previewImage({
+    urls: urls,//图片地址列表
+    current: current,//当前显示的图片链接
+    onSuccess : function(result) {
+        /**/
+    },
+    onFail : function(err) {}
+  })
+}
+export const dingSetNavRight=(text='筛选',fun,show=false,control=true)=>{
+  if(!isDev){
+    dd.biz.navigation.setRight({
+      show: show,//控制按钮显示， true 显示， false 隐藏， 默认true
+      control: control,//是否控制点击事件，true 控制，false 不控制， 默认false
+      text: text,//控制显示文本，空字符串表示显示默认文本
+      onSuccess : function(result) {
+          //如果control为true，则onSuccess将在发生按钮点击事件被回调
+          /*
+          {}
+          */
+          fun && fun()
+      },
+      onFail : function(err) {}
+    })
+  }
+}
+export const dingSetNavLeft=(text='',control=false,fun,show=true,showIcon=false)=>{
+  if(!isDev){
+    dd.biz.navigation.setLeft({
+        show: show,//控制按钮显示， true 显示， false 隐藏， 默认true
+        control: control,//是否控制点击事件，true 控制，false 不控制， 默认false
+        showIcon: showIcon,//是否显示icon，true 显示， false 不显示，默认true； 注：具体UI以客户端为准
+        text: text,//控制显示文本，空字符串表示显示默认文本
+        onSuccess : function(result) {
+            /*
+            {}
+            */
+            //如果control为true，则onSuccess将在发生按钮点击事件被回调
+
+            fun && fun()
+        },
+        onFail : function(err) {}
+    })
+  }
+}
+export const dingSetNavLeftAndroid=(fun)=>{
+  console.log(33333333)
+  document.addEventListener('backbutton', function(e) {
+    console.log(11199373737443673862782)
+    fun && fun()
+    // 在这里处理你的业务逻辑
+    e.preventDefault(); //backbutton事件的默认行为是回退历史记录，如果你想阻止默认的回退行为，那么可以通过preventDefault()实现
+  });
+}
+
+export const dingSetTitle=(title='')=>{
+  if(!isDev){
+    dd.biz.navigation.setTitle({
+      title : title,//控制标题文本，空字符串表示显示默认文本
+      onSuccess : function(result) {
+          /*结构
+          {
+          }*/
       },
       onFail : function(err) {}
     })

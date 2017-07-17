@@ -1,15 +1,22 @@
 import { connect } from 'react-redux'
 // import { getConfig } from '../../../store/root'
-import {getReject,initialReject} from '../modules/HomeReject'
+import {getReject,initialReject,isLoading,loadMore} from '../modules/HomeReject'
 import HomeReject from '../components/HomeReject'
 
-const mapStateToProps = (state) => ({
-  reject:state.home.reject,
-})
+const mapStateToProps = (state) =>{
+  return{
+    reject:state.home.reject,
+    loading:state.home.isLoading,
+    noMore:state.home.noMore,
+    loadMoreBool:state.home.loadMore
+  }
+}
 
 const mapDispatchToProps = {
   getReject,
-  initialReject
+  initialReject,
+  isLoading,
+  loadMore
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeReject)

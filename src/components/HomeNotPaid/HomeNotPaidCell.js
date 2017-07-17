@@ -21,7 +21,7 @@ class HomeNotPaidCell extends Component{
   }
   showDetail(){
     let expensesClaimsId=this.props.notPaid.expenseClaimId
-    let url= '/home/approveDetail/' + expensesClaimsId
+    let url= '/home/approve_detail/' + expensesClaimsId + '/'+2
     goLocation(url)
   }
 }

@@ -4,7 +4,7 @@ import { ACTION_HANDLERS } from './modules/HomeApproveList'
 export const HomeApproveList = ACTION_HANDLERS
 
 export default (store) => ({
-  path : 'approveList',
+  path : 'approve_list',
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       const Container = require('./containers/HomeApproveContainer').default
@@ -12,6 +12,6 @@ export default (store) => ({
       //console.log(reducer);
       //injectReducer(store, { key: 'approveList', reducer })
       cb(null, Container)
-    }, 'approveList')
+    }, 'approve_list')
   }
 })

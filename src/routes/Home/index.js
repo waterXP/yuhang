@@ -13,6 +13,7 @@ import HomeRejectRoute from '../HomeReject'
 import HomeUndoRoute from '../HomeUndo'
 import HomeHistoryRoute from '../SettingsHistory'
 import HomeHistoryDetailRoute from '../SettingsHistoryDetail'
+import SettingsDateFilterRoute from '../SettingsDateFilter'
 
 export default (store) => ({
   path : 'home',
@@ -31,6 +32,7 @@ export default (store) => ({
     HomeUndoRoute(store),
     HomeApproveDetailRoute(store),
     HomeHistoryRoute(store),
-    HomeHistoryDetailRoute(store)
+    HomeHistoryDetailRoute(store),
+    SettingsDateFilterRoute(store)
   ]
 })

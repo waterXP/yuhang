@@ -1,13 +1,15 @@
-import { asyncFetch } from '@/lib/base'
+import { asyncFetch,dingHidePreLoad,pageSize } from '@/lib/base'
 
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
+export const IS_LOADING = 'IS_LOADING'
+export const LOAD_MORE = 'LOAD_MORE'
 
-export const getPaidHistory = (time) => {
-  let params = {}
+export const getPaidHistory = (time,cPage=1,noMore=false) => {
+  let params = {
+    pageSize:pageSize
+  }
   if (time) {
-    params = {
-      paidTime: time
-    }
+    params.paidTime = time
   }
   return asyncFetch(
     'get /expensesClaimPaids/paidHistory.json',
@@ -29,9 +31,15 @@ export const getPaidHistory = (time) => {
           temp.push(v)
         }
       })
+
       return dispatch({
         type: GET_PAID_HISTORY,
-        paidHistory:paidHistory
+        paidHistory:paidHistory,
+        isLoading:false,
+        noMore:noMore,
+        loadMore:false,
+        total_page:data.data.pageCount,
+        cPage:cPage
       })
     }
   )
@@ -40,12 +48,34 @@ export const getPaidHistory = (time) => {
 export const actions = {
   getPaidHistory
 }
+export const isLoading=()=>{
+  return {
+    type:IS_LOADING
+  }
+}
+
+export const loadMore=()=>{
+  return {
+    type:LOAD_MORE
+  }
+}
 
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
     //console.log('=======action=======',action.paidHistory)
     return Object.assign({}, state, {
-      paidHistory: action.paidHistory
+      paidHistory: action.paidHistory,
+      isLoading:action.isLoading,
+      noMore:action.noMore,
+      loadMore:action.loadMore,
+      total_page:action.total_page,
+      cPage:action.cPage
     })
+  },
+  [LOAD_MORE]:(state)=>{
+    return Object.assign({},state,{loadMore:true})
+  },
+  [IS_LOADING]:(state)=>{
+    return Object.assign({}, state, {isLoading: true})
   }
 }
