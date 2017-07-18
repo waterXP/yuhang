@@ -32,7 +32,7 @@ class AccountList extends Component {
               }
             }) }>
             <div>
-              <h5>{account.bankName}</h5>
+              <h5>{ account.bankName }&nbsp;{ account.isDefault && <i className='fa fa-check wm-color-correct' /> }</h5>
               <Account content={account.account} chooseBankName={account.chooseBankName} type={account.type} />
             </div>
           </li>

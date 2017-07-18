@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FieldArray, reduxForm, initialize, formValueSelector } from 'redux-form'
+import { FieldArray, reduxForm, initialize,
+  formValueSelector } from 'redux-form'
 import PropTypes from 'prop-types'
 import ExpenseUserInfo from '../ExpenseUserInfo'
 import ExpenseDetailInfo from '../ExpenseDetailInfo'
@@ -10,14 +11,16 @@ import ExpenseApprover from '../ExpenseApprover'
 import ConfirmButton from '../ConfirmButton'
 import FormButton from '../FormButton'
 import FormTextArea from '../FormTextArea'
-import { fetchData, toast, getDate, getNumber, goLocation, openDatePicker, openChosen, getChosenSource, uploadImage, previewImage } from '@/lib/base'
+import { fetchData, toast, getDate, getNumber,
+  goLocation, openDatePicker, openChosen,
+  getChosenSource, uploadImage, previewImage }
+  from '@/lib/base'
 import { saveData, loadData } from '@/routes/New/modules/new'
 import './ExpenseForm.scss'
 
 import { isDev } from '@/config'
 
 import ModalSelect from '../ModalSelect'
-// import testImg from '@/routes/SettingsAccounts/assets/Duck.jpg'
 
 class renderDetails extends Component {
   deleteInfo (i) {
@@ -415,7 +418,15 @@ class ExpenseForm extends Component {
     let detailses = []
     let attachmentUrls = [...attachmentList]
     if (!draft && (type < 2 && selDept < 0 || selAccount < 0 || selProj < 0 || type > 2 && !deptId && !deptDingId && !deptName)) {
-      toast('提交参数不完整')
+      let str = ''
+      if (selAccount < 0) {
+        str = '收款账号未选择'
+      } else if (selProj < 0) {
+        str = '项目未选择'
+      } else {
+        str = '部门未选择'
+      }
+      toast(str)
       return
     }
     let valid = true
@@ -436,7 +447,7 @@ class ExpenseForm extends Component {
       })
     })
     if (!valid) {
-      toast('提交参数不完整')
+      toast('费用明细不完整')
       return
     }
     let params = {
@@ -449,7 +460,6 @@ class ExpenseForm extends Component {
       projectName: project ? project.name : '',
       attachmentUrls
     }
-    // console.error(type)
     if (type < 2) {
       const dept = deptsList[selDept]
       params.deptId = dept.id
@@ -474,7 +484,6 @@ class ExpenseForm extends Component {
             params.delAttachmentIds.push(v.id)
           }
         })
-        // console.log(params)
       }
     } else {
       if (restAttachments.length > 0) {
