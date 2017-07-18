@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { goLocation,dingSetTitle } from '@/lib/base'
 import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
-import './SettingsDateFilter.scss'
+import './HomeDateFilter.scss'
 
-class SettingsDateFilter extends Component {
+class HomeDateFilter extends Component {
   static propTypes = {
     filter: PropTypes.shape({
       years: PropTypes.arrayOf(PropTypes.number),
@@ -76,5 +76,5 @@ class SettingsDateFilter extends Component {
   }
 }
 
-export default SettingsDateFilter
+export default HomeDateFilter
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, toast } from '@/lib/base'
+import { fetchData, goLocation, toast,regPhone,regMail } from '@/lib/base'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
@@ -10,9 +10,26 @@ class SettingsEditAlipay extends Component {
   }
 
   updateAccount = (val) => {
+    console.log(val)
     let action = 'post /userAccounts/saveMyAccount.json'
     if (val.id) {
-      action = 'post /userAccounts/updateMyAccount.json' 
+      action = 'post /userAccounts/updateMyAccount.json'
+    }
+    let { account,name } = val
+    if(!name){
+      toast('姓名不能为空')
+      return;
+    }else if(name.length>10){
+      return;
+    }
+    if(!account){
+      toast('账号不能为空')
+      return;
+    }else if(regPhone.test(account) || regMail.test(account)){
+      // 验证对的
+    }else{
+      toast('账号不正确')
+      return ;
     }
     fetchData(action, {
       type: 2,
@@ -31,7 +48,7 @@ class SettingsEditAlipay extends Component {
         } else {
           goLocation({
             pathname: '/settings/accounts'
-          })          
+          })
         }
       } else {
         toast(data.msg)

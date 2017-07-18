@@ -223,6 +223,10 @@ export const highLightDate=(str)=>{
   )
 }
 
+export const regPhone=/^1[34578]\d{9}$/
+export const regMail=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+export const regAccount= /^([1-9]{1})(\d{14,19})$/
+
 export const alert = (message='', title='', buttonName='确定') => {
   // if (config.inDev) {
   //   window.alert(message)

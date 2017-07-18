@@ -30,7 +30,7 @@ class AccountEditForm extends Component {
       if (data.result === 0) {
         goLocation({
           pathname: '/settings/accounts'
-        })        
+        })
       } else {
         toast(data.msg)
       }
@@ -42,11 +42,12 @@ class AccountEditForm extends Component {
     const isBankAccount = type === 1
     return (
       <form className='wm-account-edit-form' onSubmit={ handleSubmit }>
-        <InputText label='姓名' name='name' id='field-name' />
-        <InputText label='账号' name='account' id='field-account' />
-        {isBankAccount && <InputText label='银行名称' name='bankName' id='field-bank-name' />}
-        {isBankAccount && <InputText label='开户行名称' name='bankBranchName' id='field-bank-branch-name' />}
-        {isBankAccount && <InputText label='开户行行号' name='bankCode' id='field-bank-code' />}
+        <InputText label='姓名' name='name' id='field-name' maxLength='10' />
+        <InputText label='账号' name='account' id='field-account'
+                    maxLength={ isBankAccount ? 22 : 50} />
+        {isBankAccount && <InputText label='银行名称' name='bankName' id='field-bank-name' maxLength='50' />}
+        {isBankAccount && <InputText label='开户行名称' name='bankBranchName' id='field-bank-branch-name' maxLength='50' />}
+        {isBankAccount && <InputText label='开户行行号' name='bankCode' id='field-bank-code' maxLength='20' />}
         <FormButton
           disabled={pristine || submitting}
           text='保存为默认'

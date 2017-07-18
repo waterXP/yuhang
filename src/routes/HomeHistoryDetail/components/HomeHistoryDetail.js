@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Receipt from '@/components/Receipt'
 import { dingSetNavRight,dingSetNavLeft,dingSetTitle,alert,dingSetNavLeftAndroid } from '@/lib/base'
 
-class SettingsHistoryDetail extends Component {
+class HomeHistoryDetail extends Component {
   static propTypes = {
    getHistoryDetail: PropTypes.func.isRequired,
    historyDetail: PropTypes.object.isRequired,
@@ -20,7 +20,13 @@ class SettingsHistoryDetail extends Component {
     const { historyDetail, query, addComment } = this.props
     //console.log('=================',this.props.historyDetail)
     if(historyDetail.master){
-      let title = historyDetail.master.userName + '的报销单'
+      let { userName,deptName } = historyDetail.master
+      let title = ''
+      if( userName ){
+        title = userName + '的报销单'
+      }else{
+        title = deptName + '的报销单'
+      }
       dingSetTitle(title)
       dingSetNavRight('')
     }
@@ -32,5 +38,5 @@ class SettingsHistoryDetail extends Component {
   }
 }
 
-export default SettingsHistoryDetail
+export default HomeHistoryDetail
 

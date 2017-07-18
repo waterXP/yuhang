@@ -5,7 +5,6 @@ import SettingsEditAccountRoute from '../SettingsEditAccount'
 //import SettingsHistoryRoute from '../SettingsHistory'
 //import SettingsHistoryDetailRoute from '../SettingsHistoryDetail'
 //import SettingsDateFilterRoute from '../SettingsDateFilter'
-import SettingsDateFilterRoute from '../SettingsDateFilter'
 
 export default (store) => ({
   path : 'settings',
@@ -23,6 +22,5 @@ export default (store) => ({
     //SettingsHistoryRoute(store),
     //SettingsHistoryDetailRoute(store),
     //aSettingsDateFilterRoute(store)
-    SettingsDateFilterRoute(store)
   ]
 })

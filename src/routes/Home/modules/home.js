@@ -27,9 +27,9 @@ import { HomeReject } from "../../HomeReject"
 import { HomeDraft } from "../../HomeDraft"
 import { HomeUndo } from "../../HomeUndo"
 import { HomeApproveDetail } from "../../HomeApproveDetail"
-import { settingsHistoryHandlers } from '../../SettingsHistory'
-import { settingsHistoryDetailHandlers } from '../../SettingsHistoryDetail'
-import { settingsDateFilterHandlers } from '../../SettingsDateFilter/'
+import { HomeHistoryHandlers } from '../../HomeHistory'
+import { HomeHistoryDetailHandlers } from '../../HomeHistoryDetail'
+import { HomeDateFilterHandlers } from '../../HomeDateFilter'
 
 const ACTION_HANDLERS = Object.assign(
   {},
@@ -39,9 +39,9 @@ const ACTION_HANDLERS = Object.assign(
   HomeDraft,
   HomeUndo,
   HomeApproveDetail,
-  settingsHistoryHandlers,
-  settingsHistoryDetailHandlers,
-  settingsDateFilterHandlers
+  HomeHistoryHandlers,
+  HomeHistoryDetailHandlers,
+  HomeDateFilterHandlers
 )
 const initialState = {
   approve: {},
