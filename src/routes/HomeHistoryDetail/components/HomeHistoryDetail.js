@@ -19,13 +19,12 @@ class HomeHistoryDetail extends Component {
 
   render () {
     const { historyDetail, query, addComment } = this.props
-    //console.log('=================',this.props.historyDetail)
-    if(historyDetail.master){
-      let { userName,deptName } = historyDetail.master
+    if (historyDetail.master) {
+      let { userName, deptName } = historyDetail.master
       let title = ''
-      if( userName ){
+      if (userName) {
         title = userName + '的报销单'
-      }else{
+      } else {
         title = deptName + '的报销单'
       }
       dingSetTitle(title)
@@ -41,4 +40,3 @@ class HomeHistoryDetail extends Component {
 }
 
 export default HomeHistoryDetail
-

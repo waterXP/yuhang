@@ -31,7 +31,7 @@ class ApprovalDetail extends Component {
       <div className='wm-approval-detail'>
         { approvalDetail.master
           && (+query.id === approvalDetail.master.expensesClaimId)
-          && <Receipt data={ approvalDetail } addComment={ this.commentHandler.bind(this) } isBusy={ isBusy } />
+          && <Receipt data={approvalDetail} addComment={this.commentHandler.bind(this)} isBusy={isBusy} />
         }
       </div>
     )

@@ -27,6 +27,12 @@ class ApprovalMain extends Component {
     getList: PropTypes.func.isRequired,
     query: PropTypes.object.isRequired
   }
+
+  constructor (props) {
+    super(props)
+    this.scrolled = this.scrolled.bind(this)
+  }
+
   componentDidMount () {
     const { updateActive, query } = this.props
     updateActive(+query.active || 1)
@@ -42,22 +48,22 @@ class ApprovalMain extends Component {
   render () {
     const { active, updateActive, list, isBusy, page } = this.props
     let pageEnd = true
-    if (page.current_page && page.total_page && page.current_page < page.total_page) {
+    if (page['current_page'] && page['total_page'] && page['current_page'] < page['total_page']) {
       pageEnd = false
     }
     return (
       <div className='wm-approval-main'>
         <ApprovalNavs
-          active={ active }
-          updateActive={ updateActive }
+          active={active}
+          updateActive={updateActive}
         />
-        <ApprovalConditions status={ active } />
+        <ApprovalConditions status={active} />
         <ApprovalList
-          list={ list }
-          tag={ active }
-          handlerScroll={ this.scrolled.bind(this) }
-          pageEnd={ pageEnd }
-          isBusy={ isBusy }
+          list={list}
+          tag={active}
+          handlerScroll={this.scrolled}
+          pageEnd={pageEnd}
+          isBusy={isBusy}
         />
       </div>
     )

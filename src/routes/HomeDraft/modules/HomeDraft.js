@@ -1,30 +1,28 @@
-import { asyncFetch , goLocation,pageSize } from '@/lib/base'
+import { asyncFetch, pageSize } from '@/lib/base'
 
 export const GET_DRAFT = 'GET_DRAFT'
 export const CLEAR_DRAFT = 'CLEAR_DRAFT'
-export const IS_LOADING_DRAFT='IS_LOADING_DRAFT'
+export const IS_LOADING_DRAFT = 'IS_LOADING_DRAFT'
 export const LOAD_MORE = 'LOAD_MORE'
 
-export const getDraft = (cPage=1,noMore=false) => {
-  //=====
+export const getDraft = (cPage = 1, noMore = false) => {
   return asyncFetch(
     'get expensesClaims/myList.json',
     {
-      current_page:cPage,
-      statusVal:0,
-      pageSize:pageSize
+      current_page: cPage,
+      statusVal: 0,
+      pageSize: pageSize
     },
     (data, dispatch) => {
       return dispatch({
         type: GET_DRAFT,
         draft: data,
-        isLoading:false,
-        noMore:noMore,
-        loadMore:false
+        isLoading: false,
+        noMore: noMore,
+        loadMore: false
       })
     }
   )
-  //=====
 }
 
 export const clearDraft = () => {
@@ -33,61 +31,43 @@ export const clearDraft = () => {
   }
 }
 
-export const isLoading=(state)=>{
+export const isLoading = (state) => {
   return {
     type:IS_LOADING_DRAFT
   }
 }
 
-export const deleteExp=(expensesClaimsId)=>{
+export const deleteExp = (expensesClaimsId) => {
   return asyncFetch(
     'get expensesClaims/delete.json',
-    {
-      id:expensesClaimsId
-    },
-    (data,dispatch) => {
+    { id: expensesClaimsId },
+    (data, dispatch) => {
       dispatch(getDraft())
     }
   )
 }
-export const loadMore=()=>{
+export const loadMore = () => {
   return {
-    type:LOAD_MORE
+    type: LOAD_MORE
   }
 }
-
-/*export const actions = {
-  getDraft,
-  clearDraft,
-  isLoading
-}*/
 
 export const ACTION_HANDLERS = {
-  [IS_LOADING_DRAFT]:(state)=>{
-    return Object.assign({},state,{isLoading:true})
+  [IS_LOADING_DRAFT]: (state) => {
+    return Object.assign({}, state, { isLoading: true })
   },
   [GET_DRAFT]: (state, action) => {
-    let approveList=state.draft.data
-    if(!approveList){
-      approveList=[]
+    let approveList = state.draft.data
+    if (!approveList) {
+      approveList = []
     }
-    if(action.draft.data){
-      action.draft.data=approveList.concat(action.draft.data)
+    if (action.draft.data) {
+      action.draft.data = approveList.concat(action.draft.data)
     }
-    return Object.assign({}, state, {draft: action.draft},
-      {isLoading:action.isLoading},{noMore:action.noMore},{loadMore:action.loadMore})
+    return Object.assign({}, state, { draft: action.draft },
+      { isLoading: action.isLoading }, { noMore: action.noMore }, { loadMore: action.loadMore })
   },
   [CLEAR_DRAFT]: (state, action) => {
-    return Object.assign({}, state, {draft: []})
+    return Object.assign({}, state, { draft: [] })
   }
 }
-
-
-
-
-
-
-
-
-
-

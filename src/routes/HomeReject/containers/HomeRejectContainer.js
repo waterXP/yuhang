@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
-// import { getConfig } from '../../../store/root'
-import {getReject,initialReject,isLoading,loadMore} from '../modules/HomeReject'
+import { getReject, initialReject, isLoading, loadMore } from '../modules/HomeReject'
 import HomeReject from '../components/HomeReject'
 
-const mapStateToProps = (state) =>{
-  return{
+const mapStateToProps = (state) => {
+  return {
     reject:state.home.reject,
     loading:state.home.isLoading,
     noMore:state.home.noMore,

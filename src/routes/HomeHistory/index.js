@@ -1,5 +1,3 @@
-import { injectReducer } from '@/store/reducers'
-
 import { ACTIONS_HANDLERS } from './modules/HomeHistory'
 export const HomeHistoryHandlers = ACTIONS_HANDLERS
 
@@ -12,4 +10,3 @@ export default (store) => ({
     }, 'history')
   }
 })
-

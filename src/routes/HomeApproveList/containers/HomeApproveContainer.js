@@ -6,11 +6,10 @@ import {
   getSumMoney,
   getOffsetHeight,
   isLoading,
-  loadMore } from '../modules/HomeApproveList'
-
+  loadMore
+} from '../modules/HomeApproveList'
 
 const mapStateToProps = (state) => {
-  //console.log('state==========',state);
   return {
     approve:{
       approve:state.home.approve,

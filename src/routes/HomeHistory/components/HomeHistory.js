@@ -99,4 +99,3 @@ class HomeHistory extends Component {
 }
 
 export default HomeHistory
-

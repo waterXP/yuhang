@@ -1,21 +1,19 @@
-import { asyncFetch,dingHidePreLoad,pageSize } from '@/lib/base'
+import { asyncFetch, dingHidePreLoad, pageSize } from '@/lib/base'
 
 export const GET_REJECT = 'GET_REJECT'
 export const INITIAL_REJECT = 'INITIAL_REJECT'
 export const IS_LOADING_REJECT = 'IS_LOADING_REJECT'
 export const LOAD_MORE = 'LOAD_MORE'
 
-export const getReject = (cPage=1,noMore=false) => {
-  //=====
+export const getReject = (cPage = 1, noMore = false) => {
   return asyncFetch(
     'get expensesClaims/myList.json',
     {
-      current_page:cPage,
-      statusVal:3,
-      pageSize:pageSize
+      current_page: cPage,
+      statusVal: 3,
+      pageSize: pageSize
     },
     (data, dispatch) => {
-      //console.log(data.data);
       dingHidePreLoad()
       return dispatch({
         type: GET_REJECT,
@@ -26,7 +24,6 @@ export const getReject = (cPage=1,noMore=false) => {
       })
     }
   )
-  //=====
 }
 
 export const initialReject = () => {
@@ -35,47 +32,33 @@ export const initialReject = () => {
   }
 }
 
-export const isLoading=()=>{
+export const isLoading = () => {
   return {
-    type:IS_LOADING_REJECT
+    type: IS_LOADING_REJECT
   }
 }
-export const loadMore=()=>{
+export const loadMore = () => {
   return {
-    type:LOAD_MORE
+    type: LOAD_MORE
   }
 }
-
-/*export const actions = {
-  getReject,
-  initialReject
-}*/
 
 export const ACTION_HANDLERS = {
-  [IS_LOADING_REJECT]:(state)=>{
-    return Object.assign({}, state, {isLoading: true})
+  [IS_LOADING_REJECT]: (state) => {
+    return Object.assign({}, state, { isLoading: true })
   },
   [GET_REJECT]: (state, action) => {
-    let approveList=state.reject.data
-    if(!approveList){
-      approveList=[]
+    let approveList = state.reject.data
+    if (!approveList) {
+      approveList = []
     }
-    if(action.reject.data){
-      action.reject.list=approveList.concat(action.reject.list)
+    if (action.reject.data) {
+      action.reject.list = approveList.concat(action.reject.list)
     }
-    return Object.assign({}, state, {reject: action.reject},{isLoading:action.isLoading},{noMore:action.noMore})
+    return Object.assign({}, state, { reject: action.reject },
+      { isLoading: action.isLoading }, { noMore: action.noMore })
   },
   [INITIAL_REJECT]: (state, action) => {
-    return Object.assign({}, state, {reject: []})
+    return Object.assign({}, state, { reject: [] })
   }
 }
-
-
-
-
-
-
-
-
-
-

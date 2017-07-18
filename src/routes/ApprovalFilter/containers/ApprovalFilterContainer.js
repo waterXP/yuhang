@@ -11,7 +11,6 @@ const mapStateToProps = (state) => ({
   page: state.approval.page
 })
 
-
 const mapDispatchToProps = {
   getList,
   inBusy,
@@ -19,4 +18,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalFilter)
-

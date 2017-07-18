@@ -1,9 +1,3 @@
-//import HomeContainer from './containers/HomeContainer'
-
-// Sync route definition
-/*export default {
-  component : HomeContainer
-}*/
 import { injectReducer } from '../../store/reducers'
 import HomeApproveListRoute from '../HomeApproveList'
 import HomeApproveDetailRoute from '../HomeApproveDetail'
@@ -11,8 +5,8 @@ import HomeNotPaidRoute from '../HomeNotPaid'
 import HomeDraftRoute from '../HomeDraft'
 import HomeRejectRoute from '../HomeReject'
 import HomeUndoRoute from '../HomeUndo'
-import HomeHistoryRoute from '../SettingsHistory'
-import HomeHistoryDetailRoute from '../SettingsHistoryDetail'
+import HomeHistoryRoute from '../HomeHistory'
+import HomeHistoryDetailRoute from '../HomeHistoryDetail'
 import HomeDateFilterRoute from '../HomeDateFilter'
 
 export default (store) => ({
@@ -24,7 +18,8 @@ export default (store) => ({
       injectReducer(store, { key: 'home', reducer })
       cb(null, Container)
     }, 'home')
-  }, childRoutes: [
+  },
+  childRoutes: [
     HomeApproveListRoute(store),
     HomeNotPaidRoute(store),
     HomeDraftRoute(store),

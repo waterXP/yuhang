@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { getUndo,initialUndo,deleteExp,isLoading,loadMore } from '../modules/HomeUndo'
+import { getUndo, initialUndo, deleteExp,
+  isLoading, loadMore } from '../modules/HomeUndo'
 
 import HomeUndo from '../components/HomeUndo'
 
