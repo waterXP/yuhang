@@ -52,10 +52,20 @@ const ACTION_HANDLERS = {
         timeStamp: d.timeStamp,
         signature: d.signature,
         nonceStr: d.nonceStr,
-        jsApiList : [ 'runtime.info', 'runtime.permission.requestAuthCode', 'biz.contact.choose',
-          'device.notification.confirm', 'device.notification.alert',
-          'device.notification.prompt', 'biz.ding.post',
-          'biz.util.openLink' ]
+        jsApiList : [
+          'runtime.info',
+          'runtime.permission.requestAuthCode',
+          'biz.contact.choose',
+          'device.notification.confirm',
+          'device.notification.alert',
+          'device.notification.prompt',
+          'biz.ding.post',
+          'biz.util.uploadImage',
+          'biz.util.openLink',
+          'biz.util.datepicker',
+          'biz.util.chosen',
+          'biz.util.previewImage'
+        ]
       })
       dd.ready(function () {
         dd.runtime.info({

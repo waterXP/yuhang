@@ -1,5 +1,5 @@
 import { hashHistory } from 'react-router'
-import config, { dd ,isDev} from '@/config'
+import config, { dd, isDev} from '@/config'
 import React from 'react'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
@@ -45,10 +45,15 @@ export const post = (url, params = {}) => {
   let query = ''
   for (let str in params) {
     if (params[str] instanceof Array) {
-      console.log(params[str])
       params[str].forEach((v, i) => {
-        for (let child in v) {
-          query += `${str}[${i}].${child}=${v[child]}&`
+        if (typeof v === 'number' ||
+          typeof v === 'boolean' ||
+          typeof v === 'string') {
+          query += `${str}[${i}]=${v}&`
+        } else {
+          for (let child in v) {
+            query += `${str}[${i}].${child}=${v[child]}&`
+          }
         }
       })
     } else {
@@ -310,7 +315,86 @@ export const dingApproveDetail=(url)=>{
     onFail : function(err) {}
   })
 }
-//console.log(config.dd)
+
+export const openDatePicker = (defaultValue = +new Date(), callback) => {
+  if (isDev) {
+    return +new Date()
+  }
+  dd.biz.util.datepicker({
+    format: 'yyyy-MM-dd',
+    value: getDate(defaultValue, 'yyyy-MM-dd'),
+    onSuccess: function(result) {
+      callback && callback(result.value)
+    },
+    onFail: function (err) {
+      // when click cancel, the errorCode is 3
+      if (err.errorCode !== 3) {
+        toast(err)
+      }
+    }
+  })
+}
+
+export const getChosenSource = (list = [], keyLabel = 'name') => {
+  let source = []
+  list.forEach((v, i) => {
+    source.push({
+      key: v[keyLabel],
+      value: i
+    })
+  })
+  return source
+}
+
+export const openChosen = (source, selectedKey = 0, callback) => {
+  if (isDev) {
+    return
+  }
+  dd.biz.util.chosen({
+    source,
+    selectedKey,    
+    onSuccess : function (result) {
+      callback && callback(result)
+    },
+    onFail : function (err) {
+      if (err.errorCode !== 3) {
+        toast(err)
+      }
+    }
+  })
+}
+
+export const uploadImage = (callback) => {
+  if (isDev) {
+    return
+  }
+  dd.biz.util.uploadImage({
+    multiple: false, //是否多选，默认false
+    max: 1, //最多可选个数
+    onSuccess : function (result) {
+      callback(result)
+    },
+    onFail : function (err) {
+      if (err.errorCode !== -1) {
+        toast(err)
+      }
+    }
+  })
+}
+
+export const previewImage = (img) => {
+  if (isDev) {
+    return
+  }
+  dd.biz.util.previewImage({
+    urls: [img],
+    current: img,
+    onFail : function(err) {
+      toast(err)
+    }
+  })
+}
+
 export const dingShowPreLoad=()=>{
   if(isDev){
 
