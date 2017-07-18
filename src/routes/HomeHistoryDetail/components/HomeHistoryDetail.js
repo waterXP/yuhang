@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Receipt from '@/components/Receipt'
-import { dingSetNavRight,dingSetNavLeft,dingSetTitle,alert,dingSetNavLeftAndroid } from '@/lib/base'
+import { dingSetNavRight, dingSetTitle } from '@/lib/base'
 
 class HomeHistoryDetail extends Component {
   static propTypes = {
-   getHistoryDetail: PropTypes.func.isRequired,
-   historyDetail: PropTypes.object.isRequired,
-   query: PropTypes.object.isRequired
+    getHistoryDetail: PropTypes.func.isRequired,
+    historyDetail: PropTypes.object.isRequired,
+    query: PropTypes.object.isRequired,
+    addComment: PropTypes.func
   }
 
   componentDidMount () {
@@ -31,9 +32,10 @@ class HomeHistoryDetail extends Component {
       dingSetNavRight('')
     }
     return (
-      <div>{historyDetail.master
-        && (+query.id === historyDetail.master.expensesClaimId)
-        && <Receipt data={historyDetail} addComment={addComment} type={3} />}</div>
+      <div>{historyDetail.master &&
+        (+query.id === historyDetail.master.expensesClaimId) &&
+        <Receipt data={historyDetail} addComment={addComment} type={3} />}
+      </div>
     )
   }
 }

@@ -3,7 +3,7 @@ import { getPaidHistory,isLoading,loadMore } from '../modules/HomeHistory'
 
 import HomeHistory from '../components/HomeHistory'
 const mapStateToProps = (state) => {
-  return{
+  return {
     paidHistory : state.home.paidHistory,
     query: state.location.query,
     loadingBool:state.home.isLoading,

@@ -11,7 +11,7 @@ class ApprovalInfo extends Component {
     return (
       <div className='wm-approval-info' onClick={ goLocation.bind(this,
         {
-          pathname: '/approval/detail',
+          pathname: status === 0 ? '/new' : '/approval/detail',
           query: {
             id: expensesClaimsId,
             type: status > 3 ? 'afterApproval' : ''

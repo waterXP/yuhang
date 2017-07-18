@@ -43,11 +43,10 @@ export const actions = {
   selYear
 }
 
-export const ACTIONS_HANDLERS = {  
+export const ACTIONS_HANDLERS = {
   [CLEAN_FILTER]: (state, action) => {
     let monthFilter = [...state.monthFilter]
     const time = new Date()
-    const year = time.getYear()
     const month = time.getMonth()
     monthFilter.forEach((v) => {
       v.sel = false

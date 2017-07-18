@@ -43,6 +43,7 @@ class SettingsEditAccount extends Component {
       toast('请输入支行行号')
       return
     }
+
     fetchData(action, {
       type: 1,
       ...val
@@ -73,9 +74,9 @@ class SettingsEditAccount extends Component {
       <AccountEditForm
         className='wm-settings-edit-account'
         onSubmit={this.updateAccount}
-        type={ 1 }
-        targetId={ query.id }
-        fromPage={ query.from || '' }
+        type={1}
+        targetId={query.id}
+        fromPage={query.from || ''}
       />
     )
   }

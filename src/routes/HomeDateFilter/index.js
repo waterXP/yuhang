@@ -1,5 +1,4 @@
 import { injectReducer } from '@/store/reducers'
-
 import { ACTIONS_HANDLERS } from './modules/HomeDateFilter'
 export const HomeDateFilterHandlers = ACTIONS_HANDLERS
 

@@ -43,7 +43,6 @@ export const actions = {
 const ACTION_HANDLERS = {
   [GET_CONFIG]: (state, action) => {
     if (action.data.result === 0) {
-
       const isLogin = !!action.data.isLogin
       const d = action.data.data
       dd.config({
@@ -52,10 +51,20 @@ const ACTION_HANDLERS = {
         timeStamp: d.timeStamp,
         signature: d.signature,
         nonceStr: d.nonceStr,
-        jsApiList : [ 'runtime.info', 'runtime.permission.requestAuthCode', 'biz.contact.choose',
-          'device.notification.confirm', 'device.notification.alert',
-          'device.notification.prompt', 'biz.ding.post',
-          'biz.util.openLink' ]
+        jsApiList : [
+          'runtime.info',
+          'runtime.permission.requestAuthCode',
+          'biz.contact.choose',
+          'device.notification.confirm',
+          'device.notification.alert',
+          'device.notification.prompt',
+          'biz.ding.post',
+          'biz.util.uploadImage',
+          'biz.util.openLink',
+          'biz.util.datepicker',
+          'biz.util.chosen',
+          'biz.util.previewImage'
+        ]
       })
       dd.ready(function () {
         dd.runtime.info({
@@ -69,7 +78,7 @@ const ACTION_HANDLERS = {
         if (!isLogin) {
           dd.runtime.permission.requestAuthCode({
             corpId: config.corpid,
-            onSuccess: function(result) {
+            onSuccess: function (result) {
               // alert(config.corpid)
               const code = result.code
               fetchData('get /isvLogin', {
@@ -78,23 +87,21 @@ const ACTION_HANDLERS = {
                 loginType: 'Mobile'
               })
               .then((data) => {
-                if (data.result === 0) {
-                    // alert(JSON.stringify(data.data))
-                  } else {
-                    alert(data.msg);
-                  }
+                if (data.result) {
+                  alert(data.msg)
+                }
               })
               .catch((e) => {
                 alert(e)
               })
             },
-            onFail: function(err) {
-              alert("验证失败：" + JSON.stringify(err))
+            onFail: function (err) {
+              alert('验证失败：' + JSON.stringify(err))
             }
           })
         }
       })
-      dd.error(function(err) {
+      dd.error(function (err) {
         alert('dd error: ' + JSON.stringify(err))
       })
       return state

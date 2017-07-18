@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import FormLabel from '../FormLabel'
 import FormSelect from '../FormSelect'
 
-export const ExpenseUserInfo = ({ name, deptName, departChange }) => {
+export const ExpenseUserInfo = ({ name, deptName, departChange, type }) => {
   return (
     <div>
       <FormLabel text='报销人' name='name' value={ name } />
@@ -11,7 +11,7 @@ export const ExpenseUserInfo = ({ name, deptName, departChange }) => {
         text='部门'
         name='deptName'
         value={ deptName }
-        iconRight='fa-angle-right'
+        iconRight={ type < 2 ? 'fa-angle-right' : '' }
         clickHandler={ departChange }
       />
     </div>

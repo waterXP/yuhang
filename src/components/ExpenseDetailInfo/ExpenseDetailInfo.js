@@ -63,7 +63,7 @@ class ExpenseDetailInfo extends Component {
           name={ `${data}.startDate` }
           value={ detail && detail.startDate ? detail.startDate : '请选择(必须)' }
           iconRight='fa-angle-right'
-          clickHandler={ setDate.bind(this) }
+          clickHandler={ setDate.bind(this, detail.startDate) }
         />
         <FormTextArea
           name={ `${data}.memo` }

@@ -64,7 +64,7 @@ class SettingsEditAlipay extends Component {
         onSubmit={this.updateAccount}
         type={2}
         targetId={query.id}
-        fromPage={ query.from || '' }
+        fromPage={query.from || ''}
       />
     )
   }

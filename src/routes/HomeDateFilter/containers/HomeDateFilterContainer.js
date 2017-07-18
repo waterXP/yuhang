@@ -3,8 +3,8 @@ import { cleanFilter, selMonth, selYear, toggleYears, changeYears } from '../mod
 
 import HomeDateFilter from '../components/HomeDateFilter'
 
-const mapStateToProps = (state) =>{
-  return{
+const mapStateToProps = (state) => {
+  return {
     filter : state.home.filter,
     monthFilter: state.home.monthFilter
   }
