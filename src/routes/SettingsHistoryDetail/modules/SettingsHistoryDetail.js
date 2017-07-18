@@ -1,7 +1,6 @@
 import { fetchData, toast, FETCH_FAIL } from '@/lib/base'
 
 const GET_HISTORY_DETAIL = 'GET_HISTORY_DETAIL'
-const ADD_COMMENT = 'ADD_COMMENT'
 
 const fetchHistoryDetail = (dispatch, id) => {
   fetchData('get /expensesClaimsView/approveDetail.json', {
@@ -13,7 +12,7 @@ const fetchHistoryDetail = (dispatch, id) => {
       return dispatch({
         type: GET_HISTORY_DETAIL,
         data: data.data
-      })            
+      })
     } else {
       toast(data.msg)
       return dispatch({

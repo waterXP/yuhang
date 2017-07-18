@@ -1,5 +1,3 @@
-import { injectReducer } from '@/store/reducers'
-
 import { ACTIONS_HANDLERS } from './modules/SettingsHistory'
 export const settingsHistoryHandlers = ACTIONS_HANDLERS
 

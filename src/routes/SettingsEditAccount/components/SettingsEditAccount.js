@@ -12,8 +12,8 @@ class SettingsEditAccount extends Component {
   updateAccount = (val) => {
     let action = 'post /userAccounts/saveMyAccount.json'
     if (val.id) {
-      action = 'post /userAccounts/updateMyAccount.json' 
-    }    
+      action = 'post /userAccounts/updateMyAccount.json'
+    }
     fetchData(action, {
       type: 1,
       ...val
@@ -30,7 +30,7 @@ class SettingsEditAccount extends Component {
         } else {
           goLocation({
             pathname: '/settings/accounts'
-          })          
+          })
         }
       } else {
         toast(data.msg)
@@ -44,9 +44,9 @@ class SettingsEditAccount extends Component {
       <AccountEditForm
         className='wm-settings-edit-account'
         onSubmit={this.updateAccount}
-        type={ 1 }
-        targetId={ query.id }
-        fromPage={ query.from || '' }
+        type={1}
+        targetId={query.id}
+        fromPage={query.from || ''}
       />
     )
   }

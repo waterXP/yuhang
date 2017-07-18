@@ -35,12 +35,6 @@ class Home extends Component {
       </div>
     )
   }
-  componentDidMount(){
-
-  }
-  componentWillMount(){
-
-  }
   shouldComponentUpdate(nextProps, nextState){
     //console.log('=============',nextProps)
     if(nextProps.location.pathname=='/home'){

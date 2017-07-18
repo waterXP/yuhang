@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-import { getPaidHistory,isLoading,loadMore } from '../modules/SettingsHistory'
+import { getPaidHistory, isLoading, loadMore } from '../modules/SettingsHistory'
 
 import SettingsHistory from '../components/SettingsHistory'
 const mapStateToProps = (state) => {
-  return{
+  return {
     paidHistory : state.home.paidHistory,
     query: state.location.query,
     loadingBool:state.home.isLoading,

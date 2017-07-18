@@ -12,7 +12,7 @@ class SettingsEditAlipay extends Component {
   updateAccount = (val) => {
     let action = 'post /userAccounts/saveMyAccount.json'
     if (val.id) {
-      action = 'post /userAccounts/updateMyAccount.json' 
+      action = 'post /userAccounts/updateMyAccount.json'
     }
     fetchData(action, {
       type: 2,
@@ -31,7 +31,7 @@ class SettingsEditAlipay extends Component {
         } else {
           goLocation({
             pathname: '/settings/accounts'
-          })          
+          })
         }
       } else {
         toast(data.msg)
@@ -45,9 +45,9 @@ class SettingsEditAlipay extends Component {
       <AccountEditForm
         className='wm-settings-edit-alipay'
         onSubmit={this.updateAccount}
-        type={ 2 }
+        type={2}
         targetId={query.id}
-        fromPage={ query.from || '' }
+        fromPage={query.from || ''}
       />
     )
   }

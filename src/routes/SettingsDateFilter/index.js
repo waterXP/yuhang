@@ -1,5 +1,3 @@
-import { injectReducer } from '@/store/reducers'
-
 import { ACTIONS_HANDLERS } from './modules/SettingsDateFilter'
 export const settingsDateFilterHandlers = ACTIONS_HANDLERS
 

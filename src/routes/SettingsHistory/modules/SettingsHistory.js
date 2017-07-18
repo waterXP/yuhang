@@ -1,10 +1,10 @@
-import { asyncFetch,dingHidePreLoad,pageSize } from '@/lib/base'
+import { asyncFetch, pageSize } from '@/lib/base'
 
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 export const IS_LOADING = 'IS_LOADING'
 export const LOAD_MORE = 'LOAD_MORE'
 
-export const getPaidHistory = (time,cPage=1,noMore=false) => {
+export const getPaidHistory = (time, cPage = 1, noMore = false) => {
   let params = {
     pageSize:pageSize
   }
@@ -47,13 +47,13 @@ export const getPaidHistory = (time,cPage=1,noMore=false) => {
 export const actions = {
   getPaidHistory
 }
-export const isLoading=()=>{
+export const isLoading = () => {
   return {
     type:IS_LOADING
   }
 }
 
-export const loadMore=()=>{
+export const loadMore = () => {
   return {
     type:LOAD_MORE
   }
@@ -70,10 +70,10 @@ export const ACTIONS_HANDLERS = {
       cPage:action.cPage
     })
   },
-  [LOAD_MORE]:(state)=>{
-    return Object.assign({},state,{loadMore:true})
+  [LOAD_MORE]: (state) => {
+    return Object.assign({}, state, { loadMore:true })
   },
-  [IS_LOADING]:(state)=>{
-    return Object.assign({}, state, {isLoading: true})
+  [IS_LOADING]: (state) => {
+    return Object.assign({}, state, { isLoading: true })
   }
 }
