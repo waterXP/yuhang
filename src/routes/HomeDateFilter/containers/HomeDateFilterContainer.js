@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { cleanFilter, selMonth, selYear, toggleYears, changeYears } from '../modules/SettingsDateFilter'
+import { cleanFilter, selMonth, selYear, toggleYears, changeYears } from '../modules/HomeDateFilter'
 
-import SettingsDateFilter from '../components/SettingsDateFilter'
+import HomeDateFilter from '../components/HomeDateFilter'
 
 const mapStateToProps = (state) => {
   return {
@@ -18,5 +18,5 @@ const mapDispatchToProps = {
   changeYears
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsDateFilter)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeDateFilter)
 

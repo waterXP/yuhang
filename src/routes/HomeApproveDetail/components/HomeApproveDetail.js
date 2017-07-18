@@ -12,7 +12,13 @@ class HomeApproveDetail extends Component{
     //console.log("homeApprove",this.props)
     let { detail,addComment }=this.props
     if(detail && detail.master){
-      let title = detail.master.userName + '的报销单'
+      let { userName,deptName } = detail.master
+      let title = ''
+      if( userName ){
+        title = userName + '的报销单'
+      }else{
+        title = deptName + '的报销单'
+      }
       dingSetTitle(title)
       dingSetNavRight('')
     }

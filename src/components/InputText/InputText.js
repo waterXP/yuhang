@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import './InputText.scss'
 
-export const InputText = ({ label, id, name, placeholder }) => {
+export const InputText = ({ label, id, name, placeholder,maxLength }) => {
+
   return (
     <div className='wm-input-text form-group'>
       {label && <label htmlFor={id}>{label}</label>}
@@ -12,7 +13,8 @@ export const InputText = ({ label, id, name, placeholder }) => {
         name={name}
         component='input'
         type='text'
-        placeholder={placeholder} />
+        placeholder={placeholder}
+        maxLength={maxLength} />
     </div>
   )
 }

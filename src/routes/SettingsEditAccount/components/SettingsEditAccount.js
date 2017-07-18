@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast } from '@/lib/base'
+import { fetchData, goLocation, toast,regAccount } from '@/lib/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
@@ -14,6 +14,36 @@ class SettingsEditAccount extends Component {
     if (val.id) {
       action = 'post /userAccounts/updateMyAccount.json'
     }
+    //console.log('============',val)
+    let { name,account,bankBranchName,bankCode,bankName } = val
+    if(!name){
+      toast('姓名不能为空')
+      return
+    }else if(name.length>10){
+      return
+    }
+    if(!account){
+      toast('账号不能为空')
+      return
+    }else if(regAccount.test(account)){
+      // 验证对的
+    }else{
+      toast('账号不正确')
+      return
+    }
+    if(!bankName){
+      toast('请输入银行名称')
+      return
+    }
+    if(!bankBranchName){
+      toast('请输入支行名称')
+      return
+    }
+    if(!bankCode){
+      toast('请输入支行行号')
+      return
+    }
+
     fetchData(action, {
       type: 1,
       ...val

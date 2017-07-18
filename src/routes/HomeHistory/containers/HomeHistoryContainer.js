@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { getPaidHistory, isLoading, loadMore } from '../modules/SettingsHistory'
+import { getPaidHistory,isLoading,loadMore } from '../modules/HomeHistory'
 
-import SettingsHistory from '../components/SettingsHistory'
+import HomeHistory from '../components/HomeHistory'
 const mapStateToProps = (state) => {
   return {
     paidHistory : state.home.paidHistory,
@@ -19,5 +19,5 @@ const mapDispatchToProps = {
   loadMore
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsHistory)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeHistory)
 

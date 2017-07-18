@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SendHistoryList from '@/components/SendHistoryList'
-import './SettingsHistory.scss'
+import './HomeHistory.scss'
 import NoData from '@/components/NoData'
 import { dingSetNavRight, goLocation, dingSetTitle } from '@/lib/base'
 
-class SettingsHistory extends Component {
+class HomeHistory extends Component {
   static propTypes = {
     paidHistory: PropTypes.arrayOf(
       PropTypes.arrayOf(PropTypes.shape({
@@ -98,5 +98,5 @@ class SettingsHistory extends Component {
   }
 }
 
-export default SettingsHistory
+export default HomeHistory
 
