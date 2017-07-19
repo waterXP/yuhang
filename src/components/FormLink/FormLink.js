@@ -15,7 +15,7 @@ class FormLink extends Component {
   clickHandler (name) {
     const { clickHandler } = this.props
     if (clickHandler) {
-      return () => this.props.clickHandler(name)
+      return this.props.clickHandler.bind(this, name)
     }
   }
 

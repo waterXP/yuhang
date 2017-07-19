@@ -44,8 +44,7 @@ class ExpenseForm extends Component {
     deptId: PropTypes.number,
     deptName: PropTypes.string,
     originAttachments: PropTypes.array,
-    restAttachments: PropTypes.array,
-    handleSubmit: PropTypes.func
+    restAttachments: PropTypes.array
   }
 
   constructor (props) {
@@ -507,16 +506,19 @@ class ExpenseForm extends Component {
       }
     })
   }
+  handleSubmit () {
+    return
+  }
 
   render () {
-    const { handleSubmit, userName, totalCash, costType,
+    const { userName, totalCash, costType,
       deptsList, selDept, projectsList, selProj, accountList,
       selAccount, details, attachmentList, approvers,
       tags, nextTag, type, deptName, restAttachments } = this.props
     const { options, target, openModal,
       targetName, labelId, labelName } = this.state
     return (
-      <form className='wm-expense-form' onSubmit={handleSubmit}>
+      <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
           <ModalSelect
             options={options}

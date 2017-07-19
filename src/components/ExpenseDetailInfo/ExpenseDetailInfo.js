@@ -31,6 +31,12 @@ class ExpenseDetailInfo extends Component {
       openModal: true
     })
   }
+  selectHandle (target) {
+    return this.select.bind(this, target)
+  }
+  handlerBlur (target) {
+    return this.props.formatCurrency.bind(this, target)
+  }
   select (target, id, value, paths) {
     const { setCostType } = this.props
     this.setState({
@@ -39,8 +45,11 @@ class ExpenseDetailInfo extends Component {
     })
     setCostType(target, id, value)
   }
+  clickHandler (target) {
+    return this.props.setDate.bind(this, target)
+  }
   render () {
-    const { data, deleteHandler, title, costType, setDate, detail, formatCurrency } = this.props
+    const { data, deleteHandler, title, costType, detail } = this.props
     const { openModal, paths } = this.state
     return (
       <div className='wm-expense-detail-info'>
@@ -48,7 +57,7 @@ class ExpenseDetailInfo extends Component {
           <ModalCost
             costType={costType}
             paths={paths}
-            select={this.select.bind(this, `${data}`)}
+            select={this.selectHandle(`${data}`)}
             selType={detail && detail.feeType ? detail.feeType : ''}
           />
         }
@@ -65,14 +74,14 @@ class ExpenseDetailInfo extends Component {
           text='金额'
           decimal={2}
           name={`${data}.cash`}
-          handlerBlur={formatCurrency.bind(this, `${data}.cash`)}
+          handlerBlur={this.handlerBlur(`${data}.cash`)}
         />
         <FormLink
           text='发生日期'
           name={`${data}.startDate`}
           value={detail && detail.startDate ? detail.startDate : '请选择(必须)'}
           iconRight='fa-angle-right'
-          clickHandler={setDate.bind(this, detail.startDate)}
+          clickHandler={this.clickHandler(detail.startDate)}
         />
         <FormTextArea
           name={`${data}.memo`}
