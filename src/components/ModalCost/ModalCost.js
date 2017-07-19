@@ -3,13 +3,20 @@ import PropTypes from 'prop-types'
 import './ModalCost.scss'
 
 class ModalCost extends Component {
+  static propTypes = {
+    paths: PropTypes.array,
+    costType: PropTypes.array,
+    select: PropTypes.func,
+    selType: PropTypes.any
+  }
   constructor (props) {
     super(props)
-    const { costType, paths } = this.props
+    const { paths } = this.props
     this.state = {
       inSearch: false,
       paths: [...paths]
     }
+    this.toggleSearch = this.toggleSearch.bind(this)
   }
 
   toggleSearch () {
@@ -43,9 +50,19 @@ class ModalCost extends Component {
       }
     })
   }
-  
+
+  selectHandle (id, name, path) {
+    return () => this.props.select(id, name, path)
+  }
+  getListHandle (toParent) {
+    return () => this.getList(toParent)
+  }
+  getChildrenHandle (id) {
+    return () => this.getChildren(id)
+  }
+
   render () {
-    const { costType, select, selType } = this.props
+    const { costType, selType } = this.props
     const { inSearch, paths } = this.state
 
     let list = []
@@ -57,23 +74,36 @@ class ModalCost extends Component {
         paths.forEach((parentId) => {
           list = (list.find((v) => v.id === parentId)).childs
         })
-      }      
+      }
     }
 
     return (
       <div className='wm-modal-cost'>
         <div className='search'>
-          <i className='fa fa-search' /><input type='text' ref={ (e) => { this.keyword = e } } /><button onClick={ this.toggleSearch.bind(this) }>{ inSearch ? '取消' : '搜索' }</button>
+          <i className='fa fa-search' />
+          <input type='text' ref={(e) => { this.keyword = e }} />
+          <button type='button' onClick={this.toggleSearch}>
+            { inSearch ? '取消' : '搜索' }
+          </button>
         </div>
         <ul>
-          { paths.length > 0 && !inSearch && <li onClick={ this.getList.bind(this, true) } className='return'>返回上级<i className='fa fa-reply' /></li> }
+          { paths.length > 0 &&
+            !inSearch &&
+            <li
+              onClick={this.getListHandle(true)}
+              className='return'
+            >
+              返回上级
+              <i className='fa fa-reply' />
+            </li>
+          }
           { list.length > 0 && list.map((v) => {
             if (inSearch) {
               return (
                 <li
-                  key={ `s-${v.id}` }
-                  onClick={ select.bind(this, v.id, v.name, v.paths) }
-                  className={ `${selType === v.id ? 'active' : ''}` }
+                  key={`s-${v.id}`}
+                  onClick={this.selectHandle(v.id, v.name, v.paths)}
+                  className={`${selType === v.id ? 'active' : ''}`}
                 >
                   { v.name }
                 </li>
@@ -81,12 +111,19 @@ class ModalCost extends Component {
             } else {
               return (
                 <li
-                  key={ v.id }
-                  onClick={ v.childs ?
-                    this.getChildren.bind(this, v.id) :
-                    select.bind(this, v.id, v.name, paths)
+                  key={v.id}
+                  onClick={v.childs
+                    ? this.getChildrenHandle(v.id)
+                    : this.selectHandle(v.id, v.name, paths)
                   }
-                  className={ `${selType === v.id || this.props.paths[paths.length] === v.id ? 'active' : ''}` }
+                  className={
+                    `${
+                      selType === v.id ||
+                      this.props.paths[paths.length] === v.id
+                        ? 'active'
+                        : ''
+                    }`
+                  }
                 >
                   { v.name }{ v.childs && <i className='fa fa-angle-right wm-color-secondary' /> }
                 </li>

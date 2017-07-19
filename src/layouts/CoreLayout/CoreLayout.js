@@ -21,7 +21,8 @@ export const CoreLayout = (props) => {
 }
 
 CoreLayout.propTypes = {
-  children : PropTypes.element.isRequired
+  children : PropTypes.element.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default CoreLayout

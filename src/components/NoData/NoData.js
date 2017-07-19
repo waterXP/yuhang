@@ -5,7 +5,10 @@ import './NoData.scss'
 class NoData extends Component {
   static propTypes = {
     imgsrc: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string,
+    icon: PropTypes.string,
+    type: PropTypes.string,
+    size: PropTypes.string
   }
   render () {
     const { text, imgsrc, icon, type, size } = this.props
@@ -22,7 +25,10 @@ class NoData extends Component {
     }
     return (
       <div className={`no-data${size ? ' ' + size : ''}`}>
-        { showImg ? <img src={ showImg } /> : <i className={`fa ${showIcon ? showIcon : 'fa-smile-o'}`} /> }
+        { showImg
+          ? <img src={showImg} />
+          : <i className={`fa ${showIcon || 'fa-smile-o'}`} />
+        }
         { showText && <p>{ showText }</p> }
       </div>
     )

@@ -1,5 +1,6 @@
 import React from 'react'
-import { getCash,highLightDate } from '@/lib/base'
+import PropTypes from 'prop-types'
+import { getCash, highLightDate } from '@/lib/base'
 import { approveStatus } from '@/lib/enums'
 import userImage from '@/assets/user.png'
 import './ReceiptHeader.scss'
@@ -20,6 +21,10 @@ export const ReceiptHeader = ({ data }) => {
       <p>{highLightDate(data.expensesClaimNo)}&nbsp;由<span className='wm-color-primary'>{data.createName}</span>制单</p>
     </div>
   )
+}
+
+ReceiptHeader.propTypes = {
+  data: PropTypes.object
 }
 
 export default ReceiptHeader

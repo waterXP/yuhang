@@ -40,7 +40,6 @@ class ApprovalFilter extends Component {
     this.scrolled = this.scrolled.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
     this.updateRange = this.updateRange.bind(this)
-    // this.toggleResult = this.toggleResult.bind(this)
   }
   handleClick (value) {
     return () => this.toggleResult(value)

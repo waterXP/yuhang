@@ -4,20 +4,26 @@ import { Link } from 'react-router'
 import './SearchForm.scss'
 
 class SearchForm extends Component {
+  static propTypes = {
+    inBusy: PropTypes.func,
+    submitHandler: PropTypes.func,
+    btnLink: PropTypes.string
+  }
   constructor (props) {
     super(props)
     this.state = {
       tm: null
     }
+    this.handleChange = this.handleChange.bind(this)
   }
   handleChange (e) {
-    const { tm, loading } = this.state
+    const { tm } = this.state
     const { inBusy, submitHandler } = this.props
     let v = e.target.value
     if (tm) {
       clearTimeout(tm)
     }
-    const target = setTimeout (() => {
+    const target = setTimeout(() => {
       submitHandler(v)
       inBusy(false)
     }, 1000)
@@ -32,7 +38,6 @@ class SearchForm extends Component {
   }
   render () {
     const { btnLink } = this.props
-    const { loading } = this.state
     const dirty = true
     return (
       <div className='wm-search-form'>
@@ -41,11 +46,11 @@ class SearchForm extends Component {
           type='text'
           id='search'
           placeholder='单号、备注、制单人、报销人'
-          className={ `${!dirty && 'dirty'}` }
-          onChange={ this.handleChange.bind(this) }
+          className={`${!dirty && 'dirty'}`}
+          onChange={this.handleChange}
         />
         { dirty && <i className='fa fa-times-circle' /> }
-        <Link to={ btnLink }>取消</Link>
+        <Link to={btnLink}>取消</Link>
       </div>
     )
   }

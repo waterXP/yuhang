@@ -4,6 +4,17 @@ import './Range.scss'
 import { getNumber } from '@/lib/base'
 
 class Range extends Component {
+  static propTypes = {
+    updateRange: PropTypes.func,
+    title: PropTypes.string,
+    range: PropTypes.array,
+    placeholder: PropTypes.array
+  }
+  constructor (props) {
+    super(props)
+    this.handleFocus = this.handleFocus.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
+  }
   handleFocus (e) {
     e.target.select()
   }
@@ -16,7 +27,7 @@ class Range extends Component {
       e.target.value = ''
       return
     }
-    let { dec, updateRange } = this.props
+    let { updateRange } = this.props
     e.target.value = getNumber(m)
     if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
       if (e.target === this.min) {
@@ -32,7 +43,8 @@ class Range extends Component {
   render () {
     const { title, range, placeholder } = this.props
     const [start, end] = range
-    let startHolder = '', endHolder = ''
+    let startHolder = ''
+    let endHolder = ''
     if (placeholder) {
       [startHolder, endHolder] = placeholder
     }
@@ -44,20 +56,20 @@ class Range extends Component {
         </p> }
         <input
           type='text'
-          placeholder={ startHolder }
-          onFocus={ this.handleFocus.bind(this) }
-          onBlur={ this.handleBlur.bind(this) }
-          defaultValue={ start }
-          ref={ (e) => { this.min = e } }
+          placeholder={startHolder}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          defaultValue={start}
+          ref={(e) => { this.min = e }}
         />
         <span>-</span>
         <input
           type='text'
-          placeholder={ endHolder }
-          onFocus={ this.handleFocus.bind(this) }
-          onBlur={ this.handleBlur.bind(this) }
-          defaultValue={ end }
-          ref={ (e) => { this.max = e } }
+          placeholder={endHolder}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          defaultValue={end}
+          ref={(e) => { this.max = e }}
         />
       </div>
     )

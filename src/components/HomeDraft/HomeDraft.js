@@ -1,60 +1,71 @@
-import React,{Component} from "react"
-import {confirm} from '@/lib/base'
-import "./HomeDraft.scss"
+import React, { Component } from 'react'
+import { confirm } from '@/lib/base'
+import './HomeDraft.scss'
 import HomeDraftCell from './HomeDraftCell'
 import HomeRejectCell from './HomeRejectCell'
 
-class HomeDraft extends Component{
-  constructor(){
+class HomeDraft extends Component {
+  constructor () {
     super()
-    //this.confirmNotice=this.confirmNotice.bind(this)
-    //this.clickHandler=this.clickHandler.bind(this)
   }
-  render(){
-
-    let { type,noMore }=this.props
-    let title=''
-    let titleRight=''
-    let _this=this
-    if( type === 1){
-      // 草稿
-      title='最近保存'
-    }else if( type === 2){
-      // 已撤回
-      title='提报日期'
-    }else if( type===3 ){
-      // 已拒绝
-      title='日期'
-      titleRight='进展'
+  componentDidMount () {
+    let height = this.refs.draftList.offsetHeight
+    this.props.getOffsetHeight(this.refs.draftList)
+  }
+  componentDidUpdate () {
+    let height = this.refs.draftList.offsetHeight
+    this.props.getOffsetHeight(this.refs.draftList)
+  }
+  render () {
+    let { type,noMore } = this.props
+    let title = ''
+    let titleRight = ''
+    let _this = this
+    if (type === 1) {
+      title = '最近保存'
+    } else if (type === 2) {
+      title = '提报日期'
+    } else if (type === 3) {
+      title = '日期'
+      titleRight = '进展'
     }
-    let data=this.props.reject
-    let list=[];
-    let listHtml=[]
-    let noData=false
-    //console.log('=============',this.props)
-    let showBtn=false
-    if(data && data.data){
-      list=data.data
-      if(type===3){
-        list.map((cur,index,arr)=>{
+    let data = this.props.reject
+    let list = []
+    let listHtml = []
+    let noData = false
+    let showBtn = false
+    if (data && data.data) {
+      list = data.data
+      if (type === 3) {
+        list.map((cur, index, arr) => {
           listHtml.push(
-            <HomeRejectCell key={index} undoCell={cur} type={type} deleteExp={_this.props.deleteExp} />
+            <HomeRejectCell
+              key={index}
+              undoCell={cur}
+              type={type}
+              deleteExp={_this.props.deleteExp}
+            />
           )
         })
-      }else{
-        list.map((cur,index,arr)=>{
+      } else {
+        list.map((cur, index, arr) => {
           listHtml.push(
-            <HomeDraftCell key={index} draftCell={cur} type={type} deleteExp={_this.props.deleteExp} />
+            <HomeDraftCell
+              key={index}
+              draftCell={cur}
+              type={type}
+              deleteExp={_this.props.deleteExp}
+            />
           )
         })
       }
-      if(data.page.total_page>1){
-        showBtn=true
+      if (data.page.total_page > 1) {
+        showBtn = true
       }
     }
-    let className='wm-draft'
-    if(type===3){
-      className+=' wm-undo'
+    let className = 'wm-draft'
+    if (type === 3) {
+      className += ' wm-undo'
     }
     return (
       <div className={className} ref='draftList'>
@@ -63,30 +74,13 @@ class HomeDraft extends Component{
           <div>金额</div>
           <div>{titleRight}</div>
         </header>
-        <ul>
-          {listHtml}
-        </ul>
-        {
-          noMore?
-          <div className='loadMore'>没有更多</div>:
-          null
+        <ul>{listHtml}</ul>
+        { noMore &&
+          <div className='loadMore'>没有更多</div>
         }
       </div>
     )
   }
-  componentDidMount(){
-    let height=this.refs.draftList.offsetHeight
-    this.props.getOffsetHeight(this.refs.draftList)
-  }
-  componentDidUpdate(){
-    let height=this.refs.draftList.offsetHeight
-    this.props.getOffsetHeight(this.refs.draftList)
-  }
 }
 
-
 export default HomeDraft
-
-
-
-

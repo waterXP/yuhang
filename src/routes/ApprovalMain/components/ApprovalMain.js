@@ -71,4 +71,3 @@ class ApprovalMain extends Component {
 }
 
 export default ApprovalMain
-

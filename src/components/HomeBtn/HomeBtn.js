@@ -1,27 +1,25 @@
-import React,{Component} from "react";
-import {Link} from "react-router";
+import React, { Component } from 'react'
+import { Link } from 'react-router'
 import './HomeBtn.scss'
 
-class HomeBtn extends Component{
-  render(){
-    let cellData=this.props.cellData;
+class HomeBtn extends Component {
+  render () {
+    let cellData = this.props.cellData;
     return (
-      <Link to={cellData.path} className="homeBtnCell">
+      <Link to={cellData.path} className='homeBtnCell'>
         <div className='wm-home-btn'>
           {
-            cellData.img?<img
+            cellData.img &&
+            <img
               src={cellData.img}
-              alt=""
-              className="homeCellImg"
-              />
-              :null
+              className='homeCellImg'
+            />
           }
           <h5>{cellData.name}</h5>
         </div>
       </Link>
-    );
+    )
   }
-};
+}
 
-export default HomeBtn;
-
+export default HomeBtn
