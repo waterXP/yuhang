@@ -6,9 +6,9 @@ class HomeRejectCell extends Component {
     super()
     this.showDetail = this.showDetail.bind(this)
   }
-  showDetai () {
+  showDetail () {
     let expensesClaimsId = this.props.undoCell.expensesClaimsId
-    let url = `/home/approve_detail/${expensesClaimsId}/4`
+    let url = `/home/approve_detail/${expensesClaimsId}/5`
     goLocation(url)
   }
   render () {

@@ -7,6 +7,7 @@ import { HomeApproveDetail } from '../../HomeApproveDetail'
 import { HomeHistoryHandlers } from '../../HomeHistory'
 import { HomeHistoryDetailHandlers } from '../../HomeHistoryDetail'
 import { HomeDateFilterHandlers } from '../../HomeDateFilter'
+import { HomeListHandlers } from '../../HomeList'
 
 const ACTION_HANDLERS = Object.assign(
   {},
@@ -18,7 +19,8 @@ const ACTION_HANDLERS = Object.assign(
   HomeApproveDetail,
   HomeHistoryHandlers,
   HomeHistoryDetailHandlers,
-  HomeDateFilterHandlers
+  HomeDateFilterHandlers,
+  HomeListHandlers
 )
 const initialState = {
   approve: {},

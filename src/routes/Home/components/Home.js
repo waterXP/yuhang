@@ -47,29 +47,30 @@ class Home extends Component {
 
 Home.prototype.btns = [
   [{
-    path: '/home/approve_list',
-    img: HomeImage,
-    name: '审批中'
-  }, {
-    path: '/home/not_paid',
-    img: HomeImage,
-    name: '未发放'
-  }, {
-    path: '/home/history',
-    img: HomeImage,
-    name: '发放历史'
-  }], [{
-    path: '/home/undo',
-    img: HomeImage,
-    name: '已撤销'
-  }, {
-    path: '/home/reject',
-    img: HomeImage,
-    name: '已拒绝'
-  }, {
-    path: '/home/draft',
-    img: HomeImage,
-    name: '草稿'
+    type:1,
+    img:HomeImage,
+    name:"审批中"
+  },{
+    type:2,
+    img:HomeImage,
+    name:"未发放"
+  },{
+    type:3,
+    img:HomeImage,
+    name:"发放历史"
+  }],[{
+    type:4,
+    img:HomeImage,
+    name:"已撤销"
+  },{
+    type:5,
+    img:HomeImage,
+    name:"已拒绝"
+  },{
+    type:6,
+    img:HomeImage,
+    name:"草稿"
+
   }]
 ]
 Home.propTypes = {

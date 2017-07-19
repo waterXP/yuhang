@@ -3,10 +3,12 @@ import { asyncFetch, pageSize } from '@/lib/base'
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 export const IS_LOADING = 'IS_LOADING'
 export const LOAD_MORE = 'LOAD_MORE'
+export const CLEAR_HISTORY = 'CLEAR_HISTORY'
 
 export const getPaidHistory = (time, cPage = 1, noMore = false) => {
   let params = {
-    pageSize:pageSize
+    pageSize:pageSize,
+    current_page:cPage
   }
   if (time) {
     params.paidTime = time
@@ -15,25 +17,10 @@ export const getPaidHistory = (time, cPage = 1, noMore = false) => {
     'get /expensesClaimPaids/paidHistory.json',
     params,
     (data, dispatch) => {
-      let paidHistory = []
-      let monthStr = ''
-      let temp
-      data.data.list.forEach((v) => {
-        let paid = v.paidTime.split('-')
-        v.paidDay = [paid[1], paid[2]].join('-')
-        v.paidMonth = [paid[0], paid[1]].join('-')
-        if (monthStr === v.paidMonth) {
-          temp.push(v)
-        } else {
-          temp = paidHistory[paidHistory.length] = []
-          monthStr = v.paidMonth
-          temp.push(v)
-        }
-      })
 
       return dispatch({
         type: GET_PAID_HISTORY,
-        paidHistory:paidHistory,
+        paidHistory:data.data.list,
         isLoading:false,
         noMore:noMore,
         loadMore:false,
@@ -59,10 +46,38 @@ export const loadMore = () => {
   }
 }
 
+export const clearHistory = () => {
+  return {
+    type:CLEAR_HISTORY
+  }
+}
+
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
+    let historyList = state.paidHistory
+    if (!historyList) {
+      historyList=[]
+    }
+    let paidHistory = []
+    let monthStr = ''
+    let temp
+    if (action.paidHistory) {
+      action.paidHistory = action.paidHistory.concat(...historyList)
+    }
+    action.paidHistory.forEach((v) => {
+      let paid = v.paidTime.split('-')
+      v.paidDay = [paid[1], paid[2]].join('-')
+      v.paidMonth = [paid[0], paid[1]].join('-')
+      if (monthStr === v.paidMonth) {
+        temp.push(v)
+      } else {
+        temp = paidHistory[paidHistory.length] = []
+        monthStr = v.paidMonth
+        temp.push(v)
+      }
+    })
     return Object.assign({}, state, {
-      paidHistory: action.paidHistory,
+      paidHistory:paidHistory,
       isLoading:action.isLoading,
       noMore:action.noMore,
       loadMore:action.loadMore,
@@ -70,8 +85,11 @@ export const ACTIONS_HANDLERS = {
       cPage:action.cPage
     })
   },
+  [CLEAR_HISTORY]: (state) => {
+    return Object.assign({}, state, { paidHistory: [] })
+  },
   [LOAD_MORE]: (state) => {
-    return Object.assign({}, state, { loadMore:true })
+    return Object.assign({}, state, { loadMore: true })
   },
   [IS_LOADING]: (state) => {
     return Object.assign({}, state, { isLoading: true })

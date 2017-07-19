@@ -34,6 +34,8 @@ class HomeHistory extends Component {
     } else {
       this.props.getPaidHistory()
     }
+    this.props.isLoading()
+    this.props.clearHistory()
     dingSetTitle('发放历史')
     dingSetNavRight('筛选', () => {
       goLocation('/home/date/filter')
@@ -47,7 +49,7 @@ class HomeHistory extends Component {
 
     let scrollTop = e.target.scrollTop
     let height = this.refs.history.offsetHeight
-    let deviceHeight = document.documentElement.clientHeight
+    let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
 
     if (deviceHeight + scrollTop + 50 > height && !loadMore) {
       if (cPage + 1 === pageCount) {
@@ -59,7 +61,9 @@ class HomeHistory extends Component {
       }
     }
   }
-
+  componentWillUnmount () {
+    this.props.clearHistory()
+  }
   render () {
     const { paidHistory } = this.props
     const paidMonths = []
@@ -77,7 +81,6 @@ class HomeHistory extends Component {
     } else {
       noData = true
     }
-
     return (
       <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
         { loadingBool
@@ -87,7 +90,7 @@ class HomeHistory extends Component {
             : paidHistory.map((paids, index) => (
               <SendHistoryList
                 key={paidMonths[index]}
-                thead
+                thead={index===0}
                 datas={paids}
                 pathname='detail' />
             ))

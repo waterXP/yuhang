@@ -14,7 +14,13 @@ class SettingsEditAccount extends Component {
     if (val.id) {
       action = 'post /userAccounts/updateMyAccount.json'
     }
-    let { name, account, bankBranchName, bankCode, bankName } = val
+    let { name, chooseBankName, bankBranchName, bankCode, bankName, oldAccount, oldChooseBankName } = val
+    if (oldAccount === oldChooseBankName) {
+      val.account = oldAccount
+    } else {
+      val.account = chooseBankName
+    }
+    let account = val.account
     if (!name) {
       toast('姓名不能为空')
       return

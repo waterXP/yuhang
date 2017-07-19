@@ -20,23 +20,21 @@ class HomeNotPaid extends Component {
     this.props.onClick()
   }
   render () {
+    let { approveSumMoney, noMore, approve } = this.props
     let notPaidList = []
     let waiteTicketHtml = []
     let waitePaidHtml = []
     let refusePaidHtml = []
     let sumMoneyHtml = ''
     let showBtn = false
-    let noMore = false
-    if (this.props.notPaid) {
-      let notPaid = this.props.notPaid.data
-      let sumMoney = this.props.notPaid.sumMoney
-      noMore = this.props.notPaid.noMore
+    if (approve) {
+      let sumMoney = approveSumMoney
       if (sumMoney) {
         sumMoneyHtml = sumMoney
       }
-      if (notPaid) {
-        notPaidList = notPaid.list
-        if (notPaid.pageCount > 1) {
+      if (approve.list) {
+        notPaidList = approve.list
+        if (approve.pageCount > 1) {
           showBtn = true
         }
       }

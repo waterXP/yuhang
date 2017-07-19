@@ -1,4 +1,4 @@
-import { dingHidePreLoad, asyncFetch, pageSize } from '@/lib/base'
+import { asyncFetch, pageSize } from '@/lib/base'
 
 export const GET_APPROVE = 'GET_APPROVE'
 export const INITIAL_APPROVE = 'INITIAL_APPROVE'
@@ -8,19 +8,49 @@ export const NOMORE = 'NOMORE'
 export const GET_OFFSET_HEIGHT = 'GET_OFFSET_HEIGHT'
 export const LOAD_MORE = 'LOAD_MORE'
 
-export const getApproveList = (cPage = 1, noMore = false) => {
+export const getApproveList = (cPage=1, noMore=false, type=1) => {
+  let params = {
+    current_page: cPage,
+    pageSize: pageSize
+  }
+  let url = ''
+  switch(type) {
+    case 1 :
+      url = 'get /expensesClaimsMobile/approveList.json'
+      break
+    case 2 :
+      url = 'get /expensesClaimsMobile/waitPaidList.json'
+      break
+    case 4 :
+      url = 'get /expensesClaims/myList.json'
+      params.statusVal = 2
+      break
+    case 5 :
+      url = 'get /expensesClaims/myList.json'
+      params.statusVal = 3
+      break
+    case 6 :
+      url = 'get /expensesClaims/myList.json'
+      params.statusVal = 0
+      break
+    default :
+      return
+  }
   return asyncFetch(
-    'get expensesClaimsMobile/approveList.json',
-    {
-      current_page: cPage,
-      pageSize: pageSize
-    },
+    url,
+    params,
     (data, dispatch) => {
-      let dataCell = data.data
-      if (dataCell) {
+      let dataCell = {}
+      if (type === 1 || type === 2) {
+        dataCell = data.data
+        if(dataCell){
+          dataCell.cPage = cPage
+        }
+      } else if (type === 4 || type === 5 || type === 6) {
+        dataCell.list = data.data
         dataCell.cPage = cPage
+        dataCell.pageCount = data.page.total_page
       }
-      dingHidePreLoad()
       return dispatch({
         type: GET_APPROVE,
         approve: dataCell,
@@ -31,10 +61,10 @@ export const getApproveList = (cPage = 1, noMore = false) => {
     }
   )
 }
-export const getSumMoney = () => {
+export const getSumMoney = (type=1) => {
   return asyncFetch(
-    'get expensesClaimsMobile/getSumMoney.json',
-    { type: 1 },
+    'get /expensesClaimsMobile/getSumMoney.json',
+    { type: type },
     (data, dispatch) => {
       return dispatch({
         type: GET_APPROVE_SUMMONEY,
@@ -62,11 +92,17 @@ export const initialApprove = () => {
   }
 }
 
-export const getOffsetHeight = (num) => {
-  return {
-    type: GET_OFFSET_HEIGHT,
-    offsetHeight: num
-  }
+export const deleteExp=(expensesClaimsId, cPage=1, noMore=false, type=1)=>{
+  return asyncFetch(
+    'get expensesClaims/delete.json',
+    {
+      id: expensesClaimsId
+    },
+    (data,dispatch) => {
+      dispatch(initialApprove())
+      dispatch(getApproveList(cPage,noMore,type))
+    }
+  )
 }
 
 export const actions = {
@@ -88,8 +124,12 @@ export const ACTION_HANDLERS = {
     if (action.approve.list) {
       action.approve.list = approveList.concat(action.approve.list)
     }
-    return Object.assign({}, state, { approve: action.approve },
-      { isLoading: action.isLoading }, { noMore: action.noMore }, { loadMore:action.loadMore })
+    return Object.assign({}, state, {
+      approve:action.approve,
+      isLoading:action.isLoading,
+      noMore:action.noMore,
+      loadMore:action.loadMore
+    })
   },
   [GET_APPROVE_SUMMONEY]: (state, action) => {
     return Object.assign({}, state, { approveSumMoney: action.approveSumMoney })

@@ -18,6 +18,10 @@ class AccountEditForm extends Component {
     onSubmit: PropTypes.func,
     fromPage: PropTypes.string
   }
+  constructor () {
+    super()
+    this.initial = this.initial.bind(this)
+  }
   componentDidMount () {
     if (this.props.targetId) {
       this.initial(this.props.targetId)
@@ -29,6 +33,8 @@ class AccountEditForm extends Component {
     .then((data) => {
       if (!data.result) {
         this.props.dispatch(initialize('accountEditForm', data.data, true))
+        this.account = data.data.account
+        this.oldChooseBankName = data.data.chooseBankName
       } else {
         toast(data.msg)
       }
@@ -55,6 +61,8 @@ class AccountEditForm extends Component {
     const { handleSubmit, pristine, submitting, type,
       onSubmit, targetId, fromPage } = this.props
     const isBankAccount = type === 1
+    let oldAccount = this.account
+    let oldChooseBankName = this.oldChooseBankName
     return (
       <form className='wm-account-edit-form' onSubmit={handleSubmit}>
         <InputText
@@ -65,8 +73,8 @@ class AccountEditForm extends Component {
         />
         <InputText
           label='账号'
-          name='account'
-          id='field-account'
+          name='chooseBankName'
+          id='field-chooseBankName'
           maxLength={isBankAccount ? 22 : 50}
         />
         {isBankAccount &&
@@ -99,6 +107,8 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              oldAccount,
+              oldChooseBankName,
               fromPage,
               isDefault: 1
             })
@@ -109,6 +119,8 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              oldAccount,
+              oldChooseBankName,
               fromPage,
               isDefault: 0
             })
