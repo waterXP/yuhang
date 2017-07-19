@@ -6,9 +6,7 @@ import './FormText.scss'
 class FormText extends Component {
   static propTypes = {
     text: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    icon: PropTypes.string,
-    value: PropTypes.string
+    name: PropTypes.string.isRequired
   }
 
   render () {
@@ -18,7 +16,7 @@ class FormText extends Component {
         <label>{text}</label>
         <Field name={name} component='input' type='text' />
       </div>
-    )    
+    )
   }
 }
 

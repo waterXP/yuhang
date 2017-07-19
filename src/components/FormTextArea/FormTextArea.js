@@ -18,7 +18,7 @@ class FormTextArea extends Component {
           component='textarea'
           placeholder={placeholder} />
       </div>
-    )    
+    )
   }
 }
 

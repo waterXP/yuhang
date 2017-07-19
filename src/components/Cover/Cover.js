@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import './Cover.scss'
 
 class Cover extends Component {
@@ -21,9 +20,9 @@ class Cover extends Component {
       <div className='wm-cover'>
         { covers.map((v, i) => {
           return (
-            <div key={ i }>
+            <div key={i}>
               <i className={`fa fa-${v.icon}`} />
-              <p>{ v.text }</p>
+              <p>{v.text}</p>
             </div>
           )
         }) }

@@ -5,16 +5,22 @@ import testImg from '@/routes/SettingsAccounts/assets/Duck.jpg'
 
 class ApprovalNav extends Component {
   static propTypes = {
-    active: PropTypes.string.isRequired
+    active: PropTypes.string.isRequired,
+    handleClick: PropTypes.func,
+    name: PropTypes.string,
+    title: PropTypes.string
+  }
+  clickHandle () {
+    return () => this.props.handleClick()
   }
   render () {
-    const { handleClick, active, name, title } = this.props
+    const { active, name, title } = this.props
     return (
-      <li className={ `wm-approval-nav${active && ' active'}` } >
-        <a href='javascript:;' onClick={ handleClick.bind(this) }>
+      <li className={`wm-approval-nav${active && ' active'}`} >
+        <a href='javascript:;' onClick={this.clickHandle()}>
           <img
-            src={ testImg }
-            alt={ title }
+            src={testImg}
+            alt={title}
             className='nav-btn'
           />
           <p>{ name }</p>

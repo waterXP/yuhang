@@ -10,7 +10,6 @@ class SettingsEditAlipay extends Component {
   }
 
   updateAccount = (val) => {
-    console.log(val)
     let action = 'post /userAccounts/saveMyAccount.json'
     if (val.id) {
       action = 'post /userAccounts/updateMyAccount.json'

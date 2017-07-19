@@ -211,6 +211,7 @@ export const getNumber = (number = 0, dot = 2) => {
   dot = ~~dot
   const str = '' + number
   let [integer, decimal] = str.split('.')
+  integer = integer || 0
   decimal = decimal ? decimal.substr(0, dot) : ''
   while (decimal.length < dot) {
     decimal += '0'

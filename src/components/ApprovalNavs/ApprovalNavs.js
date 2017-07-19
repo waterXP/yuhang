@@ -11,21 +11,21 @@ class ApprovalNavs extends Component {
     updateActive: PropTypes.func.isRequired
   }
 
-  handleClick = (active) => {
-    this.props.updateActive(active)
+  handleClick (active) {
+    return () => this.props.updateActive(active)
   }
 
   render () {
-    const { active, updateActive } = this.props
+    const { active } = this.props
     const arr = getArray(approvalStatus)
     return (
       <ul className='wm-approval-navs'>
         { arr.map((nav, i) => {
           return <ApprovalNav
-            key={ i }
-            name={ nav }
-            handleClick={ this.handleClick.bind(this, i) }
-            active={ active === i ? 'acitve' : '' }
+            key={i}
+            name={nav}
+            handleClick={this.handleClick(i)}
+            active={active === i ? 'acitve' : ''}
           />
         })}
       </ul>
