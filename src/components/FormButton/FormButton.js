@@ -15,7 +15,10 @@ export const FormButton = ({ type, disabled, onClick, text }) => {
 }
 
 FormButton.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func
 }
 
 export default FormButton

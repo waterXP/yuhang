@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'development' && window.parent) {
-  console.log('prod')
+  // console.log('prod')
 } else {
   console.log('dev')
 }

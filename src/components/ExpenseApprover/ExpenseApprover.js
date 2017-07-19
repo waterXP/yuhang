@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import './ExpenseApprover.scss'
 
@@ -7,9 +7,9 @@ const ExpenseApprover = ({ approvers }) => {
     <div className='wm-expense-approver'>
       <p>审批人</p>
       { approvers && approvers.length > 0 && approvers.map((v, i) =>
-        <div className='approvers' key={ v.id }>
+        <div className='approvers' key={v.id}>
           <div className='approverInfo'>
-            <img className='avatar' src={ v.avatar } />
+            <img className='avatar' src={v.avatar} />
             <p>{ v.nickName }</p>
           </div>
           { approvers.length !== i + 1 && <i className='fa fa-arrow-right' /> }
@@ -17,6 +17,10 @@ const ExpenseApprover = ({ approvers }) => {
       )}
     </div>
   )
+}
+
+ExpenseApprover.propTypes = {
+  approvers: PropTypes.array
 }
 
 export default ExpenseApprover

@@ -5,20 +5,36 @@ import './ApprovalInfo.scss'
 import { getCash, goLocation } from '@/lib/base'
 
 class ApprovalInfo extends Component {
+  static propTypes = {
+    userName: PropTypes.string,
+    sumMoney: PropTypes.any,
+    statusName: PropTypes.string,
+    submitTime: PropTypes.string,
+    createdBy: PropTypes.string,
+    createdAvatar: PropTypes.string,
+    expensesClaimsId: PropTypes.number,
+    status: PropTypes.number
+  }
+  gotoPage (location) {
+    return () => goLocation(location)
+  }
   render () {
-    const { userName, sumMoney, statusName, submitTime, createdBy, createdAvatar, expensesClaimsId, status } = this.props
+    const { userName, sumMoney, statusName, submitTime, createdBy,
+      createdAvatar, expensesClaimsId, status } = this.props
     let statusClass = 'important'
     return (
-      <div className='wm-approval-info' onClick={ goLocation.bind(this,
-        {
-          pathname: status === 0 ? '/new' : '/approval/detail',
-          query: {
-            id: expensesClaimsId,
-            type: status > 3 ? 'afterApproval' : ''
+      <div
+        className='wm-approval-info'
+        onClick={this.gotoPage(
+          { pathname: status === 0 ? '/new' : '/approval/detail',
+            query: {
+              id: expensesClaimsId,
+              type: status > 3 ? 'afterApproval' : ''
+            }
           }
-        }
-      )}>
-        <img src={ createdAvatar } className='avatar' />
+        )}
+      >
+        <img src={createdAvatar} className='avatar' />
         <div className='info'>
           <span className='wm-color-secondary'>{ submitTime }</span>
           <h5>{ createdBy }的报销审批</h5>

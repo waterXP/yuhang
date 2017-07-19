@@ -49,7 +49,6 @@ class HomeDateFilter extends Component {
   render () {
     let selYears = []
     const { selMonth, monthFilter } = this.props
-    console.dir(monthFilter)
     let { month, year, years, showYears } = this.props.filter
     if (showYears) {
       years.forEach((aYear) => {

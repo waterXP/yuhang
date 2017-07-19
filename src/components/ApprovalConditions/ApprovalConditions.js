@@ -4,6 +4,9 @@ import { Link } from 'react-router'
 import './ApprovalConditions.scss'
 
 class ApprovalConditions extends Component {
+  static propTypes = {
+    status: PropTypes.number
+  }
   render () {
     const { status } = this.props
     return (
