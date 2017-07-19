@@ -25,7 +25,7 @@ class ExpenseDetails extends Component {
     this.setCostType = this.setCostType.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
-  deleteHandler(i) {
+  deleteHandler (i) {
     return () => this.deleteInfo(i)
   }
   deleteInfo (i) {
@@ -55,9 +55,11 @@ class ExpenseDetails extends Component {
   setCostType (target, id, value) {
     this.props.changeCostType(target, id, value)
   }
-
+  formatHandle () {
+    return this.props.formatCurrency.bind(this)
+  }
   render () {
-    let { fields, costType, details, formatCurrency, tags } = this.props
+    let { fields, costType, details, tags } = this.props
     return (
       <div>
         {tags && fields && fields.map((v, i) =>
@@ -70,7 +72,7 @@ class ExpenseDetails extends Component {
             setDate={this.setDate}
             setCostType={this.setCostType}
             detail={details && details[i]}
-            formatCurrency={formatCurrency.bind(this)}
+            formatCurrency={this.formatHandle()}
           />
         )}
         <ConfirmButton
