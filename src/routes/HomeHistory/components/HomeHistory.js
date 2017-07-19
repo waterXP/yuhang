@@ -47,7 +47,7 @@ class HomeHistory extends Component {
 
     let scrollTop = e.target.scrollTop
     let height = this.refs.history.offsetHeight
-    let deviceHeight = document.documentElement.clientHeight
+    let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
 
     if (deviceHeight + scrollTop + 50 > height && !loadMore) {
       if (cPage + 1 === pageCount) {
@@ -77,7 +77,7 @@ class HomeHistory extends Component {
     } else {
       noData = true
     }
-
+    console.log(paidMonths)
     return (
       <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
         { loadingBool
@@ -87,7 +87,7 @@ class HomeHistory extends Component {
             : paidHistory.map((paids, index) => (
               <SendHistoryList
                 key={paidMonths[index]}
-                thead
+                thead={index===0}
                 datas={paids}
                 pathname='detail' />
             ))

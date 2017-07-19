@@ -3,14 +3,14 @@ import DuckImage from '../assets/Duck.jpg'
 import HomeImage from '../assets/home2.jpg'
 import './Home.scss'
 import HomeBtn from "@/components/HomeBtn/HomeBtn";
-import { dingSetTitle,dingSetNavRight,alert,dingSetNavLeftAndroid } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight, alert, dingSetNavLeftAndroid } from '@/lib/base'
 
 class Home extends Component {
   render () {
-    let btns=this.btns
-    let btnsHtml=[]
+    let btns = this.btns
+    let btnsHtml = []
     let btnsHtmlCell=[]
-    btns.map((cur,index,arr)=>{
+    btns.map((cur,index,arr) => {
       btnsHtmlCell=[]
       cur.map((subCur,index,arr)=>{
         btnsHtmlCell.push(
@@ -20,8 +20,10 @@ class Home extends Component {
       btnsHtml.push(btnsHtmlCell)
     })
     let children =this.props.children
-
-    return( children ? <div>{children}</div> :
+    if(!children){
+      children = null
+    }
+    return( children ||
       <div className="wm-home">
         <div className="homeLine">
           {btnsHtml[0]}
@@ -36,48 +38,46 @@ class Home extends Component {
     )
   }
   shouldComponentUpdate(nextProps, nextState){
-    //console.log('=============',nextProps)
     if(nextProps.location.pathname=='/home'){
       dingSetTitle('明快报销')
       dingSetNavRight('')
     }
+    this.props.initialApprove()
     return true
   }
 }
 
 Home.prototype.btns=[
   [{
-    path:"/home/approve_list",
+    path:"/home/home_list",
+    type:1,
     img:HomeImage,
     name:"审批中"
   },{
-    path:"/home/not_paid",
+    path:"/home/home_list",
+    type:2,
     img:HomeImage,
     name:"未发放"
   },{
     path:"/home/history",
+    type:3,
     img:HomeImage,
     name:"发放历史"
   }],[{
-    path:"/home/undo",
+    path:"/home/home_list",
+    type:4,
     img:HomeImage,
     name:"已撤销"
   },{
-    path:"/home/reject",
+    path:"/home/home_list",
+    type:5,
     img:HomeImage,
     name:"已拒绝"
   },{
-    path:"/home/draft",
+    path:"/home/home_list",
+    type:6,
     img:HomeImage,
     name:"草稿"
-  }],[{
-    /*type:2,
-    img:HomeImage,
-    name:"开票资料"*/
-  },{
-
-  },{
-
   }]
 ];
 Home.propTypes = {

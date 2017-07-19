@@ -6,42 +6,40 @@ import "./HomeNotPaid.scss"
 class HomeNotPaid extends Component{
   constructor(){
     super()
-    this.clickHandler=this.clickHandler.bind(this)
+    this.clickHandler = this.clickHandler.bind(this)
   }
   render(){
-    //console.log('==============',this.props.notPaid)
-    let notPaidList=[]
-    let waiteTicketHtml=[]
-    let waitePaidHtml=[]
-    let refusePaidHtml=[]
-    let sumMoneyHtml=''
-    let showBtn=false
-    let noMore=false
-    if(this.props.notPaid){
-      let notPaid=this.props.notPaid.data
-      let sumMoney=this.props.notPaid.sumMoney
-      noMore=this.props.notPaid.noMore
-      if(sumMoney){
-        sumMoneyHtml=sumMoney
+    let { approveSumMoney, noMore, approve } = this.props
+    let notPaidList = []
+    let waiteTicketHtml = []
+    let waitePaidHtml = []
+    let refusePaidHtml = []
+    let sumMoneyHtml = ''
+    let showBtn = false
+    //let noMore=false
+    if (approve) {
+      let sumMoney = approveSumMoney
+      if (sumMoney) {
+        sumMoneyHtml = sumMoney
       }
-      if(notPaid){
-        notPaidList=notPaid.list
-        if(notPaid.pageCount>1){
-          showBtn=true
+      if (approve.list) {
+        notPaidList = approve.list
+        if (approve.pageCount > 1) {
+          showBtn = true
         }
       }
-      if(notPaidList){
-        notPaidList.map((cur,index,arr)=>{
-          if(cur.status===5){
+      if (notPaidList) {
+        notPaidList.map((cur,index,arr) => {
+          if (cur.status === 5) {
             // 待票审
             waiteTicketHtml.push(
               <HomeNotPaidCell notPaid={cur} key={index} />
             )
-          }else if(cur.status===7){
+          } else if (cur.status === 7) {
             waitePaidHtml.push(
               <HomeNotPaidCell notPaid={cur} key={index} />
             )
-          }else{
+          } else {
             refusePaidHtml.push(
               <HomeNotPaidCell notPaid={cur} key={index} />
             )
@@ -88,11 +86,3 @@ class HomeNotPaid extends Component{
 }
 
 export default HomeNotPaid;
-
-
-
-
-
-
-
-

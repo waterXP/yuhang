@@ -19,7 +19,6 @@ class HomeHistoryDetail extends Component {
 
   render () {
     const { historyDetail, query, addComment } = this.props
-    //console.log('=================',this.props.historyDetail)
     if(historyDetail.master){
       let { userName,deptName } = historyDetail.master
       let title = ''

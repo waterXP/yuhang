@@ -1,23 +1,23 @@
 import { connect } from 'react-redux'
-import HomeApprove from '../components/HomeApprove'
+import HomeList from '../components/HomeList'
 import {
   initialApprove,
   getApproveList,
   getSumMoney,
-  getOffsetHeight,
   isLoading,
-  loadMore } from '../modules/HomeApproveList'
+  loadMore,
+  deleteExp
+} from '../modules/HomeList'
 
 
 const mapStateToProps = (state) => {
-  //console.log('state==========',state);
+  //console.log('==========approve state============',state)
   return {
     approve:{
       approve:state.home.approve,
       approveSumMoney:state.home.approveSumMoney,
       loading:state.home.isLoading,
       noMore:state.home.noMore,
-      offsetHeight:state.home.offsetHeight,
       loadMore:state.home.loadMore
     }
   }
@@ -28,8 +28,8 @@ const mapDispatchToProps = {
   getApproveList,
   getSumMoney,
   isLoading,
-  getOffsetHeight,
-  loadMore
+  loadMore,
+  deleteExp
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeApprove)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeList)

@@ -1,13 +1,17 @@
-import React,{Component} from "react";
-import {Link} from "react-router";
+import React, { Component } from "react"
+import { Link } from "react-router"
+import { goLocation } from '@/lib/base'
 import './HomeBtn.scss'
 
 class HomeBtn extends Component{
+  constructor(){
+    super()
+    this.clickHandler = this.clickHandler.bind(this)
+  }
   render(){
-    let cellData=this.props.cellData;
+    let cellData=this.props.cellData
     return (
-      <Link to={cellData.path} className="homeBtnCell">
-        <div className='wm-home-btn'>
+        <div className='wm-home-btn homeBtnCell' onClick={this.clickHandler}>
           {
             cellData.img?<img
               src={cellData.img}
@@ -18,10 +22,24 @@ class HomeBtn extends Component{
           }
           <h5>{cellData.name}</h5>
         </div>
-      </Link>
-    );
+    )
   }
-};
+  clickHandler(){
+    let type = parseInt(this.props.cellData.type)
+    let url={
+          pathname:'/home/home_list',
+          query: {
+            type: type
+          }
+        }
+      if(type===3){
+        url = {
+          pathname:'/home/history'
+        }
+      }
+    goLocation(url)
+  }
+}
 
-export default HomeBtn;
+export default HomeBtn
 

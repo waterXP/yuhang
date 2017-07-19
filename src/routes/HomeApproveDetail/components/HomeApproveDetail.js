@@ -1,16 +1,15 @@
 import React,{Component} from "react"
 import Receipt from "@/components/Receipt"
-import { confirm,dingSetNavRight,dingSetTitle } from '@/lib/base'
+import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/base'
 
 class HomeApproveDetail extends Component{
   constructor(){
     super()
-    this.clickHandler=this.clickHandler.bind(this)
-    this.deleteExp=this.deleteExp.bind(this)
+    this.clickHandler = this.clickHandler.bind(this)
+    this.deleteExp = this.deleteExp.bind(this)
   }
   render(){
-    //console.log("homeApprove",this.props)
-    let { detail,addComment }=this.props
+    let { detail, addComment } = this.props
     if(detail && detail.master){
       let { userName,deptName } = detail.master
       let title = ''
@@ -35,10 +34,10 @@ class HomeApproveDetail extends Component{
     )
   }
   componentWillMount(){
-    let { id,type }=this.props.params
-    //console.log(type)
+    let { id, type }=this.props.params
+    type = parseInt(type)
     this.props.initialApproveDetail()
-    if(type==2){
+    if(type === 2){
       this.props.getApproveDetail(id,true)
       // true 审批通过之后的 false 审批通过之前的
     }else{
