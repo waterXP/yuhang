@@ -1,8 +1,3 @@
-import { HomeApproveList } from '../../HomeApproveList'
-import { HomeNotPaidList } from '../../HomeNotPaid'
-import { HomeReject } from '../../HomeReject'
-import { HomeDraft } from '../../HomeDraft'
-import { HomeUndo } from '../../HomeUndo'
 import { HomeApproveDetail } from '../../HomeApproveDetail'
 import { HomeHistoryHandlers } from '../../HomeHistory'
 import { HomeHistoryDetailHandlers } from '../../HomeHistoryDetail'
@@ -11,11 +6,6 @@ import { HomeListHandlers } from '../../HomeList'
 
 const ACTION_HANDLERS = Object.assign(
   {},
-  HomeApproveList,
-  HomeNotPaidList,
-  HomeReject,
-  HomeDraft,
-  HomeUndo,
   HomeApproveDetail,
   HomeHistoryHandlers,
   HomeHistoryDetailHandlers,

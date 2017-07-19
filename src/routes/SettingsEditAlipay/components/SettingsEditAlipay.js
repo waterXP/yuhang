@@ -15,7 +15,7 @@ class SettingsEditAlipay extends Component {
       action = 'post /userAccounts/updateMyAccount.json'
     }
     let { chooseBankName, name, oldAccount, oldChooseBankName } = val
-    if (oldAccount === oldChooseBankName) {
+    if (oldAccount && oldAccount === oldChooseBankName) {
       val.account = oldAccount
     } else {
       val.account = chooseBankName
