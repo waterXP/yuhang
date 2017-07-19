@@ -8,7 +8,6 @@ export const GET_APPROVAL_DETAIL = 'GET_APPROVAL_DETAIL'
 export const ADD_COMMENT = 'ADD_COMMENT'
 
 const fetchApprovalDetail = (dispatch, id, type) => {
-  console.log(type)
   let params = {
     expensesClaimsId: id,
     showAttachments: true
@@ -22,7 +21,7 @@ const fetchApprovalDetail = (dispatch, id, type) => {
       return dispatch({
         type: GET_APPROVAL_DETAIL,
         data: data.data
-      })            
+      })
     } else {
       toast(data.msg)
       return dispatch({

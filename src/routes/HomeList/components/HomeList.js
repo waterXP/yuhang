@@ -95,6 +95,9 @@ class HomeList extends Component {
 
     isLoading()
   }
+  componentWillUnmount () {
+    this.props.initialApprove()
+  }
   scrollHandler(e){
     let cPage = this.props.approve.approve.cPage
     let pageCount = this.props.approve.approve.pageCount
@@ -139,15 +142,6 @@ class HomeList extends Component {
       default :
         dingSetTitle('明快报销')
     }
-
-    /*dd.ui.pullToRefresh.enable({
-        onSuccess: function() {
-          console.log('success')
-        },
-        onFail: function() {
-        }
-    })*/
-
   }
 }
 HomeList.propTypes={

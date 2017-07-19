@@ -1,5 +1,6 @@
 import React from 'react'
-import { getDate, getCash } from '@/lib/base'
+import PropTypes from 'prop-types'
+import { getCash } from '@/lib/base'
 import './ReceiptDetails.scss'
 
 export const ReceiptDetails = ({ data }) => {
@@ -15,6 +16,10 @@ export const ReceiptDetails = ({ data }) => {
       })}
     </div>
   )
+}
+
+ReceiptDetails.propTypes = {
+  data: PropTypes.array
 }
 
 export default ReceiptDetails

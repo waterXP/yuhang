@@ -4,11 +4,15 @@ import './Approval.scss'
 import { history } from '@/lib/base'
 
 class Approval extends Component {
+  static propTypes = {
+    location: PropTypes.object,
+    children: PropTypes.element
+  }
   componentDidMount () {
     const { location } = this.props
-    if (location.pathname === '/approval') {
+    if (location.pathname === '/approval' || location.pathname === '/approval/') {
       history.replace('/approval/main')
-    }    
+    }
   }
   render () {
     const { children } = this.props

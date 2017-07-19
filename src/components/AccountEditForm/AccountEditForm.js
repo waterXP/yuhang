@@ -7,6 +7,10 @@ import { fetchData, goLocation, toast } from '@/lib/base'
 import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
+  constructor () {
+    super()
+    this.initial = this.initial.bind(this)
+  }
   componentDidMount () {
     if (this.props.targetId) {
       this.initial(this.props.targetId)
@@ -18,6 +22,8 @@ class AccountEditForm extends Component {
     .then((data) => {
       if (!data.result) {
         this.props.dispatch(initialize('accountEditForm', data.data, true))
+        this.account = data.data.account
+        this.oldChooseBankName = data.data.chooseBankName
       } else {
         toast(data.msg)
       }
@@ -40,11 +46,17 @@ class AccountEditForm extends Component {
   render () {
     const { handleSubmit, pristine, submitting, type, onSubmit, targetId, fromPage } = this.props
     const isBankAccount = type === 1
+    let oldAccount = this.account
+    let oldChooseBankName = this.oldChooseBankName
     return (
       <form className='wm-account-edit-form' onSubmit={ handleSubmit }>
         <InputText label='姓名' name='name' id='field-name' maxLength='10' />
-        <InputText label='账号' name='account' id='field-account'
-                    maxLength={ isBankAccount ? 22 : 50} />
+        <InputText
+          label='账号'
+          name='chooseBankName'
+          id='field-chooseBankName'
+          maxLength={ isBankAccount ? 22 : 50}
+          onFocus={this.focusHandler} />
         {isBankAccount && <InputText label='银行名称' name='bankName' id='field-bank-name' maxLength='50' />}
         {isBankAccount && <InputText label='开户行名称' name='bankBranchName' id='field-bank-branch-name' maxLength='50' />}
         {isBankAccount && <InputText label='开户行行号' name='bankCode' id='field-bank-code' maxLength='20' />}
@@ -54,6 +66,8 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              oldAccount,
+              oldChooseBankName,
               fromPage,
               isDefault: 1
             })
@@ -64,6 +78,8 @@ class AccountEditForm extends Component {
           onClick={handleSubmit(values =>
             onSubmit({
               ...values,
+              oldAccount,
+              oldChooseBankName,
               fromPage,
               isDefault: 0
             })
@@ -77,8 +93,14 @@ class AccountEditForm extends Component {
   }
 }
 
+const mapStateToProps = (state) =>{
+  return {
+      initialValues: {}
+  }
+}
+
 export default connect(
-  state => ({initialValues: {}})
+  mapStateToProps
 )(reduxForm({
   form: 'accountEditForm'
 })(AccountEditForm))

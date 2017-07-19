@@ -29,9 +29,9 @@ export const actions = {
 
 export const ACTION_HANDLERS = {
   [GET_ACCOUNTS]: (state, action) => {
-    return Object.assign({}, state, {accounts: action.accounts})
+    return Object.assign({}, state, { accounts: action.accounts })
   },
   [INITIAL_ACCOUNTS]: (state, action) => {
-    return Object.assign({}, state, {accounts: []})
+    return Object.assign({}, state, { accounts: [] })
   }
 }

@@ -1,17 +1,15 @@
-import React,{Component} from 'react'
-import {goLocation} from '@/lib/base'
-// 该页面用来首页跳转 没什么用的
+import React, { Component } from 'react'
+import { goLocation } from '@/lib/base'
 
-class FirstIn extends Component{
-  render(){
-    return (
-      <div></div>
-    )
-  }
-  componentWillMount(){
+class FirstIn extends Component {
+  componentWillMount () {
     goLocation('/home')
+  }
+  render () {
+    return (
+      <div />
+    )
   }
 }
 
-
-export default {component:FirstIn}
+export default { component: FirstIn }

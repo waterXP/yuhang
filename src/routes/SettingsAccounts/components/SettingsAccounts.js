@@ -18,11 +18,18 @@ class SettingsAccounts extends Component {
   }
 
   componentWillMount () {
-    this.props.initialAccounts()    
+    this.props.initialAccounts()
   }
 
   componentDidMount () {
     this.props.getAccounts()
+  }
+
+  // handleClick = (path) => () => {
+  //   goLocation(path)
+  // }
+  handleClick (path) {
+    return () => goLocation(path)
   }
 
   render () {
@@ -30,12 +37,12 @@ class SettingsAccounts extends Component {
       <div className='wm-settings-accounts'>
         <button
           className='btn btn-default'
-          onClick={goLocation.bind(this, {
+          onClick={this.handleClick({
             pathname: 'settings/edit/alipay'
           })}>新增支付宝</button>
         <button
           className='btn btn-default'
-          onClick={goLocation.bind(this, {
+          onClick={this.handleClick({
             pathname: 'settings/edit/account'
           })}>新增银行卡</button>
         <AccountList accounts={this.props.accounts} />

@@ -1,5 +1,4 @@
 import { injectReducer } from '@/store/reducers'
-import NewExpenseConfirmRoute from '../NewExpenseConfirm'
 
 export default (store) => ({
   path : 'new',
@@ -10,8 +9,5 @@ export default (store) => ({
       injectReducer(store, { key: 'new', reducer })
       cb(null, Container)
     }, 'new')
-  }, childRoutes: [
-    NewExpenseConfirmRoute(store)
-  ]
+  }
 })
-

@@ -1,4 +1,3 @@
-import HomeNotPaid from "./HomeNotPaid";
+import HomeNotPaid from './HomeNotPaid'
 
-
-export default HomeNotPaid;
+export default HomeNotPaid

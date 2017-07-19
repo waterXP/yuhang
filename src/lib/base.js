@@ -1,5 +1,5 @@
 import { hashHistory } from 'react-router'
-import config, { dd, isDev} from '@/config'
+import config, { dd, isDev } from '@/config'
 import React from 'react'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
@@ -10,7 +10,10 @@ export const history = hashHistory
 export const getUrlParams = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const r = window.location.search.substr(1).match(reg)
-  if (r != null) return r[2]; return ''
+  if (r != null) {
+    return r[2]
+  }
+  return ''
 }
 
 export const get = (url, params = {}) => {
@@ -76,7 +79,7 @@ export const post = (url, params = {}) => {
 
 export const asyncFetch = (action, params = {}, cb) => {
   if (!cb) {
-    cb = (datam, dispatch, getState) => {
+    cb = (data, dispatch, getState) => {
       let msg = data.msg || '操作成功'
       return dispatch({
         type: FETCH_FIN,
@@ -115,8 +118,8 @@ export const fetchData = (action, params = {}) => {
   if (config.useLocaldata) {
     url = '/localdata/' + url
   } else {
-    url = (process.env.NODE_ENV === 'development' ?
-      config.devApi : config.prodApi) + url
+    url = (process.env.NODE_ENV === 'development'
+      ? config.devApi : config.prodApi) + url
   }
 
   for (let v in params) {
@@ -133,7 +136,6 @@ export const fetchData = (action, params = {}) => {
 
 export const getTestAccount = () => {
   const headers = new Headers({
-    // 'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   })
   return fetch('/api/setUser.jsp', {
@@ -157,10 +159,10 @@ Object.assign(config, {
   corpid
 })
 
-export const goLocation = (location={ pathname: '/' }) =>
+export const goLocation = (location = { pathname: '/' }) =>
   hashHistory.push(location)
 
-export const getDate = (nDate=(new Date()), fmt='yyyy-MM-dd hh:mm:ss') => {
+export const getDate = (nDate = (new Date()), fmt = 'yyyy-MM-dd hh:mm:ss') => {
   const sDate = new Date(nDate)
   const dateObj = {
     'M+': sDate.getMonth() + 1,
@@ -172,19 +174,20 @@ export const getDate = (nDate=(new Date()), fmt='yyyy-MM-dd hh:mm:ss') => {
     'S': sDate.getMilliseconds()
   }
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (sDate.getFullYear() + '').substr(4 - RegExp.$1.length))
+    fmt = fmt.replace(RegExp.$1, (sDate.getFullYear() + '')
+      .substr(4 - RegExp.$1.length))
   }
   for (const s in dateObj) {
     if (new RegExp('(' + s + ')').test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ?
-        (dateObj[s]) :
-        (('00' + dateObj[s]).substr(('' + dateObj[s]).length)))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1)
+        ? (dateObj[s])
+        : (('00' + dateObj[s]).substr(('' + dateObj[s]).length)))
     }
   }
   return fmt
 }
 
-export const getCash = (cash=0, symbol='') => {
+export const getCash = (cash = 0, symbol = '') => {
   if (isNaN(cash)) {
     return '--'
   }
@@ -215,42 +218,32 @@ export const getNumber = (number = 0, dot = 2) => {
   return `${integer}.${decimal}`
 }
 
-// 将时间的年份去掉
-export const removeYear=(time)=>{
-  time=time.split('-')
+export const removeYear = (time) => {
+  time = time.split('-')
   time.shift()
-  time=time.join('-')
+  time = time.join('-')
   return time
 }
 export const pageSize = 20
 
-export const highLightDate=(str)=>{
-  let strReg=/^[a-zA-Z]{2}[0-9]{8}/,
-    dateReg=/[0-9]{8}$/,
-    fStr=strReg.exec(str)[0]
-  let dateStr=dateReg.exec(fStr)[0],
-    dateArr=str.split(dateStr)
-
-    //str=str.replace(strReg,fStr)
+export const highLightDate = (str) => {
+  let strReg = /^[a-zA-Z]{2}[0-9]{8}/
+  let dateReg = /[0-9]{8}$/
+  let fStr = strReg.exec(str)[0]
+  let dateStr = dateReg.exec(fStr)[0]
+  let dateArr = str.split(dateStr)
   return (
-    <span>{dateArr[0]}{<span className='wm-color-important'>{dateStr}</span>}{dateArr[1]}</span>
+    <span>{dateArr[0]}{
+      <span className='wm-color-important'>{dateStr}</span>
+    }{dateArr[1]}</span>
   )
 }
 
-export const regPhone=/^1[34578]\d{9}$/
-export const regMail=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-export const regAccount= /^([1-9]{1})(\d{14,19})$/
+export const regPhone = /^1[34578]\d{9}$/
+export const regMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+export const regAccount = /^([1-9]{1})(\d{14,19})$/
 
-export const alert = (message='', title='', buttonName='确定') => {
-  // if (config.inDev) {
-  //   window.alert(message)
-  // } else {
-  //   dd.device.notification.alert({
-  //     message,
-  //     title,
-  //     buttonName
-  //   })
-  // }
+export const alert = (message = '', title = '', buttonName = '确定') => {
   dd.device.notification.alert({
     message,
     title,
@@ -258,7 +251,7 @@ export const alert = (message='', title='', buttonName='确定') => {
   })
 }
 
-export const toast = (text='', icon='') => {
+export const toast = (text = '', icon = '') => {
   if (config.inDev) {
     window.alert(text)
   } else {
@@ -269,54 +262,41 @@ export const toast = (text='', icon='') => {
   }
 }
 
-export const confirm=(message='你爱我吗',title='',callback,buttonLabels=['确定','取消'])=>{
-  if(isDev){
-
-  }else{
+export const confirm =
+(message = '', title = '', callback, buttonLabels = ['确定', '取消']) => {
+  if (!isDev) {
     dd.device.notification.confirm({
       message: message,
       title: title,
       buttonLabels: buttonLabels,
-      onSuccess : function(result) {
-          //onSuccess将在点击button之后回调
-          /*
-          {
-              buttonIndex: 0 //被点击按钮的索引值，Number类型，从0开始
-          }
-          */
-          if(result.buttonIndex===0){
-            callback && callback();
-          }
+      onSuccess: function (result) {
+        if (result.buttonIndex === 0) {
+          callback && callback()
+        }
       },
-      onFail : function(err) {}
+      onFail: function (err) { toast(err) }
     })
   }
 }
 
-export const dingSend=(users=[])=>{
+export const dingSend = (users = []) => {
   dd.biz.ding.post({
-    users : users,//用户列表，工号
-    corpId: '', //企业id
-    type: 1, //附件类型 1：image  2：link
+    users : users,
+    corpId: '',
+    type: 1,
     alertType: 2,
-    alertDate: {"format":"yyyy-MM-dd HH:mm","value":"2017-07-09 08:00"},
-    attachment: {
-        images: [''],
-    }, //附件信息
-    text: '', //消息
-    onSuccess : function() {
-    //onSuccess将在点击发送之后调用
-    },
-    onFail : function() {}
+    alertDate: { 'format': 'yyyy-MM-dd HH:mm', 'value': '2017-07-09 08:00' },
+    attachment: { images: [''] },
+    text: '',
+    onSuccess : function () {},
+    onFail : function () {}
   })
 }
-export const dingApproveDetail=(url)=>{
+export const dingApproveDetail = (url) => {
   dd.biz.util.openLink({
-    url: url,//要打开链接的地址
-    onSuccess : function(result) {
-        /**/
-    },
-    onFail : function(err) {}
+    url: url,
+    onSuccess : function (result) {},
+    onFail : function (err) { toast(err) }
   })
 }
 
@@ -327,7 +307,7 @@ export const openDatePicker = (defaultValue = +new Date(), callback) => {
   dd.biz.util.datepicker({
     format: 'yyyy-MM-dd',
     value: getDate(defaultValue, 'yyyy-MM-dd'),
-    onSuccess: function(result) {
+    onSuccess: function (result) {
       callback && callback(result.value)
     },
     onFail: function (err) {
@@ -356,11 +336,11 @@ export const openChosen = (source, selectedKey = 0, callback) => {
   }
   dd.biz.util.chosen({
     source,
-    selectedKey,    
-    onSuccess : function (result) {
+    selectedKey,
+    onSuccess: function (result) {
       callback && callback(result)
     },
-    onFail : function (err) {
+    onFail: function (err) {
       if (err.errorCode !== 3) {
         toast(err)
       }
@@ -373,8 +353,8 @@ export const uploadImage = (callback) => {
     return
   }
   dd.biz.util.uploadImage({
-    multiple: false, //是否多选，默认false
-    max: 1, //最多可选个数
+    multiple: false,
+    max: 1,
     onSuccess : function (result) {
       callback(result)
     },
@@ -393,104 +373,74 @@ export const previewImage = (img) => {
   dd.biz.util.previewImage({
     urls: [img],
     current: img,
-    onFail : function(err) {
-      toast(err)
-    }
+    onFail: function (err) { toast(err) }
   })
 }
 
-export const dingShowPreLoad=()=>{
-  if(isDev){
-
-  }else{
+export const dingShowPreLoad = () => {
+  if (!isDev) {
     dd.device.notification.showPreloader({
-      text: "使劲加载中..", //loading显示的字符，空表示不显示文字
-      showIcon: true, //是否显示icon，默认true
-      onSuccess : function(result) {
-          /*{}*/
-      },
-      onFail : function(err) {}
+      text: '使劲加载中..',
+      showIcon: true,
+      onSuccess : function (result) {},
+      onFail: function (err) { toast(err) }
     })
   }
 }
-export const dingHidePreLoad=()=>{
-  if (isDev) {
-
-  }else{
+export const dingHidePreLoad = () => {
+  if (!isDev) {
     dd.device.notification.hidePreloader({
-      onSuccess : function(result) {
-          /*{}*/
-      },
-      onFail : function(err) {}
+      onSuccess: function (result) {},
+      onFail: function (err) { toast(err) }
     })
   }
 }
-export const dingPreviewImage=(urls,current)=>{
+export const dingPreviewImage = (urls, current) => {
   dd.biz.util.previewImage({
-    urls: urls,//图片地址列表
-    current: current,//当前显示的图片链接
-    onSuccess : function(result) {
-        /**/
-    },
-    onFail : function(err) {}
+    urls: urls,
+    current: current,
+    onSuccess: function (result) {},
+    onFail: function (err) { toast(err) }
   })
 }
-export const dingSetNavRight=(text='筛选',fun,show=false,control=true)=>{
-  if(!isDev){
+export const dingSetNavRight = (text = '筛选', fun, show = false, control = true) => {
+  if (!isDev) {
     dd.biz.navigation.setRight({
-      show: show,//控制按钮显示， true 显示， false 隐藏， 默认true
-      control: control,//是否控制点击事件，true 控制，false 不控制， 默认false
-      text: text,//控制显示文本，空字符串表示显示默认文本
-      onSuccess : function(result) {
-          //如果control为true，则onSuccess将在发生按钮点击事件被回调
-          /*
-          {}
-          */
-          fun && fun()
-      },
-      onFail : function(err) {}
+      show: show,
+      control: control,
+      text: text,
+      onSuccess: function (result) { fun && fun() },
+      onFail: function (err) { toast(err) }
     })
   }
 }
-export const dingSetNavLeft=(text='',control=false,fun,show=true,showIcon=false)=>{
-  if(!isDev){
+export const dingSetNavLeft =
+(text = '', control = false, fun, show = true, showIcon = false) => {
+  if (!isDev) {
     dd.biz.navigation.setLeft({
-        show: show,//控制按钮显示， true 显示， false 隐藏， 默认true
-        control: control,//是否控制点击事件，true 控制，false 不控制， 默认false
-        showIcon: showIcon,//是否显示icon，true 显示， false 不显示，默认true； 注：具体UI以客户端为准
-        text: text,//控制显示文本，空字符串表示显示默认文本
-        onSuccess : function(result) {
-            /*
-            {}
-            */
-            //如果control为true，则onSuccess将在发生按钮点击事件被回调
-
-            fun && fun()
-        },
-        onFail : function(err) {}
+      show: show,
+      control: control,
+      showIcon: showIcon,
+      text: text,
+      onSuccess: function (result) { fun && fun() },
+      onFail: function (err) { toast(err) }
     })
   }
 }
-export const dingSetNavLeftAndroid=(fun)=>{
-  console.log(33333333)
-  document.addEventListener('backbutton', function(e) {
-    console.log(11199373737443673862782)
+
+export const dingSetNavLeftAndroid = (fun) => {
+  document.addEventListener('backbutton', function (e) {
     fun && fun()
-    // 在这里处理你的业务逻辑
-    e.preventDefault(); //backbutton事件的默认行为是回退历史记录，如果你想阻止默认的回退行为，那么可以通过preventDefault()实现
-  });
+    e.preventDefault()
+  })
 }
 
-export const dingSetTitle=(title='')=>{
-  if(!isDev){
+export const dingSetTitle = (title = '') => {
+  if (!isDev) {
     dd.biz.navigation.setTitle({
-      title : title,//控制标题文本，空字符串表示显示默认文本
-      onSuccess : function(result) {
-          /*结构
-          {
-          }*/
-      },
-      onFail : function(err) {}
+      title: title,
+      onSuccess: function (result) {},
+      onFail: function (err) { toast(err) }
     })
   }
 }

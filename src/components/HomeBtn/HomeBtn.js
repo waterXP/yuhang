@@ -13,12 +13,11 @@ class HomeBtn extends Component{
     return (
         <div className='wm-home-btn homeBtnCell' onClick={this.clickHandler}>
           {
-            cellData.img?<img
+            cellData.img &&
+            <img
               src={cellData.img}
-              alt=""
-              className="homeCellImg"
-              />
-              :null
+              className='homeCellImg'
+            />
           }
           <h5>{cellData.name}</h5>
         </div>
@@ -42,4 +41,3 @@ class HomeBtn extends Component{
 }
 
 export default HomeBtn
-

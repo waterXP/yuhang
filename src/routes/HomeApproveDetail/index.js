@@ -1,5 +1,3 @@
-import { injectReducer } from '@/store/reducers'
-
 import { ACTION_HANDLERS } from './modules/HomeApproveDetail'
 export const HomeApproveDetail = ACTION_HANDLERS
 

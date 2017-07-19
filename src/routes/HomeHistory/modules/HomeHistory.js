@@ -3,6 +3,7 @@ import { asyncFetch, pageSize } from '@/lib/base'
 export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 export const IS_LOADING = 'IS_LOADING'
 export const LOAD_MORE = 'LOAD_MORE'
+export const CLEAR_HISTORY = 'CLEAR_HISTORY'
 
 export const getPaidHistory = (time, cPage = 1, noMore = false) => {
   let params = {
@@ -45,6 +46,12 @@ export const loadMore = () => {
   }
 }
 
+export const clearHistory = () => {
+  return {
+    type:CLEAR_HISTORY
+  }
+}
+
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
     let historyList = state.paidHistory
@@ -78,8 +85,11 @@ export const ACTIONS_HANDLERS = {
       cPage:action.cPage
     })
   },
+  [CLEAR_HISTORY]: (state) => {
+    return Object.assign({}, state, { paidHistory: [] })
+  },
   [LOAD_MORE]: (state) => {
-    return Object.assign({}, state, { loadMore:true })
+    return Object.assign({}, state, { loadMore: true })
   },
   [IS_LOADING]: (state) => {
     return Object.assign({}, state, { isLoading: true })

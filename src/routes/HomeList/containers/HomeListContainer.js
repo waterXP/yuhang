@@ -11,7 +11,6 @@ import {
 
 
 const mapStateToProps = (state) => {
-  //console.log('==========approve state============',state)
   return {
     approve:{
       approve:state.home.approve,

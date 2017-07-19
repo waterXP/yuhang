@@ -6,11 +6,16 @@ import Receipt from '@/components/Receipt'
 
 class ApprovalDetail extends Component {
   static propTypes = {
-   getApprovalDetail: PropTypes.func.isRequired,
-   addComment: PropTypes.func.isRequired,
-   approvalDetail: PropTypes.object.isRequired,
-   query: PropTypes.object.isRequired,
-   isBusy: PropTypes.bool.isRequired
+    getApprovalDetail: PropTypes.func.isRequired,
+    addComment: PropTypes.func.isRequired,
+    approvalDetail: PropTypes.object.isRequired,
+    query: PropTypes.object.isRequired,
+    isBusy: PropTypes.bool.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    this.commentHandler = this.commentHandler.bind(this)
   }
 
   componentDidMount () {
@@ -26,12 +31,12 @@ class ApprovalDetail extends Component {
   }
 
   render () {
-    const { approvalDetail, query, addComment, isBusy } = this.props
+    const { approvalDetail, query, isBusy } = this.props
     return (
       <div className='wm-approval-detail'>
-        { approvalDetail.master
-          && (+query.id === approvalDetail.master.expensesClaimId)
-          && <Receipt data={ approvalDetail } addComment={ this.commentHandler.bind(this) } isBusy={ isBusy } />
+        { approvalDetail.master &&
+            (+query.id === approvalDetail.master.expensesClaimId) &&
+            <Receipt data={approvalDetail} addComment={this.commentHandler} isBusy={isBusy} />
         }
       </div>
     )

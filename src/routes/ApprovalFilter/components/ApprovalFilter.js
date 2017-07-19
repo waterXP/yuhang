@@ -5,7 +5,6 @@ import Range from '@/components/Range'
 import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import ApprovalList from '@/components/ApprovalList'
-import NoData from '@/components/NoData'
 import { approveStatus } from '@/lib/enums'
 import { getObjArray } from '@/lib/base'
 
@@ -37,6 +36,13 @@ class ApprovalFilter extends Component {
       range: ['', ''],
       showResult: false
     }
+
+    this.scrolled = this.scrolled.bind(this)
+    this.toggleFilter = this.toggleFilter.bind(this)
+    this.updateRange = this.updateRange.bind(this)
+  }
+  handleClick (value) {
+    return () => this.toggleResult(value)
   }
   toggleResult (value) {
     this.setState({
@@ -62,7 +68,7 @@ class ApprovalFilter extends Component {
         })
         if (temp.length > 0) {
           params.status = temp.join(',')
-        }        
+        }
       }
       params.current_page = 1
       inBusy(true)
@@ -74,10 +80,30 @@ class ApprovalFilter extends Component {
   }
   scrolled (e) {
     const { inBusy, isBusy, page, query, getList } = this.props
-      const status = +query.status || 1
+    const { range, filter } = this.state
+    const status = +query.status || 1
     if (!isBusy) {
       inBusy(true)
-      getList(status, { current_page: page.next_page })
+      let params = {}
+      if (range[0] !== '' && !isNaN(+range[0])) {
+        params.summoneyMin = +range[0]
+      }
+      if (range[1] !== '' && !isNaN(+range[1])) {
+        params.summoneyMax = +range[1]
+      }
+      if (status !== 1) {
+        let temp = []
+        filter.forEach((v) => {
+          if (v.sel) {
+            temp.push(v.id)
+          }
+        })
+        if (temp.length > 0) {
+          params.status = temp.join(',')
+        }
+      }
+      params.current_page = page.next_page
+      getList(status, params)
     }
   }
   toggleFilter (targetId) {
@@ -89,9 +115,7 @@ class ApprovalFilter extends Component {
     })
   }
   updateRange (range) {
-    this.setState({
-      range
-    })
+    this.setState({ range })
   }
   render () {
     const { isBusy, list, query, page } = this.props
@@ -105,7 +129,7 @@ class ApprovalFilter extends Component {
       title: '输入金额区间',
       range,
       dec: 2,
-      updateRange: this.updateRange.bind(this),
+      updateRange: this.updateRange,
       placeholder: ['最小值', '最大值']
     }
     let result
@@ -116,14 +140,14 @@ class ApprovalFilter extends Component {
             className='top-btn'
             type='button'
             value='变更筛选条件'
-            onClick={ this.toggleResult.bind(this, false) }
+            onClick={this.handleClick(false)}
           />
           <ApprovalList
-            list={ list }
-            tag={ status }
-            handlerScroll={ this.scrolled.bind(this) }
-            pageEnd={ pageEnd }
-            isBusy={ isBusy }
+            list={list}
+            tag={status}
+            handlerScroll={this.scrolled}
+            pageEnd={pageEnd}
+            isBusy={isBusy}
           />
         </div>
       )
@@ -134,12 +158,12 @@ class ApprovalFilter extends Component {
             <Range {...rangeAttr} />
             { status !== 1 && <Filter
               title='选择筛选条件'
-              conditions={ filter }
-              multiple={ true }
-              clickHandler={ this.toggleFilter.bind(this) }
+              conditions={filter}
+              multiple
+              clickHandler={this.toggleFilter}
             /> }
           </div>
-          <FormButton text='确认' onClick={ this.toggleResult.bind(this, true) } />
+          <FormButton text='确认' onClick={this.handleClick(true)} />
         </div>
       )
     }

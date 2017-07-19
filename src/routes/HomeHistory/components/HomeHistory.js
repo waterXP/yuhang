@@ -34,6 +34,8 @@ class HomeHistory extends Component {
     } else {
       this.props.getPaidHistory()
     }
+    this.props.isLoading()
+    this.props.clearHistory()
     dingSetTitle('发放历史')
     dingSetNavRight('筛选', () => {
       goLocation('/home/date/filter')
@@ -59,7 +61,9 @@ class HomeHistory extends Component {
       }
     }
   }
-
+  componentWillUnmount () {
+    this.props.clearHistory()
+  }
   render () {
     const { paidHistory } = this.props
     const paidMonths = []
@@ -77,7 +81,6 @@ class HomeHistory extends Component {
     } else {
       noData = true
     }
-    console.log(paidMonths)
     return (
       <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
         { loadingBool
@@ -99,4 +102,3 @@ class HomeHistory extends Component {
 }
 
 export default HomeHistory
-

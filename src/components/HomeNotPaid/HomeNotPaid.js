@@ -1,14 +1,25 @@
-import React,{Component} from "react"
-import HomeNotPaidTotal from "../HomeApproveList/HomeApproveTotal"
+import React, { Component } from 'react'
+import HomeNotPaidTotal from '../HomeApproveList/HomeApproveTotal'
 import HomeNotPaidCell from './HomeNotPaidCell'
 import "./HomeNotPaid.scss"
 
-class HomeNotPaid extends Component{
-  constructor(){
+class HomeNotPaid extends Component {
+  constructor () {
     super()
     this.clickHandler = this.clickHandler.bind(this)
   }
-  render(){
+  componentDidMount () {
+    let height = this.refs.notPaidList.offsetHeight
+    this.props.getOffsetHeight(this.refs.notPaidList)
+  }
+  componentDidUpdate () {
+    let height = this.refs.notPaidList.offsetHeight
+    this.props.getOffsetHeight(this.refs.notPaidList)
+  }
+  clickHandler () {
+    this.props.onClick()
+  }
+  render () {
     let { approveSumMoney, noMore, approve } = this.props
     let notPaidList = []
     let waiteTicketHtml = []
@@ -16,7 +27,6 @@ class HomeNotPaid extends Component{
     let refusePaidHtml = []
     let sumMoneyHtml = ''
     let showBtn = false
-    //let noMore=false
     if (approve) {
       let sumMoney = approveSumMoney
       if (sumMoney) {
@@ -29,9 +39,8 @@ class HomeNotPaid extends Component{
         }
       }
       if (notPaidList) {
-        notPaidList.map((cur,index,arr) => {
+        notPaidList.map((cur, index, arr) => {
           if (cur.status === 5) {
-            // 待票审
             waiteTicketHtml.push(
               <HomeNotPaidCell notPaid={cur} key={index} />
             )
@@ -46,12 +55,10 @@ class HomeNotPaid extends Component{
           }
         })
       }
-
-    }// end of if
-
+    }
     return (
       <div className="wm-homeNotPaid" ref='notPaidList'>
-        <HomeNotPaidTotal total={sumMoneyHtml}/>
+        <HomeNotPaidTotal total={sumMoneyHtml} />
         <ul className='waitePaidFirst'>
           {waiteTicketHtml}
         </ul>
@@ -62,27 +69,12 @@ class HomeNotPaid extends Component{
           {refusePaidHtml}
         </ul>
         {
-
-          noMore?
-          <div
-            className='loadMore'
-            >没有更多</div>:
-            null
+          noMore &&
+          <div className='loadMore'>没有更多</div>
         }
       </div>
     )
   }
-  clickHandler(){
-    this.props.onClick()
-  }
-  componentDidMount(){
-    let height=this.refs.notPaidList.offsetHeight
-    this.props.getOffsetHeight(this.refs.notPaidList)
-  }
-  componentDidUpdate(){
-    let height=this.refs.notPaidList.offsetHeight
-    this.props.getOffsetHeight(this.refs.notPaidList)
-  }
 }
 
-export default HomeNotPaid;
+export default HomeNotPaid

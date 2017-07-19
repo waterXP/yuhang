@@ -5,7 +5,6 @@ import './ApprovalSearch.scss'
 import SearchForm from '@/components/SearchForm'
 import Cover from '@/components/Cover'
 import ApprovalList from '@/components/ApprovalList'
-import NoData from '@/components/NoData'
 
 class ApprovalSearch extends Component {
   static propTypes = {
@@ -32,8 +31,11 @@ class ApprovalSearch extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      dirty: false
+      dirty: false,
+      search: ''
     }
+    this.scrolled = this.scrolled.bind(this)
+    this.getResult = this.getResult.bind(this)
   }
 
   componentDidMount () {
@@ -41,24 +43,25 @@ class ApprovalSearch extends Component {
   }
   scrolled (e) {
     const { inBusy, isBusy, page, query, getList } = this.props
+    const { search } = this.state
     if (!isBusy) {
       inBusy(true)
-      getList(+query.status || 1, { current_page: page.next_page })
+      getList(+query.status || 1, { search, current_page: page.next_page })
     }
   }
 
   getResult (value) {
-    console.log(value)
     if (value) {
       const { getList, inBusy, query } = this.props
       inBusy(true)
+      this.setState({ search: value })
       getList(+query.status, {
         search: value,
         current_page: 1
       })
       this.setState({
         dirty: true
-      })      
+      })
     } else {
       this.setState({
         dirty: false
@@ -75,16 +78,16 @@ class ApprovalSearch extends Component {
     const { dirty } = this.state
     return (
       <div className='wm-approval-search'>
-        <SearchForm btnLink='/approval/main' inBusy={ inBusy } submitHandler={ this.getResult.bind(this) } />
-        { dirty ? 
-            <ApprovalList
-              list={ list }
-              tag={ +query.status || 1 }
-              handlerScroll={ this.scrolled.bind(this) }
-              pageEnd={ pageEnd }
-              isBusy={ isBusy }
-            /> :
-            <Cover />
+        <SearchForm btnLink='/approval/main' inBusy={inBusy} submitHandler={this.getResult} />
+        { dirty
+            ? <ApprovalList
+              list={list}
+              tag={+query.status || 1}
+              handlerScroll={this.scrolled}
+              pageEnd={pageEnd}
+              isBusy={isBusy}
+            />
+            : <Cover />
         }
       </div>
     )
@@ -92,4 +95,3 @@ class ApprovalSearch extends Component {
 }
 
 export default ApprovalSearch
-

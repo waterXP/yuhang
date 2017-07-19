@@ -13,7 +13,8 @@ export default (store) => ({
       injectReducer(store, { key: 'approval', reducer })
       cb(null, Container)
     }, 'approval')
-  }, childRoutes: [
+  },
+  childRoutes: [
     ApprovalMainRoute(store),
     ApprovalSearchRoute(store),
     ApprovalFilterRoute(store),

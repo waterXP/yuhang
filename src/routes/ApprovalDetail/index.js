@@ -1,5 +1,3 @@
-import { injectReducer } from '../../store/reducers'
-
 export default (store) => ({
   path : 'detail',
   getComponent (nextState, cb) {
@@ -9,4 +7,3 @@ export default (store) => ({
     }, 'detail')
   }
 })
-

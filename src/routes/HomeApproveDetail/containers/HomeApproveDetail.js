@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
 import HomeApproveDetail from '../components/HomeApproveDetail'
-import {initialApproveDetail,
+import {
+  initialApproveDetail,
   getApproveDetail,
   deleteExp,
-  addComment } from '../modules/HomeApproveDetail'
-
+  addComment
+} from '../modules/HomeApproveDetail'
 
 const mapStateToProps = (state) => {
-  //console.log('state',state);
   return {
     detail:state.home.detail
   }

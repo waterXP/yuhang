@@ -19,7 +19,8 @@ export default (store) => ({
       injectReducer(store, { key: 'home', reducer })
       cb(null, Container)
     }, 'home')
-  }, childRoutes: [
+  },
+  childRoutes: [
     HomeApproveListRoute(store),
     HomeNotPaidRoute(store),
     HomeDraftRoute(store),
