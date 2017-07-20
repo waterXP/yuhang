@@ -6,7 +6,6 @@ import '@/styles/core.scss'
 
 export const CoreLayout = (props) => {
   const { children, location } = props
-  let noFooter = false
   let footerClass = ''
   if (location.pathname.indexOf('/new') === 0) {
     footerClass = ' no-footer'

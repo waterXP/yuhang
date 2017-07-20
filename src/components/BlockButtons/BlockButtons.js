@@ -7,22 +7,23 @@ export const BlockButtons = ({ btns = [], btnSplit }) => {
   let len = btnSplit || btns.filter((v) => !v.hide).length
   return (
     <div className='wm-block-buttons'>
-    { btns.map((v, i) => (
-      !v.hide && <button
-        style={{width: `${~~(100 / len)}%`}}
-        key={i}
-        type={v.type || 'button'}
-        disabled={v.disabled}
-        onClick={v.clickHandle}>
-        {v.text}
-      </button>
-    ))}
+      { btns.map((v, i) => (
+        !v.hide && <button
+          style={{ width: `${~~(100 / len)}%` }}
+          key={i}
+          type={v.type || 'button'}
+          disabled={v.disabled}
+          onClick={v.clickHandle}>
+          {v.text}
+        </button>
+      ))}
     </div>
   )
 }
 
 BlockButtons.propTypes = {
-  list: PropTypes.array
+  btns: PropTypes.array,
+  btnSplit: PropTypes.number
 }
 
 export default BlockButtons

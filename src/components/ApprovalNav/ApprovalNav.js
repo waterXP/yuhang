@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalNav.scss'
-// import testImg from '@/routes/SettingsAccounts/assets/Duck.jpg'
 
 class ApprovalNav extends Component {
   static propTypes = {
     active: PropTypes.string.isRequired,
     handleClick: PropTypes.func,
     name: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    imgsrc: PropTypes.string
   }
   clickHandle () {
     return () => this.props.handleClick()

@@ -12,6 +12,21 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
       attachmentUrls.push(cur.url)
     })
   }
+  let fIcon = [
+    'fa fa-check-circle wm-color-correct',
+    'fa fa-times-circle wm-color-error',
+    'fa fa-times-circle wm-color-error',
+    'fa fa-info-circle wm-color-primary',
+    'fa fa-check-circle wm-color-correct',
+    'fa fa-clock-o wm-color-secondary',
+    'fa fa-soccer-ball-o wm-color-secondary',
+    'fa fa-check-circle wm-color-correct',
+    'fa fa-pause-circle wm-color-secondary',
+    'fa fa-check-circle wm-color-correct',
+    'fa fa-pause-circle wm-color-secondary',
+    'fa fa-check-circle wm-color-correct',
+    'fa fa-check-circle wm-color-correct'
+  ]
   return (
     <div className='wm-receipt-flow'>
       {attachmentList.length > 0 && <div className='attachment-box'>
@@ -29,11 +44,9 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
           <div className='flow clearfix' key={i}>
             <span
               className={
-                data.status !== undefined
-                ? data.status === 1
-                  ? 'fa fa-check-circle wm-color-correct'
-                  : 'fa fa-times-circle wm-color-error'
-                : 'fa fa-info-circle wm-color-primary'
+                data.type !== null && data.type !== undefined
+                ? fIcon[data.type]
+                : 'fa fa-question-circle wm-color-secondary'
               }
             />
             <div className='detail'>

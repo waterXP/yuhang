@@ -579,16 +579,16 @@ class ExpenseForm extends Component {
           showImg={this.showImg}
         />
         <ExpenseApprover approvers={approvers} />
-        <BlockButtons btns={
-          [{
+        <BlockButtons btns={[
+          {
             text: '存草稿',
             clickHandle: this.commitHandle(true),
             hide: type && type > 1
           }, {
             text: '提交',
             clickHandle: this.commitHandle(false)
-          }]
-        } />
+          }
+        ]} />
       </form>
     )
   }
