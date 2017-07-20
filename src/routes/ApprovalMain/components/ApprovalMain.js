@@ -48,7 +48,8 @@ class ApprovalMain extends Component {
   render () {
     const { active, updateActive, list, isBusy, page } = this.props
     let pageEnd = true
-    if (page['current_page'] && page['total_page'] && page['current_page'] < page['total_page']) {
+    if (page['current_page'] && page['total_page'] &&
+      page['current_page'] < page['total_page']) {
       pageEnd = false
     }
     return (

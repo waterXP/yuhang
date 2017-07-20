@@ -16,7 +16,8 @@ class ExpenseDetailInfo extends Component {
     setDate: PropTypes.func,
     detail: PropTypes.object,
     formatCurrency: PropTypes.func,
-    setCostType: PropTypes.func
+    setCostType: PropTypes.func,
+    hasDel: PropTypes.bool
   }
   constructor (props) {
     super(props)
@@ -49,7 +50,7 @@ class ExpenseDetailInfo extends Component {
     return this.props.setDate.bind(this, target)
   }
   render () {
-    const { data, deleteHandler, title, costType, detail } = this.props
+    const { data, deleteHandler, title, costType, detail, hasDel } = this.props
     const { openModal, paths } = this.state
     return (
       <div className='wm-expense-detail-info'>
@@ -62,7 +63,7 @@ class ExpenseDetailInfo extends Component {
           />
         }
         <span>{title}</span>
-        <button type='button' className='close-button' onClick={deleteHandler}>删除</button>
+        { hasDel && <button type='button' className='close-button' onClick={deleteHandler}>删除</button> }
         <FormLink
           text='费用类型'
           name={`${data}.feeName`}

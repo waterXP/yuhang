@@ -3,15 +3,15 @@
 .wm-expense-detail-info {
   &>button {
     float: right;
+    border: none;
+    background-color: transparent;
     color: $activeColor;
   }
-  .close-button {
-    &+div {
-      clear: both;
-    }
+  .wm-form-link {
+    clear: both;
   }
   span {
     float: left;
-    margin: .2rem 0 0 1rem;
+    margin: .2rem 0 .2rem 1rem;
   }
 }

@@ -20,9 +20,15 @@ class AccountList extends Component {
   }
 
   render () {
+    const { accounts } = this.props
+    let list = [
+      ...accounts.filter((v) => v.isDefault),
+      ...accounts.filter((v) => !v.isDefault)
+    ]
+    console.log(list)
     return (
       <ul className='wm-accounts-list'>
-        {this.props.accounts.map((account) => {
+        {list.map((account) => {
           const pathname = account.type === 1
             ? 'settings/edit/account'
             : 'settings/edit/alipay'
@@ -39,7 +45,7 @@ class AccountList extends Component {
                 { account.bankName }
                 &nbsp;
                 { account.isDefault
-                  ? <i className='fa fa-check wm-color-correct' />
+                  ? <span className='wm-color-primary'>默认</span>
                   : ''
                 }
               </h5>

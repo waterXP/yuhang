@@ -1,0 +1,23 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+export const BlockButton = ({ type, disabled, onClick, text }) => {
+  return (
+    <button
+      type={type || 'button'}
+      className='btn btn-primary wm-form-button'
+      disabled={disabled}
+      onClick={onClick}>
+      {text}
+    </button>
+  )
+}
+
+BlockButton.propTypes = {
+  text: PropTypes.string,
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func
+}
+
+export default BlockButton

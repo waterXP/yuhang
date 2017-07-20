@@ -6,17 +6,19 @@
   width: 25%;
   max-width: 9rem;
   padding-bottom: 1px;
-  border-bottom: 1px solid $borderColorSecondary;
+  text-align: center;
   .nav-btn {
-    width: 80%;
     max-width: 7.6rem;
+    height: calc(100% - 3.8rem);
+    margin: .5rem 0;
   }
   a {
     display: inline-block;
+    height: 9rem;
     text-align: center;
   }
   p {
-    margin: 1rem 0 .5rem;
+    margin: .5rem 0 .5rem;
     color: $fontColor;
   }
   &.active {

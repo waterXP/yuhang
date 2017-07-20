@@ -65,6 +65,7 @@ class ExpenseDetails extends Component {
         {tags && fields && fields.map((v, i) =>
           <ExpenseDetailInfo
             key={tags[i]}
+            hasDel={tags.length > 1}
             data={v}
             title={`明细${tags[i]}`}
             deleteHandler={this.deleteHandler(i)}

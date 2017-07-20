@@ -4,7 +4,9 @@
   padding: 0;
   list-style-type: none;
   text-align: left;
-
+  span {
+    float: right;
+  }
   li {
     border: 1px solid $defaultColor;
     border-radius: 0.6rem;
@@ -18,9 +20,5 @@
     border-radius: 50%;
     vertical-align: top;
     margin: 1rem;
-  }
-
-  div {
-    display: inline-block;
   }
 }
