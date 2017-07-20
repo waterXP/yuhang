@@ -8,7 +8,7 @@ import ExpenseDetails from '../ExpenseDetails'
 import ExpenseAccountInfo from '../ExpenseAccountInfo'
 import ExpenseAttachment from '../ExpenseAttachment'
 import ExpenseApprover from '../ExpenseApprover'
-import FormButton from '../FormButton'
+import BlockButtons from '../BlockButtons'
 import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
   uploadImage, previewImage } from '@/lib/base'
@@ -40,7 +40,7 @@ class ExpenseForm extends Component {
     type: PropTypes.number,
     accountList: PropTypes.array,
     totalCash: PropTypes.func,
-    deptDingId: PropTypes.string,
+    deptDingId: PropTypes.any,
     deptId: PropTypes.number,
     deptName: PropTypes.string,
     originAttachments: PropTypes.array,
@@ -400,6 +400,10 @@ class ExpenseForm extends Component {
     this.props.change('tags', tags)
   }
 
+  commitHandle (v) {
+    return this.commit.bind(this, v)
+  }
+
   commit (draft) {
     const { type, deptsList, selDept, details, totalCash,
       selAccount, accountList, projectsList, selProj,
@@ -494,11 +498,12 @@ class ExpenseForm extends Component {
     fetchData(action, params)
     .then((d) => {
       if (d.result === 0) {
-        const pathname = draft ? '/home/draft' : '/approval/main'
+        const pathname = draft ? '/home/home_list' : '/approval/main'
         goLocation({
           pathname,
           query: {
-            active: 2
+            active: 2,
+            type: 6
           }
         })
       } else {
@@ -517,6 +522,7 @@ class ExpenseForm extends Component {
       tags, nextTag, type, deptName, restAttachments } = this.props
     const { options, target, openModal,
       targetName, labelId, labelName } = this.state
+    console.log(type)
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
@@ -573,12 +579,16 @@ class ExpenseForm extends Component {
           showImg={this.showImg}
         />
         <ExpenseApprover approvers={approvers} />
-        { type && type < 2 &&
-          <FormButton text='存草稿' onClick={() => this.commit(true)} /> }
-        <FormButton
-          text='提交'
-          onClick={() => this.commit(false)}
-        />
+        <BlockButtons btns={[
+          {
+            text: '存草稿',
+            clickHandle: this.commitHandle(true),
+            hide: type && type > 1
+          }, {
+            text: '提交',
+            clickHandle: this.commitHandle(false)
+          }
+        ]} />
       </form>
     )
   }

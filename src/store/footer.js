@@ -13,8 +13,9 @@ const initialState = {
     }, {
       homePage: false,
       iconClass: 'fa-plus-circle',
+      title: '报销',
       linkUrl: '/new',
-      btnType: 'imgOnly'
+      btnType: 'big'
     }, {
       homePage: false,
       iconClass: 'fa-bar-chart',

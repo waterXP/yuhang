@@ -13,7 +13,7 @@ export const FooterButton =
       disabled={pathname.indexOf(linkUrl) === 0}
     >
       <i className={`fa ${iconClass || ''}`} />
-      {btnType !== 'imgOnly' && <p>{title}</p>}
+      <p>{title}</p>
     </Link>
   )
 }

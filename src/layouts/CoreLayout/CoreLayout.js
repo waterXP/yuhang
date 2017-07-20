@@ -6,13 +6,17 @@ import '@/styles/core.scss'
 
 export const CoreLayout = (props) => {
   const { children, location } = props
-  let noFooter = false
+  let footerClass = ''
   if (location.pathname.indexOf('/new') === 0) {
-    noFooter = true
+    footerClass = ' no-footer'
+  } else if (location.pathname.indexOf('/home/approve_detail') === 0 ||
+    location.pathname.indexOf('/home/detail') === 0 ||
+    location.pathname.indexOf('/approval/detail') === 0) {
+    footerClass = ' sm-footer'
   }
   return (
     <div className='container text-center'>
-      <div className={`core-layout__viewport${noFooter ? ' no-footer' : ''}`}>
+      <div className={`core-layout__viewport${footerClass}`}>
         { children }
       </div>
       <FooterContainer />

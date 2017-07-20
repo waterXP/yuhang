@@ -1,21 +1,22 @@
 @import '../../styles/baseStyle';
 
 .footer-button {
+  position: absolute;
   display: inline-block;
   width: 20%;
+  bottom: 0;
   color: $defaultColor;
-  vertical-align: top;
-
   &:focus, &:hover {
     color: $defaultColor;
   }
   &.active {
     color: $activeColor;
   }
-  &.imgOnly {
+  &.big {
     > i {
-      font-size: 3.2rem;
-      padding-top: 0.5rem;      
+      font-size: 5rem;
+      background-color: $backColor;
+      border-radius: 50%;  
     }
   }
   &[disabled] {
@@ -27,6 +28,7 @@
     max-width: 100%;    
   }
   > p {
+    margin: 0;
     font-size: 1.4rem;
   }
 }
