@@ -1,43 +1,47 @@
-import React, { Component } from "react"
-import { Link } from "react-router"
+import React, { Component } from 'react'
 import { goLocation } from '@/lib/base'
 import './HomeBtn.scss'
+import PropTypes from 'prop-types'
 
-class HomeBtn extends Component{
-  constructor(){
+class HomeBtn extends Component {
+  constructor () {
     super()
     this.clickHandler = this.clickHandler.bind(this)
   }
-  render(){
-    let cellData=this.props.cellData
+  render () {
+    let cellData = this.props.cellData
     return (
-        <div className='wm-home-btn homeBtnCell' onClick={this.clickHandler}>
-          {
-            cellData.img &&
-            <img
-              src={cellData.img}
-              className='homeCellImg'
-            />
-          }
-          <h5>{cellData.name}</h5>
-        </div>
+      <div className='wm-home-btn homeBtnCell' onClick={this.clickHandler}>
+        {cellData.img &&
+          <img
+            src={cellData.img}
+            className='homeCellImg'
+          />
+        }
+        <h5>{cellData.name}</h5>
+      </div>
     )
   }
-  clickHandler(){
+  clickHandler () {
     let type = parseInt(this.props.cellData.type)
-    let url={
-          pathname:'/home/home_list',
-          query: {
-            type: type
-          }
-        }
-      if(type===3){
-        url = {
-          pathname:'/home/history'
-        }
+    let url = {
+      pathname:'/home/home_list',
+      query: {
+        type: type
       }
+    }
+    if (type === 3) {
+      url = {
+        pathname:'/home/history'
+      }
+    }
     goLocation(url)
   }
+}
+HomeBtn.propTypes = {
+  cellData:PropTypes.shape({
+    type:PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default HomeBtn

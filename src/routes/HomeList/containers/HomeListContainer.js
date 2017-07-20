@@ -9,7 +9,6 @@ import {
   deleteExp
 } from '../modules/HomeList'
 
-
 const mapStateToProps = (state) => {
   return {
     approve:{

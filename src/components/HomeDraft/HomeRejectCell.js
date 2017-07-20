@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { goLocation, removeYear, getCash } from '@/lib/base'
+import PropTypes from 'prop-types'
 
 class HomeRejectCell extends Component {
-  constructor(){
+  constructor () {
     super()
     this.showDetail = this.showDetail.bind(this)
   }
@@ -13,7 +14,6 @@ class HomeRejectCell extends Component {
   }
   render () {
     let cur = this.props.undoCell
-    let type = this.props.type
     return (
       <li onClick={this.showDetail}>
         <p>{removeYear(cur.submitTime)}</p>
@@ -22,6 +22,11 @@ class HomeRejectCell extends Component {
       </li>
     )
   }
+}
+HomeRejectCell.propTypes = {
+  undoCell:PropTypes.shape({
+    expensesClaimsId:PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default HomeRejectCell

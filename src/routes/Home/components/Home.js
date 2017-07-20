@@ -49,27 +49,27 @@ Home.prototype.btns = [
   [{
     type:1,
     img:HomeImage,
-    name:"审批中"
-  },{
+    name:'审批中'
+  }, {
     type:2,
     img:HomeImage,
-    name:"未发放"
-  },{
+    name:'未发放'
+  }, {
     type:3,
     img:HomeImage,
-    name:"发放历史"
-  }],[{
+    name:'发放历史'
+  }], [{
     type:4,
     img:HomeImage,
-    name:"已撤销"
-  },{
+    name:'已撤销'
+  }, {
     type:5,
     img:HomeImage,
-    name:"已拒绝"
-  },{
+    name:'已拒绝'
+  }, {
     type:6,
     img:HomeImage,
-    name:"草稿"
+    name:'草稿'
 
   }]
 ]

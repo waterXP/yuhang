@@ -1,5 +1,3 @@
-import HomeApproveList from "./HomeApproveList"
+import HomeApproveList from './HomeApproveList'
 
-
-
-export default HomeApproveList;
+export default HomeApproveList

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { goLocation, confirm, removeYear, getCash } from '@/lib/base'
 
 class HomeDraftCell extends Component {
@@ -10,17 +11,17 @@ class HomeDraftCell extends Component {
   render () {
     let cur = this.props.draftCell
     let type = this.props.type
-
     return (
       <li
-      onClick={this.showDetail}
-      >
+        onClick={this.showDetail}
+        >
         <p>{removeYear(type === 4 ? cur.submitTime : cur.updatedAt)}</p>
         <p>{getCash(cur.sumMoney)}</p>
         <p>
-        <a href="javascript:;"
-        onClick={this.clickHandler}
-        >删除</a></p>
+          <a href='javascript:;'
+            onClick={this.clickHandler}
+            >删除</a>
+        </p>
       </li>
     )
   }
@@ -45,7 +46,7 @@ class HomeDraftCell extends Component {
     if (type === 4) {
       url = `/home/approve_detail/${expensesClaimsId}/+4`
     } else {
-      //草稿
+      // 草稿
       url = {
         pathname:'/new',
         query: {
@@ -55,6 +56,11 @@ class HomeDraftCell extends Component {
     }
     goLocation(url)
   }
+}
+HomeDraftCell.propTypes = {
+  draftCell:PropTypes.object.isRequired,
+  type:PropTypes.number.isRequired,
+  deleteExp:PropTypes.func.isRequired
 }
 
 export default HomeDraftCell

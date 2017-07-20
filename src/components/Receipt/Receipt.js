@@ -32,6 +32,15 @@ class Receipt extends Component {
   render () {
     const { data, type, isBusy } = this.props
     let nType = +type
+    let names = [
+      {
+        name: '删除',
+        fun: this.deleteExp
+      }, {
+        name: '重新提交',
+        fun: this.reSubmit
+      }
+    ]
     if (!data.all) {
       data.all = []
     }
@@ -46,8 +55,7 @@ class Receipt extends Component {
         <div className='fixed-bottom'>
           { nType === 5 || nType === 4
             ? <ReceiptDelete
-              deleteExp={this.deleteExp}
-              reSubmit={this.reSubmit}
+              names={names}
             />
             : isBusy
               ? <NoData type='loading' text='添加评论中……' size='xsmall' />

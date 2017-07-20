@@ -13,17 +13,19 @@ const ACTION_HANDLERS = Object.assign(
   HomeListHandlers
 )
 const initialState = {
-  approve: {},
+  approve: {
+    cPage: 1,
+    pageCount: 1
+  },
   loadMore: false,
   noMore: false,
   approveSumMoney: 0,
-  notPaid: { data: { list: [] } },
-  reject:{ data:[] },
-  undo:{ data:[] },
-  draft:{ data:[] },
   paidHistory: [],
   historyDetail: {},
   isLoading: true,
+  detail: {},
+  cPage: 1,
+  total_page: 1,
   filter: {},
   monthFilter: [
     { id: 0, text: '1月' },

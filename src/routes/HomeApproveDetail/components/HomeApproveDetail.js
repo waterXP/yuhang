@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
 import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/base'
+import PropTypes from 'prop-types'
 
 class HomeApproveDetail extends Component {
   constructor () {
@@ -49,6 +50,14 @@ class HomeApproveDetail extends Component {
     let title = '提示'
     confirm(message, title, this.props.deleteExp.bind(null, expensesClaimId, this.props.params.type))
   }
+}
+HomeApproveDetail.propTypes = {
+  detail:PropTypes.object.isRequired,
+  addComment:PropTypes.func.isRequired,
+  params:PropTypes.object,
+  getApproveDetail:PropTypes.func.isRequired,
+  deleteExp:PropTypes.func.isRequired,
+  initialApproveDetail:PropTypes.func.isRequired
 }
 
 export default HomeApproveDetail

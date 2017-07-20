@@ -17,7 +17,6 @@ export const getPaidHistory = (time, cPage = 1, noMore = false) => {
     'get /expensesClaimPaids/paidHistory.json',
     params,
     (data, dispatch) => {
-
       return dispatch({
         type: GET_PAID_HISTORY,
         paidHistory:data.data.list,
@@ -56,7 +55,7 @@ export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
     let historyList = state.paidHistory
     if (!historyList) {
-      historyList=[]
+      historyList = []
     }
     let paidHistory = []
     let monthStr = ''

@@ -16,8 +16,15 @@ class HomeHistory extends Component {
         paidPerson: PropTypes.string.isRequired
       }).isRequired).isRequired
     ).isRequired,
-    getPaidHistory: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired
+    getPaidHistory:PropTypes.func.isRequired,
+    query:PropTypes.object.isRequired,
+    total_page:PropTypes.number.isRequired,
+    cPage:PropTypes.number.isRequired,
+    loadMoreBool:PropTypes.bool.isRequired,
+    loadingBool:PropTypes.bool.isRequired,
+    isLoading:PropTypes.func.isRequired,
+    loadMore:PropTypes.func.isRequired,
+    clearHistory:PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -46,11 +53,9 @@ class HomeHistory extends Component {
     let cPage = this.props.cPage
     let pageCount = this.props.total_page
     let loadMore = this.props.loadMoreBool
-
     let scrollTop = e.target.scrollTop
     let height = this.refs.history.offsetHeight
     let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
-
     if (deviceHeight + scrollTop + 50 > height && !loadMore) {
       if (cPage + 1 === pageCount) {
         this.props.loadMore()
@@ -90,7 +95,7 @@ class HomeHistory extends Component {
             : paidHistory.map((paids, index) => (
               <SendHistoryList
                 key={paidMonths[index]}
-                thead={index===0}
+                thead={index === 0}
                 datas={paids}
                 pathname='detail' />
             ))

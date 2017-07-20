@@ -4,18 +4,25 @@ import './ReceiptDelete.scss'
 
 class ReceiptDelete extends Component {
   render () {
+    let { names } = this.props
+    let btnArray = []
+    if (names) {
+      names.map((cur, index) => {
+        btnArray.push(
+          <a href='javascript:;' onClick={cur.fun} key={index}>{cur.name}</a>
+        )
+      })
+    }
     return (
       <div className='wm-receipt-delete'>
-        <a href='javascript:;' onClick={this.props.deleteExp}>删除</a>
-        <a href='javascript:;' onClick={this.props.reSubmit}>重新提交</a>
+        {btnArray}
       </div>
     )
   }
 }
 
 ReceiptDelete.propTypes = {
-  deleteExp: PropTypes.func,
-  reSubmit: PropTypes.func
+  names: PropTypes.array.isRequired
 }
 
 export default ReceiptDelete

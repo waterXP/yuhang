@@ -1,4 +1,4 @@
-import { asyncFetch, pageSize } from '@/lib/base'
+import { asyncFetch, pageSize, dingShowPreLoad, dingHidePreLoad } from '@/lib/base'
 
 export const GET_APPROVE = 'GET_APPROVE'
 export const INITIAL_APPROVE = 'INITIAL_APPROVE'
@@ -7,14 +7,15 @@ export const IS_LOADING = 'IS_LOADING'
 export const NOMORE = 'NOMORE'
 export const GET_OFFSET_HEIGHT = 'GET_OFFSET_HEIGHT'
 export const LOAD_MORE = 'LOAD_MORE'
+export const DELETE_EXP = 'DELETE_EXP'
 
-export const getApproveList = (cPage=1, noMore=false, type=1) => {
+export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
   let params = {
     current_page: cPage,
     pageSize: pageSize
   }
   let url = ''
-  switch(type) {
+  switch (type) {
     case 1 :
       url = 'get /expensesClaimsMobile/approveList.json'
       break
@@ -43,7 +44,7 @@ export const getApproveList = (cPage=1, noMore=false, type=1) => {
       let dataCell = {}
       if (type === 1 || type === 2) {
         dataCell = data.data
-        if(dataCell){
+        if (dataCell) {
           dataCell.cPage = cPage
         }
       } else if (type === 4 || type === 5 || type === 6) {
@@ -61,7 +62,7 @@ export const getApproveList = (cPage=1, noMore=false, type=1) => {
     }
   )
 }
-export const getSumMoney = (type=1) => {
+export const getSumMoney = (type = 1) => {
   return asyncFetch(
     'get /expensesClaimsMobile/getSumMoney.json',
     { type: type },
@@ -92,15 +93,23 @@ export const initialApprove = () => {
   }
 }
 
-export const deleteExp=(expensesClaimsId, cPage=1, noMore=false, type=1)=>{
+export const deleteExpCell = (expensesClaimsId) => {
+  return {
+    type: DELETE_EXP,
+    expensesClaimsId: expensesClaimsId
+  }
+}
+
+export const deleteExp = (expensesClaimsId) => {
+  dingShowPreLoad()
   return asyncFetch(
     'get expensesClaims/delete.json',
     {
       id: expensesClaimsId
     },
-    (data,dispatch) => {
-      dispatch(initialApprove())
-      dispatch(getApproveList(cPage,noMore,type))
+    (data, dispatch) => {
+      dingHidePreLoad()
+      dispatch(deleteExpCell(expensesClaimsId))
     }
   )
 }
@@ -114,7 +123,7 @@ export const actions = {
 
 export const ACTION_HANDLERS = {
   [IS_LOADING]: (state) => {
-    return Object.assign({}, state, { isLoading: true })
+    return Object.assign({}, state, { isLoading: true, approve: { cPage:1, pageCount:1 } })
   },
   [GET_APPROVE]: (state, action) => {
     let approveList = state.approve.list
@@ -131,11 +140,28 @@ export const ACTION_HANDLERS = {
       loadMore:action.loadMore
     })
   },
+  [DELETE_EXP]: (state, action) => {
+    let expensesClaimsId = action.expensesClaimsId
+    let approveList = []
+    let approve = state.approve
+    if (approve) {
+      approveList = approve.list
+    }
+    let approveListLength = approveList.length
+    for (var i = 0; i < approveListLength; i++) {
+      if (approveList[i].expensesClaimsId === expensesClaimsId) {
+        approveList.splice(i, 1)
+        approve.list = approveList
+        break
+      }
+    }
+    return Object.assign({}, state, { approve: approve })
+  },
   [GET_APPROVE_SUMMONEY]: (state, action) => {
     return Object.assign({}, state, { approveSumMoney: action.approveSumMoney })
   },
   [INITIAL_APPROVE]: (state, action) => {
-    return Object.assign({}, state, { approve: {} })
+    return Object.assign({}, state, { approve: { cPage:1, pageCount:1 } })
   },
   [GET_OFFSET_HEIGHT]: (state, action) => {
     return Object.assign({}, state, { offsetHeight: action.offsetHeight })

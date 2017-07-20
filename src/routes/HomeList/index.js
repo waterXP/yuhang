@@ -1,4 +1,3 @@
-import { injectReducer } from '@/store/reducers'
 import { ACTION_HANDLERS } from './modules/HomeList'
 export const HomeListHandlers = ACTION_HANDLERS
 

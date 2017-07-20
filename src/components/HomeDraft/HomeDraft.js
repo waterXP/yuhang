@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { confirm } from '@/lib/base'
+import PropTypes from 'prop-types'
 import './HomeDraft.scss'
 import HomeDraftCell from './HomeDraftCell'
 import HomeRejectCell from './HomeRejectCell'
@@ -7,8 +7,9 @@ import HomeRejectCell from './HomeRejectCell'
 class HomeDraft extends Component {
   constructor () {
     super()
+    this.deleteExp = this.deleteExp.bind(this)
   }
-  render(){
+  render () {
     let { type, noMore, approve } = this.props
     let title = ''
     let titleRight = ''
@@ -26,8 +27,6 @@ class HomeDraft extends Component {
     }
     let list = []
     let listHtml = []
-    let noData = false
-    let showBtn = false
     if (approve && approve.list) {
       list = approve.list
       if (type === 5) {
@@ -36,8 +35,7 @@ class HomeDraft extends Component {
             <HomeRejectCell
               key={cur.expensesClaimsId}
               undoCell={cur}
-              type={type}
-              deleteExp={_this.props.deleteExp} />
+              type={type} />
           )
         })
       } else {
@@ -47,12 +45,9 @@ class HomeDraft extends Component {
               key={cur.expensesClaimsId}
               draftCell={cur}
               type={type}
-              deleteExp={_this.props.deleteExp} />
+              deleteExp={_this.deleteExp} />
           )
         })
-      }
-      if (approve.pageCount > 1) {
-        showBtn = true
       }
     }
     let className = 'wm-draft'
@@ -74,14 +69,24 @@ class HomeDraft extends Component {
     )
   }
 
-  componentDidMount(){
-    let height = this.refs.approveList.offsetHeight
+  deleteExp (expensesClaimsId) {
+    this.props.deleteExp(expensesClaimsId)
+  }
+
+  componentDidMount () {
     this.props.getOffsetHeight(this.refs.approveList)
   }
-  componentDidUpdate(){
-    let height = this.refs.approveList.offsetHeight
+  componentDidUpdate () {
     this.props.getOffsetHeight(this.refs.approveList)
   }
+}
+
+HomeDraft.propTypes = {
+  type:PropTypes.number.isRequired,
+  approve:PropTypes.object,
+  noMore:PropTypes.bool.isRequired,
+  deleteExp:PropTypes.func,
+  getOffsetHeight:PropTypes.func.isRequired
 }
 
 export default HomeDraft

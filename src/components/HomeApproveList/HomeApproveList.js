@@ -1,27 +1,25 @@
-import React,{Component} from "react"
-import HomeApproveTotal from "./HomeApproveTotal.js"
-import HomeApproveListCell from "./HomeApproveListCell.js"
-import {alert} from '@/lib/base'
-import "./HomeApproveList.scss";
-class HomeApproveList extends Component{
-  render(){
+import React, { Component } from 'react'
+import HomeApproveTotal from './HomeApproveTotal.js'
+import HomeApproveListCell from './HomeApproveListCell.js'
+import PropTypes from 'prop-types'
+import './HomeApproveList.scss'
+class HomeApproveList extends Component {
+  render () {
     let { approve, noMore, approveSumMoney, type } = this.props
     let approveList = []
     let sumMoney = ''
     let approveListHtml = []
-    let showBtn = false
     if (approve) {
-      approveList=approve.list
-      if (approve.pageCount>1) {
-        showBtn=true
-      }
+      approveList = approve.list
     }
     if (approveSumMoney) {
       sumMoney = approveSumMoney
+    } else {
+      sumMoney = 0
     }
     if (approveList && approveList !== 0) {
       if (type === 1) {
-        approveList.map((cur,index,arr)=>{
+        approveList.map((cur, index, arr) => {
           approveListHtml.push(
             <HomeApproveListCell key={index} approve={cur} />
           )
@@ -29,29 +27,34 @@ class HomeApproveList extends Component{
       }
     }
     return (
-      <div className="wm-homeApproveList" ref='approveList'>
+      <div className='wm-homeApproveList' ref='approveList'>
         <HomeApproveTotal total={sumMoney} />
         <ul>
           { approveListHtml }
         </ul>
         {
-          noMore?
-          <div className='loadMore'>没有更多</div>:
-          null
+          noMore
+          ? <div className='loadMore'>没有更多</div>
+          : null
         }
       </div>
     )
   }
 
-  componentDidMount(){
-    let height=this.refs.approveList.offsetHeight
+  componentDidMount () {
     this.props.getOffsetHeight(this.refs.approveList)
   }
-  componentDidUpdate(){
-    let height=this.refs.approveList.offsetHeight
+  componentDidUpdate () {
     this.props.getOffsetHeight(this.refs.approveList)
   }
 }
 
+HomeApproveList.propTypes = {
+  approve:PropTypes.object,
+  noMore:PropTypes.bool,
+  approveSumMoney:PropTypes.number,
+  type:PropTypes.number,
+  getOffsetHeight:PropTypes.func
+}
 
 export default HomeApproveList

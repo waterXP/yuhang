@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { goLocation, removeYear, getCash } from '@/lib/base'
+import PropTypes from 'prop-types'
 
 class HomeNotPaidCell extends Component {
   constructor () {
@@ -7,7 +8,7 @@ class HomeNotPaidCell extends Component {
     this.showDetail = this.showDetail.bind(this)
   }
   render () {
-    let cur = this.props.notPaid;
+    let cur = this.props.notPaid
     let submitTime = removeYear(cur.submitTitme)
     let money = getCash(cur.sumMoney)
     return (
@@ -23,6 +24,11 @@ class HomeNotPaidCell extends Component {
     let url = `/home/approve_detail/${expensesClaimsId}/2`
     goLocation(url)
   }
+}
+HomeNotPaidCell.propTypes = {
+  notPaid:PropTypes.shape({
+    expenseClaimId:PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default HomeNotPaidCell
