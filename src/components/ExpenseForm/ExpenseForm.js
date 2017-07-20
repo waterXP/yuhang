@@ -88,12 +88,12 @@ class ExpenseForm extends Component {
     fetchData('get /expensesClaims/modify.json', { id })
     .then((d) => {
       if (!d.result) {
-        this.initModify(d.data)
+        this.initModify(d.data, id)
       }
     })
   }
 
-  initModify (d) {
+  initModify (d, id) {
     Promise.all([
       fetchData('get /expensesClaims/init.json'),
       fetchData('get /userAccounts/myAccountList.json')
@@ -119,6 +119,12 @@ class ExpenseForm extends Component {
             tags.push(i + 1)
           })
         }
+        if (d.detailsList.length === 0) {
+          details.push({
+            id: 1
+          })
+        }
+        tags = [1]
 
         let selDept = deptId !== null
           ? deptsList.findIndex((v) => v.id === deptId)
@@ -149,7 +155,8 @@ class ExpenseForm extends Component {
             type: d.expensesClaims.type,
             deptDingId: d.dingDeptid,
             deptId: d.expensesClaims.deptId,
-            deptName: d.deptName
+            deptName: d.deptName,
+            isDraft: d.expensesClaims.type === 1 ? id : false
           })
         )
         this.getCostType(deptsList[0].id)
@@ -199,7 +206,6 @@ class ExpenseForm extends Component {
       details.forEach((v) => {
         v.feeName = ''
         v.feeType = ''
-        v.paths = []
       })
       fetchData('get /expensesClaims/changeDept.json', { deptId: id, cliamType: type || 1 })
       .then((d) => {
@@ -217,7 +223,8 @@ class ExpenseForm extends Component {
       userName, selAccount, selDept,
       deptsList, details, costType,
       selProj, projectsList, attachmentList,
-      approvers, dispatch, tags, nextTag
+      approvers, dispatch, tags, nextTag,
+      isDraft
     } = this.props
     dispatch(
       saveData({
@@ -232,7 +239,8 @@ class ExpenseForm extends Component {
         attachmentList,
         approvers,
         tags,
-        nextTag
+        nextTag,
+        isDraft
       })
     )
   }
@@ -249,10 +257,9 @@ class ExpenseForm extends Component {
   changeDate (target, value) {
     this.props.change(target, getDate(value, 'yyyy-MM-dd'))
   }
-  changeCostType (target, id, value, paths) {
+  changeCostType (target, id, value) {
     this.props.change(`${target}.feeType`, id)
     this.props.change(`${target}.feeName`, value)
-    this.props.change(`${target}.paths`, [...paths])
   }
   formatCurrency (target, event, newValue, previousValue) {
     event.preventDefault()
@@ -261,9 +268,10 @@ class ExpenseForm extends Component {
 
   initial (data) {
     if (data) {
+      // after create new account
       const {
         userName, selDept, deptsList, details,
-        costType, selProj, projectsList,
+        costType, selProj, projectsList, isDraft,
         attachmentList, approvers, tags, nextTag
       } = data
       fetchData('get /userAccounts/myAccountList.json')
@@ -287,7 +295,8 @@ class ExpenseForm extends Component {
               approvers,
               tags,
               nextTag,
-              type: 1
+              type: 1,
+              isDraft
             })
           )
         }
@@ -301,14 +310,16 @@ class ExpenseForm extends Component {
         if ((!d1.result || !d2.result) && d1.data && d2.data) {
           const { userName, deptsList,
             projectsList, usersList } = d1.data
+          const accountList = d2.data || []
+          let selAccount = accountList.findIndex((v) => v.isDefault)
           this.props.dispatch(
             initialize('expenseForm', {
               userName,
-              accountList: d2.data,
-              selAccount: -1,
+              accountList,
+              selAccount,
               selDept: 0,
               deptsList,
-              details: [{ id: 1, paths: [] }],
+              details: [{ id: 1 }],
               costType: [],
               selProj: -1,
               projectsList: projectsList || [],
@@ -318,7 +329,8 @@ class ExpenseForm extends Component {
               approvers: usersList || [],
               tags: [1],
               nextTag: 2,
-              type: 1
+              type: 1,
+              isDraft: false
             })
           )
           this.getCostType(deptsList[0].id)
@@ -433,7 +445,7 @@ class ExpenseForm extends Component {
   commit (draft) {
     const { type, deptsList, selDept, details, totalCash,
       selAccount, accountList, projectsList, selProj,
-      attachmentList, deptDingId, deptId, deptName,
+      attachmentList, deptDingId, deptId, deptName, isDraft,
       query, originAttachments, restAttachments } = this.props
     const account = accountList[selAccount]
     const project = projectsList[selProj]
@@ -517,6 +529,9 @@ class ExpenseForm extends Component {
         })
       }
     }
+    if (isDraft) {
+      params.id = isDraft
+    }
 
     const action = draft
       ? 'post /expensesClaims/dingSave.json'
@@ -548,7 +563,6 @@ class ExpenseForm extends Component {
       tags, nextTag, type, deptName, restAttachments } = this.props
     const { options, target, openModal,
       targetName, labelId, labelName } = this.state
-    console.log(type)
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
@@ -587,7 +601,7 @@ class ExpenseForm extends Component {
           projName={
             (projectsList && selProj > -1)
               ? projectsList[selProj].name
-              : '请选择(必须)'
+              : '请选择'
           }
           projChange={this.projChange}
           accountName={
@@ -596,6 +610,7 @@ class ExpenseForm extends Component {
               : '请选择(必须)'
           }
           accountChange={this.accountChange}
+          hasProj={projectsList && projectsList.length > 0}
         />
         <ExpenseAttachment
           attachmentList={attachmentList}
@@ -657,6 +672,7 @@ export default connect(
     tags: selector(state, 'tags'),
     nextTag: selector(state, 'nextTag'),
     type: selector(state, 'type'),
+    isDraft: selector(state, 'isDraft'),
     initialValues: { details: [] }
   })
 )(reduxForm({

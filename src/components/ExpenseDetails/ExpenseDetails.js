@@ -42,7 +42,7 @@ class ExpenseDetails extends Component {
     temp.push(nextTag)
     updateTags(temp)
     updateNextTag(nextTag + 1)
-    fields.push({ id: nextTag, paths: [] })
+    fields.push({ id: nextTag })
   }
   setDate (value, target) {
     if (isDev) {
@@ -52,8 +52,8 @@ class ExpenseDetails extends Component {
     openDatePicker(defaultValue, (newDate) =>
       this.props.changeDate(target, newDate))
   }
-  setCostType (target, id, value, paths) {
-    this.props.changeCostType(target, id, value, paths)
+  setCostType (target, id, value) {
+    this.props.changeCostType(target, id, value)
   }
   formatHandle () {
     return this.props.formatCurrency.bind(this)

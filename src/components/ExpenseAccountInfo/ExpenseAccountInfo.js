@@ -5,7 +5,7 @@ import { getCash } from '@/lib/base'
 import './ExpenseAccountInfo.scss'
 
 export const ExpenseAccountInfo = ({ totalCash, accountChange,
-  accountName, projChange, projName }) => {
+  accountName, projChange, projName, hasProj }) => {
   return (
     <div className='wm-expense-account-info'>
       <label className='wm-color-secondary'>
@@ -20,13 +20,13 @@ export const ExpenseAccountInfo = ({ totalCash, accountChange,
         clickHandler={accountChange}
         iconRight='fa-angle-right'
       />
-      <FormSelect
+      { hasProj && <FormSelect
         text='项目'
         name='subject'
         value={projName}
         clickHandler={projChange}
         iconRight='fa-angle-right'
-      />
+      /> }
     </div>
   )
 }
@@ -36,7 +36,8 @@ ExpenseAccountInfo.propTypes = {
   accountChange: PropTypes.func,
   accountName: PropTypes.string,
   projChange: PropTypes.func,
-  projName: PropTypes.string
+  projName: PropTypes.string,
+  hasProj: PropTypes.bool
 }
 
 export default ExpenseAccountInfo
