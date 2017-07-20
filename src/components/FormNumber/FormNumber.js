@@ -7,10 +7,11 @@ class FormNumber extends Component {
   static propTypes = {
     text: PropTypes.string,
     name: PropTypes.string.isRequired,
-    handlerBlur: PropTypes.func
+    handlerBlur: PropTypes.func,
+    placeholder: PropTypes.string
   }
   render () {
-    const { text, name, handlerBlur } = this.props
+    const { text, name, handlerBlur, placeholder } = this.props
     return (
       <div className='wm-form-number'>
         <label>{ text }</label>
@@ -19,6 +20,7 @@ class FormNumber extends Component {
           component='input'
           type='text'
           onBlur={handlerBlur}
+          placeholder={placeholder}
         />
       </div>
     )

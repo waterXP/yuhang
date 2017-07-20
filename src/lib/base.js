@@ -349,13 +349,13 @@ export const openChosen = (source, selectedKey = 0, callback) => {
   })
 }
 
-export const uploadImage = (callback) => {
+export const uploadImage = (max, callback) => {
   if (isDev) {
     return
   }
   dd.biz.util.uploadImage({
-    multiple: false,
-    max: 1,
+    multiple: true,
+    max: max,
     onSuccess : function (result) {
       callback(result)
     },

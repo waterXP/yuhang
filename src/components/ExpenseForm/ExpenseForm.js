@@ -180,6 +180,8 @@ class ExpenseForm extends Component {
         }
       })
       return
+    } else if (label === 'selDept') {
+      this.deptChanged(id)
     }
     this.props.change(label, value)
     this.modalClose()
@@ -188,6 +190,26 @@ class ExpenseForm extends Component {
     this.setState({
       openModal: false
     })
+  }
+
+  deptChanged (id) {
+    const { deptsList, selDept, details, type } = this.props
+    if (deptsList[selDept].id !== id) {
+      this.getCostType(id)
+      details.forEach((v) => {
+        v.feeName = ''
+        v.feeType = ''
+        v.paths = []
+      })
+      fetchData('get /expensesClaims/changeDept.json', { deptId: id, cliamType: type || 1 })
+      .then((d) => {
+        if (!d.result) {
+          this.props.change('approvers', d.usersList || [])
+          this.props.change('selProj', -1)
+          this.props.change('projectsList', d.projectsList || [])
+        }
+      })
+    }
   }
 
   save () {
@@ -227,9 +249,10 @@ class ExpenseForm extends Component {
   changeDate (target, value) {
     this.props.change(target, getDate(value, 'yyyy-MM-dd'))
   }
-  changeCostType (target, id, value) {
+  changeCostType (target, id, value, paths) {
     this.props.change(`${target}.feeType`, id)
     this.props.change(`${target}.feeName`, value)
+    this.props.change(`${target}.paths`, [...paths])
   }
   formatCurrency (target, event, newValue, previousValue) {
     event.preventDefault()
@@ -285,7 +308,7 @@ class ExpenseForm extends Component {
               selAccount: -1,
               selDept: 0,
               deptsList,
-              details: [{ id: 1 }],
+              details: [{ id: 1, paths: [] }],
               costType: [],
               selProj: -1,
               projectsList: projectsList || [],
@@ -317,6 +340,7 @@ class ExpenseForm extends Component {
         : deptsList[0].appendParentName
       let source = getChosenSource(deptsList, 'appendParentName')
       openChosen(source, selectedKey, (v) => {
+        this.deptChanged(deptsList[+v.value].id)
         this.props.change('selDept', +v.value)
       })
     }
@@ -377,13 +401,15 @@ class ExpenseForm extends Component {
     previewImage(img)
   }
   addAttachment () {
-    let temp = this.props.attachmentList || []
+    const { attachmentList, restAttachments } = this.props
+    let max = 9 - attachmentList.length - restAttachments.length
+    let temp = attachmentList || []
     if (isDev) {
       this.props.change('attachmentList', [...temp,
         'https://yfl2.taofairy.com/wangbacms/hqh/images/home_01.png'])
     } else {
-      uploadImage((v) => {
-        this.props.change('attachmentList', [...temp, v[0]])
+      uploadImage(max, (v) => {
+        this.props.change('attachmentList', [...temp, ...v])
       })
     }
   }
@@ -631,7 +657,7 @@ export default connect(
     tags: selector(state, 'tags'),
     nextTag: selector(state, 'nextTag'),
     type: selector(state, 'type'),
-    initialValues: { details: [{}] }
+    initialValues: { details: [] }
   })
 )(reduxForm({
   form: 'expenseForm'

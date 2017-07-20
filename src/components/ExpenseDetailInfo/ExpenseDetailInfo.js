@@ -22,8 +22,7 @@ class ExpenseDetailInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      openModal: false,
-      paths: []
+      openModal: false
     }
     this.selType = this.selType.bind(this)
   }
@@ -41,23 +40,22 @@ class ExpenseDetailInfo extends Component {
   select (target, id, value, paths) {
     const { setCostType } = this.props
     this.setState({
-      openModal: false,
-      paths
+      openModal: false
     })
-    setCostType(target, id, value)
+    setCostType(target, id, value, paths)
   }
   clickHandler (target) {
     return this.props.setDate.bind(this, target)
   }
   render () {
     const { data, deleteHandler, title, costType, detail, hasDel } = this.props
-    const { openModal, paths } = this.state
+    const { openModal } = this.state
     return (
       <div className='wm-expense-detail-info'>
         { openModal &&
           <ModalCost
             costType={costType}
-            paths={paths}
+            paths={detail.paths}
             select={this.selectHandle(`${data}`)}
             selType={detail && detail.feeType ? detail.feeType : ''}
           />
@@ -76,6 +74,7 @@ class ExpenseDetailInfo extends Component {
           decimal={2}
           name={`${data}.cash`}
           handlerBlur={this.handlerBlur(`${data}.cash`)}
+          placeholder='输入金额'
         />
         <FormLink
           text='发生日期'
