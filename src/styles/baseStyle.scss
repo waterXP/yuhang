@@ -31,9 +31,30 @@ $disabledOpacity: .3;
 
 $borderColorSecondary: #c7c7cc;
 
-$mainColor:#ff943e;
-$canClick:#38ADEF;
-$homeBg:white;
+$mainColor: #ff943e;
+$canClick: #38ADEF;
+$homeBg: $backColor;
+
+$coverBackColor: rgba(240, 240, 240, .7);
+
+@mixin border {
+  border: 1px solid $borderColor;
+}
+@mixin form-border {
+  border: 1px solid $borderColor;
+  border-left: none;
+  border-right: none;
+}
+
+@mixin cover {  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: $coverBackColor;
+}
 
 @mixin left-arrow ($top, $size) {
   &:before {

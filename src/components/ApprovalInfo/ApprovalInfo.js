@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalInfo.scss'
 
-import { getCash, goLocation } from '@/lib/base'
+import { dingApproveDetail, getCash, goLocation } from '@/lib/base'
+
+import { isDev } from '@/config'
 
 class ApprovalInfo extends Component {
   static propTypes = {
@@ -13,9 +15,15 @@ class ApprovalInfo extends Component {
     createdBy: PropTypes.string,
     createdAvatar: PropTypes.string,
     expensesClaimsId: PropTypes.number,
-    status: PropTypes.number
+    tag: PropTypes.number,
+    status: PropTypes.number,
+    dingApproveUrl: PropTypes.string
   }
   gotoPage (location) {
+    const { tag, dingApproveUrl } = this.props
+    if (!isDev && tag === 1) {
+      return () => dingApproveDetail(dingApproveUrl)
+    }
     return () => goLocation(location)
   }
   render () {

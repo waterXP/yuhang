@@ -9,6 +9,8 @@ import ReceiptDelete from '../ReceiptDelete'
 import { goLocation } from '@/lib/base'
 import NoData from '../NoData'
 
+import ModalTextarea from '../ModalTextarea'
+
 class Receipt extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
@@ -17,7 +19,13 @@ class Receipt extends Component {
     isBusy: PropTypes.bool,
     deleteExp: PropTypes.func
   }
-  handleClick = () => {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showModal: false
+    }
+  }
+  handleClick = (v = 'just test') => {
     let { type, addComment, data } = this.props
     let afterApproval = true
     let nType = +type
@@ -26,11 +34,17 @@ class Receipt extends Component {
     } else if (nType === 4 || nType === 5) {
       afterApproval = false
     }
-    addComment(data.master.expensesClaimId, 'just test', afterApproval)
+    addComment(data.master.expensesClaimId, v, afterApproval)
   }
-
+  modalOpen = () => this.setState({ showModal: true })
+  modalClose = () => this.setState({ showModal: false })
+  modalConfirm = (v) => {
+    this.handleClick(v)
+    this.modalClose()
+  }
   render () {
     const { data, type, isBusy } = this.props
+    const { showModal } = this.state
     let nType = +type
     let names = [
       {
@@ -46,6 +60,14 @@ class Receipt extends Component {
     }
     return (
       <div className='wm-receipt'>
+        { showModal &&
+          <ModalTextarea
+            text=''
+            placeholder='说点什么吧……'
+            handleClick={this.modalConfirm}
+            cancel={this.modalClose}
+          />
+        }
         <ReceiptHeader data={data.master} />
         <ReceiptDetails data={data.detailsList} />
         <ReceiptFlow
@@ -59,7 +81,10 @@ class Receipt extends Component {
             />
             : isBusy
               ? <NoData type='loading' text='添加评论中……' size='xsmall' />
-              : <ConfirmButton text='评论' handleClick={this.handleClick} />
+              : <ConfirmButton
+                text='评论'
+                handleClick={this.modalOpen}
+              />
           }
         </div>
       </div>

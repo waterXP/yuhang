@@ -44,7 +44,8 @@ class ExpenseForm extends Component {
     deptId: PropTypes.number,
     deptName: PropTypes.string,
     originAttachments: PropTypes.array,
-    restAttachments: PropTypes.array
+    restAttachments: PropTypes.array,
+    isDraft: PropTypes.any
   }
 
   constructor (props) {

@@ -41,6 +41,7 @@ class ApprovalList extends Component {
         { list.length
           ? list.map((data, i) => (
             <ApprovalInfo
+              tag={tag}
               key={`${tag}-${data.expensesClaimsId}`}
               {...data}
             />
