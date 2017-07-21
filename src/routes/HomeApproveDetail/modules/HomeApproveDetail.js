@@ -41,11 +41,13 @@ export const deleteExp = (expensesClaimsId, type) => {
     'get expensesClaims/delete.json',
     { id: expensesClaimsId },
     (data, dispatch) => {
-      if (+type === 5) {
-        goLocation('/home/undo')
-      } else if (+type === 4) {
-        goLocation('/home/reject')
+      let url = {
+        pathname:'/home/home_list',
+        query: {
+          type: type
+        }
       }
+      goLocation(url)
     }
   )
 }

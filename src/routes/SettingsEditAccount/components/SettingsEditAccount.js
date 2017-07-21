@@ -15,7 +15,7 @@ class SettingsEditAccount extends Component {
       action = 'post /userAccounts/updateMyAccount.json'
     }
     let { name, chooseBankName, bankBranchName, bankCode, bankName, oldAccount, oldChooseBankName } = val
-    if (oldAccount && oldAccount === oldChooseBankName) {
+    if (oldChooseBankName && chooseBankName === oldChooseBankName) {
       val.account = oldAccount
     } else {
       val.account = chooseBankName
@@ -71,7 +71,6 @@ class SettingsEditAccount extends Component {
       }
     })
   }
-
   render () {
     const { query } = this.props
     return (
