@@ -21,6 +21,10 @@ class AccountEditForm extends Component {
   constructor () {
     super()
     this.initial = this.initial.bind(this)
+    this.state = {
+      account: 0,
+      oldChooseBankName: 0
+    }
   }
   componentDidMount () {
     if (this.props.targetId) {
@@ -33,8 +37,10 @@ class AccountEditForm extends Component {
     .then((data) => {
       if (!data.result) {
         this.props.dispatch(initialize('accountEditForm', data.data, true))
-        this.account = data.data.account
-        this.oldChooseBankName = data.data.chooseBankName
+        this.setState({
+          account: data.data.account,
+          oldChooseBankName: data.data.chooseBankName
+        })
       } else {
         toast(data.msg)
       }
@@ -61,8 +67,8 @@ class AccountEditForm extends Component {
     const { handleSubmit, pristine, submitting, type,
       onSubmit, targetId, fromPage } = this.props
     const isBankAccount = type === 1
-    let oldAccount = this.account
-    let oldChooseBankName = this.oldChooseBankName
+    let oldAccount = this.state.account
+    let oldChooseBankName = this.state.oldChooseBankName
     return (
       <form className='wm-account-edit-form' onSubmit={handleSubmit}>
         <InputText
