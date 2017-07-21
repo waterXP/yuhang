@@ -22,6 +22,8 @@ class HomeNotPaid extends Component {
       let sumMoney = approveSumMoney
       if (sumMoney) {
         sumMoneyHtml = sumMoney
+      } else {
+        sumMoneyHtml = 0
       }
       if (approve.list) {
         notPaidList = approve.list
