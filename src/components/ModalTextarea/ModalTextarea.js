@@ -15,6 +15,12 @@ class ModalTextarea extends Component {
     return (
       <div className='wm-modal-textarea'>
         <div className='container'>
+          <textarea
+            ref={(e) => { this.textarea = e }}
+            placeholder={placeholder}
+            defaultValue={text}
+            rows='10'
+          />
           <button
             className='btn-left'
             type='button'
@@ -25,12 +31,6 @@ class ModalTextarea extends Component {
             type='button'
             onClick={this.handleClick}
           >确定</button>
-          <textarea
-            ref={(e) => { this.textarea = e }}
-            placeholder={placeholder}
-            defaultValue={text}
-            rows='10'
-          />
         </div>
       </div>
     )
