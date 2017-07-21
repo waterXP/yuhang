@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import './HomeApproveList.scss'
 class HomeApproveList extends Component {
   render () {
-    let { approve, noMore, approveSumMoney, type } = this.props
+    let { approve, noMore, approveSumMoney, type, corpId } = this.props
     let approveList = []
     let sumMoney = ''
     let approveListHtml = []
@@ -21,7 +21,7 @@ class HomeApproveList extends Component {
       if (type === 1) {
         approveList.map((cur, index, arr) => {
           approveListHtml.push(
-            <HomeApproveListCell key={index} approve={cur} />
+            <HomeApproveListCell key={index} approve={cur} corpId={corpId} />
           )
         })
       }
@@ -54,7 +54,8 @@ HomeApproveList.propTypes = {
   noMore:PropTypes.bool,
   approveSumMoney:PropTypes.number,
   type:PropTypes.number,
-  getOffsetHeight:PropTypes.func
+  getOffsetHeight:PropTypes.func,
+  corpId:PropTypes.string
 }
 
 export default HomeApproveList

@@ -16,6 +16,7 @@ class HomeList extends Component {
   }
   render () {
     let { approve, loading, loadMore, noMore, approveSumMoney } = this.props.approve
+    let { corpId } = this.props
     let hasNoData = false
     if (!loading) {
       let approveList = approve.list
@@ -34,7 +35,8 @@ class HomeList extends Component {
           getOffsetHeight={this.getOffsetHeight}
           noMore={noMore}
           approveSumMoney={approveSumMoney}
-          type={this.type} />
+          type={this.type}
+          corpId={corpId} />
         break
       case 2 :
         switchList = <HomeNotPaid
@@ -159,7 +161,8 @@ HomeList.propTypes = {
     query:PropTypes.shape({
       type:PropTypes.string.isRequired
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  corpId:PropTypes.string
 }
 
 export default HomeList

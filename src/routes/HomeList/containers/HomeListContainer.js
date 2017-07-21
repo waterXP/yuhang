@@ -10,6 +10,10 @@ import {
 } from '../modules/HomeList'
 
 const mapStateToProps = (state) => {
+  let corpId = state.root.corpId
+  if (!corpId) {
+    corpId = '0'
+  }
   return {
     approve:{
       approve:state.home.approve,
@@ -17,7 +21,8 @@ const mapStateToProps = (state) => {
       loading:state.home.isLoading,
       noMore:state.home.noMore,
       loadMore:state.home.loadMore
-    }
+    },
+    corpId: corpId
   }
 }
 

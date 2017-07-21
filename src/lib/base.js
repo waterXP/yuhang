@@ -280,17 +280,31 @@ export const confirm =
   }
 }
 
-export const dingSend = (users = []) => {
-  dd.biz.ding.post({
+export const dingSend = (users = [], corpId = '', text = '') => {
+  dd.biz.ding.post
+  ? dd.biz.ding.post({
     users : users,
-    corpId: '',
+    corpId: corpId,
     type: 1,
     alertType: 2,
-    alertDate: { 'format': 'yyyy-MM-dd HH:mm', 'value': '2017-07-09 08:00' },
-    attachment: { images: [''] },
-    text: '',
-    onSuccess : function () {},
-    onFail : function () {}
+    text: text,
+    onSuccess: () => {
+    },
+    onFail: () => {
+    }
+  })
+  : dd.biz.ding.create({
+    users: users,
+    corpId: corpId,
+    type: 1,
+    alertType: 2,
+    text: text,
+    bizType: 0,
+    onSuccess: () => {
+
+    },
+    onFail: () => {
+    }
   })
 }
 export const dingApproveDetail = (url) => {
