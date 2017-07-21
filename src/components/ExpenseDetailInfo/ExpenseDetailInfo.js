@@ -57,7 +57,7 @@ class ExpenseDetailInfo extends Component {
         { openModal &&
           <ModalCost
             costType={costType}
-            paths={paths}
+            paths={detail.feeName ? paths : []}
             select={this.selectHandle(`${data}`)}
             selType={detail && detail.feeType ? detail.feeType : ''}
           />
@@ -76,6 +76,7 @@ class ExpenseDetailInfo extends Component {
           decimal={2}
           name={`${data}.cash`}
           handlerBlur={this.handlerBlur(`${data}.cash`)}
+          placeholder='输入金额'
         />
         <FormLink
           text='发生日期'
