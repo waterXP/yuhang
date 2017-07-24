@@ -33,7 +33,6 @@ class ApprovalDetail extends Component {
 
   render () {
     const { approvalDetail, query, isBusy } = this.props
-    console.log(approvalDetail)
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&

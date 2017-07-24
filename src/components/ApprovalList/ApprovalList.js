@@ -4,6 +4,8 @@ import ApprovalInfo from '../ApprovalInfo'
 import NoData from '@/components/NoData'
 import './ApprovalList.scss'
 
+import { fetchData } from '@/lib/base'
+
 class ApprovalList extends Component {
   static propTypes = {
     pageEnd: PropTypes.bool,
@@ -15,11 +17,22 @@ class ApprovalList extends Component {
   constructor (props) {
     super(props)
     this.scrolled = this.scrolled.bind(this)
+    this.getApproveUrl = this.getApproveUrl.bind(this)
   }
   componentDidMount () {
     if (!this.props.pageEnd) {
       this.checkScroll(this.targetDiv)
     }
+  }
+  getApproveUrl (expensesClaimsId, cb) {
+    fetchData('get /expensesClaimsView/getDingApproveUrl.json', {
+      expensesClaimsId
+    })
+    .then((d) => {
+      if (!d.result) {
+        cb(d.data)
+      }
+    })
   }
   scrolled (e) {
     this.checkScroll(e.target)
@@ -43,6 +56,7 @@ class ApprovalList extends Component {
             <ApprovalInfo
               tag={tag}
               key={`${tag}-${data.expensesClaimsId}`}
+              getApproveUrl={this.getApproveUrl}
               {...data}
             />
           ))

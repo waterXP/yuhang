@@ -25,7 +25,6 @@ class AccountList extends Component {
       ...accounts.filter((v) => v.isDefault),
       ...accounts.filter((v) => !v.isDefault)
     ]
-    console.log(list)
     return (
       <ul className='wm-accounts-list'>
         {list.map((account) => {

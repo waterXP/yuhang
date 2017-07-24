@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ModalTextarea.scss'
 
+import { toast } from '@/lib/base'
+
 class ModalTextarea extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
@@ -9,7 +11,13 @@ class ModalTextarea extends Component {
     handleClick: PropTypes.func,
     cancel: PropTypes.func
   }
-  handleClick = () => this.props.handleClick(this.textarea.value)
+  handleClick = () => {
+    if (!this.textarea.value) {
+      toast('请输入评论内容')
+    } else {
+      return this.props.handleClick(this.textarea.value)
+    }
+  }
   render () {
     const { placeholder, text, cancel } = this.props
     return (

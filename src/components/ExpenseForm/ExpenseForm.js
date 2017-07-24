@@ -549,13 +549,11 @@ class ExpenseForm extends Component {
       params.aliveAttachmentIds =
         params.aliveAttachmentIds.join(',')
     }
-    if (isDraft) {
+    if (isDraft && !query.expensesClaimNo) {
       params.id = isDraft
     }
 
     this.setState({ isBusy: true })
-    console.log(query)
-    console.log(params)
     const action = draft
       ? 'post /expensesClaims/dingSave.json'
       : 'post /expensesClaims/dingSubmit.json'
@@ -572,8 +570,8 @@ class ExpenseForm extends Component {
         })
       } else {
         toast(d.msg)
+        this.setState({ isBusy: false })
       }
-      this.setState({ isBusy: false })
     })
   }
   handleSubmit () {
