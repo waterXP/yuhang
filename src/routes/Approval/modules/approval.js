@@ -52,6 +52,7 @@ export const getList = (status = 1, params = { current_page: 1 }) => {
   switch (status) {
     case 2:
       action = 'get /expensesClaims/myList.json'
+      params.isPhone = 1
       break
     case 3:
       action = 'get /expensesClaims/myCCList.json'
