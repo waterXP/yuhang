@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, toast, regPhone, regMail } from '@/lib/base'
+import { fetchData, goLocation, toast, regPhone, regMail, dingSetTitle } from '@/lib/base'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
@@ -59,7 +59,15 @@ class SettingsEditAlipay extends Component {
       }
     })
   }
-
+  componentDidMount () {
+    let title = ''
+    if (this.props.query.id) {
+      title = '编辑支付宝'
+    } else {
+      title = '新增支付宝'
+    }
+    dingSetTitle(title)
+  }
   render () {
     const { query } = this.props
     return (

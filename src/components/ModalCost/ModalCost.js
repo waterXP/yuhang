@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ModalCost.scss'
+import { dingSetTitle } from '@/lib/base'
 
 class ModalCost extends Component {
   static propTypes = {
@@ -59,6 +60,9 @@ class ModalCost extends Component {
   }
   getChildrenHandle (id) {
     return () => this.getChildren(id)
+  }
+  componentDidMount () {
+    dingSetTitle('费用类型选择')
   }
 
   render () {

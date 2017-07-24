@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalDetail.scss'
+import { dingSetTitle, dingSetNavRight } from '@/lib/base'
 
 import Receipt from '@/components/Receipt'
 import NoData from '@/components/NoData'
@@ -33,6 +34,17 @@ class ApprovalDetail extends Component {
 
   render () {
     const { approvalDetail, query, isBusy } = this.props
+    if (approvalDetail && approvalDetail.master) {
+      let { userName, deptName } = approvalDetail.master
+      let title = ''
+      if (userName) {
+        title = userName + '的报销单'
+      } else {
+        title = deptName + '的报销单'
+      }
+      dingSetTitle(title)
+      dingSetNavRight('')
+    }
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&

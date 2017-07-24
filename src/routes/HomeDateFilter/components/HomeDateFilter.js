@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation, dingSetTitle } from '@/lib/base'
+import { goLocation, dingSetTitle, dingSetNavRight } from '@/lib/base'
 import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import './HomeDateFilter.scss'
@@ -28,6 +28,7 @@ class HomeDateFilter extends Component {
   componentDidMount () {
     this.props.cleanFilter()
     dingSetTitle('筛选时间选择')
+    dingSetNavRight('')
   }
 
   selYear (aYear) {

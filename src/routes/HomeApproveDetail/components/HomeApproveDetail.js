@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
 import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/base'
 import PropTypes from 'prop-types'
+import NoData from '@/components/NoData'
 
 class HomeApproveDetail extends Component {
   constructor () {
@@ -9,7 +10,7 @@ class HomeApproveDetail extends Component {
     this.deleteExp = this.deleteExp.bind(this)
   }
   render () {
-    let { detail, addComment } = this.props
+    let { detail, addComment, isLoading, isBusy } = this.props
     if (detail && detail.master) {
       let { userName, deptName } = detail.master
       let title = ''
@@ -23,12 +24,15 @@ class HomeApproveDetail extends Component {
     }
     return (
       <div>
-        { detail && detail.master
+        { isLoading
+          ? <NoData type='loading' />
+          : detail && detail.master
           ? <Receipt
             data={this.props.detail}
             addComment={addComment}
             type={this.props.params.type}
             deleteExp={this.deleteExp}
+            isBusy={isBusy}
           />
           : ''
         }
@@ -38,6 +42,7 @@ class HomeApproveDetail extends Component {
   componentWillMount () {
     let { id, type } = this.props.params
     this.props.initialApproveDetail()
+    this.props.detailLoading()
     if (+type === 2) {
       this.props.getApproveDetail(id, true)
     } else {
@@ -57,7 +62,10 @@ HomeApproveDetail.propTypes = {
   params:PropTypes.object,
   getApproveDetail:PropTypes.func.isRequired,
   deleteExp:PropTypes.func.isRequired,
-  initialApproveDetail:PropTypes.func.isRequired
+  initialApproveDetail:PropTypes.func.isRequired,
+  detailLoading:PropTypes.func.isRequired,
+  isBusy:PropTypes.bool.isRequired,
+  isLoading:PropTypes.bool.isRequired
 }
 
 export default HomeApproveDetail

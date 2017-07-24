@@ -4,12 +4,15 @@ import {
   initialApproveDetail,
   getApproveDetail,
   deleteExp,
-  addComment
+  addComment,
+  detailLoading
 } from '../modules/HomeApproveDetail'
 
 const mapStateToProps = (state) => {
   return {
-    detail:state.home.detail
+    detail: state.home.detail,
+    isLoading: state.home.isLoading,
+    isBusy: state.home.isBusy
   }
 }
 
@@ -17,7 +20,8 @@ const mapDispatchToProps = {
   initialApproveDetail,
   getApproveDetail,
   deleteExp,
-  addComment
+  addComment,
+  detailLoading
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeApproveDetail)

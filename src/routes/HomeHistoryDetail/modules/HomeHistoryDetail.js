@@ -11,7 +11,8 @@ const fetchHistoryDetail = (dispatch, id) => {
     if (data.result === 0) {
       return dispatch({
         type: GET_HISTORY_DETAIL,
-        data: data.data
+        data: data.data,
+        isLoading: false
       })
     } else {
       toast(data.msg)
@@ -52,7 +53,8 @@ export const addComment = (expensesClaimId, remark) => {
 export const ACTIONS_HANDLERS = {
   [GET_HISTORY_DETAIL]: (state, action) => {
     return Object.assign({}, state, {
-      historyDetail: action.data
+      historyDetail: action.data,
+      isLoading: action.isLoading
     })
   }
 }

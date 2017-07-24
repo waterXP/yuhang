@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast, regAccount } from '@/lib/base'
+import { fetchData, goLocation, toast, regAccount, dingSetTitle } from '@/lib/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
@@ -70,6 +70,15 @@ class SettingsEditAccount extends Component {
         toast(data.msg)
       }
     })
+  }
+  componentDidMount () {
+    let title = ''
+    if (this.props.query.id) {
+      title = '编辑银行卡号'
+    } else {
+      title = '新增银行卡号'
+    }
+    dingSetTitle(title)
   }
   render () {
     const { query } = this.props
