@@ -96,7 +96,8 @@ class ExpenseForm extends Component {
 
   initModify (d, id) {
     Promise.all([
-      fetchData('get /expensesClaims/init.json'),
+      fetchData('get /expensesClaims/init.json',
+        { deptId: d.expensesClaims.deptId }),
       fetchData('get /userAccounts/myAccountList.json')
     ])
     .then(([d1, d2]) => {

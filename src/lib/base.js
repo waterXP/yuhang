@@ -1,6 +1,7 @@
 import { hashHistory } from 'react-router'
 import config, { dd, isDev } from '@/config'
 import React from 'react'
+import fetch from 'isomorphic-fetch'
 
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const FETCH_FIN = 'FETCH_FIN'
