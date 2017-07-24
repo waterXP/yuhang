@@ -131,8 +131,8 @@ class ExpenseForm extends Component {
           details.push({
             id: 1
           })
+          tags = [1]
         }
-        tags = [1]
 
         let selDept = deptId !== null
           ? deptsList.findIndex((v) => v.id === deptId)
@@ -523,10 +523,13 @@ class ExpenseForm extends Component {
     if (type < 2) {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
+        console.log(restAttachments)
         originAttachments.forEach((v) => {
-          let i = restAttachments.findIndex((r) => {
+          let i = restAttachments.findIndex((r) => 
             r.id === v.id
-          })
+          )
+          console.log(i)
+          console.log(v.id)
           if (i < 0) {
             params.delAttachmentIds.push(v.id)
           }
@@ -539,6 +542,14 @@ class ExpenseForm extends Component {
           params.aliveAttachmentIds.push(v.id)
         })
       }
+    }
+    if (params.delAttachmentIds) {
+      params.delAttachmentIds =
+        params.delAttachmentIds.join(',')
+    }
+    if (params.aliveAttachmentIds) {
+      params.aliveAttachmentIds =
+        params.aliveAttachmentIds.join(',')
     }
     if (isDraft) {
       params.id = isDraft
