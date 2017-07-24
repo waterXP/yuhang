@@ -525,15 +525,9 @@ class ExpenseForm extends Component {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
         originAttachments.forEach((v) => {
-<<<<<<< HEAD
-          let i = restAttachments.findIndex((r) => r.id === v.id)
-          console.log(i)
-          console.log(v.id)
-=======
           let i = restAttachments.findIndex((r) =>
             r.id === v.id
           )
->>>>>>> db77bb541000ab267d8f6fdf108dce13e5e29ecf
           if (i < 0) {
             params.delAttachmentIds.push(v.id)
           }

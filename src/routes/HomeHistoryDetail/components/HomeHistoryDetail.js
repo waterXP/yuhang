@@ -9,7 +9,9 @@ class HomeHistoryDetail extends Component {
     getHistoryDetail: PropTypes.func.isRequired,
     historyDetail: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
-    addComment: PropTypes.func
+    addComment: PropTypes.func,
+    detailLoading: PropTypes.func,
+    isLoading: PropTypes.bool
   }
 
   componentDidMount () {

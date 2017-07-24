@@ -22,7 +22,6 @@ class HomeApproveDetail extends Component {
       dingSetTitle(title)
       dingSetNavRight('')
     }
-    // console.warn('isBusy',isBusy)
     return (
       <div>
         { isLoading
@@ -64,7 +63,9 @@ HomeApproveDetail.propTypes = {
   getApproveDetail:PropTypes.func.isRequired,
   deleteExp:PropTypes.func.isRequired,
   initialApproveDetail:PropTypes.func.isRequired,
-  detailLoading:PropTypes.func.isRequired
+  detailLoading:PropTypes.func.isRequired,
+  isBusy:PropTypes.bool.isRequired,
+  isLoading:PropTypes.bool.isRequired
 }
 
 export default HomeApproveDetail

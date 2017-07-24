@@ -101,9 +101,9 @@ export const ACTION_HANDLERS = {
     return Object.assign({}, state, { detail: {}, isLoading: false, isBusy: false })
   },
   [DETAIL_LOADING]: (state, action) => {
-    return Object.assign({}, state, {isLoading: true})
+    return Object.assign({}, state, { isLoading: true })
   },
   [IS_BUSY]: (state, action) => {
-    return Object.assign({}, state, {isBusy: action.isBusy})
+    return Object.assign({}, state, { isBusy: action.isBusy })
   }
 }
