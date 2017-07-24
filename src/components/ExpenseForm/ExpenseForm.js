@@ -517,17 +517,23 @@ class ExpenseForm extends Component {
       params.deptDingId = deptDingId
       params.deptName = deptName
     }
+
     if (query.expensesClaimNo) {
       params.resubmit = 1
     }
     if (type < 2) {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
-        console.log(restAttachments)
         originAttachments.forEach((v) => {
+<<<<<<< HEAD
           let i = restAttachments.findIndex((r) => r.id === v.id)
           console.log(i)
           console.log(v.id)
+=======
+          let i = restAttachments.findIndex((r) =>
+            r.id === v.id
+          )
+>>>>>>> db77bb541000ab267d8f6fdf108dce13e5e29ecf
           if (i < 0) {
             params.delAttachmentIds.push(v.id)
           }
@@ -554,7 +560,8 @@ class ExpenseForm extends Component {
     }
 
     this.setState({ isBusy: true })
-
+    console.log(query)
+    console.log(params)
     const action = draft
       ? 'post /expensesClaims/dingSave.json'
       : 'post /expensesClaims/dingSubmit.json'
@@ -599,7 +606,7 @@ class ExpenseForm extends Component {
             labelName={labelName}
           />
         }
-        { isBusy && <NoData type='upload' cover={true} /> }
+        { isBusy && <NoData type='upload' cover /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
