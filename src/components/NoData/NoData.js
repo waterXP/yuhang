@@ -11,7 +11,7 @@ class NoData extends Component {
     size: PropTypes.string
   }
   render () {
-    const { text, imgsrc, icon, type, size } = this.props
+    const { text, imgsrc, icon, type, size, cover } = this.props
     let showText = text
     let showIcon = icon
     let showImg = imgsrc
@@ -22,9 +22,13 @@ class NoData extends Component {
         break
       case 'nodata':
         showText = text || '没有数据'
+        break
+      case 'upload':
+        showText = text || '数据提交中……'
+        showIcon = icon || 'fa-spinner fa-pulse'
     }
     return (
-      <div className={`no-data${size ? ' ' + size : ''}`}>
+      <div className={`no-data${size ? ' ' + size : ''}${cover ? ' cover' : ''}`}>
         { showImg
           ? <img src={showImg} />
           : <i className={`fa ${showIcon || 'fa-smile-o'}`} />

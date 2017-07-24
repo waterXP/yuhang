@@ -13,6 +13,7 @@ import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
   uploadImage, previewImage } from '@/lib/base'
 import { saveData } from '@/routes/New/modules/new'
+import NoData from '@/components/NoData'
 import './ExpenseForm.scss'
 
 import { isDev } from '@/config'
@@ -56,7 +57,8 @@ class ExpenseForm extends Component {
       target: -1,
       targetName: '',
       labelId: '',
-      labelName: ''
+      labelName: '',
+      isBusy: false
     }
     this.modalConfirm = this.modalConfirm.bind(this)
     this.modalClose = this.modalClose.bind(this)
@@ -80,8 +82,9 @@ class ExpenseForm extends Component {
     } else {
       if (query.id) {
         this.getModify(query.id)
+      } else {
+        this.initial()
       }
-      this.initial()
     }
   }
 
@@ -95,13 +98,16 @@ class ExpenseForm extends Component {
   }
 
   initModify (d, id) {
+    let params = {
+      deptId: d.expensesClaims.deptId,
+      type: d.expensesClaims.type
+    }
     Promise.all([
-      fetchData('get /expensesClaims/init.json',
-        { deptId: d.expensesClaims.deptId }),
+      fetchData('get /expensesClaims/init.json', params),
       fetchData('get /userAccounts/myAccountList.json')
     ])
     .then(([d1, d2]) => {
-      if (!d1.result || !d2.result) {
+      if (!d1.result && !d2.result) {
         const { deptsList, projectsList, usersList } = d1.data
         const accountList = d2.data
         const { userAccountId, projectId, deptId } = d.expensesClaims
@@ -125,8 +131,8 @@ class ExpenseForm extends Component {
           details.push({
             id: 1
           })
+          tags = [1]
         }
-        tags = [1]
 
         let selDept = deptId !== null
           ? deptsList.findIndex((v) => v.id === deptId)
@@ -147,7 +153,7 @@ class ExpenseForm extends Component {
             selProj: projectId !== null
               ? projectsList.findIndex((v) => v.id === projectId)
               : -1,
-            projectsList: projectsList || [],
+            projectsList: [{id: -1, name: '未选择'}, ...projectsList],
             attachmentList: [],
             originAttachments: d.attachmentList,
             restAttachments: [...d.attachmentList],
@@ -161,7 +167,12 @@ class ExpenseForm extends Component {
             isDraft: d.expensesClaims.type === 1 ? id : false
           })
         )
-        this.getCostType(deptsList[0].id)
+        this.getCostType(d.expensesClaims.deptId)
+      } else {
+        if (d1.result) {
+          toast(d1.msg)
+          this.initial()
+        }
       }
     })
   }
@@ -290,7 +301,7 @@ class ExpenseForm extends Component {
               details,
               costType,
               selProj,
-              projectsList,
+              projectsList: [{id: -1, name: '请选择'}, ...projectsList],
               attachmentList,
               originAttachments: [],
               restAttachments: [],
@@ -324,7 +335,7 @@ class ExpenseForm extends Component {
               details: [{ id: 1 }],
               costType: [],
               selProj: -1,
-              projectsList: projectsList || [],
+              projectsList: [{id: -1, name: '请选择'}, ...projectsList],
               attachmentList: [],
               originAttachments: [],
               restAttachments: [],
@@ -454,13 +465,11 @@ class ExpenseForm extends Component {
     let detailses = []
     let attachmentUrls = [...attachmentList]
     if (!draft && (type < 2 && selDept < 0 ||
-      selAccount < 0 || selProj < 0 || type > 2 &&
+      selAccount < 0 || type > 2 &&
       !deptId && !deptDingId && !deptName)) {
       let str = ''
       if (selAccount < 0) {
         str = '收款账号未选择'
-      } else if (selProj < 0) {
-        str = '项目未选择'
       } else {
         str = '部门未选择'
       }
@@ -514,10 +523,13 @@ class ExpenseForm extends Component {
     if (type < 2) {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
+        console.log(restAttachments)
         originAttachments.forEach((v) => {
-          let i = restAttachments.findIndex((r) => {
+          let i = restAttachments.findIndex((r) => 
             r.id === v.id
-          })
+          )
+          console.log(i)
+          console.log(v.id)
           if (i < 0) {
             params.delAttachmentIds.push(v.id)
           }
@@ -531,9 +543,19 @@ class ExpenseForm extends Component {
         })
       }
     }
+    if (params.delAttachmentIds) {
+      params.delAttachmentIds =
+        params.delAttachmentIds.join(',')
+    }
+    if (params.aliveAttachmentIds) {
+      params.aliveAttachmentIds =
+        params.aliveAttachmentIds.join(',')
+    }
     if (isDraft) {
       params.id = isDraft
     }
+
+    this.setState({ isBusy: true })
 
     const action = draft
       ? 'post /expensesClaims/dingSave.json'
@@ -552,6 +574,7 @@ class ExpenseForm extends Component {
       } else {
         toast(d.msg)
       }
+      this.setState({ isBusy: false })
     })
   }
   handleSubmit () {
@@ -564,7 +587,7 @@ class ExpenseForm extends Component {
       selAccount, details, attachmentList, approvers,
       tags, nextTag, type, deptName, restAttachments } = this.props
     const { options, target, openModal,
-      targetName, labelId, labelName } = this.state
+      targetName, labelId, labelName, isBusy } = this.state
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
@@ -578,6 +601,7 @@ class ExpenseForm extends Component {
             labelName={labelName}
           />
         }
+        { isBusy && <NoData type='upload' cover={ true } /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
