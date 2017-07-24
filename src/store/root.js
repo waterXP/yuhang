@@ -57,6 +57,7 @@ const ACTION_HANDLERS = {
           'device.notification.alert',
           'device.notification.prompt',
           'biz.ding.post',
+          'biz.ding.create',
           'biz.util.uploadImage',
           'biz.util.openLink',
           'biz.util.datepicker',
@@ -102,7 +103,7 @@ const ACTION_HANDLERS = {
       dd.error(function (err) {
         alert('dd error: ' + JSON.stringify(err))
       })
-      return state
+      return Object.assign({}, state, { corpId: d.corpId })
     } else {
       return state
     }

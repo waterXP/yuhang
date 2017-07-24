@@ -27,7 +27,7 @@ class HomeApproveListCell extends Component {
     : event.cancelBubble = true
     let dingId = []
     dingId.push(this.props.approve.dingId)
-    dingSend(dingId)
+    dingSend(dingId, this.props.corpId)
   }
   showDetail () {
     let dingApproveDetailUrl = this.props.approve.dingApproveUrl
@@ -36,7 +36,8 @@ class HomeApproveListCell extends Component {
 }
 
 HomeApproveListCell.propTypes = {
-  approve:PropTypes.object
+  approve:PropTypes.object,
+  corpId:PropTypes.string
 }
 
 export default HomeApproveListCell
