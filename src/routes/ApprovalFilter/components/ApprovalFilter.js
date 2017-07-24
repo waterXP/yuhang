@@ -6,7 +6,7 @@ import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import ApprovalList from '@/components/ApprovalList'
 import { approveStatus } from '@/lib/enums'
-import { getObjArray } from '@/lib/base'
+import { getObjArray, dingSetTitle } from '@/lib/base'
 
 class ApprovalFilter extends Component {
   static propTypes = {
@@ -116,6 +116,26 @@ class ApprovalFilter extends Component {
   }
   updateRange (range) {
     this.setState({ range })
+  }
+  componentDidMount () {
+    let { status } = this.props.query
+    status = +status
+    switch (status) {
+      case 1 :
+        dingSetTitle('待我审批')
+        break
+      case 2:
+        dingSetTitle('我发起的')
+        break
+      case 3:
+        dingSetTitle('抄送我的')
+        break
+      case 4:
+        dingSetTitle('我已审批')
+        break
+      default:
+        dingSetTitle('明快报销')
+    }
   }
   render () {
     const { isBusy, list, query, page } = this.props

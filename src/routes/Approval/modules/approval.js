@@ -1,4 +1,4 @@
-import { asyncFetch, fetchData, toast, FETCH_FAIL, dingSetTitle } from '@/lib/base'
+import { asyncFetch, fetchData, toast, FETCH_FAIL } from '@/lib/base'
 
 export const GET_LIST = 'GET_LIST'
 export const IN_BUSY = 'IN_BUSY'
@@ -49,19 +49,15 @@ export const getList = (status = 1, params = { current_page: 1 }) => {
   if (!params.current_page) {
     params.current_page = 1
   }
-  dingSetTitle('待我审批')
   switch (status) {
     case 2:
       action = 'get /expensesClaims/myList.json'
-      dingSetTitle('我发起的')
       break
     case 3:
       action = 'get /expensesClaims/myCCList.json'
-      dingSetTitle('抄送我的')
       break
     case 4:
       action = 'get /expensesClaims/alreadyApprove.json'
-      dingSetTitle('我已审批')
   }
   return asyncFetch(
     action,

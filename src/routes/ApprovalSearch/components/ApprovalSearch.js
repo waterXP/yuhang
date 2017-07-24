@@ -5,6 +5,7 @@ import './ApprovalSearch.scss'
 import SearchForm from '@/components/SearchForm'
 import Cover from '@/components/Cover'
 import ApprovalList from '@/components/ApprovalList'
+import { dingSetTitle } from '@/lib/base'
 
 class ApprovalSearch extends Component {
   static propTypes = {
@@ -40,6 +41,24 @@ class ApprovalSearch extends Component {
 
   componentDidMount () {
     this.props.cleanList()
+    let { status } = this.props.query
+    status = +status
+    switch (status) {
+      case 1 :
+        dingSetTitle('待我审批')
+        break
+      case 2:
+        dingSetTitle('我发起的')
+        break
+      case 3:
+        dingSetTitle('抄送我的')
+        break
+      case 4:
+        dingSetTitle('我已审批')
+        break
+      default:
+        dingSetTitle('明快报销')
+    }
   }
   scrolled (e) {
     const { inBusy, isBusy, page, query, getList } = this.props

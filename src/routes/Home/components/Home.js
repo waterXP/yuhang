@@ -36,6 +36,9 @@ class Home extends Component {
       </div>
     )
   }
+  componentDidMount () {
+    dingSetNavRight('')
+  }
   shouldComponentUpdate (nextProps, nextState) {
     if (nextProps.location.pathname === '/home') {
       dingSetTitle('明快报销')
