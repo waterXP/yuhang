@@ -33,11 +33,17 @@ class ApprovalDetail extends Component {
 
   render () {
     const { approvalDetail, query, isBusy } = this.props
+    console.log(approvalDetail)
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&
             (+query.id === approvalDetail.master.expensesClaimId)
-            ? <Receipt data={approvalDetail} addComment={this.commentHandler} isBusy={isBusy} />
+            ? <Receipt
+              data={approvalDetail}
+              addComment={this.commentHandler}
+              isBusy={isBusy}
+              type={approvalDetail.master.status}
+            />
             : <NoData type='loading' />
         }
       </div>

@@ -8,7 +8,8 @@ class NoData extends Component {
     text: PropTypes.string,
     icon: PropTypes.string,
     type: PropTypes.string,
-    size: PropTypes.string
+    size: PropTypes.string,
+    cover: PropTypes.bool
   }
   render () {
     const { text, imgsrc, icon, type, size, cover } = this.props

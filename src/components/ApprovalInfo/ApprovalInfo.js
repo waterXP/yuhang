@@ -21,6 +21,10 @@ class ApprovalInfo extends Component {
   }
   gotoPage (location) {
     const { tag, dingApproveUrl } = this.props
+    const { status } = this.props
+    if (status < 4 && status !== 0) {
+      return () => dingApproveDetail(dingApproveUrl)
+    }
     if (!isDev && tag === 1) {
       return () => dingApproveDetail(dingApproveUrl)
     }

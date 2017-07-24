@@ -153,7 +153,7 @@ class ExpenseForm extends Component {
             selProj: projectId !== null
               ? projectsList.findIndex((v) => v.id === projectId)
               : -1,
-            projectsList: [{id: -1, name: '未选择'}, ...projectsList],
+            projectsList: [{ id: -1, name: '未选择' }, ...projectsList],
             attachmentList: [],
             originAttachments: d.attachmentList,
             restAttachments: [...d.attachmentList],
@@ -301,7 +301,7 @@ class ExpenseForm extends Component {
               details,
               costType,
               selProj,
-              projectsList: [{id: -1, name: '请选择'}, ...projectsList],
+              projectsList: [{ id: -1, name: '请选择' }, ...projectsList],
               attachmentList,
               originAttachments: [],
               restAttachments: [],
@@ -335,7 +335,7 @@ class ExpenseForm extends Component {
               details: [{ id: 1 }],
               costType: [],
               selProj: -1,
-              projectsList: [{id: -1, name: '请选择'}, ...projectsList],
+              projectsList: [{ id: -1, name: '请选择' }, ...projectsList],
               attachmentList: [],
               originAttachments: [],
               restAttachments: [],
@@ -517,19 +517,17 @@ class ExpenseForm extends Component {
       params.deptDingId = deptDingId
       params.deptName = deptName
     }
+
     if (query.expensesClaimNo) {
       params.resubmit = 1
     }
     if (type < 2) {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
-        console.log(restAttachments)
         originAttachments.forEach((v) => {
-          let i = restAttachments.findIndex((r) => 
+          let i = restAttachments.findIndex((r) =>
             r.id === v.id
           )
-          console.log(i)
-          console.log(v.id)
           if (i < 0) {
             params.delAttachmentIds.push(v.id)
           }
@@ -556,7 +554,8 @@ class ExpenseForm extends Component {
     }
 
     this.setState({ isBusy: true })
-
+    console.log(query)
+    console.log(params)
     const action = draft
       ? 'post /expensesClaims/dingSave.json'
       : 'post /expensesClaims/dingSubmit.json'
@@ -601,7 +600,7 @@ class ExpenseForm extends Component {
             labelName={labelName}
           />
         }
-        { isBusy && <NoData type='upload' cover={ true } /> }
+        { isBusy && <NoData type='upload' cover /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
