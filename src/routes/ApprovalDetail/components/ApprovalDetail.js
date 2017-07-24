@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import './ApprovalDetail.scss'
 
 import Receipt from '@/components/Receipt'
+import NoData from '@/components/NoData'
 
 class ApprovalDetail extends Component {
   static propTypes = {
@@ -35,8 +36,9 @@ class ApprovalDetail extends Component {
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&
-            (+query.id === approvalDetail.master.expensesClaimId) &&
-            <Receipt data={approvalDetail} addComment={this.commentHandler} isBusy={isBusy} />
+            (+query.id === approvalDetail.master.expensesClaimId)
+            ? <Receipt data={approvalDetail} addComment={this.commentHandler} isBusy={isBusy} />
+            : <NoData type='loading' />
         }
       </div>
     )

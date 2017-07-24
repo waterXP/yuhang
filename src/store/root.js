@@ -14,13 +14,11 @@ export const getConfig = (url) => {
         })
       })
     } else {
-      // console.dir(config)
       fetchData('get getConfig.json', {
         corpid: config.corpid,
         url: `${config.ddurl}?corpid=${config.corpid}`
       })
       .then((data) => {
-        // console.dir(window)
         return dispatch({
           type: GET_CONFIG,
           data: data
