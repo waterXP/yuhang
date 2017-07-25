@@ -27,6 +27,7 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
     'fa fa-check-circle wm-color-correct',
     'fa fa-check-circle wm-color-correct'
   ]
+  fIcon[-1] = 'fa fa-times-circle wm-color-error'
   return (
     <div className='wm-receipt-flow'>
       {attachmentList.length > 0 && <div className='attachment-box'>
@@ -54,9 +55,11 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
               <div className='info'>
                 <p>
                   {data.userName}
-                  <span className='pull-right wm-color-secondary'>
-                    {getDate(new Date(data.updateTime), 'yyyy.MM.dd')}
-                  </span>
+                  {data.updateTime &&
+                    <span className='pull-right wm-color-secondary'>
+                      {getDate(new Date(data.updateTime), 'yyyy.MM.dd')}
+                    </span>
+                  }
                 </p>
                 {data.type !== undefined &&
                   <p className={`${data.type !== 2

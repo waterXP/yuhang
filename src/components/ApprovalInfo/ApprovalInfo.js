@@ -57,7 +57,7 @@ class ApprovalInfo extends Component {
           { pathname: status === 0 ? '/new' : '/approval/detail',
             query: {
               id: expensesClaimsId,
-              type: status > 3 ? 'afterApproval' : ''
+              type: status > 3 || status === -1 ? 'afterApproval' : ''
             }
           }
         )}
