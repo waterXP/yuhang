@@ -29,7 +29,6 @@ class ExpenseDetails extends Component {
     return () => this.deleteInfo(i)
   }
   deleteInfo (i) {
-    console.log(arguments)
     let { fields, updateTags, tags } = this.props
     let temp = [...tags]
     temp.splice(i, 1)

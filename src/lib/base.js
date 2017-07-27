@@ -171,7 +171,7 @@ export const getDate = (nDate = (new Date()), fmt = 'yyyy-MM-dd hh:mm:ss') => {
     'h+': sDate.getHours(),
     'm+': sDate.getMinutes(),
     's+': sDate.getSeconds(),
-    'q+': ~~((sDate.getMonth() + 3) / 3),
+    'q+': Math.floor((sDate.getMonth() + 3) / 3),
     'S': sDate.getMilliseconds()
   }
   if (/(y+)/.test(fmt)) {
@@ -192,7 +192,7 @@ export const getCash = (cash = 0, symbol = '') => {
   if (isNaN(cash)) {
     return '--'
   }
-  cash = ~~(cash * 100) / 100
+  cash = Math.floor(cash * 100) / 100
   let result = '' + cash
   let dot = result.indexOf('.')
   if (dot < 0) {
@@ -209,7 +209,7 @@ export const getNumber = (number = 0, dot = 2) => {
   if (isNaN(number) || isNaN(dot)) {
     return ''
   }
-  dot = ~~dot
+  dot = Math.floor(dot)
   const str = '' + number
   let [integer, decimal] = str.split('.')
   integer = isNaN(integer) ? 0 : +integer

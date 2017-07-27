@@ -10,6 +10,9 @@ class FormNumber extends Component {
     handlerBlur: PropTypes.func,
     placeholder: PropTypes.string
   }
+  handleFocus (e) {
+    e.target.select()
+  }
   render () {
     const { text, name, handlerBlur, placeholder } = this.props
     return (
@@ -19,6 +22,7 @@ class FormNumber extends Component {
           name={name}
           component='input'
           type='text'
+          onFocus={this.handleFocus}
           onBlur={handlerBlur}
           placeholder={placeholder}
         />

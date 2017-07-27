@@ -53,7 +53,8 @@ class ApprovalDetail extends Component {
               data={approvalDetail}
               addComment={this.commentHandler}
               isBusy={isBusy}
-              type={approvalDetail.master.status}
+              type={approvalDetail.master.status === 2 ||
+                approvalDetail.master.status === 3 ? 4 : 0}
             />
             : <NoData type='loading' />
         }

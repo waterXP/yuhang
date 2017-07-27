@@ -17,15 +17,31 @@ class ApprovalInfo extends Component {
     expensesClaimsId: PropTypes.number,
     tag: PropTypes.number,
     status: PropTypes.number,
-    dingApproveUrl: PropTypes.string
+    dingApproveUrl: PropTypes.string,
+    getApproveUrl: PropTypes.func
   }
   gotoPage (location) {
-    const { tag, dingApproveUrl } = this.props
+    const { tag, dingApproveUrl, expensesClaimsId, getApproveUrl } = this.props
     const { status } = this.props
-    if (status < 4 && status !== 0) {
-      return () => dingApproveDetail(dingApproveUrl)
+    let isDingDetail = false
+    switch (tag) {
+      case 1:
+        isDingDetail = true
+        break
+      case 2:
+        if (status === 1) {
+          isDingDetail = true
+        }
+        break
+      case 4:
+        if (status === 1 || status === 2 || status === 3) {
+          isDingDetail = true
+        }
     }
-    if (!isDev && tag === 1) {
+    if (!isDev && isDingDetail) {
+      if (!dingApproveUrl) {
+        return () => getApproveUrl(expensesClaimsId, dingApproveDetail)
+      }
       return () => dingApproveDetail(dingApproveUrl)
     }
     return () => goLocation(location)
@@ -41,7 +57,7 @@ class ApprovalInfo extends Component {
           { pathname: status === 0 ? '/new' : '/approval/detail',
             query: {
               id: expensesClaimsId,
-              type: status > 3 ? 'afterApproval' : ''
+              type: status > 3 || status === -1 ? 'afterApproval' : ''
             }
           }
         )}

@@ -14,6 +14,7 @@ export const approveStatus = {
 }
 
 export const approveDetailType = {
+  '-1': '作废',
   '0': '发起',
   '1': '撤消',
   '2': '拒绝',

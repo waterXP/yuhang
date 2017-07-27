@@ -9,7 +9,7 @@ export const BlockButtons = ({ btns = [], btnSplit }) => {
     <div className='wm-block-buttons'>
       { btns.map((v, i) => (
         !v.hide && <button
-          style={{ width: `${~~(100 / len)}%` }}
+          style={{ width: `${Math.floor(100 / len)}%` }}
           key={i}
           type={v.type || 'button'}
           disabled={v.disabled}
