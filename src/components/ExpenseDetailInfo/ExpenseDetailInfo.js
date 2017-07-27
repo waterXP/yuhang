@@ -87,7 +87,8 @@ class ExpenseDetailInfo extends Component {
         />
         <FormTextArea
           name={`${data}.memo`}
-          placeholder='备注：' />
+          placeholder='备注：'
+          maxLength={200} />
       </div>
     )
   }

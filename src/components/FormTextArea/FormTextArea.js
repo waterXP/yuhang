@@ -6,17 +6,19 @@ import './FormTextArea.scss'
 class FormTextArea extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    maxLength: PropTypes.number
   }
 
   render () {
-    const { name, placeholder } = this.props
+    const { name, placeholder, maxLength } = this.props
     return (
       <div className='wm-form-text-area'>
         <Field
           name={name}
           component='textarea'
-          placeholder={placeholder} />
+          placeholder={placeholder}
+          maxLength={maxLength} />
       </div>
     )
   }
