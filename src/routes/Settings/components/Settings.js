@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import './Settings.scss'
-import { history, dingSetTitle } from '@/lib/base'
+import { history, dingSetTitle, dingSetNavRight } from '@/lib/base'
 
 class Settings extends Component {
   static propTypes = {
@@ -16,6 +16,7 @@ class Settings extends Component {
       history.replace('/settings/accounts')
     }
     dingSetTitle('我的')
+    dingSetNavRight('')
   }
 
   render () {

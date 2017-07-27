@@ -4,7 +4,7 @@ import ApprovalNavs from '@/components/ApprovalNavs'
 import ApprovalConditions from '@/components/ApprovalConditions'
 import ApprovalList from '@/components/ApprovalList'
 import './ApprovalMain.scss'
-import { dingSetTitle } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/base'
 
 class ApprovalMain extends Component {
   static propTypes = {
@@ -38,6 +38,7 @@ class ApprovalMain extends Component {
     const { updateActive, query } = this.props
     updateActive(+query.active || 1)
     dingSetTitle('明快报销')
+    dingSetNavRight('')
   }
   scrolled (e) {
     const { inBusy, isBusy, page, active, getList } = this.props
