@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { goLocation, dingSetTitle } from '@/lib/base'
+import { goLocation, dingSetTitle, dingSetNavRight } from '@/lib/base'
 import PropTypes from 'prop-types'
 import './SettingsAccounts.scss'
 import AccountList from '@/components/AccountList'
@@ -24,6 +24,7 @@ class SettingsAccounts extends Component {
   componentDidMount () {
     this.props.getAccounts()
     dingSetTitle('收款账号')
+    dingSetNavRight('')
   }
 
   // handleClick = (path) => () => {
