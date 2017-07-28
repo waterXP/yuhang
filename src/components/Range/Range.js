@@ -19,16 +19,14 @@ class Range extends Component {
     e.target.select()
   }
   handleBlur (e) {
-    if (e.target.value === '') {
-      return
-    }
-    let m = +e.target.value
+    let m = e.target.value === '' ? '' : +e.target.value
     if (isNaN(m)) {
       e.target.value = ''
-      return
     }
     let { updateRange } = this.props
-    e.target.value = getNumber(m)
+    if (m) {
+      e.target.value = getNumber(m, 2, 0, 999999.99)
+    }
     if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
       if (e.target === this.min) {
         e.target.value = this.max.value
@@ -55,7 +53,7 @@ class Range extends Component {
           &nbsp;{ title }
         </p> }
         <input
-          type='text'
+          type='tel'
           placeholder={startHolder}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -64,7 +62,7 @@ class Range extends Component {
         />
         <span>-</span>
         <input
-          type='text'
+          type='tel'
           placeholder={endHolder}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

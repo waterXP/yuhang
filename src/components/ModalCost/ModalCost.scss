@@ -9,6 +9,7 @@
   background-color: $btnBackColor;
   padding: $panelPadding;
   overflow: auto;
+  z-index: 1;
   .search {
     margin-bottom: 1rem;
   }
