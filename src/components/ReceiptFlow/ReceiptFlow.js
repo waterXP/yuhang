@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getDate, dingPreviewImage } from '@/lib/base'
+import { dingPreviewImage } from '@/lib/base'
 import { approveDetailType } from '@/lib/enums'
 import userImage from '@/assets/user.png'
 import './ReceiptFlow.scss'

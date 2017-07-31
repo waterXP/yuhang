@@ -12,7 +12,7 @@ const initialState = {
       linkUrl: '/approval'
     }, {
       homePage: false,
-      iconClass: 'fa-plus-circle',
+      iconClass: 'fa-plus-circle foot-fav-color',
       title: '报销',
       linkUrl: '/new',
       btnType: 'big'
