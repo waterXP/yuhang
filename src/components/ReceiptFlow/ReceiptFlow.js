@@ -57,7 +57,8 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
                   {data.userName}
                   {data.updateTime &&
                     <span className='pull-right wm-color-secondary'>
-                      {getDate(new Date(data.updateTime), 'yyyy.MM.dd')}
+                      {data.updateTime &&
+                        data.updateTime.split(' ')[0].replace(/-/g, '.')}
                     </span>
                   }
                 </p>
