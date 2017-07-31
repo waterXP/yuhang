@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { hashHistory } from 'react-router'
 import { FieldArray, reduxForm, initialize,
   formValueSelector } from 'redux-form'
 import PropTypes from 'prop-types'
@@ -190,6 +191,12 @@ class ExpenseForm extends Component {
   modalConfirm (value, label, id) {
     if (label === 'selAccount' && id < 0) {
       this.save()
+      hashHistory.replace({
+        pathname: '/new',
+        query: {
+          from: '/new'
+        }
+      })
       let pathname = id === -0.2
         ? '/settings/edit/alipay'
         : '/settings/edit/account'
@@ -395,7 +402,7 @@ class ExpenseForm extends Component {
         chooseBankName: '新增支付宝'
       }]
       : []
-    let list = [...accountList, ...newCard]
+    let list = accountList ? [...accountList, ...newCard] : [...newCard]
     if (isDev) {
       this.modalOpen(list, selAccount, 'selAccount', 'id', 'chooseBankName')
     } else {

@@ -15,25 +15,40 @@ class SearchForm extends Component {
       tm: null
     }
     this.handleChange = this.handleChange.bind(this)
+    this.clean = this.clean.bind(this)
+    this.getList = this.getList.bind(this)
   }
   handleChange (e) {
+    this.getList(e.target.value)
+  }
+  clean () {
+    this.refs.searchInput.value = ''
+    this.getList('', true)
+  }
+  getList (v, immediately) {
     const { tm } = this.state
     const { inBusy, submitHandler } = this.props
-    let v = e.target.value
     if (tm) {
       clearTimeout(tm)
     }
-    const target = setTimeout(() => {
+    if (immediately) {
       submitHandler(v)
-      inBusy(false)
-    }, 1000)
-    this.setState({
-      tm: target
-    })
-    if (v) {
-      inBusy(true)
+      this.setState({
+        tm: 0
+      })
     } else {
-      inBusy(false)
+      const target = setTimeout(() => {
+        submitHandler(v)
+        inBusy(false)
+      }, 1000)
+      this.setState({
+        tm: target
+      })
+      if (v) {
+        inBusy(true)
+      } else {
+        inBusy(false)
+      }
     }
   }
   render () {
@@ -45,11 +60,12 @@ class SearchForm extends Component {
         <input
           type='text'
           id='search'
+          ref='searchInput'
           placeholder='单号、备注、制单人、报销人'
           className={`${!dirty && 'dirty'}`}
           onChange={this.handleChange}
         />
-        { dirty && <i className='fa fa-times-circle' /> }
+        { dirty && <i className='fa fa-times-circle' onClick={this.clean} /> }
         <Link to={btnLink}>取消</Link>
       </div>
     )
