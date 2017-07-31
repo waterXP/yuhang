@@ -16,7 +16,10 @@
     > i {
       font-size: 5rem;
       background-color: $backColor;
-      border-radius: 50%;  
+      border-radius: 50%;
+    }
+    > .foot-fav-color{
+      color:$activeColor;
     }
   }
   &[disabled] {
@@ -25,10 +28,11 @@
 
   > i {
     font-size: 2.8rem;
-    max-width: 100%;    
+    max-width: 100%;
   }
   > p {
     margin: 0;
     font-size: 1.4rem;
   }
 }
+

@@ -64,7 +64,7 @@ Home.prototype.btns = [
   }], [{
     type:4,
     img:HomeImage,
-    name:'已撤销'
+    name:'已撤回'
   }, {
     type:5,
     img:HomeImage,
