@@ -205,9 +205,15 @@ export const getCash = (cash = 0, symbol = '') => {
   return symbol + result
 }
 
-export const getNumber = (number = 0, dot = 2) => {
+export const getNumber = (number = 0, dot = 2, min, max) => {
   if (isNaN(number) || isNaN(dot)) {
     return ''
+  }
+  if (max !== '' && max !== undefined && number > max) {
+    number = max
+  }
+  if (min !== '' && min !== undefined && number < min) {
+    number = min
   }
   dot = Math.floor(dot)
   const str = '' + number

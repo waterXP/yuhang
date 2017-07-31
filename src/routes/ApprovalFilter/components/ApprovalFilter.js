@@ -31,8 +31,23 @@ class ApprovalFilter extends Component {
   }
   constructor (props) {
     super(props)
+    // console.log(this.props.query.status)
+    const status = this.props.query.status
+    let filter = []
+    switch (+status) {
+      case 3:
+        filter = getObjArray(approveStatus, 'id', 'text')
+        .filter((v) => +v.id === -1 || +v.id > 4)
+        break
+      case 4:
+        filter = getObjArray(approveStatus, 'id', 'text')
+        .filter((v) => +v.id === -1 || +v.id > 0)
+        break
+      default:
+        filter = getObjArray(approveStatus, 'id', 'text')
+    }
     this.state = {
-      filter: getObjArray(approveStatus, 'id', 'text'),
+      filter,
       range: ['', ''],
       showResult: false
     }

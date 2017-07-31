@@ -21,7 +21,7 @@ class FormNumber extends Component {
         <Field
           name={name}
           component='input'
-          type='text'
+          type='tel'
           onFocus={this.handleFocus}
           onBlur={handlerBlur}
           placeholder={placeholder}

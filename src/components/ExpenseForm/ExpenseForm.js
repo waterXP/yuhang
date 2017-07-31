@@ -276,7 +276,7 @@ class ExpenseForm extends Component {
   }
   formatCurrency (target, event, newValue, previousValue) {
     event.preventDefault()
-    this.props.change(`${target}`, getNumber(newValue))
+    this.props.change(`${target}`, getNumber(newValue, 2, '', 999999.99))
   }
 
   initial (data) {
@@ -574,7 +574,8 @@ class ExpenseForm extends Component {
       }
     })
   }
-  handleSubmit () {
+  handleSubmit (e) {
+    e.preventDefault()
     return
   }
 

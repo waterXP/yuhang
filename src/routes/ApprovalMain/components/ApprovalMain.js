@@ -6,6 +6,8 @@ import ApprovalList from '@/components/ApprovalList'
 import './ApprovalMain.scss'
 import { dingSetTitle, dingSetNavRight } from '@/lib/base'
 
+import { hashHistory } from 'react-router'
+
 class ApprovalMain extends Component {
   static propTypes = {
     active: PropTypes.number.isRequired,
@@ -32,6 +34,7 @@ class ApprovalMain extends Component {
   constructor (props) {
     super(props)
     this.scrolled = this.scrolled.bind(this)
+    this.updateActive = this.updateActive.bind(this)
   }
 
   componentDidMount () {
@@ -47,9 +50,17 @@ class ApprovalMain extends Component {
       getList(active, { current_page: page.next_page })
     }
   }
+  updateActive (active) {
+    const { updateActive } = this.props
+    hashHistory.replace({
+      pathname: '/approval/main',
+      query: { active }
+    })
+    updateActive(active)
+  }
 
   render () {
-    const { active, updateActive, list, isBusy, page } = this.props
+    const { active, list, isBusy, page } = this.props
     let pageEnd = true
     if (page['current_page'] && page['total_page'] &&
       page['current_page'] < page['total_page']) {
@@ -59,7 +70,7 @@ class ApprovalMain extends Component {
       <div className='wm-approval-main'>
         <ApprovalNavs
           active={active}
-          updateActive={updateActive}
+          updateActive={this.updateActive}
         />
         <ApprovalConditions status={active} />
         <ApprovalList
