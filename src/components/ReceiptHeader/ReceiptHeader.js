@@ -19,7 +19,7 @@ export const ReceiptHeader = ({ data }) => {
         <p>总金额：　<span className='wm-color-important'>{getCash(data.summoney)}</span>&nbsp;元</p>
         <p>报销单号：{highLightDate(data.expensesClaimNo)}</p>
         <p>报销人：　{data.userName && `${data.userName} / `}{data.deptName}</p>
-      </div>      
+      </div>
     </div>
   )
 }
