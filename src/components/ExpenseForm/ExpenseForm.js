@@ -287,13 +287,17 @@ class ExpenseForm extends Component {
   }
 
   initial (data) {
+    const { query } = this.props
+    // console.log(data)
     if (data) {
       // after create new account
       const {
-        userName, selDept, deptsList, details,
+        userName, selDept, deptsList, details, selAccount,
         costType, selProj, projectsList, isDraft,
         attachmentList, approvers, tags, nextTag
       } = data
+      // let sel = -1
+      // if (query.from === '/settings/accounts')
       fetchData('get /userAccounts/myAccountList.json')
       .then((d) => {
         if (!d.result) {
@@ -302,7 +306,11 @@ class ExpenseForm extends Component {
             initialize('expenseForm', {
               userName,
               accountList: accountList || [],
-              selAccount: accountList.length - 1,
+              selAccount: query.from === '/settings/accounts'
+              ? accountList.length - 1
+              : selAccount < accountList.length
+                ? selAccount
+                : -1,
               selDept,
               deptsList,
               details,
@@ -416,6 +424,12 @@ class ExpenseForm extends Component {
           this.props.change('selAccount', +v.value)
         } else {
           this.save()
+          hashHistory.replace({
+            pathname: '/new',
+            query: {
+              from: '/new'
+            }
+          })
           let pathname = id === -0.2
             ? '/settings/edit/alipay'
             : '/settings/edit/account'
