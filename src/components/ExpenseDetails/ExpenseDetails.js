@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ExpenseDetailInfo from '../ExpenseDetailInfo'
 import ConfirmButton from '../ConfirmButton'
 import { getDate, openDatePicker } from '@/lib/base'
+import { blurInput } from '@/lib/base'
 
 import { isDev } from '@/config'
 
@@ -29,6 +30,7 @@ class ExpenseDetails extends Component {
     return () => this.deleteInfo(i)
   }
   deleteInfo (i) {
+    blurInput()
     let { fields, updateTags, tags } = this.props
     let temp = [...tags]
     temp.splice(i, 1)
@@ -36,6 +38,7 @@ class ExpenseDetails extends Component {
     fields.remove(i)
   }
   handleClick () {
+    blurInput()
     let { fields, updateTags, updateNextTag, tags, nextTag } = this.props
     let temp = [...tags]
     temp.push(nextTag)
@@ -44,6 +47,7 @@ class ExpenseDetails extends Component {
     fields.push({ id: nextTag })
   }
   setDate (value, target) {
+    blurInput()
     if (isDev) {
       this.props.changeDate(target, getDate(+new Date(), 'yyyy-MM-dd'))
     }
@@ -66,7 +70,10 @@ class ExpenseDetails extends Component {
             key={tags[i]}
             hasDel={tags.length > 1}
             data={v}
-            title={`明细${tags[i]}`}
+            title={
+              // The idiot's decision, use tags[i] is better
+              `明细${i + 1}`
+            }
             deleteHandler={this.deleteHandler(i)}
             costType={costType}
             setDate={this.setDate}

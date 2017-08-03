@@ -13,7 +13,7 @@ class FormTextArea extends Component {
   render () {
     const { name, placeholder, maxLength } = this.props
     return (
-      <div className='wm-form-text-area'>
+      <div className='wm-form-text-area need-blur'>
         <Field
           name={name}
           component='textarea'

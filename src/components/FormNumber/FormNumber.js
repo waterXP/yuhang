@@ -16,7 +16,7 @@ class FormNumber extends Component {
   render () {
     const { text, name, handlerBlur, placeholder } = this.props
     return (
-      <div className='wm-form-number'>
+      <div className='wm-form-number need-blur'>
         <label>{ text }</label>
         <Field
           name={name}

@@ -18,6 +18,7 @@ import NoData from '@/components/NoData'
 import './ExpenseForm.scss'
 
 import { isDev } from '@/config'
+import { blurInput } from '@/lib/base'
 
 import ModalSelect from '../ModalSelect'
 
@@ -99,9 +100,10 @@ class ExpenseForm extends Component {
   }
 
   initModify (d, id) {
+    const { userAccountId, projectId, deptId, type } = d.expensesClaims
     let params = {
-      deptId: d.expensesClaims.deptId,
-      type: d.expensesClaims.type
+      deptId: deptId,
+      type: type
     }
     Promise.all([
       fetchData('get /expensesClaims/init.json', params),
@@ -111,7 +113,6 @@ class ExpenseForm extends Component {
       if (!d1.result && !d2.result) {
         const { deptsList, projectsList, usersList } = d1.data
         const accountList = d2.data
-        const { userAccountId, projectId, deptId } = d.expensesClaims
 
         let details = []
         let tags = []
@@ -168,7 +169,7 @@ class ExpenseForm extends Component {
             isDraft: d.expensesClaims.type === 1 ? id : false
           })
         )
-        this.getCostType(d.expensesClaims.deptId)
+        this.getCostType(deptId)
       } else {
         if (d1.result) {
           toast(d1.msg)
@@ -288,7 +289,6 @@ class ExpenseForm extends Component {
 
   initial (data) {
     const { query } = this.props
-    // console.log(data)
     if (data) {
       // after create new account
       const {
@@ -296,8 +296,6 @@ class ExpenseForm extends Component {
         costType, selProj, projectsList, isDraft,
         attachmentList, approvers, tags, nextTag
       } = data
-      // let sel = -1
-      // if (query.from === '/settings/accounts')
       fetchData('get /userAccounts/myAccountList.json')
       .then((d) => {
         if (!d.result) {
@@ -368,6 +366,7 @@ class ExpenseForm extends Component {
   }
 
   departChange () {
+    blurInput()
     const { deptsList, selDept, type } = this.props
     if (type > 1) {
       return
@@ -386,6 +385,7 @@ class ExpenseForm extends Component {
     }
   }
   projChange () {
+    blurInput()
     const { projectsList, selProj } = this.props
     if (isDev) {
       this.modalOpen(projectsList, selProj, 'selProj')
@@ -400,6 +400,7 @@ class ExpenseForm extends Component {
     }
   }
   accountChange () {
+    blurInput()
     const { accountList, selAccount } = this.props
     const newCard = accountList.length < 5
       ? [{
@@ -414,9 +415,12 @@ class ExpenseForm extends Component {
     if (isDev) {
       this.modalOpen(list, selAccount, 'selAccount', 'id', 'chooseBankName')
     } else {
-      let selectedKey = selAccount >= 0
-        ? accountList[selAccount].chooseBankName
-        : accountList[0].chooseBankName
+      let selectedKey = '新增银行卡'
+      if (accountList && accountList > 0) {
+        selectedKey = selAccount >= 0
+          ? accountList[selAccount].chooseBankName
+          : accountList[0].chooseBankName
+      }
       let source = getChosenSource(list, 'chooseBankName')
       openChosen(source, selectedKey, (v) => {
         const id = list[+v.value].id
@@ -447,6 +451,7 @@ class ExpenseForm extends Component {
     previewImage(img)
   }
   addAttachment () {
+    blurInput()
     const { attachmentList, restAttachments } = this.props
     let max = 9 - attachmentList.length - restAttachments.length
     let temp = attachmentList || []
