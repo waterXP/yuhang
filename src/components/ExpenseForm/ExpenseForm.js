@@ -606,10 +606,10 @@ class ExpenseForm extends Component {
   }
 
   render () {
-    const { userName, totalCash, costType,
+    const { userName, totalCash, costType, restAttachments,
       deptsList, selDept, projectsList, selProj, accountList,
       selAccount, details, attachmentList, approvers,
-      tags, nextTag, type, deptName, restAttachments } = this.props
+      tags, nextTag, type, deptName } = this.props
     const { options, target, openModal,
       targetName, labelId, labelName, isBusy } = this.state
     return (
