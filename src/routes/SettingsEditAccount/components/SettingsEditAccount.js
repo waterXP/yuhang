@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast, dingSetTitle } from '@/lib/base'
+import { fetchData, goLocation, toast, regAccount, dingSetTitle } from '@/lib/base'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
@@ -24,16 +24,17 @@ class SettingsEditAccount extends Component {
     if (!name) {
       toast('姓名不能为空')
       return
-    } else if (name.length > 10) {
+    } else if (name.length > 30) {
+      toast('姓名太长')
       return
     }
     if (!account) {
       toast('账号不能为空')
       return
-    // } else if (regAccount.test(account)) {
-    // } else {
-    //   toast('账号不正确')
-    //   return
+    } else if (regAccount.test(account)) {
+    } else {
+      toast('账号不正确')
+      return
     }
     if (!bankName) {
       toast('请输入银行名称')
@@ -43,10 +44,10 @@ class SettingsEditAccount extends Component {
       toast('请输入支行名称')
       return
     }
-    if (!bankCode) {
-      toast('请输入支行行号')
-      return
-    }
+    // if (!bankCode) {
+    //   toast('请输入支行行号')
+    //   return
+    // }
 
     fetchData(action, {
       type: 1,
