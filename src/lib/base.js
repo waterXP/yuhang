@@ -501,6 +501,17 @@ export const doFetch = (action, params = {}) => {
     })
 }
 
+export const blurInput = () => {
+  const isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE') != -1;
+  if(isIPHONE) {
+    const obj = document.querySelectorAll('.need-blur input, .need-blur textarea')
+    console.log(obj)
+    for (let i = 0; i < obj.length; i++) {
+      obj[i].blur()
+    }
+  }
+}
+
 export default {
   getUrlParams,
   fetchData,
@@ -516,5 +527,6 @@ export default {
   confirm,
   dingSend,
   dingApproveDetail,
-  doFetch
+  doFetch,
+  blurInput
 }

@@ -4,7 +4,7 @@ import FormLink from '../FormLink'
 import FormNumber from '../FormNumber'
 import FormTextArea from '../FormTextArea'
 import './ExpenseDetailInfo.scss'
-
+import { blurInput } from '@/lib/base'
 import ModalCost from '../ModalCost'
 
 class ExpenseDetailInfo extends Component {
@@ -28,6 +28,7 @@ class ExpenseDetailInfo extends Component {
     this.selType = this.selType.bind(this)
   }
   selType () {
+    blurInput()
     this.setState({
       openModal: true
     })
