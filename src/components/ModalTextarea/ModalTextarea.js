@@ -19,7 +19,7 @@ class ModalTextarea extends Component {
     }
   }
   render () {
-    const { placeholder, text, cancel } = this.props
+    const { placeholder, text, cancel, isBusy } = this.props
     return (
       <div className='wm-modal-textarea'>
         <div className='container'>
@@ -27,16 +27,19 @@ class ModalTextarea extends Component {
             ref={(e) => { this.textarea = e }}
             placeholder={placeholder}
             defaultValue={text}
+            disabled={isBusy}
             rows='10'
           />
           <button
             className='btn-left'
             type='button'
+            disabled={isBusy}
             onClick={cancel}
           >取消</button>
           <button
             className='btn-right'
             type='button'
+            disabled={isBusy}
             onClick={this.handleClick}
           >确定</button>
         </div>

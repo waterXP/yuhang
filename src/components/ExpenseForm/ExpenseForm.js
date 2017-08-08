@@ -657,7 +657,7 @@ class ExpenseForm extends Component {
           accountName={
             (accountList && selAccount > -1)
               ? accountList[selAccount].chooseBankName
-              : '请选择(必须)'
+              : '请选择(必填)'
           }
           accountChange={this.accountChange}
           hasProj={projectsList && projectsList.length > 0}

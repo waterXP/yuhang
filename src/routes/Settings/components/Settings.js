@@ -9,14 +9,21 @@ class Settings extends Component {
     location: PropTypes.object.isRequired,
     children : PropTypes.element
   }
-
-  componentDidMount () {
+  checkUrl () {
     const { location } = this.props
     if (location.pathname === '/settings') {
       history.replace('/settings/accounts')
     }
     dingSetTitle('我的')
     dingSetNavRight('')
+
+  }
+
+  componentDidMount () {
+    this.checkUrl()
+  }
+  componentDidUpdate () {
+    this.checkUrl()
   }
 
   render () {

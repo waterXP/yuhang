@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
-import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/base'
+import { confirm, dingSetNavRight, dingSetTitle, goLocation } from '@/lib/base'
 import PropTypes from 'prop-types'
 import NoData from '@/components/NoData'
 
@@ -8,9 +8,38 @@ class HomeApproveDetail extends Component {
   constructor () {
     super()
     this.deleteExp = this.deleteExp.bind(this)
+    this.commentHandler = this.commentHandler.bind(this)
   }
+  componentWillMount () {
+    let { id, type } = this.props.params
+    this.props.initialApproveDetail()
+    this.props.detailLoading()
+    if (+type === 2) {
+      this.props.getApproveDetail(id, true)
+    } else {
+      this.props.getApproveDetail(id, false)
+    }
+  }
+
+  commentHandler () {
+    const { id, type } = this.props.params
+    goLocation({
+      pathname: '/home/comment',
+      query: {
+        id,
+        type,
+        fromPage: '/home/approve_detail'
+      }
+    })
+  }
+  deleteExp (expensesClaimId) {
+    let message = '请确认是否删除此报销单'
+    let title = '提示'
+    confirm(message, title, this.props.deleteExp.bind(null, expensesClaimId, this.props.params.type))
+  }
+
   render () {
-    let { detail, addComment, isLoading, isBusy } = this.props
+    let { detail, isLoading, isBusy } = this.props
     if (detail && detail.master) {
       let { userName, deptName } = detail.master
       let title = ''
@@ -29,7 +58,7 @@ class HomeApproveDetail extends Component {
           : detail && detail.master
           ? <Receipt
             data={this.props.detail}
-            addComment={addComment}
+            addComment={this.commentHandler}
             type={this.props.params.type}
             deleteExp={this.deleteExp}
             isBusy={isBusy}
@@ -38,22 +67,6 @@ class HomeApproveDetail extends Component {
         }
       </div>
     )
-  }
-  componentWillMount () {
-    let { id, type } = this.props.params
-    this.props.initialApproveDetail()
-    this.props.detailLoading()
-    if (+type === 2) {
-      this.props.getApproveDetail(id, true)
-    } else {
-      this.props.getApproveDetail(id, false)
-    }
-  }
-
-  deleteExp (expensesClaimId) {
-    let message = '请确认是否删除此报销单'
-    let title = '提示'
-    confirm(message, title, this.props.deleteExp.bind(null, expensesClaimId, this.props.params.type))
   }
 }
 HomeApproveDetail.propTypes = {

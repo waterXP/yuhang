@@ -3,6 +3,7 @@ import ApprovalMainRoute from '../ApprovalMain'
 import ApprovalSearchRoute from '../ApprovalSearch'
 import ApprovalFilterRoute from '../ApprovalFilter'
 import ApprovalDetailRoute from '../ApprovalDetail'
+import ApprovalCommentRoute from '../ApprovalComment'
 
 export default (store) => ({
   path : 'approval',
@@ -18,6 +19,7 @@ export default (store) => ({
     ApprovalMainRoute(store),
     ApprovalSearchRoute(store),
     ApprovalFilterRoute(store),
-    ApprovalDetailRoute(store)
+    ApprovalDetailRoute(store),
+    ApprovalCommentRoute(store)
   ]
 })

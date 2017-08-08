@@ -80,7 +80,7 @@ export const getApprovalDetail = (id, type) => {
   }
 }
 
-export const addComment = (expensesClaimId, remark, type) => {
+export const addComment = (expensesClaimId, remark, cb) => {
   return (dispatch, getState) => {
     dispatch(inBusy(true))
     fetchData('post /expensesClaimComments/add.json', {
@@ -88,7 +88,8 @@ export const addComment = (expensesClaimId, remark, type) => {
       remark
     }).then((data) => {
       if (data.result === 0) {
-        fetchApprovalDetail(dispatch, expensesClaimId, type)
+        dispatch(inBusy(false))
+        cb && cb()
       } else {
         toast(data.msg)
       }

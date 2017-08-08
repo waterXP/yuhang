@@ -7,23 +7,13 @@ import ConfirmButton from '../ConfirmButton'
 import './Receipt.scss'
 import ReceiptDelete from '../ReceiptDelete'
 import { goLocation } from '@/lib/base'
-import NoData from '../NoData'
-
-import ModalTextarea from '../ModalTextarea'
 
 class Receipt extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     addComment: PropTypes.func.isRequired,
     type: PropTypes.any,
-    isBusy: PropTypes.bool,
     deleteExp: PropTypes.func
-  }
-  constructor (props) {
-    super(props)
-    this.state = {
-      showModal: false
-    }
   }
   handleClick = (v = 'just test') => {
     let { type, addComment, data } = this.props
@@ -36,15 +26,14 @@ class Receipt extends Component {
     }
     addComment(data.master.expensesClaimId, v, afterApproval)
   }
-  modalOpen = () => this.setState({ showModal: true })
-  modalClose = () => this.setState({ showModal: false })
-  modalConfirm = (v) => {
-    this.handleClick(v)
-    this.modalClose()
-  }
+  // modalOpen = () => this.setState({ showModal: true })
+  // modalClose = () => this.setState({ showModal: false })
+  // modalConfirm = (v) => {
+  //   this.handleClick(v)
+  //   this.modalClose()
+  // }
   render () {
-    const { data, type, isBusy } = this.props
-    const { showModal } = this.state
+    const { data, type, addComment } = this.props
     let nType = +type
     let names = [
       {
@@ -60,14 +49,6 @@ class Receipt extends Component {
     }
     return (
       <div className='wm-receipt'>
-        { showModal &&
-          <ModalTextarea
-            text=''
-            placeholder='说点什么吧……'
-            handleClick={this.modalConfirm}
-            cancel={this.modalClose}
-          />
-        }
         <ReceiptHeader data={data.master} />
         <ReceiptDetails data={data.detailsList} />
         <ReceiptFlow
@@ -79,12 +60,10 @@ class Receipt extends Component {
             ? <ReceiptDelete
               names={names}
             />
-            : isBusy
-              ? <NoData type='loading' text='添加评论中……' size='xsmall' />
-              : <ConfirmButton
-                text='评论'
-                handleClick={this.modalOpen}
-              />
+            : <ConfirmButton
+              text='评论'
+              handleClick={addComment}
+            />
           }
         </div>
       </div>

@@ -10,7 +10,7 @@ export const FooterButton =
       to={linkUrl}
       activeClassName='active'
       className={`footer-button ${btnType || ''}`}
-      disabled={pathname.indexOf(linkUrl) === 0}
+      // disabled={pathname.indexOf(linkUrl) === 0}
     >
       <i className={`fa ${iconClass || ''}`} />
       <p>{title}</p>

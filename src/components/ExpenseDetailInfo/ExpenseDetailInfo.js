@@ -68,7 +68,7 @@ class ExpenseDetailInfo extends Component {
         <FormLink
           text='费用类型'
           name={`${data}.feeName`}
-          value={detail && detail.feeName ? detail.feeName : '请选择(必须)'}
+          value={detail && detail.feeName ? detail.feeName : '请选择(必填)'}
           iconRight='fa-angle-right'
           clickHandler={this.selType}
         />
@@ -82,7 +82,7 @@ class ExpenseDetailInfo extends Component {
         <FormLink
           text='发生日期'
           name={`${data}.startDate`}
-          value={detail && detail.startDate ? detail.startDate : '请选择(必须)'}
+          value={detail && detail.startDate ? detail.startDate : '请选择(必填)'}
           iconRight='fa-angle-right'
           clickHandler={this.clickHandler(detail.startDate)}
         />
