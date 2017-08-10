@@ -11,8 +11,10 @@ window.parent ? window.parent.dd : window.parent
 
 export default {
   dd,
-  prodApi: 'http://120.77.209.222/wagestest/',
+  // prodApi: 'http://120.77.209.222/wagestest/',
+  prodApi: 'http://wages.hz.taeapp.com/',
   devApi: '/api/',
-  ddurl: 'http://120.77.209.222/wagestest/',
+  // ddurl: 'http://120.77.209.222/wagestest/',
+  ddurl: 'http://wages.hz.taeapp.com/',
   useLocaldata: false
 }

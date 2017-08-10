@@ -406,10 +406,12 @@ class ExpenseForm extends Component {
       ? [{
         id: -0.1,
         chooseBankName: '新增银行卡'
-      }, {
-        id: -0.2,
-        chooseBankName: '新增支付宝'
-      }]
+      }
+      // , {
+      //   id: -0.2,
+      //   chooseBankName: '新增支付宝'
+      // }
+      ]
       : []
     let list = accountList ? [...accountList, ...newCard] : [...newCard]
     if (isDev) {

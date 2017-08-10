@@ -157,6 +157,7 @@ export const fetchFin = (state, action) => {
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
   host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
+  // host: `http://120.77.209.222/mobile/?corpid=${corpid}`,
   corpid
 })
 
