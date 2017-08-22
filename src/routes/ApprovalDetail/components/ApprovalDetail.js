@@ -9,7 +9,6 @@ import NoData from '@/components/NoData'
 class ApprovalDetail extends Component {
   static propTypes = {
     getApprovalDetail: PropTypes.func.isRequired,
-    addComment: PropTypes.func.isRequired,
     approvalDetail: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
     isBusy: PropTypes.bool.isRequired

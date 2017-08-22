@@ -17,7 +17,7 @@ class Approval extends Component {
   componentDidMount () {
     this.checkUrl()
   }
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.checkUrl()
   }
   render () {

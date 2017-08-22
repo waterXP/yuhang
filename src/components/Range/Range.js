@@ -38,9 +38,6 @@ class Range extends Component {
       updateRange([this.min.value, this.max.value])
     }
   }
-  handleClick (e) {
-    console.dir(e.target)
-  }
   render () {
     const { title, range, placeholder } = this.props
     const [start, end] = range
@@ -60,7 +57,6 @@ class Range extends Component {
           placeholder={startHolder}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          onClick={this.handleClick.bind(this)}
           defaultValue={start}
           ref={(e) => { this.min = e }}
         />

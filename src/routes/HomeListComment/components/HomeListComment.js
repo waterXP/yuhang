@@ -7,7 +7,8 @@ import { hashHistory } from 'react-router'
 class HomeListComment extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    addComment: PropTypes.func.isRequired
+    addComment: PropTypes.func.isRequired,
+    isBusy: PropTypes.bool
   }
   modalClose = () => {
     const { id, fromPage } = this.props.query
@@ -38,7 +39,7 @@ class HomeListComment extends Component {
         placeholder='说点什么吧……'
         handleClick={this.modalConfirm}
         cancel={this.modalClose}
-        isBusy={ isBusy }
+        isBusy={isBusy}
       />
     )
   }

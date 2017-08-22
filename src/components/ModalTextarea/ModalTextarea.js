@@ -9,7 +9,8 @@ class ModalTextarea extends Component {
     placeholder: PropTypes.string,
     text: PropTypes.string,
     handleClick: PropTypes.func,
-    cancel: PropTypes.func
+    cancel: PropTypes.func,
+    isBusy: PropTypes.bool
   }
   handleClick = () => {
     if (!this.textarea.value) {

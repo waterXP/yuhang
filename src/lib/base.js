@@ -156,8 +156,8 @@ export const fetchFin = (state, action) => {
 
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
-  host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
-  // host: `http://120.77.209.222/mobile/?corpid=${corpid}`,
+  host: `http://120.77.209.222/wagestest/?corpid=${corpid}`,
+  // host: `http://wages.hz.taeapp.com/?corpid=${corpid}`,
   corpid
 })
 
@@ -501,10 +501,9 @@ export const doFetch = (action, params = {}) => {
 }
 
 export const blurInput = () => {
-  const isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE') != -1;
-  if(isIPHONE) {
+  const isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE') !== -1
+  if (isIPHONE) {
     const obj = document.querySelectorAll('.need-blur input, .need-blur textarea')
-    console.log(obj)
     for (let i = 0; i < obj.length; i++) {
       obj[i].blur()
     }

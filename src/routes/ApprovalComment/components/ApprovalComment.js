@@ -7,7 +7,8 @@ import { hashHistory } from 'react-router'
 class ApprovalDetail extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    addComment: PropTypes.func.isRequired
+    addComment: PropTypes.func.isRequired,
+    isBusy: PropTypes.bool
   }
   modalClose = () => {
     const { id, type } = this.props.query
@@ -19,7 +20,7 @@ class ApprovalDetail extends Component {
         query: {
           id,
           type
-        }   
+        }
       })
     }
   }
@@ -35,7 +36,7 @@ class ApprovalDetail extends Component {
         placeholder='说点什么吧……'
         handleClick={this.modalConfirm}
         cancel={this.modalClose}
-        isBusy={ isBusy }
+        isBusy={isBusy}
       />
     )
   }

@@ -71,7 +71,6 @@ class HomeApproveDetail extends Component {
 }
 HomeApproveDetail.propTypes = {
   detail:PropTypes.object.isRequired,
-  addComment:PropTypes.func.isRequired,
   params:PropTypes.object,
   getApproveDetail:PropTypes.func.isRequired,
   deleteExp:PropTypes.func.isRequired,

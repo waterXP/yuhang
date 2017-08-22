@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ExpenseDetailInfo from '../ExpenseDetailInfo'
 import ConfirmButton from '../ConfirmButton'
-import { getDate, openDatePicker } from '@/lib/base'
-import { blurInput } from '@/lib/base'
+import { getDate, openDatePicker, blurInput } from '@/lib/base'
 
 import { isDev } from '@/config'
 

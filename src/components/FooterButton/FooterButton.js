@@ -4,7 +4,8 @@ import { Link } from 'react-router'
 import './FooterButton.scss'
 
 export const FooterButton =
-({ homePage, linkUrl, iconClass, btnType, title, pathname }) => {
+({ homePage, linkUrl, iconClass, btnType, title, pathname, name }) => {
+  const active = pathname.indexOf(linkUrl) === 0
   return (
     <Link
       to={linkUrl}
@@ -12,7 +13,10 @@ export const FooterButton =
       className={`footer-button ${btnType || ''}`}
       // disabled={pathname.indexOf(linkUrl) === 0}
     >
-      <i className={`fa ${iconClass || ''}`} />
+      {
+        // <i className={`fa ${iconClass || ''}`} />
+      }
+      <img src={active ? `imgs/${name}.png` : `imgs/${name}_.png`} />
       <p>{title}</p>
     </Link>
   )
@@ -24,7 +28,8 @@ FooterButton.propTypes = {
   title: PropTypes.string,
   linkUrl: PropTypes.string.isRequired,
   btnType: PropTypes.string,
-  pathname: PropTypes.string
+  pathname: PropTypes.string,
+  name: PropTypes.string
 }
 
 export default FooterButton

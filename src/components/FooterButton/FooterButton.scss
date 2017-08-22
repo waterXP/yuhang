@@ -18,6 +18,11 @@
       background-color: $backColor;
       border-radius: 50%;
     }
+    > img {
+      width: 5rem;
+      background-color: $backColor;
+      border-radius: 50%;
+    }
     > .foot-fav-color{
       color:$activeColor;
     }
@@ -25,7 +30,10 @@
   &[disabled] {
     pointer-events: none;
   }
-
+  > img {
+    width: 2.8rem;
+    max-width: 100%;    
+  }
   > i {
     font-size: 2.8rem;
     max-width: 100%;

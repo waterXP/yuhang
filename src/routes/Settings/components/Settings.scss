@@ -1,20 +1,34 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $backColorSecondary;
+  .fa {
+    width: 2rem;
+    margin-right: 1rem;
+    text-align: center;
+    color: $activeBorderColor;
+  }
   ul {
     padding: 0;
     list-style-type: none;
     text-align: left;
   }
-  .a-link + .a-link {
-    border-top: 2px solid $defaultColor;
+  .a-link {
+    margin-top: 1.5rem;
+    border-top: 1px solid $defaultColor;
+    border-bottom: 1px solid $defaultColor;
   }
 
   a {
     position: relative;
     display: inline-block;
     width: 100%;
-    padding: .5rem .4rem;
+    padding: 1rem .8rem;
     background-color: $backColor;
     color: $fontColor;
     font-size: $inputFontSize;
@@ -22,8 +36,8 @@
     &:after {
       content: '>';
       position: absolute;
-      top: 0.3rem;
-      right: 0.5rem;
+      top: 0.8rem;
+      right: .8rem;
       font-size: 1.6rem;
       color: $defaultColor;
     }

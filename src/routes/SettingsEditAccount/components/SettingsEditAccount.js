@@ -14,7 +14,7 @@ class SettingsEditAccount extends Component {
     if (val.id) {
       action = 'post /userAccounts/updateMyAccount.json'
     }
-    let { name, chooseBankName, bankBranchName, bankCode, bankName, oldAccount, oldChooseBankName } = val
+    let { name, chooseBankName, bankBranchName, bankName, oldAccount, oldChooseBankName } = val
     if (oldChooseBankName && chooseBankName === oldChooseBankName) {
       val.account = oldAccount
     } else {

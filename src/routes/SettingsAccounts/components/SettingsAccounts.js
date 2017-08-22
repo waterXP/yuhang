@@ -38,11 +38,12 @@ class SettingsAccounts extends Component {
     return (
       <div className='wm-settings-accounts'>
         {
-        //<button
-        //   className='btn btn-default'
-        //   onClick={this.handleClick({
-        //     pathname: 'settings/edit/alipay'
-        //   })}>新增支付宝</button>
+          // <button
+          //   className='btn btn-default'
+          //   onClick={this.handleClick({
+          //     pathname: 'settings/edit/alipay'
+          //   })}
+          // >新增支付宝</button>
         }
         <button
           className='btn btn-default'

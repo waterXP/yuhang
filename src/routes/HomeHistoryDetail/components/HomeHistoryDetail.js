@@ -9,7 +9,6 @@ class HomeHistoryDetail extends Component {
     getHistoryDetail: PropTypes.func.isRequired,
     historyDetail: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
-    addComment: PropTypes.func,
     detailLoading: PropTypes.func,
     isLoading: PropTypes.bool
   }
@@ -35,7 +34,7 @@ class HomeHistoryDetail extends Component {
   }
 
   render () {
-    const { historyDetail, query, addComment, isLoading } = this.props
+    const { historyDetail, query, isLoading } = this.props
     if (historyDetail.master) {
       let { userName, deptName } = historyDetail.master
       let title = ''
