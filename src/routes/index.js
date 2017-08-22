@@ -5,7 +5,6 @@ import CountRoute from './Count'
 import NewRoute from './New'
 import SettingsRoute from './Settings'
 import HomeRoute from './Home'
-import FirstIn from './FirstIn'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -13,7 +12,6 @@ import FirstIn from './FirstIn'
 export const createRoutes = (store) => ({
   path        : '/',
   component   : CoreLayout,
-  indexRoute  : FirstIn,
   childRoutes : [
     ApprovalRoute(store),
     CountRoute(store),
@@ -23,7 +21,6 @@ export const createRoutes = (store) => ({
     {
       path: '*',
       component: CoreLayout,
-      indexRoute: FirstIn,
       onEnter: ({ params }, replace) => {
         replace('/home')
       }

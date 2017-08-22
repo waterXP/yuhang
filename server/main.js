@@ -40,7 +40,8 @@ if (project.env === 'development') {
 
   app.use('/api', proxy({
     target: 'http://120.77.209.222/wagestest/',
-    // target: 'http://172.16.2.249:8080/',
+    // target: 'http://wages.hz.taeapp.com/',
+    // target: 'http://172.16.2.146:8080/wages',
     pathRewrite: { '^/api' : '' },
     changeOrigin: true
   }))

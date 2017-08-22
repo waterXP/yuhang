@@ -8,11 +8,17 @@ class Approval extends Component {
     location: PropTypes.object,
     children: PropTypes.element
   }
-  componentDidMount () {
+  checkUrl () {
     const { location } = this.props
     if (location.pathname === '/approval' || location.pathname === '/approval/') {
       history.replace('/approval/main')
     }
+  }
+  componentDidMount () {
+    this.checkUrl()
+  }
+  componentDidUpdate () {
+    this.checkUrl()
   }
   render () {
     const { children } = this.props

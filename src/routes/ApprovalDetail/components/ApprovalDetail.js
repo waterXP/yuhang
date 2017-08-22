@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalDetail.scss'
-import { dingSetTitle, dingSetNavRight } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight, goLocation } from '@/lib/base'
 
 import Receipt from '@/components/Receipt'
 import NoData from '@/components/NoData'
@@ -9,7 +9,6 @@ import NoData from '@/components/NoData'
 class ApprovalDetail extends Component {
   static propTypes = {
     getApprovalDetail: PropTypes.func.isRequired,
-    addComment: PropTypes.func.isRequired,
     approvalDetail: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
     isBusy: PropTypes.bool.isRequired
@@ -26,10 +25,15 @@ class ApprovalDetail extends Component {
       this.props.getApprovalDetail(id, type)
     }
   }
-  commentHandler (id, text) {
-    const { type } = this.props.query
-    const { addComment } = this.props
-    addComment(id, text, type)
+  commentHandler () {
+    const { id, type } = this.props.query
+    goLocation({
+      pathname: '/approval/comment',
+      query: {
+        id,
+        type
+      }
+    })
   }
 
   render () {

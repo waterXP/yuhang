@@ -24,7 +24,7 @@ class SettingsEditAlipay extends Component {
     if (!name) {
       toast('姓名不能为空')
       return
-    } else if (name.length > 10) {
+    } else if (name.length > 30) {
       return
     }
     if (!account) {

@@ -14,7 +14,7 @@ class SettingsEditAccount extends Component {
     if (val.id) {
       action = 'post /userAccounts/updateMyAccount.json'
     }
-    let { name, chooseBankName, bankBranchName, bankCode, bankName, oldAccount, oldChooseBankName } = val
+    let { name, chooseBankName, bankBranchName, bankName, oldAccount, oldChooseBankName } = val
     if (oldChooseBankName && chooseBankName === oldChooseBankName) {
       val.account = oldAccount
     } else {
@@ -24,7 +24,8 @@ class SettingsEditAccount extends Component {
     if (!name) {
       toast('姓名不能为空')
       return
-    } else if (name.length > 10) {
+    } else if (name.length > 30) {
+      toast('姓名太长')
       return
     }
     if (!account) {
@@ -43,10 +44,10 @@ class SettingsEditAccount extends Component {
       toast('请输入支行名称')
       return
     }
-    if (!bankCode) {
-      toast('请输入支行行号')
-      return
-    }
+    // if (!bankCode) {
+    //   toast('请输入支行行号')
+    //   return
+    // }
 
     fetchData(action, {
       type: 1,

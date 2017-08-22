@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Receipt from '@/components/Receipt'
-import { dingSetNavRight, dingSetTitle } from '@/lib/base'
+import { dingSetNavRight, dingSetTitle, goLocation } from '@/lib/base'
 import NoData from '@/components/NoData'
 
 class HomeHistoryDetail extends Component {
@@ -9,11 +9,23 @@ class HomeHistoryDetail extends Component {
     getHistoryDetail: PropTypes.func.isRequired,
     historyDetail: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
-    addComment: PropTypes.func,
     detailLoading: PropTypes.func,
     isLoading: PropTypes.bool
   }
-
+  constructor () {
+    super(...arguments)
+    this.commentHandler = this::this.commentHandler
+  }
+  commentHandler () {
+    const { id } = this.props.query
+    goLocation({
+      pathname: '/home/comment',
+      query: {
+        id,
+        fromPage: '/home/detail'
+      }
+    })
+  }
   componentDidMount () {
     if (this.props.query.id) {
       this.props.getHistoryDetail(this.props.query.id)
@@ -22,7 +34,7 @@ class HomeHistoryDetail extends Component {
   }
 
   render () {
-    const { historyDetail, query, addComment, isLoading } = this.props
+    const { historyDetail, query, isLoading } = this.props
     if (historyDetail.master) {
       let { userName, deptName } = historyDetail.master
       let title = ''
@@ -39,7 +51,7 @@ class HomeHistoryDetail extends Component {
       ? <NoData type='loading' />
       : <div>{historyDetail.master &&
         (+query.id === historyDetail.master.expensesClaimId) &&
-        <Receipt data={historyDetail} addComment={addComment} type={3} />}
+        <Receipt data={historyDetail} addComment={this.commentHandler} type={3} />}
       </div>
     )
   }

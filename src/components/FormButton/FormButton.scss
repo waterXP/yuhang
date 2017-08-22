@@ -4,7 +4,7 @@
   width: 100%;
   background-color: $activeColor;
   border-color: $activeBorderColor;
-  border-radius: $radiusCycle;
+  border-radius: 4px;
   &:hover {
     background-color: $activeHoverColor;
     border-color: $activeHoverBorderColor;

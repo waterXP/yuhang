@@ -23,7 +23,7 @@ const initialState = {
   paidHistory: [],
   historyDetail: {},
   isLoading: true,
-  isBusy: true,
+  isBusy: false,
   detail: {},
   cPage: 1,
   total_page: 1,

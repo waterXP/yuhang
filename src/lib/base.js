@@ -156,7 +156,8 @@ export const fetchFin = (state, action) => {
 
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
-  host: `http://120.77.209.222/mobiletest/?corpid=${corpid}`,
+  host: `http://120.77.209.222/wagestest/?corpid=${corpid}`,
+  // host: `http://wages.hz.taeapp.com/?corpid=${corpid}`,
   corpid
 })
 
@@ -249,7 +250,7 @@ export const highLightDate = (str) => {
 
 export const regPhone = /^1[34578]\d{9}$/
 export const regMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-export const regAccount = /^([1-9]{1})(\d{14,19})$/
+export const regAccount = /^([1-9]{1})(\d{7,23})$/
 
 export const alert = (message = '', title = '', buttonName = '确定') => {
   dd.device.notification.alert({
@@ -490,22 +491,19 @@ export const doFetch = (action, params = {}) => {
   return fetchData(action, params)
     .then((data) => {
       if (data.result) {
-        toast(data.msg)
         toast(data.msg || '系统忙，请稍后再试')
       }
       return data
     })
     .catch((e) => {
-      toast(e)
       toast('请求失败，请检查网络并稍后再试')
     })
 }
 
 export const blurInput = () => {
-  const isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE') != -1;
-  if(isIPHONE) {
+  const isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE') !== -1
+  if (isIPHONE) {
     const obj = document.querySelectorAll('.need-blur input, .need-blur textarea')
-    console.log(obj)
     for (let i = 0; i < obj.length; i++) {
       obj[i].blur()
     }

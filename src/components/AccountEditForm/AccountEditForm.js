@@ -75,7 +75,7 @@ class AccountEditForm extends Component {
           label='姓名'
           name='name'
           id='field-name'
-          maxLength='10'
+          maxLength='30'
         />
         <InputText
           label='账号'

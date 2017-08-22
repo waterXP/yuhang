@@ -7,10 +7,10 @@
   input {
     width: 100%;
     font-size: 1.4rem;
-    border-radius: $radiusCycle;
+    border-radius: 4px;
     line-height: inherit;
-    border:1px solid $borderColor;
-    padding-left:8px;
+    border: 1px solid $borderColor;
+    padding: .4rem 1rem;
     outline:none;
   }
 }

@@ -1,6 +1,7 @@
 import { fetchData, toast, FETCH_FAIL } from '@/lib/base'
 
 const GET_HISTORY_DETAIL = 'GET_HISTORY_DETAIL'
+const IN_BUSY = 'IN_BUSY'
 
 const fetchHistoryDetail = (dispatch, id) => {
   fetchData('get /expensesClaimsView/approveDetail.json', {
@@ -29,20 +30,30 @@ const fetchHistoryDetail = (dispatch, id) => {
   })
 }
 
+export const inBusy = (state) => {
+  return {
+    type: IN_BUSY,
+    state
+  }
+}
+
 export const getHistoryDetail = (id) => {
   return (dispatch, getState) => {
     fetchHistoryDetail(dispatch, id)
   }
 }
 
-export const addComment = (expensesClaimId, remark) => {
+export const addComment = (expensesClaimId, remark, cb) => {
   return (dispatch, getState) => {
+    dispatch(inBusy(true))
     fetchData('post /expensesClaimComments/add.json', {
       expensesClaimId,
       remark
     }).then((data) => {
       if (data.result === 0) {
-        fetchHistoryDetail(dispatch, expensesClaimId)
+        dispatch(inBusy(false))
+        cb && cb()
+        // fetchHistoryDetail(dispatch, expensesClaimId)
       } else {
         toast(data.msg)
       }
@@ -51,6 +62,8 @@ export const addComment = (expensesClaimId, remark) => {
 }
 
 export const ACTIONS_HANDLERS = {
+  [IN_BUSY]: (state, action) =>
+    Object.assign({}, state, { isBusy: action.state }),
   [GET_HISTORY_DETAIL]: (state, action) => {
     return Object.assign({}, state, {
       historyDetail: action.data,

@@ -12,13 +12,12 @@ import ExpenseApprover from '../ExpenseApprover'
 import BlockButtons from '../BlockButtons'
 import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
-  uploadImage, previewImage } from '@/lib/base'
+  uploadImage, previewImage, blurInput } from '@/lib/base'
 import { saveData } from '@/routes/New/modules/new'
 import NoData from '@/components/NoData'
 import './ExpenseForm.scss'
 
 import { isDev } from '@/config'
-import { blurInput } from '@/lib/base'
 
 import ModalSelect from '../ModalSelect'
 
@@ -60,7 +59,8 @@ class ExpenseForm extends Component {
       targetName: '',
       labelId: '',
       labelName: '',
-      isBusy: false
+      isBusy: false,
+      inited: false
     }
     this.modalConfirm = this.modalConfirm.bind(this)
     this.modalClose = this.modalClose.bind(this)
@@ -169,7 +169,13 @@ class ExpenseForm extends Component {
             isDraft: d.expensesClaims.type === 1 ? id : false
           })
         )
+        this.setState({
+          inited: true
+        })
         this.getCostType(deptId)
+        this.setState({
+          inited: true
+        })
       } else {
         if (d1.result) {
           toast(d1.msg)
@@ -325,6 +331,10 @@ class ExpenseForm extends Component {
               isDraft
             })
           )
+
+          this.setState({
+            inited: true
+          })
         }
       })
     } else {
@@ -360,6 +370,9 @@ class ExpenseForm extends Component {
             })
           )
           this.getCostType(deptsList[0].id)
+          this.setState({
+            inited: true
+          })
         }
       })
     }
@@ -406,10 +419,12 @@ class ExpenseForm extends Component {
       ? [{
         id: -0.1,
         chooseBankName: '新增银行卡'
-      }, {
-        id: -0.2,
-        chooseBankName: '新增支付宝'
-      }]
+      }
+      // , {
+      //   id: -0.2,
+      //   chooseBankName: '新增支付宝'
+      // }
+      ]
       : []
     let list = accountList ? [...accountList, ...newCard] : [...newCard]
     if (isDev) {
@@ -606,12 +621,13 @@ class ExpenseForm extends Component {
   }
 
   render () {
-    const { userName, totalCash, costType,
+    const { userName, totalCash, costType, restAttachments,
       deptsList, selDept, projectsList, selProj, accountList,
       selAccount, details, attachmentList, approvers,
-      tags, nextTag, type, deptName, restAttachments } = this.props
-    const { options, target, openModal,
+      tags, nextTag, type, deptName } = this.props
+    const { options, target, openModal, inited,
       targetName, labelId, labelName, isBusy } = this.state
+
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
@@ -625,6 +641,7 @@ class ExpenseForm extends Component {
             labelName={labelName}
           />
         }
+        { !inited && <NoData type='loading' cover /> }
         { isBusy && <NoData type='upload' cover /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
@@ -657,7 +674,7 @@ class ExpenseForm extends Component {
           accountName={
             (accountList && selAccount > -1)
               ? accountList[selAccount].chooseBankName
-              : '请选择(必须)'
+              : '请选择(必填)'
           }
           accountChange={this.accountChange}
           hasProj={projectsList && projectsList.length > 0}

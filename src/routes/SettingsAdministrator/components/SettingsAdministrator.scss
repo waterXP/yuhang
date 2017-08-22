@@ -1,0 +1,19 @@
+@import '../../../styles/baseStyle';
+
+.wm-settings-administrator {
+  height: 100%;
+  .no-data {
+    z-index: 1;
+    i {
+      width: 7rem;
+    }
+  }
+  .wm-user-list {
+    max-height: calc(100% - 10rem);
+    overflow: auto;
+  }
+  .confirm-btn {
+    width: 100%;
+    padding: 0 1rem;
+  }
+}

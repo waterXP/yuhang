@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import HomeImage from '../assets/home2.jpg'
+import imgDraft from '../assets/draft.png'
+import imgHistory from '../assets/history.png'
+import imgTime from '../assets/time.png'
+import imgSend from '../assets/send.png'
+import imgReturn from '../assets/return.png'
+import imgRefuse from '../assets/refuse.png'
 import './Home.scss'
 import HomeBtn from '@/components/HomeBtn/HomeBtn'
 import { dingSetTitle, dingSetNavRight } from '@/lib/base'
@@ -51,27 +56,27 @@ class Home extends Component {
 Home.prototype.btns = [
   [{
     type:1,
-    img:HomeImage,
+    img:imgTime,
     name:'审批中'
   }, {
     type:2,
-    img:HomeImage,
+    img:imgSend,
     name:'未发放'
   }, {
     type:3,
-    img:HomeImage,
+    img:imgHistory,
     name:'发放历史'
   }], [{
     type:4,
-    img:HomeImage,
+    img:imgReturn,
     name:'已撤回'
   }, {
     type:5,
-    img:HomeImage,
+    img:imgRefuse,
     name:'已拒绝'
   }, {
     type:6,
-    img:HomeImage,
+    img:imgDraft,
     name:'草稿'
 
   }]
