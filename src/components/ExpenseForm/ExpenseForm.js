@@ -13,7 +13,8 @@ import BlockButtons from '../BlockButtons'
 import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
   uploadImage, previewImage, blurInput } from '@/lib/base'
-import { saveData } from '@/routes/New/modules/new'
+import { saveData, setStep, getCostType,
+  setAppCatch } from '@/routes/New/modules/new'
 import NoData from '@/components/NoData'
 import './ExpenseForm.scss'
 
@@ -24,6 +25,8 @@ import ModalSelect from '../ModalSelect'
 class ExpenseForm extends Component {
   static propTypes = {
     query: PropTypes.object,
+    step: PropTypes.string,
+    appCatch: PropTypes.object,
     data: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
@@ -75,10 +78,15 @@ class ExpenseForm extends Component {
     this.showImg = this.showImg.bind(this)
     this.addAttachment = this.addAttachment.bind(this)
     this.removeAttachment = this.removeAttachment.bind(this)
+    this.setCostType = this::this.setCostType
   }
 
   componentDidMount () {
-    let { query, data } = this.props
+    let { query, data, step } = this.props
+    if (step === 'set cost type' && data) {
+      this.initial(data)
+      return
+    }
     if (query.from && data) {
       this.initial(data)
     } else {
@@ -101,6 +109,7 @@ class ExpenseForm extends Component {
 
   initModify (d, id) {
     const { userAccountId, projectId, deptId, type } = d.expensesClaims
+    const { dispatch } = this.props
     let params = {
       deptId: deptId,
       type: type
@@ -172,7 +181,7 @@ class ExpenseForm extends Component {
         this.setState({
           inited: true
         })
-        this.getCostType(deptId)
+        dispatch(getCostType(deptId))
         this.setState({
           inited: true
         })
@@ -227,9 +236,9 @@ class ExpenseForm extends Component {
   }
 
   deptChanged (id) {
-    const { deptsList, selDept, details, type } = this.props
+    const { deptsList, selDept, details, type, dispatch } = this.props
     if (deptsList[selDept].id !== id) {
-      this.getCostType(id)
+      dispatch(getCostType(id))
       details.forEach((v) => {
         v.feeName = ''
         v.feeType = ''
@@ -272,15 +281,6 @@ class ExpenseForm extends Component {
     )
   }
 
-  getCostType (deptId) {
-    fetchData('get /costTypes/findCostTypeByDeptId.json', { deptId })
-    .then((d) => {
-      if (!d.result) {
-        this.props.change('costType', d.data)
-      }
-    })
-  }
-
   changeDate (target, value) {
     this.props.change(target, getDate(value, 'yyyy-MM-dd'))
   }
@@ -294,7 +294,7 @@ class ExpenseForm extends Component {
   }
 
   initial (data) {
-    const { query } = this.props
+    const { query, dispatch, step, appCatch } = this.props
     if (data) {
       // after create new account
       const {
@@ -302,6 +302,16 @@ class ExpenseForm extends Component {
         costType, selProj, projectsList, isDraft,
         attachmentList, approvers, tags, nextTag
       } = data
+      let _details = details
+      if (step === 'set cost type') {
+        const { index, costTypeId, costTypeName } = appCatch
+        if (index !== undefined && costTypeId &&
+          costTypeName && _details[index]) {
+          _details[index].feeType = costTypeId
+          _details[index].feeName = costTypeName
+        }
+        dispatch(setStep(''))
+      }
       fetchData('get /userAccounts/myAccountList.json')
       .then((d) => {
         if (!d.result) {
@@ -317,7 +327,7 @@ class ExpenseForm extends Component {
                 : -1,
               selDept,
               deptsList,
-              details,
+              details: _details,
               costType,
               selProj,
               projectsList: [{ id: -1, name: '请选择' }, ...projectsList],
@@ -369,7 +379,7 @@ class ExpenseForm extends Component {
               isDraft: false
             })
           )
-          this.getCostType(deptsList[0].id)
+          dispatch(getCostType(deptsList[0].id))
           this.setState({
             inited: true
           })
@@ -615,16 +625,31 @@ class ExpenseForm extends Component {
       }
     })
   }
+  setCostType (index) {
+    const { dispatch } = this.props
+    if (index === undefined) {
+      return
+    }
+    const costTypeId = this.props.details[index].feeType
+    let params = { index }
+    if (costTypeId) {
+      params.costTypeId = costTypeId
+    }
+    dispatch(setStep('set cost type'))
+    dispatch(setAppCatch(params))
+    this.save()
+    goLocation('/new/type')
+  }
   handleSubmit (e) {
     e.preventDefault()
     return
   }
 
   render () {
-    const { userName, totalCash, costType, restAttachments,
-      deptsList, selDept, projectsList, selProj, accountList,
-      selAccount, details, attachmentList, approvers,
-      tags, nextTag, type, deptName } = this.props
+    const { userName, totalCash, restAttachments, deptsList,
+      selDept, projectsList, selProj, accountList, selAccount,
+      details, attachmentList, approvers, tags, nextTag, type,
+      deptName } = this.props
     const { options, target, openModal, inited,
       targetName, labelId, labelName, isBusy } = this.state
 
@@ -655,13 +680,13 @@ class ExpenseForm extends Component {
           component={ExpenseDetails}
           tags={tags}
           nextTag={nextTag}
-          costType={costType}
           changeDate={this.changeDate}
           changeCostType={this.changeCostType}
           formatCurrency={this.formatCurrency}
           details={details}
           updateTags={this.updateTags}
           updateNextTag={this.updateNextTag}
+          setCostType={this.setCostType}
         />
         <ExpenseAccountInfo
           totalCash={totalCash()}
@@ -707,6 +732,8 @@ const selector = formValueSelector('expenseForm')
 export default connect(
   state => ({
     query: state.location.query,
+    step: state.new.step,
+    appCatch: state.new.appCatch,
     data: state.new.data,
     userName: selector(state, 'userName'),
     costType: selector(state, 'costType'),

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import './Settings.scss'
-import { history, dingSetTitle, dingSetNavRight, toast } from '@/lib/base'
+import { history, dingSetTitle, dingSetNavRight, toast, fetchData } from '@/lib/base'
 
 class Settings extends Component {
   static propTypes = {
@@ -10,13 +10,36 @@ class Settings extends Component {
     children : PropTypes.element
   }
 
+  constructor () {
+    super(...arguments)
+    this.state = {
+      hasAuthority: false
+    }
+    this.checkAuthority = this::this.checkAuthority
+  }
+
   componentDidMount () {
     this.checkUrl()
+    this.checkAuthority()
   }
   componentDidUpdate () {
     this.checkUrl()
   }
-
+  checkAuthority () {
+    fetchData('get managers/authorityInfo.json')
+    .then((v) => {
+      if (v && v.data && v.result === 0) {
+        const d = v.data
+        if (d.isMain || d.isSuperMan) {
+          this.setState({
+            hasAuthority: true
+          })
+        }
+      } else {
+        toast(v.msg)
+      }
+    })
+  }
   checkUrl () {
     const { location } = this.props
     if (location.query.state === 'fin') {
@@ -28,7 +51,8 @@ class Settings extends Component {
   }
 
   render () {
-    let children = this.props.children
+    const { children } = this.props
+    const { hasAuthority } = this.state
     return (
       <div className='wm-settings'>
         { children ||
@@ -38,11 +62,13 @@ class Settings extends Component {
                 <span className='fa fa-credit-card' />个人收款账号
               </Link>
             </li>
-            <li className='a-link'>
-              <Link to='/settings/administrator' activeClassName='active'>
-                <span className='fa fa-user' />超管设置
-              </Link>
-            </li>
+            {
+              hasAuthority && <li className='a-link'>
+                <Link to='/settings/administrator' activeClassName='active'>
+                  <span className='fa fa-user' />超管设置
+                </Link>
+              </li>
+            }
           </ul>
         }
       </div>

@@ -14,10 +14,9 @@ class ExpenseDetails extends Component {
     updateNextTag: PropTypes.func,
     nextTag: PropTypes.number,
     changeDate: PropTypes.func,
-    changeCostType: PropTypes.func,
-    costType: PropTypes.array,
     details: PropTypes.array,
-    formatCurrency: PropTypes.func
+    formatCurrency: PropTypes.func,
+    setCostType: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -54,14 +53,14 @@ class ExpenseDetails extends Component {
     openDatePicker(defaultValue, (newDate) =>
       this.props.changeDate(target, newDate))
   }
-  setCostType (target, id, value) {
-    this.props.changeCostType(target, id, value)
+  setCostType (index) {
+    return this.props.setCostType.bind(this, index)
   }
   formatHandle () {
     return this.props.formatCurrency.bind(this)
   }
   render () {
-    let { fields, costType, details, tags } = this.props
+    let { fields, details, tags } = this.props
     return (
       <div>
         {tags && fields && fields.map((v, i) =>
@@ -74,9 +73,8 @@ class ExpenseDetails extends Component {
               `明细${i + 1}`
             }
             deleteHandler={this.deleteHandler(i)}
-            costType={costType}
             setDate={this.setDate}
-            setCostType={this.setCostType}
+            setCostType={this.setCostType(i)}
             detail={details && details[i]}
             formatCurrency={this.formatHandle()}
           />

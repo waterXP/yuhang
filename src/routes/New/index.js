@@ -1,4 +1,5 @@
 import { injectReducer } from '@/store/reducers'
+import NewTypeRoute from '../NewType'
 
 export default (store) => ({
   path : 'new',
@@ -9,5 +10,8 @@ export default (store) => ({
       injectReducer(store, { key: 'new', reducer })
       cb(null, Container)
     }, 'new')
-  }
+  },
+  childRoutes: [
+    NewTypeRoute(store)
+  ]
 })

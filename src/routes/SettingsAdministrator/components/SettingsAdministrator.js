@@ -25,7 +25,22 @@ class SettingsAdministrator extends Component {
   }
   componentDidMount () {
     dingSetTitle('设置超管')
-    this.getAdminList()
+    this.checkAuthority()
+  }
+  checkAuthority () {
+    fetchData('get managers/authorityInfo.json')
+    .then((v) => {
+      if (v && v.data && v.result === 0) {
+        const d = v.data
+        if (d.isMain || d.isSuperMan) {
+          this.getAdminList()
+        } else {
+          goLocation('/settings')
+        }
+      } else {
+        toast(v.msg)
+      }
+    })
   }
   getAdminList () {
     fetchData(
