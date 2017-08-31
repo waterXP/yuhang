@@ -26,6 +26,7 @@ class Settings extends Component {
     this.checkUrl()
   }
   checkAuthority () {
+    this.setState({ hasAuthority: false })
     fetchData('get managers/authorityInfo.json')
     .then((v) => {
       if (v && v.data && v.result === 0) {
@@ -44,6 +45,7 @@ class Settings extends Component {
     const { location } = this.props
     if (location.query.state === 'fin') {
       toast('设置成功', 'success')
+      this.checkAuthority()
       history.replace('/settings')
     }
     dingSetTitle('我的')
