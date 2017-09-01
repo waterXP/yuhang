@@ -290,7 +290,11 @@ class ExpenseForm extends Component {
   }
   formatCurrency (target, event, newValue, previousValue) {
     event.preventDefault()
-    this.props.change(`${target}`, getNumber(newValue, 2, '', 999999.99))
+    const v = getNumber(newValue, 2)
+    this.props.change(`${target}`, v)
+    if (v !== '' && (+v < 0 || +v > 999999.99)) {
+      toast('金额超出范围（0 〜 999999.99）')
+    }
   }
 
   initial (data) {
@@ -358,6 +362,9 @@ class ExpenseForm extends Component {
             projectsList, usersList } = d1.data
           const accountList = d2.data || []
           let selAccount = accountList.findIndex((v) => v.isDefault)
+          if (selAccount === -1 && accountList.length > 0) {
+            selAccount = 0
+          }
           this.props.dispatch(
             initialize('expenseForm', {
               userName,
@@ -528,13 +535,21 @@ class ExpenseForm extends Component {
       return
     }
     let valid = true
+    let reason = ''
     if (!draft && details.length === 0) {
       toast('请配置费用明细')
       return
     }
-    details.forEach((v) => {
-      if (!draft && (!v.id || !v.cash || !v.startDate)) {
+    details.forEach((v, i) => {
+      if (valid && !draft && (!v.id || !v.cash || !v.startDate)) {
         valid = false
+        reason = `费用明细${i + 1}不完整`
+        if (v.cash !== undefined && v.cash !== '') {
+          const temp = +getNumber(v.cash, 2)
+          if (temp < 0 || temp > 999999.99) {
+            reason = `费用明细${i + 1}金额超出范围（0 〜 999999.99）`
+          }
+        }
       }
       detailses.push({
         costTypeId: v.feeType || '',
@@ -545,7 +560,7 @@ class ExpenseForm extends Component {
       })
     })
     if (!valid) {
-      toast('费用明细不完整')
+      toast(reason)
       return
     }
     let params = {

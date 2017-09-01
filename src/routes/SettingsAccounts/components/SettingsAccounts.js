@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { goLocation, dingSetTitle, dingSetNavRight } from '@/lib/base'
+import { goLocation, dingSetTitle, dingSetNavRight, toast } from '@/lib/base'
 import PropTypes from 'prop-types'
 import './SettingsAccounts.scss'
 import AccountList from '@/components/AccountList'
@@ -27,11 +27,15 @@ class SettingsAccounts extends Component {
     dingSetNavRight('')
   }
 
-  // handleClick = (path) => () => {
-  //   goLocation(path)
-  // }
   handleClick (path) {
-    return () => goLocation(path)
+    return () => {
+      const counts = this.props.accounts.length
+      if (counts === 20) {
+        toast('账号数量达到上限')
+      } else {
+        goLocation(path)
+      }
+    }
   }
 
   render () {

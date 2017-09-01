@@ -25,7 +25,7 @@ class Range extends Component {
     }
     let { updateRange } = this.props
     if (m) {
-      e.target.value = getNumber(m, 2, 0, 999999.99)
+      e.target.value = getNumber(m, 2)
     }
     if (this.min.value && this.max.value && +this.min.value > +this.max.value) {
       if (e.target === this.min) {

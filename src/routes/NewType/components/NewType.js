@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './NewType.scss'
-import { dingSetTitle, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
 
 class NewType extends Component {
   static propTypes = {
@@ -23,14 +23,13 @@ class NewType extends Component {
   }
 
   componentDidMount () {
-    dingSetTitle('费用类型选择')
     const { costTypes, appCatch } = this.props
     const { index, costTypeId } = appCatch
     const { step } = this.props
 
     // check index & store
     if (index === undefined || step !== 'set cost type') {
-      goLocation('/new')
+      goLocation('/')
       return
     }
 
