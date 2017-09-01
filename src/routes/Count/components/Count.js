@@ -12,7 +12,7 @@ class Count extends Component {
   render () {
     return (
       <div className='wm-count'>
-        <NoData text='开发中，请移步PC端' />
+        <NoData text='开发中，请至PC端查看' />
       </div>
 
     )

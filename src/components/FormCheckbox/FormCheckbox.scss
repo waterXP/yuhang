@@ -1,0 +1,13 @@
+@import '../../styles/baseStyle';
+
+.wm-form-checkbox {
+  @include form-control;
+  label.checkbox-label {
+    width: 100%;
+  }
+  input {
+    width: auto;
+    height: auto;
+    margin-right: 1rem;
+  }
+}

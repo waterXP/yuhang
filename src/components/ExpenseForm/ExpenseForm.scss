@@ -4,6 +4,9 @@
   >div + div, >button + div {
     margin-top: 2rem;
   }
+  >div + div.wm-block-buttons {
+    margin-top: 0;
+  }
   .wm-expense-detail-info + .wm-expense-detail-info, .wm-confirm-button {
     margin-top: 1rem;
   }
