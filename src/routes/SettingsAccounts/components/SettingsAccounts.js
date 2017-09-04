@@ -31,7 +31,7 @@ class SettingsAccounts extends Component {
     return () => {
       const counts = this.props.accounts.length
       if (counts === 20) {
-        toast('账号数量达到上限')
+        toast('账号最多只能添加20个')
       } else {
         goLocation(path)
       }
