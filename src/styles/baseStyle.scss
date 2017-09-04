@@ -116,6 +116,7 @@ $formControlWidth: calc(100% - 6rem);
     background-color: transparent;
     line-height: 2rem;
     height: 2rem;
+    overflow: hidden;
   }
   textarea {
     width: 100%;
