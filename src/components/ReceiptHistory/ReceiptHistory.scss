@@ -1,9 +1,9 @@
 @import '../../styles/baseStyle';
 
-.wm-receipt-details {
+.wm-receipt-history {
   padding: 1rem;
   background-color: $backColor;
-  // border-bottom: 1px solid $borderColorSecondary;
+  border-bottom: 1px solid $borderColorSecondary;
   text-align: left;
 
   p {
