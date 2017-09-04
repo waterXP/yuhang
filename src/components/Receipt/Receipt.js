@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReceiptHeader from '../ReceiptHeader'
 import ReceiptDetails from '../ReceiptDetails'
+import ReceiptHistory from '../ReceiptHistory'
 import ReceiptFlow from '../ReceiptFlow'
 import ConfirmButton from '../ConfirmButton'
 import './Receipt.scss'
@@ -47,10 +48,12 @@ class Receipt extends Component {
     if (!data.all) {
       data.all = []
     }
+    // console.log(data)
     return (
       <div className='wm-receipt'>
         <ReceiptHeader data={data.master} />
-        <ReceiptDetails data={data.detailsList} />
+        <ReceiptDetails data={data.detailsList} title='明细' />
+        { data.approveHistory && <ReceiptHistory data={data.approveHistory} title='审批历史记录' /> }
         <ReceiptFlow
           processList={[...data.processList, ...data.all]}
           attachmentList={data.attachmentList}
