@@ -81,7 +81,8 @@ class NewType extends Component {
       costTypeId,
       costTypeName
     })
-    goLocation('/new')
+    window.history.back()
+    // goLocation('/new')
   }
   getChildren (id) {
     this.setState(({ currentPaths }) => {

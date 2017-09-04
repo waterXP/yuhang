@@ -50,7 +50,8 @@ class ExpenseForm extends Component {
     deptName: PropTypes.string,
     originAttachments: PropTypes.array,
     restAttachments: PropTypes.array,
-    isDraft: PropTypes.any
+    isDraft: PropTypes.any,
+    position: PropTypes.number
   }
 
   constructor (props) {
@@ -63,7 +64,8 @@ class ExpenseForm extends Component {
       labelId: '',
       labelName: '',
       isBusy: false,
-      inited: false
+      inited: false,
+      shouldScroll: false
     }
     this.modalConfirm = this.modalConfirm.bind(this)
     this.modalClose = this.modalClose.bind(this)
@@ -82,6 +84,8 @@ class ExpenseForm extends Component {
   }
 
   componentDidMount () {
+    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
+    // document.querySelector('.core-layout__viewport').scrollTo(0, 112)
     let { query, data, step } = this.props
     if (step === 'set cost type' && data) {
       this.initial(data)
@@ -95,6 +99,17 @@ class ExpenseForm extends Component {
       } else {
         this.initial()
       }
+    }
+  }
+
+  componentDidUpdate () {
+    // console.log(this.props.position)
+    if (this.state.shouldScroll) {
+      // document.querySelector('.core-layout__viewport').scrollTo(0, this.props.position)
+      document.querySelector('.core-layout__viewport').scrollTop = this.props.position
+      this.setState({
+        shouldScroll: false
+      })
     }
   }
 
@@ -175,7 +190,8 @@ class ExpenseForm extends Component {
             deptDingId: d.dingDeptid,
             deptId: d.expensesClaims.deptId,
             deptName: d.deptName,
-            isDraft: d.expensesClaims.type === 1 ? id : false
+            isDraft: d.expensesClaims.type === 1 ? id : false,
+            position: 0
           })
         )
         this.setState({
@@ -255,6 +271,7 @@ class ExpenseForm extends Component {
   }
 
   save () {
+    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
     const {
       userName, selAccount, selDept,
       deptsList, details, costType,
@@ -276,7 +293,8 @@ class ExpenseForm extends Component {
         approvers,
         tags,
         nextTag,
-        isDraft
+        isDraft,
+        position: document.querySelector('.core-layout__viewport').scrollTop || 0
       })
     )
   }
@@ -304,8 +322,10 @@ class ExpenseForm extends Component {
       const {
         userName, selDept, deptsList, details, selAccount,
         costType, selProj, projectsList, isDraft,
-        attachmentList, approvers, tags, nextTag
+        attachmentList, approvers, tags, nextTag, position
       } = data
+      // console.log('************')
+      // console.log(position)
       let _details = details
       if (step === 'set cost type') {
         const { index, costTypeId, costTypeName } = appCatch
@@ -342,12 +362,13 @@ class ExpenseForm extends Component {
               tags,
               nextTag,
               type: 1,
-              isDraft
+              isDraft,
+              position
             })
           )
-
           this.setState({
-            inited: true
+            inited: true,
+            shouldScroll: true
           })
         }
       })
@@ -383,7 +404,8 @@ class ExpenseForm extends Component {
               tags: [1],
               nextTag: 2,
               type: 1,
-              isDraft: false
+              isDraft: false,
+              position: 0
             })
           )
           dispatch(getCostType(deptsList[0].id))
@@ -641,6 +663,7 @@ class ExpenseForm extends Component {
     })
   }
   setCostType (index) {
+    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
     const { dispatch } = this.props
     if (index === undefined) {
       return
@@ -781,6 +804,7 @@ export default connect(
     tags: selector(state, 'tags'),
     nextTag: selector(state, 'nextTag'),
     type: selector(state, 'type'),
+    position: selector(state, 'position'),
     isDraft: selector(state, 'isDraft'),
     initialValues: { details: [] }
   })
