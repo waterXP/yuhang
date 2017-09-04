@@ -7,7 +7,9 @@ import { history, dingSetTitle, dingSetNavRight, toast, fetchData } from '@/lib/
 class Settings extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
-    children : PropTypes.element
+    children : PropTypes.element,
+    step: PropTypes.string,
+    setStep: PropTypes.func.isRequired
   }
 
   constructor () {
@@ -42,11 +44,13 @@ class Settings extends Component {
     })
   }
   checkUrl () {
-    const { location } = this.props
-    if (location.query.state === 'fin') {
+    const { step, setStep } = this.props
+    // console.log(this.props.step)
+    if (step === 'fin') {
       toast('设置成功', 'success')
+      setStep('')
       this.checkAuthority()
-      history.replace('/settings')
+      history.replace('/settings')      
     }
     dingSetTitle('我的')
     dingSetNavRight('')

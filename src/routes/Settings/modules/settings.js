@@ -1,7 +1,23 @@
 import { settingsAccountsHandlers } from '../../SettingsAccounts/'
 
+export const SET_STEP = 'SET_STEP'
+
+export const setStep = (step) => {
+  return {
+    type: SET_STEP,
+    step
+  }
+}
+
+export const actions = {
+  setStep
+}
+
 const ACTION_HANDLERS = Object.assign(
-  {},
+  {
+    [SET_STEP]: (state, { step }) =>
+      Object.assign({}, state, { step })
+  },
   settingsAccountsHandlers
 )
 
@@ -22,7 +38,8 @@ const initialState = {
     { id: 9, text: '10月' },
     { id: 10, text: '11月' },
     { id: 11, text: '12月' }
-  ]
+  ],
+  step: ''
 }
 
 export default function (state = initialState, action) {

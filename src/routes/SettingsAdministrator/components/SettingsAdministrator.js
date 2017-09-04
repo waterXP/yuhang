@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import FormButton from '@/components/FormButton'
 import InputSearch from '@/components/InputSearch'
 import UserList from '@/components/UserList'
@@ -7,6 +8,9 @@ import NoData from '@/components/NoData'
 import './SettingsAdministrator.scss'
 
 class SettingsAdministrator extends Component {
+  static propTypes = {
+    setStep: PropTypes.func.isRequired
+  }
   constructor () {
     super(...arguments)
     this.state = {
@@ -97,10 +101,13 @@ class SettingsAdministrator extends Component {
     }
   }
   gotoSettings () {
-    goLocation({
-      pathname: '/settings',
-      query: { state: 'fin' }
-    })
+    const { setStep } = this.props
+    setStep('fin')
+    window.history.back()
+    // goLocation({
+    //   pathname: '/settings',
+    //   query: { state: 'fin' }
+    // })
   }
   render () {
     const { list, setAdmin, isBusy, keyword } = this.state
