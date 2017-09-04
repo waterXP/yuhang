@@ -10,6 +10,7 @@ import ExpenseAccountInfo from '../ExpenseAccountInfo'
 import ExpenseAttachment from '../ExpenseAttachment'
 import ExpenseApprover from '../ExpenseApprover'
 import BlockButtons from '../BlockButtons'
+import ExpenseCheckbox from '../ExpenseCheckbox'
 import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
   uploadImage, previewImage, blurInput } from '@/lib/base'
@@ -51,7 +52,9 @@ class ExpenseForm extends Component {
     originAttachments: PropTypes.array,
     restAttachments: PropTypes.array,
     isDraft: PropTypes.any,
-    position: PropTypes.number
+    position: PropTypes.number,
+    parentId: PropTypes.number,
+    isDelete: PropTypes.any
   }
 
   constructor (props) {
@@ -191,7 +194,9 @@ class ExpenseForm extends Component {
             deptId: d.expensesClaims.deptId,
             deptName: d.deptName,
             isDraft: d.expensesClaims.type === 1 ? id : false,
-            position: 0
+            position: 0,
+            parentId: +id,
+            isDelete: true
           })
         )
         this.setState({
@@ -277,7 +282,7 @@ class ExpenseForm extends Component {
       deptsList, details, costType,
       selProj, projectsList, attachmentList,
       approvers, dispatch, tags, nextTag,
-      isDraft
+      isDraft, isDelete, parentId
     } = this.props
     dispatch(
       saveData({
@@ -294,7 +299,9 @@ class ExpenseForm extends Component {
         tags,
         nextTag,
         isDraft,
-        position: document.querySelector('.core-layout__viewport').scrollTop || 0
+        position: document.querySelector('.core-layout__viewport').scrollTop || 0,
+        isDelete,
+        parentId
       })
     )
   }
@@ -321,9 +328,9 @@ class ExpenseForm extends Component {
       // after create new account
       const {
         userName, selDept, deptsList, details, selAccount,
-        costType, selProj, projectsList, isDraft,
-        attachmentList, approvers, tags, nextTag, position
-      } = data
+        costType, selProj, projectsList, isDraft, parentId,
+        attachmentList, approvers, tags, nextTag, position,
+        isDelete } = data
       // console.log('************')
       // console.log(position)
       let _details = details
@@ -363,7 +370,9 @@ class ExpenseForm extends Component {
               nextTag,
               type: 1,
               isDraft,
-              position
+              position,
+              parentId,
+              isDelete
             })
           )
           this.setState({
@@ -405,7 +414,9 @@ class ExpenseForm extends Component {
               nextTag: 2,
               type: 1,
               isDraft: false,
-              position: 0
+              position: 0,
+              parentId: -1,
+              isDelete: false
             })
           )
           dispatch(getCostType(deptsList[0].id))
@@ -539,7 +550,8 @@ class ExpenseForm extends Component {
     const { type, deptsList, selDept, details, totalCash,
       selAccount, accountList, projectsList, selProj,
       attachmentList, deptDingId, deptId, deptName, isDraft,
-      query, originAttachments, restAttachments } = this.props
+      query, originAttachments, restAttachments, parentId,
+      isDelete } = this.props
     const account = accountList[selAccount]
     const project = projectsList[selProj]
     let detailses = []
@@ -640,6 +652,12 @@ class ExpenseForm extends Component {
     if (isDraft && !query.expensesClaimNo) {
       params.id = isDraft
     }
+    if (!draft && ~parentId) {
+      params.parentId = +parentId
+      if (isDelete) {
+        params.delete = 1
+      }
+    }
 
     this.setState({ isBusy: true })
     const action = draft
@@ -687,10 +705,9 @@ class ExpenseForm extends Component {
     const { userName, totalCash, restAttachments, deptsList,
       selDept, projectsList, selProj, accountList, selAccount,
       details, attachmentList, approvers, tags, nextTag, type,
-      deptName } = this.props
+      deptName, parentId, isDelete } = this.props
     const { options, target, openModal, inited,
       targetName, labelId, labelName, isBusy } = this.state
-
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
         { openModal &&
@@ -750,6 +767,11 @@ class ExpenseForm extends Component {
           showImg={this.showImg}
         />
         <ExpenseApprover approvers={approvers} />
+        {
+          parentId > -1 && <ExpenseCheckbox
+            isDelete={isDelete}
+          /> 
+        }
         <BlockButtons btns={[
           {
             text: '存草稿',
@@ -805,7 +827,9 @@ export default connect(
     nextTag: selector(state, 'nextTag'),
     type: selector(state, 'type'),
     position: selector(state, 'position'),
-    isDraft: selector(state, 'isDraft'),
+    isDraft: selector(state, 'isDraft'), 
+    parentId: selector(state, 'parentId'),
+    isDelete: selector(state, 'isDelete'),
     initialValues: { details: [] }
   })
 )(reduxForm({
