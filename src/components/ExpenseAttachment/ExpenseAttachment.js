@@ -6,7 +6,7 @@ export const ExpenseAttachment = ({ attachmentList = [],
   addAttachment, removeAttachment, showImg, restAttachments = [] }) => {
   return (
     <div className='wm-expense-attachment'>
-      <p>附件</p>
+      <p>图片</p>
       <div className='list'>
         { attachmentList.length + restAttachments.length < 9 &&
           <button type='button' onClick={() => addAttachment()}>
