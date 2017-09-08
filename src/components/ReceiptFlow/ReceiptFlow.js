@@ -28,6 +28,7 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
     'fa fa-check-circle wm-color-correct'
   ]
   fIcon[-1] = 'fa fa-times-circle wm-color-error'
+  fIcon[-2] = 'reply-icon'
   return (
     <div className='wm-receipt-flow'>
       {attachmentList.length > 0 && <div className='attachment-box'>
@@ -43,13 +44,18 @@ export const ReceiptFlow = ({ processList, attachmentList }) => {
       {processList.map((data, i) => {
         return (
           <div className='flow clearfix' key={i}>
-            <span
-              className={
-                data.type !== null && data.type !== undefined
-                ? fIcon[data.type]
-                : 'fa fa-question-circle wm-color-secondary'
-              }
-            />
+            { data.type !== -2
+              ? <span
+                className={
+                  data.type !== null && data.type !== undefined
+                  ? fIcon[data.type]
+                  : 'fa fa-question-circle wm-color-secondary'
+                }
+              />
+              : <span className='icon-img'>
+                <img src={`./imgs/${fIcon[data.type]}.png`} className='fl-icon' />
+              </span>
+            }
             <div className='detail'>
               <img className='avatar' src={data.avatar || userImage} />
               <div className='info'>

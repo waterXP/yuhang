@@ -14,6 +14,7 @@ export const approveStatus = {
 }
 
 export const approveDetailType = {
+  '-2': '已转交',
   '-1': '作废',
   '0': '发起',
   '1': '撤回',

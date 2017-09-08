@@ -68,7 +68,8 @@ class ExpenseForm extends Component {
       labelName: '',
       isBusy: false,
       inited: false,
-      shouldScroll: false
+      shouldScroll: false,
+      tm: 0
     }
     this.modalConfirm = this.modalConfirm.bind(this)
     this.modalClose = this.modalClose.bind(this)
@@ -84,11 +85,15 @@ class ExpenseForm extends Component {
     this.addAttachment = this.addAttachment.bind(this)
     this.removeAttachment = this.removeAttachment.bind(this)
     this.setCostType = this::this.setCostType
+    this.setTM = this::this.setTM
+    this.clearTM = this::this.clearTM
   }
 
   componentDidMount () {
     // console.log(document.querySelector('.core-layout__viewport').scrollTop)
     // document.querySelector('.core-layout__viewport').scrollTo(0, 112)
+    // console.log(hashHistory)
+    this.setTM()
     let { query, data, step } = this.props
     if (step === 'set cost type' && data) {
       this.initial(data)
@@ -116,11 +121,65 @@ class ExpenseForm extends Component {
     }
   }
 
+  setTM () {
+    // console.log(this.state.tm)
+    // const tm = setTimeout(() => window.location.reload(), 4000)
+    // console.log(tm)
+    let tm = 0
+    const { query } = this.props
+    // console.log(query)
+    if (!query.reload) {
+      tm = setTimeout(() => {
+        hashHistory.replace({
+          pathname: '/new',
+          query: Object.assign({ reload: 1 }, query)
+        })
+        window.location.reload()
+      }, 4000)
+    } else {
+      tm = setTimeout(() => {
+        toast('服务器未响应，请过段时间再试')
+        this.setState({
+          inited: true
+        })
+      }, 4000)
+    }
+    this.setState({
+      tm
+    })
+    // hashHistory.replace({
+    //   pathname: '/new',
+    //   query: {
+    //     reload: 1
+    //   }
+    // })
+    // console.log(this.state.tm)
+  }
+  clearTM () {
+    // console.log('clear tm')
+    const { tm } = this.state
+    // console.log(tm)
+    if (tm) {
+      clearTimeout(tm)
+      this.setState({ tm: 0 })
+    }
+  }
+
   getModify (id) {
     fetchData('get /expensesClaims/modify.json', { id })
     .then((d) => {
-      if (!d.result) {
+      if (d.result === 0) {
         this.initModify(d.data, id)
+      } else {
+        if (d.result === 1) {
+          toast(d.msg)
+        } else {
+          if (d.ok === false) {
+            toast(d.statusText)
+          }
+        }
+        this.setState({ inited: true })
+        this.clearTM()
       }
     })
   }
@@ -137,7 +196,7 @@ class ExpenseForm extends Component {
       fetchData('get /userAccounts/myAccountList.json')
     ])
     .then(([d1, d2]) => {
-      if (!d1.result && !d2.result) {
+      if (d1.result === 0 && d2.result === 0) {
         const { deptsList, projectsList, usersList } = d1.data
         const accountList = d2.data
 
@@ -206,10 +265,24 @@ class ExpenseForm extends Component {
         this.setState({
           inited: true
         })
+        this.clearTM()
       } else {
         if (d1.result) {
           toast(d1.msg)
           this.initial()
+        } else {
+          if (d1.ok === false) {
+            toast(d1.statusText)
+          }
+          if (d2.result === 1) {
+            toast(d2.msg)
+          } else {
+            if (d2.ok === false) {
+              toast(d2.statusText)
+            }
+          }
+          this.setState({ inited: true })
+          this.clearTM()
         }
       }
     })
@@ -323,6 +396,7 @@ class ExpenseForm extends Component {
   }
 
   initial (data) {
+    const { tm } = this.state
     const { query, dispatch, step, appCatch } = this.props
     if (data) {
       // after create new account
@@ -345,7 +419,7 @@ class ExpenseForm extends Component {
       }
       fetchData('get /userAccounts/myAccountList.json')
       .then((d) => {
-        if (!d.result) {
+        if (d.result === 0) {
           const accountList = d.data
           this.props.dispatch(
             initialize('expenseForm', {
@@ -379,6 +453,17 @@ class ExpenseForm extends Component {
             inited: true,
             shouldScroll: true
           })
+          this.clearTM()
+        } else {
+          if (d.result === 1) {
+            toast(d.msg)
+          } else {
+            if (d.ok === false) {
+              toast(d.statusText)
+            }
+          }
+          this.setState({ inited: true })
+          this.clearTM()
         }
       })
     } else {
@@ -387,7 +472,7 @@ class ExpenseForm extends Component {
         fetchData('get /userAccounts/myAccountList.json')
       ])
       .then(([d1, d2]) => {
-        if ((!d1.result || !d2.result) && d1.data && d2.data) {
+        if ((d1.result === 0 || d2.result === 0) && d1.data && d2.data) {
           const { userName, deptsList,
             projectsList, usersList } = d1.data
           const accountList = d2.data || []
@@ -423,6 +508,24 @@ class ExpenseForm extends Component {
           this.setState({
             inited: true
           })
+          this.clearTM()
+        } else {
+          if (d1.result === 1) {
+            toast(d1.msg)
+          } else {
+            if (d1.ok === false) {
+              toast(d1.statusText)
+            }
+          }
+          if (d2.result === 1) {
+            toast(d2.msg)
+          } else {
+            if (d2.ok === false) {
+              toast(d2.statusText)
+            }
+          }
+          this.setState({ inited: true })
+          this.clearTM()
         }
       })
     }

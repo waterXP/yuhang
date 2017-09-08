@@ -1,5 +1,5 @@
 import { hashHistory } from 'react-router'
-import config, { dd, isDev } from '@/config'
+import config, { dd, isDev, getUrlParams } from '@/config'
 import React from 'react'
 import fetch from 'isomorphic-fetch'
 
@@ -8,14 +8,14 @@ export const FETCH_FIN = 'FETCH_FIN'
 
 export const history = hashHistory
 
-export const getUrlParams = (name) => {
-  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-  const r = window.location.search.substr(1).match(reg)
-  if (r != null) {
-    return r[2]
-  }
-  return ''
-}
+// export const getUrlParams = (name) => {
+//   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+//   const r = window.location.search.substr(1).match(reg)
+//   if (r != null) {
+//     return r[2]
+//   }
+//   return ''
+// }
 
 export const get = (url, params = {}) => {
   const headers = new Headers({
@@ -156,8 +156,9 @@ export const fetchFin = (state, action) => {
 
 const corpid = getUrlParams('corpid') || 'dinge66a5fd3ad45cc2a35c2f4657eb6378f'
 Object.assign(config, {
-  host: `http://120.77.209.222/wagestest/?corpid=${corpid}`,
-  // host: `http://wages.hz.taeapp.com/?corpid=${corpid}`,
+  host: config.modelType !== 1
+    ? `http://120.77.209.222/wagestest/?corpid=${corpid}`
+    : `http://wages.hz.taeapp.com/?corpid=${corpid}`,
   corpid
 })
 

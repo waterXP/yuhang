@@ -43,12 +43,23 @@
     margin: 0;
   }
 
-  .fa {
+  .fa, .icon-img {
     position: absolute;
     top: 0;
     left: -0.55rem;
     padding: .1rem 0;
     background-color: $backColor;
+  }
+
+  .icon-img {
+    padding: 0;
+    line-height: 1.5rem;
+    left: -0.65rem;
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin: 0;
+    }
   }
 
   .detail {
