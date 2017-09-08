@@ -261,13 +261,14 @@ export const alert = (message = '', title = '', buttonName = '确定') => {
   })
 }
 
-export const toast = (text = '', icon = '') => {
+export const toast = (text = '', icon = '', duration = 1) => {
   if (config.inDev) {
     window.alert(text)
   } else {
     dd.device.notification.toast({
       icon,
-      text
+      text,
+      duration
     })
   }
 }
