@@ -54,7 +54,8 @@ class ExpenseForm extends Component {
     isDraft: PropTypes.any,
     position: PropTypes.number,
     parentId: PropTypes.number,
-    isDelete: PropTypes.any
+    isDelete: PropTypes.any,
+    status: PropTypes.number
   }
 
   constructor (props) {
@@ -255,7 +256,8 @@ class ExpenseForm extends Component {
             isDraft: d.expensesClaims.type === 1 ? id : false,
             position: 0,
             parentId: +id,
-            isDelete: true
+            isDelete: true,
+            status: d.expensesClaims.status
           })
         )
         this.setState({
@@ -355,7 +357,7 @@ class ExpenseForm extends Component {
       deptsList, details, costType,
       selProj, projectsList, attachmentList,
       approvers, dispatch, tags, nextTag,
-      isDraft, isDelete, parentId
+      isDraft, isDelete, parentId, status
     } = this.props
     dispatch(
       saveData({
@@ -374,7 +376,8 @@ class ExpenseForm extends Component {
         isDraft,
         position: document.querySelector('.core-layout__viewport').scrollTop || 0,
         isDelete,
-        parentId
+        parentId,
+        status
       })
     )
   }
@@ -404,7 +407,7 @@ class ExpenseForm extends Component {
         userName, selDept, deptsList, details, selAccount,
         costType, selProj, projectsList, isDraft, parentId,
         attachmentList, approvers, tags, nextTag, position,
-        isDelete } = data
+        isDelete, status } = data
       // console.log('************')
       // console.log(position)
       let _details = details
@@ -446,7 +449,8 @@ class ExpenseForm extends Component {
               isDraft,
               position,
               parentId,
-              isDelete
+              isDelete,
+              status
             })
           )
           this.setState({
@@ -501,7 +505,8 @@ class ExpenseForm extends Component {
               isDraft: false,
               position: 0,
               parentId: -1,
-              isDelete: false
+              isDelete: false,
+              status: 1
             })
           )
           dispatch(getCostType(deptsList[0].id))
@@ -654,7 +659,7 @@ class ExpenseForm extends Component {
       selAccount, accountList, projectsList, selProj,
       attachmentList, deptDingId, deptId, deptName, isDraft,
       query, originAttachments, restAttachments, parentId,
-      isDelete } = this.props
+      isDelete, status } = this.props
     const account = accountList[selAccount]
     const project = projectsList[selProj]
     let detailses = []
@@ -724,7 +729,7 @@ class ExpenseForm extends Component {
     if (query.expensesClaimNo) {
       params.resubmit = 1
     }
-    if (type < 2) {
+    if (!status) {
       if (restAttachments.length !== originAttachments.length) {
         params.delAttachmentIds = []
         originAttachments.forEach((v) => {
@@ -926,6 +931,7 @@ export default connect(
     projectsList: selector(state, 'projectsList'),
     accountList: selector(state, 'accountList'),
     attachmentList: selector(state, 'attachmentList'),
+    status: selector(state, 'status'),
     tags: selector(state, 'tags'),
     nextTag: selector(state, 'nextTag'),
     type: selector(state, 'type'),
