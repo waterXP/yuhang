@@ -11,8 +11,8 @@ import { hashHistory } from 'react-router'
 //   let footerClass = ''
 //   if (location.pathname.indexOf('/new') === 0) {
 //     footerClass = ' no-footer'
-//   } else if (location.pathname.indexOf('/home/approve_detail') === 0 ||
-//     location.pathname.indexOf('/home/detail') === 0 ||
+//   } else if (location.pathname.indexOf('/home/approve/detail') === 0 ||
+//     location.pathname.indexOf('/home/history/detail') === 0 ||
 //     location.pathname.indexOf('/approval/detail') === 0) {
 //     footerClass = ' sm-footer'
 //   }
@@ -46,8 +46,8 @@ class CoreLayout extends Component {
     let footerClass = ''
     if (location.pathname.indexOf('/new') === 0) {
       footerClass = ' no-footer'
-    } else if (location.pathname.indexOf('/home/approve_detail') === 0 ||
-      location.pathname.indexOf('/home/detail') === 0 ||
+    } else if (location.pathname.indexOf('/home/approve/detail') === 0 ||
+      location.pathname.indexOf('/home/history/detail') === 0 ||
       location.pathname.indexOf('/approval/detail') === 0) {
       footerClass = ' sm-footer'
     }

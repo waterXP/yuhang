@@ -23,6 +23,7 @@ class NoData extends Component {
         break
       case 'nodata':
         showText = text || '没有数据'
+        showImg = 'imgs/icon_empty.png'
         break
       case 'upload':
         showText = text || '数据提交中……'

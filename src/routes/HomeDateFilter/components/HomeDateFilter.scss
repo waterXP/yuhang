@@ -10,14 +10,14 @@
   }
 
   .topic {
-    margin: 1rem 0 0;
+    margin: .1rem 0 0;
   }
 
   .year-filter button, .month-filter button, .years-filter button {
     background-color: $btnBackColor;
     font-weight: bold;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: .05rem;
+    padding-bottom: .05rem;
     border-radius: $borderRadius;
   }
 
@@ -29,19 +29,19 @@
     .pull-right {
       display: inline-block;
       color: $fontColor;
-      margin-top: -.2rem;
+      margin-top: -.02rem;
     }
   }
 
   .years-filter {
     display: flex;
     flex-direction: row;
-    margin-top: 0.5rem;
+    margin-top: .05rem;
   }
 
   .change-years {
-    flex: 0 0 2rem;
-    padding: .5rem 0;
+    flex: 0 0 .2rem;
+    padding: .05rem 0;
     &.left {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
@@ -54,13 +54,13 @@
 
   .years {
     flex: 1 1 auto;
-    margin: 0 0.2rem;
+    margin: 0 0.02rem;
     display: inline-flex;
     flex-flow: row wrap;
     text-align: center;
     button {
       flex: 1 1 25%;
-      margin: .2rem;
+      margin: .02rem;
       &.sel {
         color: $successColor;
         background-color: $btnSuccessBackColor;
@@ -69,6 +69,6 @@
   }
 
   .wm-form-button {
-    margin: 2rem 0;
+    margin: .2rem 0;
   }
 }

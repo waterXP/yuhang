@@ -28,7 +28,7 @@ class HomeApproveDetail extends Component {
       query: {
         id,
         type,
-        fromPage: '/home/approve_detail'
+        fromPage: '/home/approve/detail'
       }
     })
   }

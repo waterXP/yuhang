@@ -10,7 +10,7 @@
     border-color: $activeHoverBorderColor;
   }
   &+.wm-form-button {
-    margin-top: 1rem;
+    margin-top: .1rem;
   }
   &[disabled], &[disabled]:hover {
     cursor: not-allowed;

@@ -8,8 +8,8 @@
   left: 0;
   background-color: $backColorSecondary;
   .fa {
-    width: 2rem;
-    margin-right: 1rem;
+    width: .2rem;
+    margin-right: .1rem;
     text-align: center;
     color: $activeBorderColor;
   }
@@ -19,7 +19,7 @@
     text-align: left;
   }
   .a-link {
-    margin-top: 1.5rem;
+    margin-top: .15rem;
     border-top: 1px solid $defaultColor;
     border-bottom: 1px solid $defaultColor;
   }
@@ -28,7 +28,7 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    padding: 1rem .8rem;
+    padding: .1rem .08rem;
     background-color: $backColor;
     color: $fontColor;
     font-size: $inputFontSize;
@@ -36,9 +36,9 @@
     &:after {
       content: '>';
       position: absolute;
-      top: 0.8rem;
-      right: .8rem;
-      font-size: 1.6rem;
+      top: .08rem;
+      right: .08rem;
+      font-size: .16rem;
       color: $defaultColor;
     }
     &:focus, &:hover {

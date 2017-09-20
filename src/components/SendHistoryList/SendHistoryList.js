@@ -27,7 +27,7 @@ class SendHistoryList extends Component {
         <tbody>
           {datas.map((data) => (
             <tr key={data.claimId} onClick={this.gotoLocation({
-              pathname: 'home/' + pathname,
+              pathname: 'home/history/' + pathname,
               query: { id: data.claimId }
             })}>
               <td>{data.paidDay}</td>

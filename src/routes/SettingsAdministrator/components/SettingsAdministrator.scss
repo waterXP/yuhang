@@ -5,15 +5,15 @@
   .no-data {
     z-index: 1;
     i {
-      width: 7rem;
+      width: .7rem;
     }
   }
   .wm-user-list {
-    max-height: calc(100% - 10rem);
+    max-height: calc(100% - 1rem);
     overflow: auto;
   }
   .confirm-btn {
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 .1rem;
   }
 }

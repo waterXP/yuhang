@@ -1,20 +1,204 @@
 @import '../../styles/baseStyle';
 .wm-receipt {
+  background-color: $mainColor;
   .fixed-bottom {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 3rem;
-    margin-bottom: 1rem;
+    height: .3rem;
+    margin-bottom: .1rem;
     border-top:1px solid $borderColorSecondary;
     background: white;
   }
   button {
-    height: 3rem;
-    margin-bottom: 1rem;
+    height: .3rem;
+    margin-bottom: .1rem;
     outline: none;
   }
 }
 
+.wm-receipt-header {
+  margin-left: .2rem;
+  text-align: left;
+  p { margin: 0; }
+  .main-info { border-bottom: $border; }
+  .avatar {
+    @include avatar(.4rem);
+    margin: .16rem .12rem .14rem 0;
+  }
+  .base-info {
+    display: inline-block;
+    .name {
+      margin-top: .14rem;
+      font-size: .17rem;
+      line-height: .24rem;
+    }
+    .type {
+      margin: 0;
+      font-size: .13rem;
+      line-height: .18rem;
+    }
+  }
+  .receipt-info {
+    padding: 0.07rem 0;
+  }
+}
 
+.span-name {
+  display: inline-block;
+  margin: .03rem 0;
+  width: .6rem;
+  text-align: right;
+  color: $lFontColor;
+  font-size: .15rem;
+  line-height: .2rem;
+}
+.span-content {
+  margin: .03rem 0;
+  margin-left: .1rem;
+  font-size: .17rem;
+  line-height: .2rem;
+}
+
+.wm-receipt-details {
+  margin: 0 .2rem;
+  text-align: left;
+  .detail {
+    margin-bottom: .17rem;
+  }
+  .title {
+    margin: .1rem 0 .06rem;
+    padding: .02rem .08rem;
+    background-color: $backSecondColor;
+    font-size: .17rem;
+    line-height: .24rem;
+  }
+  p {
+    margin-bottom: 0.05rem;
+  }
+
+  > div + div {
+    margin-top: .1rem;
+  }
+}
+
+.wm-receipt-delete {
+  display: flex;
+  flex-direction: row;
+  padding: 0.05rem 0;
+  z-index: 999;
+  height: .4rem;
+  line-height: .3rem;
+  a {
+    flex: 1;
+    color: $canClick;
+    border-right: 1px solid $canClick;
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+.wm-receipt-flow {
+  &:before, &:after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    height: .08rem;
+    background-color: $backColor;
+  }
+  &:after {
+    height: .12rem;
+  }
+  text-align: left;
+
+  .attachment-box {
+    margin-bottom: .1rem;
+  }
+
+  .attachment {
+    display: inline-block;
+    margin-right: 0.05rem;
+    font-size: .16rem;
+    line-height: .2rem;
+  }
+
+  .attImg {
+    display: inline-block;
+    width: .2rem;
+    height: .2rem;
+    vertical-align: bottom;
+    margin: 0 0.03rem;
+  }
+
+  .flow {
+    position: relative;
+    &:first-child {
+      margin-top: .2rem;
+    }
+    &:last-child {
+      .info {
+        border-left: none;
+      }
+    }
+  }
+
+  .avatar {
+    @include avatar(.3rem);
+    position: absolute;
+    top: 0;
+    left: .2rem;
+  }
+
+  .detail {
+    position: relative;
+    margin-bottom: .08rem;
+    border: 1px solid $borderColorSecondary;
+    border-radius: .03rem;
+    @include left-arrow(.01rem, .05rem);
+  }
+  .info {
+    display: inline-block;
+    width: calc(100% - .35rem);
+    margin: 0 0 0 .35rem;
+    padding: 0 .2rem .38rem .26rem;
+    border-left: 1px dashed $borderColor;
+  }
+  .base-info {
+    margin: 0;
+    span {
+      font-size: .15rem;
+      line-height: .21rem;
+      &:first-child {
+        margin-right: .1rem;
+      }
+    }
+    .update {
+      font-size: .13rem;
+      line-height: .16rem;
+      color: $rFontColor;
+    }
+  }
+  .comment {
+    margin: .1rem 0 0;
+    word-wrap: break-word;
+    font-size: .17rem;
+    line-height: .24rem;
+  }
+}
+
+.wm-receipt-history {
+  padding: .1rem;
+  background-color: $backColor;
+  border-bottom: 1px solid $borderColorSecondary;
+  text-align: left;
+
+  p {
+    margin-bottom: 0.05rem;
+  }
+
+  > div + div {
+    margin-top: .1rem;
+  }
+}

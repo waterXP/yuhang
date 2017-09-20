@@ -1,45 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import RowButtons from '@/components/RowButtons'
+import ListButtons from '@/components/ListButtons'
+
+import { dingSetTitle, dingSetNavRight, goLocation } from '@/lib/base'
+
+import './Home.scss'
 import imgDraft from '../assets/draft.png'
 import imgHistory from '../assets/history.png'
-import imgTime from '../assets/time.png'
-import imgSend from '../assets/send.png'
-import imgReturn from '../assets/return.png'
-import imgRefuse from '../assets/refuse.png'
-import './Home.scss'
-import HomeBtn from '@/components/HomeBtn/HomeBtn'
-import { dingSetTitle, dingSetNavRight } from '@/lib/base'
+import imgApproval from '../assets/approval.png'
+import imgUnissued from '../assets/unissued.png'
+import imgRevoked from '../assets/revoked.png'
+import imgRejetced from '../assets/rejetced.png'
 
 class Home extends Component {
-  render () {
-    let btns = this.btns
-    let btnsHtml = []
-    let btnsHtmlCell = []
-    btns.map((cur, index, arr) => {
-      btnsHtmlCell = []
-      cur.map((subCur, index, arr) => {
-        btnsHtmlCell.push(
-          <HomeBtn key={index} cellData={subCur} />
-        )
-      })
-      btnsHtml.push(btnsHtmlCell)
-    })
-    let children = this.props.children
-
-    return (children
-      ? <div>{children}</div>
-      : <div className='wm-home'>
-        <div className='homeLine'>
-          {btnsHtml[0]}
-        </div>
-        <div className='homeLine'>
-          {btnsHtml[1]}
-        </div>
-        <div className='homeLine'>
-          {btnsHtml[2]}
-        </div>
-      </div>
-    )
+  constructor () {
+    super(...arguments)
+    this.clickHandler = this::this.clickHandler
   }
   componentDidMount () {
     dingSetNavRight('')
@@ -51,35 +29,60 @@ class Home extends Component {
     }
     return true
   }
+
+  clickHandler (value) {
+    const type = +value
+    if (type) {
+      const url = {
+        pathname: type === 3 ? '/home/history' : '/home/list',
+        query: { type }
+      }
+      goLocation(url)
+    }
+  }
+
+  render () {
+    const { rBtns, lBtns } = this
+    const children = this.props.children
+    return (children
+      ? <div>{children}</div>
+      : <div className='wm-home'>
+        <RowButtons btns={rBtns} clickHandler={this.clickHandler} />
+        <ListButtons btns={lBtns} clickHandler={this.clickHandler} />
+      </div>
+    )
+  }
 }
 
-Home.prototype.btns = [
-  [{
-    type:1,
-    img:imgTime,
-    name:'审批中'
+Home.prototype.rBtns = [
+  {
+    value: 1,
+    img: imgApproval,
+    text: '审批中'
   }, {
-    type:2,
-    img:imgSend,
-    name:'未发放'
+    value: 2,
+    img: imgUnissued,
+    text: '未发放'
   }, {
-    type:3,
-    img:imgHistory,
-    name:'发放历史'
-  }], [{
-    type:4,
-    img:imgReturn,
-    name:'已撤回'
+    value: 3,
+    img: imgHistory,
+    text: '发放历史'
+  }
+]
+Home.prototype.lBtns = [
+  {
+    value: 5,
+    img: imgRejetced,
+    text: '已拒绝'
   }, {
-    type:5,
-    img:imgRefuse,
-    name:'已拒绝'
+    value: 4,
+    img: imgRevoked,
+    text: '已撤回'
   }, {
-    type:6,
-    img:imgDraft,
-    name:'草稿'
-
-  }]
+    value: 6,
+    img: imgDraft,
+    text: '草稿'
+  }
 ]
 Home.propTypes = {
   children: PropTypes.element

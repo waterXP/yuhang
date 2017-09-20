@@ -1,13 +1,13 @@
 @import '../../styles/baseStyle';
 
 .wm-search-form {
-  padding: .8rem 0 .8rem 1rem;
+  padding: .08rem 0 .08rem .1rem;
   text-align: center;
-  height: 4.15rem;
+  height: .415rem;
   i, input {
     background-color: $btnBackColor;
     color: $borderColorSecondary;
-    height: 2.4rem;
+    height: .24rem;
     border: none;
     outline: none;
     font-size: 14px;
@@ -16,26 +16,26 @@
     vertical-align: top;
   }
   i {
-    width: 2.5rem;
-    padding: .4rem 0;
+    width: .25rem;
+    padding: .04rem 0;
     text-align: center;
   }
   .fa-times-circle {
     color: $fontColor;
   }
   input {
-    padding: .4rem .5rem;
-    width: calc(100% - 9rem);
+    padding: .04rem .05rem;
+    width: calc(100% - .9rem);
     color: $fontColor;
   }
   input.dirty {
-    width: calc(100% - 6rem);
+    width: calc(100% - .6rem);
   }
   a {
     display: inline-block;
     color: $activeColor;
-    padding: .4rem .3rem;
-    width: 4rem;
+    padding: .04rem .03rem;
+    width: .4rem;
     text-align: center;
   }
   border-bottom: 1px solid $borderColorSecondary;

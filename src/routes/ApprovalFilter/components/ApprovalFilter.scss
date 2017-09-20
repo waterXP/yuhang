@@ -3,25 +3,25 @@
 .wm-approval-filter {
   background-color: $backColor;
   .filter {
-    margin-bottom: 2rem;
+    margin-bottom: .2rem;
   }
   .top-btn {
     width: 100%;
     color: $activeColor;
     position: fixed;
     top: 0;
-    padding: 2rem 0 .5rem;
+    padding: .2rem 0 .05rem;
     left: 0;
     background-color: $backColor;
     border: 0;
     border-bottom: 1px solid $borderColorSecondary;
-    height: 4rem;
+    height: .4rem;
   }
   .wm-approval-list {
     position: absolute;
-    padding: 0 .6rem;
+    padding: 0 .06rem;
     width: 100%;
-    top: 4rem;
+    top: .4rem;
     bottom: 0;
     overflow: auto;
   }

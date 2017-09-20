@@ -2,23 +2,23 @@
 
 .wm-approval-nav {
   display: inline-block;
-  height: 9rem;
+  height: .9rem;
   width: 25%;
-  max-width: 9rem;
+  max-width: .9rem;
   padding-bottom: 1px;
   text-align: center;
   .nav-btn {
-    max-width: 7.6rem;
-    height: calc(100% - 3.8rem);
-    margin: .5rem 0;
+    max-width: .76rem;
+    height: calc(100% - .38rem);
+    margin: .05rem 0;
   }
   a {
     display: inline-block;
-    height: 9rem;
+    height: .9rem;
     text-align: center;
   }
   p {
-    margin: .5rem 0 .5rem;
+    margin: .05rem 0 .05rem;
     color: $fontColor;
   }
   &.active {

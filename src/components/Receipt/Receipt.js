@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReceiptHeader from '../ReceiptHeader'
-import ReceiptDetails from '../ReceiptDetails'
-import ReceiptHistory from '../ReceiptHistory'
-import ReceiptFlow from '../ReceiptFlow'
+import ReceiptHeader from './ReceiptHeader'
+import ReceiptDetails from './ReceiptDetails'
+import ReceiptHistory from './ReceiptHistory'
+import ReceiptFlow from './ReceiptFlow'
 import ConfirmButton from '../ConfirmButton'
 import './Receipt.scss'
-import ReceiptDelete from '../ReceiptDelete'
+import ReceiptDelete from './ReceiptDelete'
 import { goLocation } from '@/lib/base'
 
 class Receipt extends Component {
@@ -27,12 +27,6 @@ class Receipt extends Component {
     }
     addComment(data.master.expensesClaimId, v, afterApproval)
   }
-  // modalOpen = () => this.setState({ showModal: true })
-  // modalClose = () => this.setState({ showModal: false })
-  // modalConfirm = (v) => {
-  //   this.handleClick(v)
-  //   this.modalClose()
-  // }
   render () {
     const { data, type, addComment } = this.props
     let nType = +type
@@ -48,7 +42,6 @@ class Receipt extends Component {
     if (!data.all) {
       data.all = []
     }
-    // console.log(data)
     return (
       <div className='wm-receipt'>
         <ReceiptHeader data={data.master} />

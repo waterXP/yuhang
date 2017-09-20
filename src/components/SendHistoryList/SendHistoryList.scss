@@ -9,7 +9,7 @@
   td, th {
     border-top: 1px solid $borderColorSecondary;
     text-align: center;
-    padding:6px 0;
+    padding: 6px 0;
     &:nth-child(1) {
       width: 30%;
     }
@@ -22,6 +22,6 @@
   }
 
   &+.wm-send-history-list {
-    margin-top: 0.5rem;
+    margin-top: .05rem;
   }
 }

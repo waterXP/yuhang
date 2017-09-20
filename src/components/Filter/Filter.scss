@@ -5,14 +5,14 @@
     color: $successColor;
   }
   p {
-    margin: 1rem .6rem .3rem;
+    margin: .1rem .06rem .03rem;
     text-align: left;
   }
   button {
-    width: calc(50% - .6rem);
+    width: calc(50% - .06rem);
     background-color: $btnBackColor;
     border-radius: $borderRadius;
-    margin: .2rem .3rem;
+    margin: .02rem .03rem;
     &.active {
       color: $successColor;
       background-color: $btnSuccessBackColor;

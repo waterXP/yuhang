@@ -2,15 +2,15 @@
 
 .wm-input-text {
   width: 100%;
-  font-size: 1.6rem;
+  font-size: .16rem;
   text-align: left;
   input {
     width: 100%;
-    font-size: 1.4rem;
+    font-size: .14rem;
     border-radius: 4px;
     line-height: inherit;
     border: 1px solid $borderColor;
-    padding: .4rem 1rem;
+    padding: .04rem .1rem;
     outline:none;
   }
 }

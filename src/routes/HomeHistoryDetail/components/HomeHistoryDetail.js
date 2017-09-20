@@ -22,7 +22,7 @@ class HomeHistoryDetail extends Component {
       pathname: '/home/comment',
       query: {
         id,
-        fromPage: '/home/detail'
+        fromPage: '/home/history/detail'
       }
     })
   }

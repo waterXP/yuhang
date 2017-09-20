@@ -2,29 +2,31 @@
 
 .no-data {
   padding: $panelPadding;
-  margin: 7rem 0;
+  margin: .7rem 0;
   i {
     color: $activeColor;
-    font-size: 7rem;
+    font-size: .7rem;
   }
   img {
-    width: 7rem;
+    width: 1.2rem;
   }
   p {
-    margin-top: 2rem;
-    font-size: 16px;
+    margin-top: .13rem;
+    font-size: .17rem;
+    line-height: .24rem;
+    color: $lFontColor;
   }
   &.small {
     padding-top: 0;
-    margin: 2rem 0;
+    margin: .2rem 0;
     i {
-      font-size: 3rem;
+      font-size: .3rem;
     }
     img {
-      width: 3rem;
+      width: .3rem;
     }
     p {
-      margin-top: .5rem;
+      margin-top: .05rem;
       font-size: 14px;
     }
   }
@@ -32,15 +34,15 @@
     padding: 0;
     margin: 0;
     img {
-      height: 1.2rem;
+      height: .12rem;
     }
     i {
-      font-size: 1.4rem;
+      font-size: .14rem;
     }
     p {
-      font-size: 1.4rem;
+      font-size: .14rem;
       display: inline-block;
-      margin: .6rem 0 .6rem .2rem;
+      margin: .06rem 0 .06rem .02rem;
     }
   }
   &.cover {
@@ -50,7 +52,7 @@
     right: 0;
     bottom: 0;
     margin: 0;
-    padding: 7rem 0;
+    padding: .7rem 0;
     background-color: rgba(240, 240, 240, .7)
   }
 }

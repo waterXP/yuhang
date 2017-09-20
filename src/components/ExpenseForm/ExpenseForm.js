@@ -774,7 +774,7 @@ class ExpenseForm extends Component {
     fetchData(action, params)
     .then((d) => {
       if (d.result === 0) {
-        const pathname = draft ? '/home/home_list' : '/approval/main'
+        const pathname = draft ? '/home/list' : '/approval/main'
         goLocation({
           pathname,
           query: {

@@ -17,7 +17,7 @@ export const FooterButton =
         // <i className={`fa ${iconClass || ''}`} />
       }
       <img src={active ? `imgs/${name}.png` : `imgs/${name}_.png`} />
-      <p>{title}</p>
+      { btnType !== 'big' && <p>{title}</p> }
     </Link>
   )
 }

@@ -8,18 +8,18 @@
   right: 0;
   background-color: rgba(230, 230, 230, .6);
   .container {
-    width: 20rem;
-    margin-top: 5rem;
+    width: 2rem;
+    margin-top: .5rem;
     background-color: $backColor;
     overflow: auto;
   }
   ul {
     clear: both;
-    margin: 3rem 0;
-    max-height: 25rem;
+    margin: .3rem 0;
+    max-height: 2.5rem;
   }
   li {
-    padding: .5rem;
+    padding: .05rem;
     &.active {
       color: $backColor;
       background-color: $activeColor;
@@ -27,8 +27,8 @@
   }
   button {
     float: right;
-    margin: .5rem;
-    font-size: 1.2rem;
+    margin: .05rem;
+    font-size: .12rem;
     color: $defaultColor;
     background-color: transparent;
   }

@@ -5,13 +5,13 @@
   width: 100%;
   top: 0;
   left: 0;
-  bottom: 6rem;
+  bottom: .49rem;
   margin-bottom: 0;
   overflow: auto;
   &.no-footer {
     bottom: 0;
   }
   &.sm-footer {
-    bottom: 4rem;
+    bottom: .4rem;
   }
 }

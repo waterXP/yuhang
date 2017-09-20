@@ -1,30 +1,39 @@
 @import '../../styles/baseStyle';
-.wm-draft{
+
+.wm-draft {
   background: $homeBg;
-  header{
-    display: flex; flex-direction:row;border-bottom:1px solid #ccc; padding:10px 0px;
+  header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+    padding: .1rem 0;
   }
-  header div{
-    flex:1; text-align:center;
+  header div {
+    flex: 1;
+    text-align: center;
   }
-  ul li{
-    display: flex; flex-direction:row; border-bottom:1px solid #ccc; padding:10px 0px;
+  ul li {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+    padding: .1rem 0;
   }
-  p{
-    flex:1; margin:0;
+  p {
+    flex: 1;
+    margin: 0;
   }
-  a{
-    color:$canClick;
+  a {
+    color: $canClick;
   }
-  .loadMore{
-    padding:6px 0;
+  .loadMore {
+    padding: .06rem 0;
   }
 }
-.wm-undo{
-  p:last-child{
-    color:red;
+.wm-undo {
+  p:last-child {
+    color: red;
   }
-  .loadMore{
-    padding:6px 0;
+  .loadMore {
+    padding: .06rem 0;
   }
 }

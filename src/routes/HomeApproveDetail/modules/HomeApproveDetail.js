@@ -46,7 +46,7 @@ export const deleteExp = (expensesClaimsId, type) => {
     { id: expensesClaimsId },
     (data, dispatch) => {
       let url = {
-        pathname:'/home/home_list',
+        pathname:'/home/list',
         query: {
           type: type
         }

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getCash } from '@/lib/base'
-import './ReceiptHistory.scss'
 
 export const ReceiptHistory = ({ data, title }) => {
   return (

@@ -1,25 +1,30 @@
 @import '../../styles/baseStyle';
 
-.wm-homeNotPaid{
-  padding:0px 6px; background: $homeBg;
-  ul li{
-    display: flex; flex-direction:row; border-bottom:1px solid #ccc; padding:10px 0px;
+.wm-homeNotPaid {
+  padding: 0 .06rem;
+  background: $homeBg;
+  ul li {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+    padding: .1rem 0;
   }
-  p{
-    flex:1; margin:0;
-    &:last-child{
-    }
-    &:nth-child(3){
-      flex:1.5; color:$mainColor;
-    }
-  }
-  .waitePaid{
-    margin-top:10px; overflow:hidden;
-    li:first-child{
-      border-top:1px solid #ccc;
+  p {
+    flex: 1;
+    margin: 0;
+    &:nth-child(3) {
+      flex: 1.5;
+      color: $mainColor;
     }
   }
-  .waitePaidFirst{
-    padding-top:40px;
+  .waitePaid {
+    margin-top: .1rem;
+    overflow: hidden;
+    li:first-child {
+      border-top: 1px solid #ccc;
+    }
+  }
+  .waitePaidFirst {
+    padding-top: .4rem;
   }
 }

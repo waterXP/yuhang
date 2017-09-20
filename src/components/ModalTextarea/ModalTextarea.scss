@@ -4,11 +4,11 @@
   @include cover;
   .btn-left {
     float: left;
-    margin-left: 1rem;
+    margin-left: .1rem;
   }
   .btn-right {
     float: right;
-    margin-right: 1rem;
+    margin-right: .1rem;
   }
   button {
     margin-bottom: 0;
@@ -22,8 +22,8 @@
   textarea {
     @include form-border;
     width: 100%;
-    padding: 1rem;
+    padding: .1rem;
     resize: none;
-    margin-top: 1rem;
+    margin-top: .1rem;
   }
 }

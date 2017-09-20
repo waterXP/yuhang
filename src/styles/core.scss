@@ -6,22 +6,18 @@
 // Just remove them if they're not what you want
 html {
   box-sizing: border-box;
+  font-size: 625%;
 }
 
-$body-bg-gray:#f8f8f8;
-$body-bg-white:white;
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color:$body-bg-white;
+  background-color: $backColor;
   color: $fontColor;
 }
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: inherit;
 }
 
@@ -32,9 +28,8 @@ a, a:focus, a:hover {
 .container {
   padding: 0;
 }
-ul,ol,li{
-  margin:0; padding:0;
-}
-ul,ol,li{
-  list-style:none;
+ul, ol, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

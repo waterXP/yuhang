@@ -9,10 +9,78 @@ import './HomeList.scss'
 
 class HomeList extends Component {
   constructor () {
-    super()
+    super(...arguments)
     this.scrollHandler = this.scrollHandler.bind(this)
     this.getOffsetHeight = this.getOffsetHeight.bind(this)
     this.deleteExp = this.deleteExp.bind(this)
+  }
+  componentWillMount () {
+    this.type = parseInt(this.props.location.query.type)
+    let { initialApprove, getApproveList, getSumMoney, isLoading } = this.props
+    initialApprove()
+    getApproveList(1, false, this.type)
+    if (this.type === 1) {
+      getSumMoney(1)
+    } else if (this.type === 2) {
+      getSumMoney(2)
+    }
+
+    isLoading()
+  }
+  componentDidMount () {
+    switch (this.type) {
+      case 1 :
+        dingSetTitle('审批中')
+        break
+      case 2 :
+        dingSetTitle('未发放')
+        break
+      case 4 :
+        dingSetTitle('已撤回')
+        break
+      case 5 :
+        dingSetTitle('已拒绝')
+        break
+      case 6 :
+        dingSetTitle('草稿')
+        break
+      default :
+        dingSetTitle('明快报销')
+    }
+  }
+  componentWillUnmount () {
+    this.props.initialApprove()
+  }
+  getOffsetHeight (approveList) {
+    let height = 0
+    if (approveList) {
+      height = approveList.offsetHeight
+    }
+    this.offsetHeight = height
+  }
+  scrollHandler (e) {
+    let approve = this.props.approve
+    let cPage = approve.approve.cPage
+    let pageCount = approve.approve.pageCount
+    let isLoading = approve.loadMore
+    let scrollTop = e.target.scrollTop
+    let height = this.offsetHeight
+    let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
+
+    if (deviceHeight + scrollTop + 50 > height && !isLoading) {
+      if (cPage + 1 === pageCount) {
+        this.props.loadMore()
+        this.props.getApproveList(cPage + 1, true, this.type)
+        this.loadMore = true
+      } else if (cPage + 1 < pageCount) {
+        this.props.loadMore()
+        this.loadMore = false
+        this.props.getApproveList(cPage + 1, false, this.type)
+      }
+    }
+  }
+  deleteExp (expensesClaimsId) {
+    this.props.deleteExp(expensesClaimsId, 1, this.loadMore, this.type)
   }
   render () {
     let { approve, loading, loadMore, noMore, approveSumMoney } = this.props.approve
@@ -64,80 +132,12 @@ class HomeList extends Component {
         {loading
           ? <NoData type='loading' />
           : hasNoData
-            ? <NoData type='nodata' />
+            ? <NoData type='nodata' text='没有审批单' />
             : switchList
         }
         {loadMore && <NoData type='loading' size='small' />}
       </div>
     )
-  }
-  getOffsetHeight (approveList) {
-    let height = 0
-    if (approveList) {
-      height = approveList.offsetHeight
-    }
-    this.offsetHeight = height
-  }
-  componentWillMount () {
-    this.type = parseInt(this.props.location.query.type)
-    let { initialApprove, getApproveList, getSumMoney, isLoading } = this.props
-    initialApprove()
-    getApproveList(1, false, this.type)
-    if (this.type === 1) {
-      getSumMoney(1)
-    } else if (this.type === 2) {
-      getSumMoney(2)
-    }
-
-    isLoading()
-  }
-  componentWillUnmount () {
-    this.props.initialApprove()
-  }
-  scrollHandler (e) {
-    let approve = this.props.approve
-    let cPage = approve.approve.cPage
-    let pageCount = approve.approve.pageCount
-    let isLoading = approve.loadMore
-    let scrollTop = e.target.scrollTop
-    let height = this.offsetHeight
-    let deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
-
-    if (deviceHeight + scrollTop + 50 > height && !isLoading) {
-      if (cPage + 1 === pageCount) {
-        this.props.loadMore()
-        this.props.getApproveList(cPage + 1, true, this.type)
-        this.loadMore = true
-      } else if (cPage + 1 < pageCount) {
-        this.props.loadMore()
-        this.loadMore = false
-        this.props.getApproveList(cPage + 1, false, this.type)
-      }
-    }
-  }
-  deleteExp (expensesClaimsId) {
-    this.props.deleteExp(expensesClaimsId, 1, this.loadMore, this.type)
-  }
-  componentDidMount () {
-    switch (this.type) {
-      case 1 :
-        dingSetTitle('审批中')
-        break
-      case 2 :
-        dingSetTitle('未发放')
-        break
-      case 4 :
-        dingSetTitle('已撤回')
-        break
-      case 5 :
-        dingSetTitle('已拒绝')
-        break
-      case 6 :
-        dingSetTitle('草稿')
-        break
-      default :
-        dingSetTitle('明快报销')
-    }
   }
 }
 HomeList.propTypes = {

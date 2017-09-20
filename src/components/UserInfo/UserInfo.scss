@@ -2,20 +2,20 @@
 
 .wm-user-info {
   position: relative;
-  height: 3rem;
-  padding: .4rem 1rem 0;
+  height: .3rem;
+  padding: .04rem .1rem 0;
   background-color: #fff;
   cursor: pointer;
   i.fa {
-    width: 1.3rem;
-    height: 1.3rem;
-    margin-top: .5rem;
+    width: .13rem;
+    height: .13rem;
+    margin-top: .05rem;
     margin-right: 0;
   }
   img {
-    width: 2.2rem;
-    height: 2.2rem;
-    margin: 0 1rem;
+    width: .22rem;
+    height: .22rem;
+    margin: 0 .1rem;
     border-radius: 50%;
     vertical-align: top;
     background-color: #fff;
@@ -25,10 +25,10 @@
     top: 0;
     right: 0;
     bottom: 0;
-    left: 6.8rem;
-    padding-top: .8rem;
+    left: .68rem;
+    padding-top: .08rem;
     border-bottom: 1px solid $borderColor;
-    font-size: 1.4rem;
+    font-size: .14rem;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;

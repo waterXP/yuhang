@@ -30,6 +30,5 @@ export default {
   devApi: '/api/',
   ddurl:  modelType !== 1
     ? 'http://120.77.209.222/wagestest/'
-    : 'http://wages.hz.taeapp.com/',
-  useLocaldata: false
+    : 'http://wages.hz.taeapp.com/'
 }

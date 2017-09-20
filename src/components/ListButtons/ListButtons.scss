@@ -1,0 +1,32 @@
+@import '../../styles/baseStyle';
+
+.wm-list-buttons {
+  background-color: $mainColor;
+  border-top: $border;
+  border-bottom: $border;
+  .wm-list-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    &:last-child span {
+      border-bottom: none;
+    }
+  }
+  img {
+    height: .29rem;
+    margin: .095rem .11rem .095rem .14rem;
+    &.icon {
+      position: absolute;
+      height: .13rem;
+      top: .18rem;
+      right: .14rem;
+      margin: 0;
+    }
+  }
+  span {
+    flex-grow: 1;
+    text-align: left;
+    line-height: .48rem;
+    border-bottom: $border;
+  }
+}

@@ -9,7 +9,7 @@ class HomeRejectCell extends Component {
   }
   showDetail () {
     let expensesClaimsId = this.props.undoCell.expensesClaimsId
-    let url = `/home/approve_detail/${expensesClaimsId}/5`
+    let url = `/home/approve/detail/${expensesClaimsId}/5`
     goLocation(url)
   }
   render () {

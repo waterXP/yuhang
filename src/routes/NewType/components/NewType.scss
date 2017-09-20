@@ -11,43 +11,43 @@
   overflow: auto;
   z-index: 1;
   .search {
-    margin-bottom: 1rem;
+    margin-bottom: .1rem;
   }
   button {
-    font-size: 1.6rem;
-    padding: .2rem 0;
-    width: 3.4rem;
-    height: 2.2rem;
+    font-size: .16rem;
+    padding: .02rem 0;
+    width: .34rem;
+    height: .22rem;
     color: $activeColor;
     border: none;
     vertical-align: bottom;
     background-color: transparent;
   }
   input {
-    width: calc(100% - 5.6rem);
-    height: 2.2rem;
+    width: calc(100% - .56rem);
+    height: .22rem;
     background-color: $backColor;
     border: none;
   }
   i.fa-search {
-    width: 2.2rem;
-    line-height: 2.2rem;
+    width: .22rem;
+    line-height: .22rem;
     background-color: $backColor;
     vertical-align: bottom;
   }
   li {
     position: relative;
     text-align: left;
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-    padding: .4rem 1.4rem;
+    font-size: .16rem;
+    line-height: .24rem;
+    padding: .04rem .14rem;
     background-color: $backColor;
     border-bottom: 1px solid $borderColorSecondary;
     i {
       position: absolute;
-      right: .8rem;
-      font-size: 2.4rem;
-      line-height: 2.4rem;
+      right: .08rem;
+      font-size: .24rem;
+      line-height: .24rem;
     }
     &.active {
       color: $backColor;
@@ -57,11 +57,11 @@
       }
     }
     &.return {
-      margin-bottom: .8rem;
+      margin-bottom: .08rem;
       border-bottom: none;
       i {
         color: $activeColor;
-        font-size: 1.8rem;
+        font-size: .18rem;
       }
     }
   }

@@ -44,7 +44,7 @@ class HomeDraftCell extends Component {
     let expensesClaimsId = this.props.draftCell.expensesClaimsId
     let url = ''
     if (type === 4) {
-      url = `/home/approve_detail/${expensesClaimsId}/+4`
+      url = `/home/approve/detail/${expensesClaimsId}/+4`
     } else {
       // 草稿
       url = {

@@ -116,12 +116,9 @@ export const fetchData = (action, params = {}) => {
     url = url.substr(1)
   }
 
-  if (config.useLocaldata) {
-    url = '/localdata/' + url
-  } else {
-    url = (process.env.NODE_ENV === 'development'
-      ? config.devApi : config.prodApi) + url
-  }
+  
+  url = (process.env.NODE_ENV === 'development'
+    ? config.devApi : config.prodApi) + url
 
   for (let v in params) {
     if (params[v] === null) {
