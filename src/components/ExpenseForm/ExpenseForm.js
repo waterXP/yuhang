@@ -630,7 +630,7 @@ class ExpenseForm extends Component {
     let temp = attachmentList || []
     if (isDev) {
       this.props.change('attachmentList', [...temp,
-        'https://yfl2.taofairy.com/wangbacms/hqh/images/home_01.png'])
+        'https://yfl2.taofairy.com/wangbacms/hqh/images/icon_empty.png'])
     } else {
       uploadImage(max, (v) => {
         this.props.change('attachmentList', [...temp, ...v])

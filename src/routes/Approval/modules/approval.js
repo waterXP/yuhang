@@ -6,6 +6,8 @@ export const UPDATE_ACTIVE = 'UPDATE_ACTIVE'
 export const CLEAN_LIST = 'CLEAN_LIST'
 export const GET_APPROVAL_DETAIL = 'GET_APPROVAL_DETAIL'
 export const ADD_COMMENT = 'ADD_COMMENT'
+export const SET_FILTER = 'SET_FILTER'
+export const CLEAN_FILTER = 'CLEAN_FILTER'
 
 const fetchApprovalDetail = (dispatch, id, type) => {
   let params = {
@@ -115,6 +117,16 @@ export const cleanList = () => {
   }
 }
 
+export const setFilter = (filter = [], range = ['', '']) => ({
+  type: SET_FILTER,
+  filter,
+  range
+})
+
+export const cleanFilter = () => ({
+  type: CLEAN_FILTER
+})
+
 export const actions = {
   getList,
   inBusy,
@@ -144,7 +156,11 @@ const ACTION_HANDLERS = Object.assign({}, {
     Object.assign({}, state, {
       approvalDetail: action.data,
       isBusy: false
-    })
+    }),
+  [SET_FILTER]: (state, { filter, range }) =>
+    Object.assign({}, state, { filter, range }),
+  [CLEAN_FILTER]: (state, action) =>
+    Object.assign({}, state, { filter: [], range: ['', ''] })
 })
 
 const initialState = {
@@ -152,7 +168,9 @@ const initialState = {
   list: [],
   page: {},
   isBusy: false,
-  approvalDetail: {}
+  approvalDetail: {},
+  range: ['', ''],
+  filter: []
 }
 
 export default function (state = initialState, action) {

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalInfo.scss'
 
-import { dingApproveDetail, getCash, goLocation } from '@/lib/base'
+import { dingApproveDetail, getCash, goLocation,
+  getTimeFromStr, getDate } from '@/lib/base'
 
 import { isDev } from '@/config'
 
@@ -48,8 +49,56 @@ class ApprovalInfo extends Component {
   }
   render () {
     const { userName, sumMoney, statusName, submitTime, createdBy,
-      createdAvatar, expensesClaimsId, status } = this.props
+      createdAvatar, expensesClaimsId, status, tag,
+      submitTimeStamp } = this.props
     let statusClass = 'important'
+    if (tag === 3) {
+      statusClass = 'r-font'
+    } else {
+      switch (status) {
+        case -2:
+        case -1:
+          statusClass = 'error'
+          break
+        case 0:
+          statusClass = 'r-font'
+          break
+        case 1:
+          statusClass = 'warning'
+          break
+        case 2:
+          statusClass = 'r-font'
+          break
+        case 3:
+          statusClass = 'error'
+          break
+        case 4:
+          statusClass = 'correct'
+          break
+        case 5:
+          statusClass = 'warning'
+          break
+        case 6:
+          statusClass = 'error'
+          break
+        case 7:
+          statusClass = 'warning'
+          break
+        case 8:
+          statusClass = 'error'
+          break
+        case 9:
+          statusClass = 'correct'
+      }
+    }
+    const strDT = getTimeFromStr(submitTime)
+    let showDT = submitTime
+    if (strDT.special) {
+      showDT = strDT.special
+      if (strDT.special === '今天') {
+        showDT = getDate(submitTimeStamp, 'hh:mm')
+      }
+    }
     return (
       <div
         className='wm-approval-info'
@@ -64,12 +113,17 @@ class ApprovalInfo extends Component {
       >
         <img src={createdAvatar} className='avatar' />
         <div className='info'>
-          <span className='wm-color-secondary'>{ submitTime }</span>
-          <h5>{ createdBy }的报销审批</h5>
-          <p>金额：{ getCash(sumMoney) }元</p>
-          <p>报销人：{ userName }</p>
-          <p className={`wm-color-${statusClass}`}>
-            { statusName || '待审批' }
+          <p className='title'>{ createdBy }的报销审批</p>
+          <p className='name'>报销人：{ userName }</p>
+          <p>
+            <span className='name'>金额：</span>
+            <span className='bill'>{ getCash(sumMoney) }</span>
+          </p>
+        </div>
+        <div className='info-r'>
+          <p className='dt'>{ showDT }</p>
+          <p className={`status color-${statusClass}`}>
+            { statusName }
           </p>
         </div>
       </div>

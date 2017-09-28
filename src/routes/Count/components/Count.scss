@@ -1,9 +1,13 @@
 @import '../../../styles/baseStyle';
 
 .wm-count {
-  p {
-    margin-top: 1rem;
-    font-size: .2rem;
-    color: $fontColor
+  .no-data {
+    img {
+      width: 1.8rem;
+    }
+    p {
+      @include fontStyle($lFontColor, .17rem, .24rem);
+      margin: .16rem auto;
+    }
   }
 }

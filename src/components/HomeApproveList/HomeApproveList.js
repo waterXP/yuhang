@@ -1,51 +1,50 @@
 import React, { Component } from 'react'
-import HomeApproveTotal from './HomeApproveTotal.js'
-import HomeApproveListCell from './HomeApproveListCell.js'
+import HomeApproveTotal from '../HomeApproveTotal'
+import HomeApproveListCell from './HomeApproveListCell'
 import PropTypes from 'prop-types'
 import './HomeApproveList.scss'
 class HomeApproveList extends Component {
-  render () {
-    let { approve, noMore, approveSumMoney, type, corpId } = this.props
-    let approveList = []
-    let sumMoney = ''
-    let approveListHtml = []
-    if (approve) {
-      approveList = approve.list
-    }
-    if (approveSumMoney) {
-      sumMoney = approveSumMoney
-    } else {
-      sumMoney = 0
-    }
-    if (approveList && approveList !== 0) {
-      if (type === 1) {
-        approveList.map((cur, index, arr) => {
-          approveListHtml.push(
-            <HomeApproveListCell key={index} approve={cur} corpId={corpId} />
-          )
-        })
-      }
-    }
-    return (
-      <div className='wm-homeApproveList' ref='approveList'>
-        <HomeApproveTotal total={sumMoney} />
-        <ul>
-          { approveListHtml }
-        </ul>
-        {
-          noMore
-          ? <div className='loadMore'>没有更多</div>
-          : null
-        }
-      </div>
-    )
-  }
-
   componentDidMount () {
-    this.props.getOffsetHeight(this.refs.approveList)
+    this.props.getOffsetHeight(this.refs.approveList, this.topics)
   }
   componentDidUpdate () {
-    this.props.getOffsetHeight(this.refs.approveList)
+    this.props.getOffsetHeight(this.refs.approveList, this.topics)
+  }
+  render () {
+    const { approve, noMore, approveSumMoney,
+      type, corpId } = this.props
+    const sumMoney = approveSumMoney || 0
+    let lists = []
+    let currentMonth = ''
+    let topics = []
+    this.topics = topics
+    if (approve && approve.list) {
+      approve.list.map((v, i) => {
+        const month = v.submitTitme.substr(0, 7)
+        if (currentMonth !== month) {
+          currentMonth = month
+          lists.push(
+            <li className='list-topic' key={month + '_' + i} ref={(e) => { topics.push(e) }}>
+              <span>{month}</span>
+            </li>
+          )
+        }
+        lists.push(
+          <HomeApproveListCell
+            key={i}
+            approve={v}
+            corpId={corpId}
+          />
+        )
+      })
+    }
+    return (
+      <div className='wm-home-approve-list' ref='approveList'>
+        <HomeApproveTotal total={sumMoney} />
+        <ul>{ lists }</ul>
+        { noMore && <div className='loadMore'>没有更多</div> }
+      </div>
+    )
   }
 }
 

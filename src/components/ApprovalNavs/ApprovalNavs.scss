@@ -1,10 +1,9 @@
 @import '../../styles/baseStyle';
 
 .wm-approval-navs {
-  height: .9rem;
-  margin: .1rem 0 0;
   padding: 0;
   list-style: none;
   text-align: center;
-  border-bottom: 1px solid $borderColorSecondary;
+  background-color: $mainColor;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
 }

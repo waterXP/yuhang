@@ -3,52 +3,61 @@ import PropTypes from 'prop-types'
 import SendHistoryList from '@/components/SendHistoryList'
 import './HomeHistory.scss'
 import NoData from '@/components/NoData'
-import { dingSetNavRight, goLocation, dingSetTitle } from '@/lib/base'
+import ListTopic from '@/components/ListTopic'
+import { dingSetNavRight, goLocation, dingSetTitle,
+  datePicker } from '@/lib/base'
 
 class HomeHistory extends Component {
   static propTypes = {
-    paidHistory: PropTypes.arrayOf(
-      PropTypes.arrayOf(PropTypes.shape({
-        actualMoney: PropTypes.number.isRequired,
-        claimId: PropTypes.number.isRequired,
-        paidDay: PropTypes.string.isRequired,
-        paidMonth: PropTypes.string.isRequired,
-        paidPerson: PropTypes.string.isRequired
-      }).isRequired).isRequired
-    ).isRequired,
-    getPaidHistory:PropTypes.func.isRequired,
-    query:PropTypes.object.isRequired,
-    total_page:PropTypes.number.isRequired,
-    cPage:PropTypes.number.isRequired,
-    loadMoreBool:PropTypes.bool.isRequired,
-    loadingBool:PropTypes.bool.isRequired,
-    isLoading:PropTypes.func.isRequired,
-    loadMore:PropTypes.func.isRequired,
-    clearHistory:PropTypes.func.isRequired
+    paidHistory: PropTypes.array.isRequired,
+    getPaidHistory: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired,
+    total_page: PropTypes.number.isRequired,
+    cPage: PropTypes.number.isRequired,
+    loadMoreBool: PropTypes.bool.isRequired,
+    loadingBool: PropTypes.bool.isRequired,
+    isLoading: PropTypes.func.isRequired,
+    loadMore: PropTypes.func.isRequired,
+    clearHistory: PropTypes.func.isRequired,
+    setFilterTime: PropTypes.func
+  }
+  constructor () {
+    super(...arguments)
+    this.state = {
+      text: ''      
+    }
+    this.setTopics = this::this.setTopics
+    this.selDate = this::this.selDate
   }
 
   componentDidMount () {
-    const query = this.props.query
-    if (query.year && query.month) {
-      let str = query.year + '-'
-      if (query.month < 9) {
-        str += '0' + (+query.month + 1)
-      } else {
-        str += (+query.month + 1)
-      }
-      this.props.getPaidHistory(str)
-      this.str = str
-    } else {
-      this.props.getPaidHistory()
-    }
-    this.props.isLoading()
-    this.props.clearHistory()
+    this.getList()
     dingSetTitle('发放历史')
     dingSetNavRight('筛选', () => {
-      goLocation('/home/date/filter')
+      this.selDate()
     }, true)
   }
-
+  componentWillUnmount () {
+    this.props.clearHistory()
+  }
+  getList (v) {
+    const { getPaidHistory, isLoading, clearHistory } = this.props
+    getPaidHistory(v)
+    isLoading()
+    clearHistory()    
+  }
+  selDate () {
+    const { setFilterTime } = this.props
+    datePicker(+new Date(), (v) => {
+      setFilterTime(v)
+      goLocation('home/history/filter')
+    })
+  }
+  setTopics (topics) {
+    if (topics) {
+      this.topics = topics
+    }
+  }
   scrollHandler = (e) => {
     let cPage = this.props.cPage
     let pageCount = this.props.total_page
@@ -59,46 +68,46 @@ class HomeHistory extends Component {
     if (deviceHeight + scrollTop + 50 > height && !loadMore) {
       if (cPage + 1 === pageCount) {
         this.props.loadMore()
-        this.props.getPaidHistory(this.str, cPage + 1, true)
+        this.props.getPaidHistory('', cPage + 1, true)
       } else if (cPage + 1 < pageCount) {
         this.props.loadMore()
-        this.props.getPaidHistory(this.str, cPage + 1, false)
+        this.props.getPaidHistory('', cPage + 1, false)
       }
     }
-  }
-  componentWillUnmount () {
-    this.props.clearHistory()
+
+    if (this.topics) {
+      let text = ''
+      if (scrollTop !== 0) {
+        const offsetTop = 10 + scrollTop
+        for (e of this.topics) {
+          if (offsetTop > e.offsetTop) {
+            text = e.innerText
+          } else {
+            break
+          }
+        }
+      }
+      this.setState({ text })
+    }
   }
   render () {
-    const { paidHistory } = this.props
-    const paidMonths = []
-    paidHistory.forEach((paids, index) => {
-      if (paids[0]) {
-        paidMonths.push(paids[0].paidMonth)
-      } else {
-        paidHistory.splice(index, 1)
-      }
-    })
-    let { loadingBool, loadMoreBool } = this.props
+    const { paidHistory, loadingBool, loadMoreBool } = this.props
+    const { text } = this.state
     let noData = false
-    if (paidHistory && paidHistory.length !== 0) {
-      // has data
-    } else {
+    if (!paidHistory || paidHistory.length === 0) {
       noData = true
     }
     return (
       <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
+      { text && <ListTopic text={ text } /> }
         { loadingBool
-          ? <NoData type='loading' />
-          : noData
-          ? <NoData type='nodata' />
-            : paidHistory.map((paids, index) => (
-              <SendHistoryList
-                key={paidMonths[index]}
-                thead={index === 0}
-                datas={paids}
-                pathname='detail' />
-            ))
+            ? <NoData type='loading' />
+            : noData
+              ? <NoData type='nodata' text='暂无数据' />
+              : <SendHistoryList
+                  datas={paidHistory}
+                  pathname='detail'
+                  setTopics={this.setTopics} />
         }
         { loadMoreBool && <NoData type='loading' size='small' /> }
       </div>

@@ -2,26 +2,61 @@
 
 .wm-send-history-list {
   width: 100%;
-  border-top: 1px solid $borderColorSecondary;
-  border-bottom: 1px solid $borderColorSecondary;
-  background-color: $backColor;
-
-  td, th {
-    border-top: 1px solid $borderColorSecondary;
-    text-align: center;
-    padding: 6px 0;
-    &:nth-child(1) {
-      width: 30%;
+  .list-topic {
+    padding: .07rem 0 .06rem .12rem;
+    background-color: $backColor;
+    text-align: left;
+    span {
+      @include fontStyle($lFontColor, .15rem, .17rem);
     }
-    &:nth-child(2) {
-      width: 40%;
-    }
-    &:nth-child(3) {
-      width: 30%;
+    + .list-cell {
+      margin-top: 0;
     }
   }
-
-  &+.wm-send-history-list {
-    margin-top: .05rem;
+  .list-cell {
+    display: flex;
+    align-items: center;
+    margin: .0 .12rem .08rem;
+    padding: .2rem .176rem .2rem .16rem;
+    background-color: $mainColor;
+    border-radius: 5px;
+    + .list-topic {
+      margin-top: .1rem;
+    }
+  }
+  .list-cell > span {
+    flex: 1;
+    display: inline-block;
+    text-align: left;
+    &:first-child {
+      flex: none;
+      margin-right: .33rem;
+      text-align: center;
+      .day {
+        @include fontStyle($rFontColor, .13rem, .18rem);
+        margin: 0;
+      }
+      .date {
+        @include fontStyle($rFontColor, .13rem, .16rem);
+        margin: 0;
+      }
+    }
+    &:nth-child(2) {
+      @include fontStyle($correctColor, .17rem, .24rem);
+      flex: 1.5 1 auto;
+      margin-right: .17rem;
+      word-break: break-all;
+    }
+    &:nth-child(3) {
+      @include fontStyle($lFontColor, .16rem, .19rem);
+      margin-right: .2rem;
+      text-align: right;
+    }
+    &:last-child {
+      flex: none;
+      img {
+        height: .23rem;
+      }
+    }
   }
 }

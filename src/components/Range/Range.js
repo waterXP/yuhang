@@ -48,27 +48,26 @@ class Range extends Component {
     }
     return (
       <div className='wm-range'>
-        { title && <p className='topic'>
-          <span className='fa fa-circle' />
-          &nbsp;{ title }
-        </p> }
-        <input
-          type='tel'
-          placeholder={startHolder}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          defaultValue={start}
-          ref={(e) => { this.min = e }}
-        />
-        <span>-</span>
-        <input
-          type='tel'
-          placeholder={endHolder}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          defaultValue={end}
-          ref={(e) => { this.max = e }}
-        />
+        { title && <p className='topic'>{ title }</p> }
+        <div className='filter-area'>
+          <input
+            type='tel'
+            placeholder={startHolder}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            defaultValue={start}
+            ref={(e) => { this.min = e }}
+          />
+          <div className='divide' />
+          <input
+            type='tel'
+            placeholder={endHolder}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            defaultValue={end}
+            ref={(e) => { this.max = e }}
+          />
+        </div>
       </div>
     )
   }

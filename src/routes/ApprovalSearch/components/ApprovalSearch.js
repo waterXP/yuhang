@@ -5,7 +5,7 @@ import './ApprovalSearch.scss'
 import SearchForm from '@/components/SearchForm'
 import Cover from '@/components/Cover'
 import ApprovalList from '@/components/ApprovalList'
-import { dingSetTitle } from '@/lib/base'
+import { dingSetTitle, dingSetMenu } from '@/lib/base'
 
 class ApprovalSearch extends Component {
   static propTypes = {
@@ -35,8 +35,9 @@ class ApprovalSearch extends Component {
       dirty: false,
       search: ''
     }
-    this.scrolled = this.scrolled.bind(this)
-    this.getResult = this.getResult.bind(this)
+    this.scrolled = this::this.scrolled
+    this.getResult = this::this.getResult
+    this.cancel = this::this.cancel
   }
 
   componentDidMount () {
@@ -59,6 +60,16 @@ class ApprovalSearch extends Component {
       default:
         dingSetTitle('明快报销')
     }
+    dingSetMenu(
+      [{
+        id: 'cancel',
+        text: '取消'
+      }],
+      this.cancel
+    )
+  }
+  cancel () {
+    window.history.back()
   }
   scrolled (e) {
     const { inBusy, isBusy, page, query, getList } = this.props
@@ -97,7 +108,12 @@ class ApprovalSearch extends Component {
     const { dirty } = this.state
     return (
       <div className='wm-approval-search'>
-        <SearchForm btnLink='/approval/main' inBusy={inBusy} submitHandler={this.getResult} />
+        <SearchForm
+          btnLink={`/approval/main?active=${+query.status}`}
+          inBusy={inBusy}
+          submitHandler={this.getResult}
+          placeholder='报销单号、报销人、制单人、备注'
+        />
         { dirty
             ? <ApprovalList
               list={list}

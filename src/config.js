@@ -6,13 +6,9 @@ export const getUrlParams = (name) => {
   }
   return ''
 }
-
-// console.log(getUrlParams('modelType'))
-// console.log(getUrlParams('corpid'))
 const modelType = +getUrlParams('modelType')
 
 if (process.env.NODE_ENV !== 'development' && window.parent) {
-  // console.log('prod')
 } else {
   console.log('dev')
 }

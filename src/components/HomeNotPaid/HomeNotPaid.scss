@@ -1,30 +1,69 @@
 @import '../../styles/baseStyle';
 
-.wm-homeNotPaid {
-  padding: 0 .06rem;
+.wm-home-not-paid {
   background: $homeBg;
-  ul li {
+  ul {
+    padding-top: .36rem;
+  }
+  .list-topic {
+    padding: .07rem 0 .06rem .12rem;
+    background-color: $backColor;
+    text-align: left;
+    span {
+      @include fontStyle($lFontColor, .15rem, .17rem);
+    }
+    + .list-cell {
+      margin-top: 0;
+    }
+  }
+  .list-cell {
     display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid #ccc;
-    padding: .1rem 0;
+    align-items: center;
+    margin: .0 .12rem .08rem;
+    padding: .2rem .176rem .2rem .16rem;
+    background-color: $mainColor;
+    border-radius: 5px;
+    + .list-topic {
+      margin-top: .1rem;
+    }
   }
-  p {
+  .list-cell > span {
     flex: 1;
-    margin: 0;
+    display: inline-block;
+    text-align: left;
+    &:first-child {
+      flex: none;
+      margin-right: .66rem;
+      text-align: center;
+      .day {
+        @include fontStyle($rFontColor, .13rem, .18rem);
+        margin: 0;
+      }
+      .date {
+        @include fontStyle($rFontColor, .13rem, .16rem);
+        margin: 0;
+      }
+    }
+    &:nth-child(2) {
+      @include fontStyle($errorColor, .17rem, .24rem);
+      flex: 1.5 1 auto;
+      margin-right: .17rem;
+      word-break: break-all;
+    }
     &:nth-child(3) {
-      flex: 1.5;
-      color: $mainColor;
+      @include fontStyle($lFontColor, .16rem, .19rem);
+      margin-right: .15rem;
+      text-align: right;
+    }
+    &:last-child {
+      flex: none;
+      img {
+        height: .13rem;
+      }
     }
   }
-  .waitePaid {
-    margin-top: .1rem;
-    overflow: hidden;
-    li:first-child {
-      border-top: 1px solid #ccc;
-    }
-  }
-  .waitePaidFirst {
-    padding-top: .4rem;
+  .loadMore {
+    @include fontStyle($rFontColor, .13rem, .18rem);
+    padding: .07rem 0 .34rem;
   }
 }

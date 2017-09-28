@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 
 import ApprovalMain from '../components/ApprovalMain'
-import { updateActive, inBusy, getList } from '../../Approval/modules/Approval'
+import { updateActive, inBusy, getList,
+  cleanFilter } from '../../Approval/modules/Approval'
 
 const mapStateToProps = (state) => ({
   active : state.approval.active,
@@ -15,7 +16,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   updateActive,
   inBusy,
-  getList
+  getList,
+  cleanFilter
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalMain)

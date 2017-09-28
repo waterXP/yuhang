@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation } from '@/lib/base'
+import { goLocation, dingSetNavRight, toast } from '@/lib/base'
 import ModalTextarea from '@/components/ModalTextarea'
 import { hashHistory } from 'react-router'
 
-class ApprovalDetail extends Component {
+class ApprovalComment extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired,
     addComment: PropTypes.func.isRequired,
@@ -26,9 +26,15 @@ class ApprovalDetail extends Component {
   }
   modalConfirm = (v) => {
     const { addComment, query } = this.props
-    addComment(+query.id, v, this.modalClose)
+    console.log(v.length)
+    if (v.length > 200) {
+      toast('字数不能超过200')
+    } else {
+      addComment(+query.id, v, this.modalClose)
+    }
   }
   render () {
+    dingSetNavRight('')
     const { isBusy } = this.props
     return (
       <ModalTextarea
@@ -42,4 +48,4 @@ class ApprovalDetail extends Component {
   }
 }
 
-export default ApprovalDetail
+export default ApprovalComment

@@ -8,14 +8,34 @@ export const FETCH_FIN = 'FETCH_FIN'
 
 export const history = hashHistory
 
-// export const getUrlParams = (name) => {
-//   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-//   const r = window.location.search.substr(1).match(reg)
-//   if (r != null) {
-//     return r[2]
-//   }
-//   return ''
-// }
+export const getTimeFromStr = (strDT) => {
+  const c = new Date()
+  let month = c.getMonth() + 1
+  month = month < 10 ? '0' + month : '' + month
+  let date = c.getDate()
+  date = date < 10 ? '0' + date : '' + date
+  let r = {
+    ymd: new Date(`${c.getFullYear()}-${month}-${date}`)
+  }
+  const day = [
+    '周日',
+    '周一',
+    '周二',
+    '周三',
+    '周四',
+    '周五',
+    '周六'
+  ]
+  const d = new Date(strDT)
+  const sub = r.ymd - d
+  if (sub === 0) {
+    r.special = '今天'
+  } else if (sub === 86400000) {
+    r.special = '昨天'
+  }
+  r.day = day[d.getDay()]
+  return r
+}
 
 export const get = (url, params = {}) => {
   const headers = new Headers({
@@ -287,7 +307,7 @@ export const confirm =
   }
 }
 
-export const dingSend = (users = [], corpId = '', text = '') => {
+export const dingSend = (users = [], corpId = '', text = '', cb1, cb2) => {
   dd.biz.ding.post
   ? dd.biz.ding.post({
     users : users,
@@ -296,8 +316,10 @@ export const dingSend = (users = [], corpId = '', text = '') => {
     alertType: 2,
     text: text,
     onSuccess: () => {
+      cb1 && cb1()
     },
     onFail: () => {
+      cb2 && cb2()
     }
   })
   : dd.biz.ding.create({
@@ -308,9 +330,10 @@ export const dingSend = (users = [], corpId = '', text = '') => {
     text: text,
     bizType: 0,
     onSuccess: () => {
-
+      cb1 && cb1()
     },
     onFail: () => {
+      cb2 && cb2()
     }
   })
 }
@@ -331,6 +354,25 @@ export const openDatePicker = (defaultValue = +new Date(), callback) => {
     value: getDate(defaultValue, 'yyyy-MM-dd'),
     onSuccess: function (result) {
       callback && callback(result.value)
+    },
+    onFail: function (err) {
+      // when click cancel, the errorCode is 3
+      if (err.errorCode !== 3) {
+        toast(err)
+      }
+    }
+  })
+}
+
+export const datePicker = (defaultValue = +new Date(), cb) => {
+  if (isDev) {
+    return +new Date()
+  }
+  dd.biz.util.datepicker({
+    format: 'yyyy-MM',
+    value: getDate(defaultValue, 'yyyy-MM'),
+    onSuccess: function (d) {
+      cb && cb(d.value)
     },
     onFail: function (err) {
       // when click cancel, the errorCode is 3
@@ -425,13 +467,13 @@ export const dingPreviewImage = (urls, current) => {
     onFail: function (err) { toast(err) }
   })
 }
-export const dingSetNavRight = (text = '筛选', fun, show = false, control = true) => {
+export const dingSetNavRight = (text = '筛选', cb, show = false, control = true) => {
   if (!isDev) {
     dd.biz.navigation.setRight({
       show: show,
       control: control,
       text: text,
-      onSuccess: function (result) { fun && fun() },
+      onSuccess: function (result) { cb && cb() },
       onFail: function (err) { toast(err) }
     })
   }
@@ -505,6 +547,24 @@ export const blurInput = () => {
     const obj = document.querySelectorAll('.need-blur input, .need-blur textarea')
     for (let i = 0; i < obj.length; i++) {
       obj[i].blur()
+    }
+  }
+}
+
+export const dingSetMenu = (items, cb) => {
+  if (!isDev) {
+    if (items) {
+      dd.biz.navigation.setMenu({
+        items,
+        onSuccess: function (d) { cb && cb(d) },
+        onFail: function (e) { toast(e) }
+      })
+    } else {
+      dd.biz.navigation.setMenu({
+        items: [],
+        onSuccess: function (d) { cb && cb() },
+        onFail: function (e) { toast(e) }
+      })
     }
   }
 }

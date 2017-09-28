@@ -1,9 +1,10 @@
 import { injectReducer } from '../../store/reducers'
 import HomeApproveDetailRoute from '../HomeApproveDetail'
 import HomeHistoryRoute from '../HomeHistory'
+import HomeHistoryFilterRoute from '../HomeHistoryFilter'
 import HomeHistoryDetailRoute from '../HomeHistoryDetail'
-import HomeDateFilterRoute from '../HomeDateFilter'
 import HomeListRoute from '../HomeList'
+import HomeCommentRoute from '../HomeComment'
 
 export default (store) => ({
   path : 'home',
@@ -18,8 +19,9 @@ export default (store) => ({
   childRoutes: [
     HomeApproveDetailRoute(store),
     HomeHistoryRoute(store),
+    HomeHistoryFilterRoute(store),
     HomeHistoryDetailRoute(store),
-    HomeDateFilterRoute(store),
-    HomeListRoute(store)
+    HomeListRoute(store),
+    HomeCommentRoute(store)
   ]
 })

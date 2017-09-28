@@ -12,22 +12,22 @@
   }
   p {
     margin-top: .13rem;
-    font-size: .17rem;
-    line-height: .24rem;
-    color: $lFontColor;
+    @include fontStyle($lFontColor, .17rem, .24rem);
   }
   &.small {
     padding-top: 0;
-    margin: .2rem 0;
+    margin: 0 0 .34rem;
     i {
       font-size: .3rem;
     }
     img {
-      width: .3rem;
+      width: .22rem;
     }
     p {
-      margin-top: .05rem;
-      font-size: 14px;
+      @include fontStyle($rFontColor, .13rem, .18rem);
+      display: inline-block;
+      margin: 0 0 0 .12rem;
+      vertical-align: middle;
     }
   }
   &.xsmall {
@@ -54,5 +54,15 @@
     margin: 0;
     padding: .7rem 0;
     background-color: rgba(240, 240, 240, .7)
+  }
+  &.loading:not(.small):not(.xsmall) {
+    margin: 1.9rem 0 0;
+    .box {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: 0 auto;
+      border-radius: 5px;
+      background-color: rgba(17, 17, 17, .7);
+    }
   }
 }

@@ -1,15 +1,44 @@
 import { HomeApproveDetail } from '../../HomeApproveDetail'
 import { HomeHistoryHandlers } from '../../HomeHistory'
 import { HomeHistoryDetailHandlers } from '../../HomeHistoryDetail'
-import { HomeDateFilterHandlers } from '../../HomeDateFilter'
 import { HomeListHandlers } from '../../HomeList'
+import { fetchData, toast } from '@/lib/base'
+
+// export const IN_BUSY = 'IN_BUSY'
+
+// export const inBusy = (state) => {
+//   return {
+//     type: IN_BUSY,
+//     state
+//   }
+// }
+
+// export const addComment = (expensesClaimId, remark, cb) => {
+//   return (dispatch, getState) => {
+//     dispatch(inBusy(true))
+//     fetchData('post /expensesClaimComments/add.json', {
+//       expensesClaimId,
+//       remark
+//     }).then((data) => {
+//       if (data.result === 0) {
+//         dispatch(inBusy(false))
+//         cb && cb()
+//       } else {
+//         toast(data.msg)
+//       }
+//     })
+//   }
+// }
 
 const ACTION_HANDLERS = Object.assign(
   {},
+  // {
+  //   [IN_BUSY]: (state, action) =>
+  //     Object.assign({}, state, { isBusy: action.state }),
+  // },
   HomeApproveDetail,
   HomeHistoryHandlers,
   HomeHistoryDetailHandlers,
-  HomeDateFilterHandlers,
   HomeListHandlers
 )
 const initialState = {
@@ -28,20 +57,7 @@ const initialState = {
   cPage: 1,
   total_page: 1,
   filter: {},
-  monthFilter: [
-    { id: 0, text: '1月' },
-    { id: 1, text: '2月' },
-    { id: 2, text: '3月' },
-    { id: 3, text: '4月' },
-    { id: 4, text: '5月' },
-    { id: 5, text: '6月' },
-    { id: 6, text: '7月' },
-    { id: 7, text: '8月' },
-    { id: 8, text: '9月' },
-    { id: 9, text: '10月' },
-    { id: 10, text: '11月' },
-    { id: 11, text: '12月' }
-  ]
+  time: ''
 }
 
 export default function (state = initialState, action) {

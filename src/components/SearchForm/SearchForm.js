@@ -7,23 +7,28 @@ class SearchForm extends Component {
   static propTypes = {
     inBusy: PropTypes.func,
     submitHandler: PropTypes.func,
-    btnLink: PropTypes.string
+    btnLink: PropTypes.string,
+    placeholder: PropTypes.string
   }
   constructor (props) {
     super(props)
     this.state = {
-      tm: null
+      tm: null,
+      dirty: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.clean = this.clean.bind(this)
     this.getList = this.getList.bind(this)
   }
   handleChange (e) {
-    this.getList(e.target.value)
+    const v = e.target.value
+    this.setState({ dirty: !!v })
+    this.getList(v)
   }
   clean () {
     this.refs.searchInput.value = ''
     this.getList('', true)
+    this.setState({ dirty: false })
   }
   getList (v, immediately) {
     const { tm } = this.state
@@ -41,9 +46,7 @@ class SearchForm extends Component {
         submitHandler(v)
         inBusy(false)
       }, 1000)
-      this.setState({
-        tm: target
-      })
+      this.setState({ tm: target })
       if (v) {
         inBusy(true)
       } else {
@@ -52,8 +55,8 @@ class SearchForm extends Component {
     }
   }
   render () {
-    const { btnLink } = this.props
-    const dirty = true
+    const { btnLink, placeholder } = this.props
+    const { dirty } = this.state
     return (
       <div className='wm-search-form'>
         <i className='fa fa-search' htmlFor='search' />
@@ -61,8 +64,7 @@ class SearchForm extends Component {
           type='text'
           id='search'
           ref='searchInput'
-          placeholder='单号、备注、制单人、报销人'
-          className={`${!dirty && 'dirty'}`}
+          placeholder={placeholder}
           onChange={this.handleChange}
         />
         { dirty && <i className='fa fa-times-circle' onClick={this.clean} /> }

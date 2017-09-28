@@ -50,7 +50,7 @@ export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
       } else if (type === 4 || type === 5 || type === 6) {
         dataCell.list = data.data
         dataCell.cPage = cPage
-        dataCell.pageCount = data.page.total_page
+        dataCell.pageCount = data.page ? data.page.total_page : 0
       }
       return dispatch({
         type: GET_APPROVE,
@@ -126,18 +126,18 @@ export const ACTION_HANDLERS = {
     return Object.assign({}, state, { isLoading: true, approve: { cPage:1, pageCount:1 } })
   },
   [GET_APPROVE]: (state, action) => {
-    let approveList = state.approve.list
+    let approveList = state.approve ? state.approve.list : []
     if (!approveList) {
       approveList = []
     }
-    if (action.approve.list) {
+    if (action.approve && action.approve.list) {
       action.approve.list = approveList.concat(action.approve.list)
     }
     return Object.assign({}, state, {
-      approve:action.approve,
-      isLoading:action.isLoading,
-      noMore:action.noMore,
-      loadMore:action.loadMore
+      approve: action.approve,
+      isLoading: action.isLoading,
+      noMore: action.noMore,
+      loadMore: action.loadMore
     })
   },
   [DELETE_EXP]: (state, action) => {

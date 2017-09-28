@@ -4,22 +4,18 @@ import PropTypes from 'prop-types'
 
 class HomeApproveListCell extends Component {
   constructor () {
-    super()
-    this.clickHandler = this.clickHandler.bind(this)
-    this.showDetail = this.showDetail.bind(this)
-  }
-  render () {
-    let cur = this.props.approve
-    return (
-      <li onClick={this.showDetail}>
-        <p>{removeYear(cur.submitTitme)}</p>
-        <p>{getCash(cur.sumMoney)}</p>
-        <p>{cur.dynamic}</p>
-        <p onClick={this.clickHandler}>
-          <i className='fa fa-thumb-tack' aria-hidden='true' />
-        </p>
-      </li>
-    )
+    super(...arguments)
+    this.clickHandler = this::this.clickHandler
+    this.showDetail = this::this.showDetail
+    this.getDay = this::this.getDay
+    const c = new Date()
+    let month = c.getMonth() + 1
+    month = month < 10 ? '0' + month : '' + month
+    let date = c.getDate()
+    date = date < 10 ? '0' + date : '' + date
+    this.state = {
+      today: new Date(`${c.getFullYear()}-${month}-${date}`)
+    }
   }
   clickHandler (event) {
     event.stopPropagation
@@ -30,8 +26,43 @@ class HomeApproveListCell extends Component {
     dingSend(dingId, this.props.corpId)
   }
   showDetail () {
-    let dingApproveDetailUrl = this.props.approve.dingApproveUrl
-    dingApproveDetail(dingApproveDetailUrl)
+    dingApproveDetail(this.props.approve.dingApproveUrl)
+  }
+  getDay (submitTitme) {
+    const { today } = this.state
+    const day = [
+      '周日',
+      '周一',
+      '周二',
+      '周三',
+      '周四',
+      '周五',
+      '周六'
+    ]
+    const d = new Date(submitTitme)
+    const sub = today - d
+    if (sub === 0) {
+      return '今天'
+    } else if (sub === 86400000) {
+      return '昨天'
+    }
+    return day[d.getDay()]
+  }
+  render () {
+    const { submitTitme, dynamic, sumMoney } = this.props.approve
+    return (
+      <li className='list-cell' onClick={this.showDetail}>
+        <span>
+          <p className='day'>{this.getDay(submitTitme)}</p>
+          <p className='date'>{removeYear(submitTitme)}</p>
+        </span>
+        <span>{dynamic}</span>
+        <span>{getCash(sumMoney)}</span>
+        <span onClick={this.clickHandler}>
+          <img src='imgs/icon_ding.png' />
+        </span>
+      </li>
+    )
   }
 }
 

@@ -18,8 +18,12 @@ class NoData extends Component {
     let showImg = imgsrc
     switch (type) {
       case 'loading':
-        showText = text || '数据加载中……'
-        showIcon = icon || 'fa-spinner fa-pulse'
+        if (size === 'small') {
+          showImg = 'imgs/loading_s.gif'
+          showText = text || '加载中……'
+        } else {
+          showImg = 'imgs/loading.gif'
+        }
         break
       case 'nodata':
         showText = text || '没有数据'
@@ -28,14 +32,20 @@ class NoData extends Component {
       case 'upload':
         showText = text || '数据提交中……'
         showIcon = icon || 'fa-spinner fa-pulse'
+        break
+      case 'inDev':
+        showText = text || '正在开发中……'
+        showImg = 'imgs/in_dev.png'
     }
     return (
-      <div className={`no-data${size ? ' ' + size : ''}${cover ? ' cover' : ''}`}>
-        { showImg
-          ? <img src={showImg} />
-          : <i className={`fa ${showIcon || 'fa-smile-o'}`} />
-        }
-        { showText && <p>{ showText }</p> }
+      <div className={`no-data${size ? ' ' + size : ''}${cover ? ' cover' : ''}${type ? ' ' + type : ''}`}>
+        <div className='box'>
+          { showImg
+            ? <img src={showImg} />
+            : <i className={`fa ${showIcon || 'fa-smile-o'}`} />
+          }
+          { showText && <p>{ showText }</p> }
+        </div>
       </div>
     )
   }

@@ -1,32 +1,45 @@
 @import '../../styles/baseStyle';
 
 .wm-approval-info {
-  padding: .06rem;  
+  margin: 0 .12rem .08rem;
+  padding: .16rem .12rem;
+  border-radius: 5px;
+  background-color: $mainColor;
+  display: flex;
   .avatar {
-    float: left;
-    width: .3rem;
+    flex: none;
+    width: .4rem;
+    height: .4rem;
+    margin-right: .1rem;
     border-radius: 50%;
   }
   .info {
+    flex: auto;
     text-align: left;
-    padding-left: .38rem;
+    > p {
+      margin-bottom: .03rem;
+    }
   }
-  h5, p {
-    margin: 0;
+  .title {
+    @include fontStyle($fontColor, .17rem, .24rem);
   }
-  h5 {
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 24px;
+  .name {
+    @include fontStyle($lFontColor, .13rem, .18rem);
   }
-  p {
-    font-size: 14px;
-    line-height: 20px;
+  .bill {
+    @include fontStyle($errorColor, .16rem, .19rem);
   }
-  span {
-    float: right;
-  }
-  &+.wm-approval-info {
-    border-top: 1px solid $borderColorSecondary;
+  .info-r {
+    flex: none;
+    margin-left: .1rem;
+    text-align: right;
+    .dt {
+      @include fontStyle($rFontColor, .13rem, .16rem);
+      margin-bottom: .07rem;
+    }
+    .status {
+      font-size: .13rem;
+      line-height: .18rem;
+    }
   }
 }

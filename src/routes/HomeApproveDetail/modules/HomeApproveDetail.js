@@ -5,6 +5,7 @@ export const INITIAL_APPROVE_DETAIL = 'INITIAL_APPROVE_DETAIL'
 export const DELETE_EXP = 'DELETE_EXP'
 export const DETAIL_LOADING = 'DETAIL_LOADING'
 export const IS_BUSY = 'IS_BUSY'
+export const IN_BUSY = 'IN_BUSY'
 
 export const getApproveDetail = (expensesClaimsId = 1, detailType) => {
   let params = {}
@@ -69,27 +70,33 @@ export const isBusyFun = (dispatch) => {
   })
 }
 
-export const addComment = (expensesClaimId, remark, afterApproval) => {
+export const inBusy = (state) => {
+  return {
+    type: IN_BUSY,
+    state
+  }
+}
+
+export const addComment = (expensesClaimId, remark, cb) => {
   return (dispatch, getState) => {
-    dispatch(isBusyFun(dispatch))
+    dispatch(inBusy(true))
     fetchData('post /expensesClaimComments/add.json', {
       expensesClaimId,
       remark
     }).then((data) => {
       if (data.result === 0) {
-        dispatch(getApproveDetail(expensesClaimId, afterApproval))
+        dispatch(inBusy(false))
+        cb && cb()
       } else {
         toast(data.msg)
       }
-      return dispatch({
-        type: IS_BUSY,
-        isBusy: false
-      })
     })
   }
 }
 
 export const ACTION_HANDLERS = {
+  [IN_BUSY]: (state, action) =>
+    Object.assign({}, state, { isBusy: action.state }),
   [GET_APPROVE_DETAIL]: (state, action) => {
     return Object.assign({}, state, {
       detail: action.detail,

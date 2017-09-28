@@ -4,7 +4,6 @@ import {
   initialApproveDetail,
   getApproveDetail,
   deleteExp,
-  addComment,
   detailLoading
 } from '../modules/HomeApproveDetail'
 
@@ -20,7 +19,6 @@ const mapDispatchToProps = {
   initialApproveDetail,
   getApproveDetail,
   deleteExp,
-  addComment,
   detailLoading
 }
 

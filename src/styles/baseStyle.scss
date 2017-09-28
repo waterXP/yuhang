@@ -3,12 +3,21 @@ $backSecondColor: #f4f4f4;
 $mainColor: #fff;
 $footColor: rgba(247, 247, 247, .8);
 $activeColor: #15b4f1;
+$activeBackColor: rgba(21, 180, 241, .2);
 $borderColor: #e4e4e4;
+$borderSecondColor: #d4d4d8;
 
 $fontColor: #333;
+$fontNameColor: #666;
 $lFontColor: #999;
 $rFontColor: #ccc;
-$lightFontColor: #c7c7cc;
+
+$correctColor: #00c853;
+$warningColor: #ffae39;
+$warningSecondColor: #ec7070;
+$errorColor: #f65d4d;
+$secondaryColor: #999;
+$secondarySecondColor: #eee;
 
 $border: 1px solid $borderColor;
 
@@ -16,18 +25,38 @@ $border: 1px solid $borderColor;
   border: 1px solid $borderColor;
 }
 
+@mixin fontStyle ($color, $size, $height) {
+  color: $color;
+  font-size: $size;
+  line-height: $height;
+}
+
+.color-font {
+  color: $fontColor;
+}
 .color-correct {
-  color: #00c853;
+  color: $correctColor;
 }
 .color-warning {
-  color: #ffae39;
+  color: $warningColor;
 }
 .color-error {
-  color: #f65d4d;
+  color: $errorColor;
 }
 .color-secondary {
-  color: #999;
+  color: $secondaryColor;
 }
+.color-r-font {
+  color: $rFontColor;
+}
+
+input, input:before, input:after {
+  -webkit-user-select: initial !important;
+  -khtml-user-select: initial !important;
+  -moz-user-select: initial !important;
+  -ms-user-select: initial !important;
+  user-select: initial !important;
+ } 
 
 $borderRadius: 4px;
 $inputPadding: .02rem .03rem;

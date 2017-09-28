@@ -2,19 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getCash } from '@/lib/base'
 
-export const ReceiptHistory = ({ data, title }) => {
+export const ReceiptHistory = ({ data }) => {
   return (
     <div className='wm-receipt-history'>
-      { title &&
-        <p>
-          <span className='fa fa-info-circle wm-color-important' />
-          &nbsp;{ title }
-        </p>
-      }
+      <p className='topic'>审批历史记录</p>
       { data.map((v, i) => {
         return (<div key={i}>
-          <p>{ `${i + 1} ${v.clamNo}` }审批记录</p>
-          <p>{v.history}</p>
+          <p className='title'>{ `${i + 1} ${v.clamNo}` }审批记录</p>
+          <p className='content'>{v.history}</p>
         </div>)
       }) }
     </div>

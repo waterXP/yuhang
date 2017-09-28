@@ -5,30 +5,39 @@ import HomeNotPaid from '@/components/HomeNotPaid'
 import HomeDraft from '@/components/HomeDraft'
 import { dingSetTitle } from '@/lib/base'
 import NoData from '@/components/NoData'
+import ListTopic from '@/components/ListTopic'
 import './HomeList.scss'
 
 class HomeList extends Component {
   constructor () {
     super(...arguments)
-    this.scrollHandler = this.scrollHandler.bind(this)
-    this.getOffsetHeight = this.getOffsetHeight.bind(this)
-    this.deleteExp = this.deleteExp.bind(this)
+    this.state = {
+      type: 0,
+      text: ''
+    }
+    this.scrollHandler = this::this.scrollHandler
+    this.getOffsetHeight = this::this.getOffsetHeight
+    this.deleteExp = this::this.deleteExp
   }
   componentWillMount () {
     this.type = parseInt(this.props.location.query.type)
-    let { initialApprove, getApproveList, getSumMoney, isLoading } = this.props
+    const { initialApprove, getApproveList,
+      getSumMoney, isLoading, location } = this.props
+    const type = +location.query.type
+    this.setState({ type })
     initialApprove()
-    getApproveList(1, false, this.type)
-    if (this.type === 1) {
+    getApproveList(1, false, type)
+    if (type === 1) {
       getSumMoney(1)
-    } else if (this.type === 2) {
+    } else if (type === 2) {
       getSumMoney(2)
     }
 
     isLoading()
   }
   componentDidMount () {
-    switch (this.type) {
+    const { type } = this.state
+    switch (type) {
       case 1 :
         dingSetTitle('审批中')
         break
@@ -50,13 +59,17 @@ class HomeList extends Component {
   }
   componentWillUnmount () {
     this.props.initialApprove()
+    console.log(this)
   }
-  getOffsetHeight (approveList) {
+  getOffsetHeight (approveList, topics) {
     let height = 0
     if (approveList) {
       height = approveList.offsetHeight
     }
     this.offsetHeight = height
+    if (topics) {
+      this.topics = topics
+    }
   }
   scrollHandler (e) {
     let approve = this.props.approve
@@ -78,32 +91,48 @@ class HomeList extends Component {
         this.props.getApproveList(cPage + 1, false, this.type)
       }
     }
+
+    if (this.topics) {
+      let text = ''
+      if (scrollTop !== 0) {
+        const { type } = this.state
+        const offsetTop = (this.state.type < 3 ? 46 : 10) + scrollTop
+        
+        for (e of this.topics) {
+          if (offsetTop > e.offsetTop) {
+            text = e.innerText
+          } else {
+            break
+          }
+        }
+      }
+      this.setState({ text })
+    }
   }
   deleteExp (expensesClaimsId) {
     this.props.deleteExp(expensesClaimsId, 1, this.loadMore, this.type)
   }
   render () {
-    let { approve, loading, loadMore, noMore, approveSumMoney } = this.props.approve
-    let { corpId } = this.props
+    const { approve, loading, loadMore,
+      noMore, approveSumMoney } = this.props.approve
+    const { corpId } = this.props
+    const { type, text } = this.state
     let hasNoData = false
     if (!loading) {
-      let approveList = approve.list
-      if (approveList && approveList.length !== 0) {
-        // 存在数据
-      } else {
-        // 不存在数据
+      const approveList = approve ? approve.list : []
+      if (!approveList || approveList.length === 0) {
         hasNoData = true
       }
     }
     let switchList = ''
-    switch (this.type) {
+    switch (type) {
       case 1 :
         switchList = <HomeApproveList
           approve={approve}
           getOffsetHeight={this.getOffsetHeight}
           noMore={noMore}
           approveSumMoney={approveSumMoney}
-          type={this.type}
+          type={type}
           corpId={corpId} />
         break
       case 2 :
@@ -112,27 +141,25 @@ class HomeList extends Component {
           getOffsetHeight={this.getOffsetHeight}
           noMore={noMore}
           approveSumMoney={approveSumMoney}
-          type={this.type} />
+          type={type} />
         break
       case 4 :
       case 5 :
       case 6 :
         switchList = <HomeDraft
-          type={this.type}
+          type={type}
           approve={approve}
           deleteExp={this.deleteExp}
           noMore={noMore}
           getOffsetHeight={this.getOffsetHeight} />
-        break
-      default :
-        switchList = null
     }
     return (
       <div className='wm-approve-list' onScroll={this.scrollHandler}>
-        {loading
+        { text && <ListTopic className={type < 3 ? 'has-sum' : ''} text={ text } /> }
+        { loading
           ? <NoData type='loading' />
           : hasNoData
-            ? <NoData type='nodata' text='没有审批单' />
+            ? <NoData type='nodata' text='暂无数据' />
             : switchList
         }
         {loadMore && <NoData type='loading' size='small' />}
@@ -145,11 +172,11 @@ HomeList.propTypes = {
     approve:PropTypes.shape({
       cPage:PropTypes.number.isRequired,
       pageCount:PropTypes.number.isRequired
-    }).isRequired,
+    }),
     loading:PropTypes.bool.isRequired,
     loadMore:PropTypes.bool.isRequired,
     noMore:PropTypes.bool.isRequired,
-    approveSumMoney:PropTypes.number.isRequired
+    approveSumMoney:PropTypes.number
   }).isRequired,
   deleteExp:PropTypes.func.isRequired,
   initialApprove:PropTypes.func.isRequired,

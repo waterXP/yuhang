@@ -18,26 +18,23 @@ class Filter extends Component {
     const { conditions, title } = this.props
     return (
       <div className='wm-filter'>
-        {
-          title && <p className='topic'>
-            <span className='fa fa-circle' />
-            &nbsp;{ title }
-          </p>
-        }
-        {
-          conditions.map((v) => {
-            return (
-              <button
-                key={v.id}
-                type='button'
-                className={`btn${v.sel ? ' active' : ''}`}
-                onClick={this.clickHandle(v.id)}
-              >
-                { v.text }
-              </button>
-            )
-          })
-        }
+        { title && <p className='topic'>{ title }</p> }
+        <div className='filter-area'>
+          {
+            conditions.map((v) => {
+              return (
+                <button
+                  key={v.id}
+                  type='button'
+                  className={`btn${v.sel ? ' active' : ''}`}
+                  onClick={this.clickHandle(v.id)}
+                >
+                  { v.text }
+                </button>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }

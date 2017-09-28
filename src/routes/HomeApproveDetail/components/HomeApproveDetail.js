@@ -23,12 +23,12 @@ class HomeApproveDetail extends Component {
 
   commentHandler () {
     const { id, type } = this.props.params
+    console.log(id, type)
     goLocation({
       pathname: '/home/comment',
       query: {
         id,
-        type,
-        fromPage: '/home/approve/detail'
+        type
       }
     })
   }

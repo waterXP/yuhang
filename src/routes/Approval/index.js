@@ -2,6 +2,7 @@ import { injectReducer } from '@/store/reducers'
 import ApprovalMainRoute from '../ApprovalMain'
 import ApprovalSearchRoute from '../ApprovalSearch'
 import ApprovalFilterRoute from '../ApprovalFilter'
+import ApprovalFilterResultsRoute from '../ApprovalFilterResults'
 import ApprovalDetailRoute from '../ApprovalDetail'
 import ApprovalCommentRoute from '../ApprovalComment'
 
@@ -19,6 +20,7 @@ export default (store) => ({
     ApprovalMainRoute(store),
     ApprovalSearchRoute(store),
     ApprovalFilterRoute(store),
+    ApprovalFilterResultsRoute(store),
     ApprovalDetailRoute(store),
     ApprovalCommentRoute(store)
   ]

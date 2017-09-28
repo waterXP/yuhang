@@ -4,26 +4,18 @@ import { goLocation, confirm, removeYear, getCash } from '@/lib/base'
 
 class HomeDraftCell extends Component {
   constructor () {
-    super()
-    this.clickHandler = this.clickHandler.bind(this)
-    this.showDetail = this.showDetail.bind(this)
-  }
-  render () {
-    let cur = this.props.draftCell
-    let type = this.props.type
-    return (
-      <li
-        onClick={this.showDetail}
-        >
-        <p>{removeYear(type === 4 ? cur.submitTime : cur.updatedAt)}</p>
-        <p>{getCash(cur.sumMoney)}</p>
-        <p>
-          <a href='javascript:;'
-            onClick={this.clickHandler}
-            >删除</a>
-        </p>
-      </li>
-    )
+    super(...arguments)
+    this.clickHandler = this::this.clickHandler
+    this.showDetail = this::this.showDetail
+    this.getDay = this::this.getDay
+    const c = new Date()
+    let month = c.getMonth() + 1
+    month = month < 10 ? '0' + month : '' + month
+    let date = c.getDate()
+    date = date < 10 ? '0' + date : '' + date
+    this.state = {
+      today: new Date(`${c.getFullYear()}-${month}-${date}`)
+    }
   }
   clickHandler (event) {
     event.stopPropagation
@@ -55,6 +47,53 @@ class HomeDraftCell extends Component {
       }
     }
     goLocation(url)
+  }
+  getDay (submitTitme) {
+    const { today } = this.state
+    const day = [
+      '周日',
+      '周一',
+      '周二',
+      '周三',
+      '周四',
+      '周五',
+      '周六'
+    ]
+    const d = new Date(submitTitme)
+    const sub = today - d
+    if (sub === 0) {
+      return '今天'
+    } else if (sub === 86400000) {
+      return '昨天'
+    }
+    return day[d.getDay()]
+  }
+  render () {
+    const { submitTime, updatedAt, sumMoney, createdBy,
+      approvalPersonName, statusName } = this.props.draftCell
+    const type = this.props.type
+    const dt = type === 4 ? submitTime : updatedAt
+    const user = type === 4 ? approvalPersonName : createdBy + '的'
+    return (
+      <li className='list-cell' onClick={this.showDetail} >
+        <span>
+          <p className='day'>{this.getDay(dt)}</p>
+          <p className='date'>{removeYear(dt)}</p>
+        </span>
+        <span>{user}{statusName}</span>
+        <span>{getCash(sumMoney)}</span>
+        {
+          // <span>
+          //   <a href='javascript:;' onClick={this.clickHandler} >
+          //     删除
+          //   </a>
+          // </span>
+        }
+        <span>
+          <img src='imgs/icon_arrow.png' />
+        </span>
+      </li>
+    )
   }
 }
 HomeDraftCell.propTypes = {

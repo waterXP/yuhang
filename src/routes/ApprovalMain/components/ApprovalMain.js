@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ApprovalNavs from '@/components/ApprovalNavs'
-import ApprovalConditions from '@/components/ApprovalConditions'
 import ApprovalList from '@/components/ApprovalList'
 import './ApprovalMain.scss'
-import { dingSetTitle, dingSetNavRight } from '@/lib/base'
-
+import { dingSetTitle, dingSetMenu, toast, goLocation } from '@/lib/base'
+import { isDev } from '@/config'
+import DevButtons from '@/components/DevButtons'
 import { hashHistory } from 'react-router'
 
 class ApprovalMain extends Component {
@@ -28,20 +28,32 @@ class ApprovalMain extends Component {
     isBusy: PropTypes.bool.isRequired,
     inBusy: PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    cleanFilter: PropTypes.func
   }
 
   constructor (props) {
     super(props)
-    this.scrolled = this.scrolled.bind(this)
-    this.updateActive = this.updateActive.bind(this)
+    this.scrolled = this::this.scrolled
+    this.updateActive = this::this.updateActive
+    this.setConditions = this::this.setConditions
+    this.devClicks = this::this.devClicks
   }
 
   componentDidMount () {
     const { updateActive, query } = this.props
     updateActive(+query.active || 1)
     dingSetTitle('明快报销')
-    dingSetNavRight('')
+    dingSetMenu(
+      [{
+        id: 'search',
+        text: '搜索'
+      }, {
+        id: 'filter',
+        text: '筛选'
+      }],
+      this.setConditions
+    )
   }
   scrolled (e) {
     const { inBusy, isBusy, page, active, getList } = this.props
@@ -58,6 +70,19 @@ class ApprovalMain extends Component {
     })
     updateActive(active)
   }
+  setConditions (d) {
+    const { cleanFilter, active } = this.props
+    cleanFilter()
+    goLocation({
+      pathname: `/approval/${d.id}`,
+      query: {
+        status: active
+      }
+    })
+  }
+  devClicks (id) {
+    this.setConditions({ id: id === 0 ? 'search' : 'filter' })
+  }
 
   render () {
     const { active, list, isBusy, page } = this.props
@@ -68,11 +93,11 @@ class ApprovalMain extends Component {
     }
     return (
       <div className='wm-approval-main'>
+        { isDev && <DevButtons titles={['搜索', '筛选']} handleClick={this.devClicks} />}
         <ApprovalNavs
           active={active}
           updateActive={this.updateActive}
         />
-        <ApprovalConditions status={active} />
         <ApprovalList
           list={list}
           tag={active}

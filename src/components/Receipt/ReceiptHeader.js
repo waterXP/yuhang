@@ -44,19 +44,19 @@ export const ReceiptHeader = ({ data }) => {
           </div>
         </div>
         <div className='receipt-info'>
-          <p>
+          <p className='flex'>
             <span className='span-name'>总金额</span>
-            <span className='span-content'>
-              {getCash(data.summoney)}
+            <span className='span-content color-warning'>
+              {getCash(data.summoney)}<i> 元</i>
             </span>
           </p>
-          <p>
+          <p className='flex'>
             <span className='span-name'>报销单号</span>
             <span className='span-content'>
               {data.expensesClaimNo}
             </span>
           </p>
-          <p>
+          <p className='flex'>
             <span className='span-name'>报销人</span>
             <span className='span-content'>
               {data.userName && `${data.userName}（${data.deptName}）`}

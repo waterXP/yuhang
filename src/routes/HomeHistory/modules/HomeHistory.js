@@ -4,6 +4,7 @@ export const GET_PAID_HISTORY = 'GET_PAID_HISTORY'
 export const IS_LOADING = 'IS_LOADING'
 export const LOAD_MORE = 'LOAD_MORE'
 export const CLEAR_HISTORY = 'CLEAR_HISTORY'
+export const SET_FILTER_TIME = 'SET_FILTER_TIME'
 
 export const getPaidHistory = (time, cPage = 1, noMore = false) => {
   let params = {
@@ -19,69 +20,52 @@ export const getPaidHistory = (time, cPage = 1, noMore = false) => {
     (data, dispatch) => {
       return dispatch({
         type: GET_PAID_HISTORY,
-        paidHistory:data.data.list,
-        isLoading:false,
-        noMore:noMore,
-        loadMore:false,
-        total_page:data.data.pageCount,
-        cPage:cPage
+        paidHistory: data.data ? data.data.list : [],
+        isLoading: false,
+        noMore: noMore,
+        loadMore: false,
+        total_page: data.data ? data.data.pageCount : 0,
+        cPage: cPage
       })
     }
   )
 }
+
+export const setFilterTime = (time) => ({
+  type: SET_FILTER_TIME,
+  time
+})
 
 export const actions = {
   getPaidHistory
 }
 export const isLoading = () => {
   return {
-    type:IS_LOADING
+    type: IS_LOADING
   }
 }
 
 export const loadMore = () => {
   return {
-    type:LOAD_MORE
+    type: LOAD_MORE
   }
 }
 
 export const clearHistory = () => {
   return {
-    type:CLEAR_HISTORY
+    type: CLEAR_HISTORY
   }
 }
 
 export const ACTIONS_HANDLERS = {
   [GET_PAID_HISTORY]: (state, action) => {
-    let historyList = state.paidHistory
-    if (!historyList) {
-      historyList = []
-    }
-    let paidHistory = []
-    let monthStr = ''
-    let temp
-    if (action.paidHistory) {
-      action.paidHistory = action.paidHistory.concat(...historyList)
-    }
-    action.paidHistory.forEach((v) => {
-      let paid = v.paidTime.split('-')
-      v.paidDay = [paid[1], paid[2]].join('-')
-      v.paidMonth = [paid[0], paid[1]].join('-')
-      if (monthStr === v.paidMonth) {
-        temp.push(v)
-      } else {
-        temp = paidHistory[paidHistory.length] = []
-        monthStr = v.paidMonth
-        temp.push(v)
-      }
-    })
     return Object.assign({}, state, {
-      paidHistory:paidHistory,
-      isLoading:action.isLoading,
-      noMore:action.noMore,
-      loadMore:action.loadMore,
-      total_page:action.total_page,
-      cPage:action.cPage
+      paidHistory: [...state.paidHistory, ...action.paidHistory],
+      isLoading: action.isLoading,
+      noMore: action.noMore,
+      loadMore: action.loadMore,
+      total_page: action.total_page,
+      cPage: action.cPage
     })
   },
   [CLEAR_HISTORY]: (state) => {
@@ -92,5 +76,7 @@ export const ACTIONS_HANDLERS = {
   },
   [IS_LOADING]: (state) => {
     return Object.assign({}, state, { isLoading: true })
-  }
+  },
+  [SET_FILTER_TIME]: (state, { time }) =>
+    Object.assign({}, state, { time })
 }

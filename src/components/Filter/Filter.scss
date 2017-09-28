@@ -1,21 +1,29 @@
 @import '../../styles/baseStyle';
 
 .wm-filter {
-  .fa {
-    color: $successColor;
+  margin-top: .08rem;
+  padding: .15rem .12rem .12rem;
+  background-color: $mainColor;
+  .topic {
+    @include fontStyle($fontNameColor, .17rem, .18rem);
+    margin: .03rem 0;
+    padding-left: .02rem;
+    text-align: left;
+    border-left: .04rem solid $warningSecondColor;
   }
-  p {
-    margin: .1rem .06rem .03rem;
+  .filter-area {
+    margin-top: .22rem;
     text-align: left;
   }
   button {
-    width: calc(50% - .06rem);
-    background-color: $btnBackColor;
-    border-radius: $borderRadius;
-    margin: .02rem .03rem;
+    @include fontStyle($fontNameColor, .15rem, .21rem);
+    width: 1rem;
+    margin: 0 .12rem .12rem 0;
+    padding: .08rem;
+    background-color: $secondarySecondColor;
     &.active {
-      color: $successColor;
-      background-color: $btnSuccessBackColor;
+      color: $activeColor;
+      background-color: $activeBackColor;
     }
   }
 }

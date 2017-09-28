@@ -1,0 +1,15 @@
+@import '../../styles/baseStyle';
+
+.wm-list-topic {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: .07rem 0 .06rem .12rem;
+  background-color: $backColor;
+  text-align: left;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
+  span {
+    @include fontStyle($lFontColor, .15rem, .17rem);
+  }
+}

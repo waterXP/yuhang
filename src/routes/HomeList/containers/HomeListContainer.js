@@ -16,11 +16,11 @@ const mapStateToProps = (state) => {
   }
   return {
     approve:{
-      approve:state.home.approve,
-      approveSumMoney:state.home.approveSumMoney,
-      loading:state.home.isLoading,
-      noMore:state.home.noMore,
-      loadMore:state.home.loadMore
+      approve: state.home.approve,
+      approveSumMoney: state.home.approveSumMoney,
+      loading: state.home.isLoading,
+      noMore: state.home.noMore,
+      loadMore: state.home.loadMore
     },
     corpId: corpId
   }

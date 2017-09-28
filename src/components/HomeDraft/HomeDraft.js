@@ -6,78 +6,76 @@ import HomeRejectCell from './HomeRejectCell'
 
 class HomeDraft extends Component {
   constructor () {
-    super()
-    this.deleteExp = this.deleteExp.bind(this)
+    super(...arguments)
+    this.deleteExp = this::this.deleteExp
   }
+
+  componentDidMount () {
+    this.props.getOffsetHeight(this.refs.approveList, this.topics)
+  }
+  componentDidUpdate () {
+    this.props.getOffsetHeight(this.refs.approveList, this.topics)
+  }
+  deleteExp (expensesClaimsId) {
+    this.props.deleteExp(expensesClaimsId)
+  }
+
   render () {
-    let { type, noMore, approve } = this.props
-    let title = ''
-    let titleRight = ''
-    let _this = this
-    if (type === 6) {
-      // 草稿
-      title = '最近保存'
-    } else if (type === 4) {
-      // 已撤回
-      title = '提报日期'
-    } else if (type === 5) {
-      // 已拒绝
-      title = '日期'
-      titleRight = '进展'
-    }
-    let list = []
-    let listHtml = []
+    const { type, noMore, approve } = this.props
+    const _this = this
+    let lists = []
+    let currentMonth = ''
+    let topics = []
+    this.topics = topics
     if (approve && approve.list) {
-      list = approve.list
       if (type === 5) {
-        list.map((cur, index, arr) => {
-          listHtml.push(
+        approve.list.map((v, i) => {
+          const month = v.updatedAt.substr(0, 7)
+          if (currentMonth !== month) {
+            currentMonth = month
+            lists.push(
+              <li className='list-topic' key={month + '_' + i} ref={(e) => { topics.push(e) }}>
+                <span>{month}</span>
+              </li>
+            )
+          }
+          lists.push(
             <HomeRejectCell
-              key={cur.expensesClaimsId}
-              undoCell={cur}
+              key={v.expensesClaimsId}
+              undoCell={v}
               type={type} />
           )
         })
       } else {
-        list.map((cur, index, arr) => {
-          listHtml.push(
+        approve.list.map((v, i) => {
+          const dt = type === 4 ? v.submitTime : v.updatedAt
+          const month = dt.substr(0, 7)
+          if (currentMonth !== month) {
+            currentMonth = month
+            lists.push(
+              <li className='list-topic' key={month + '_' + i} ref={(e) => { topics.push(e) }}>
+                <span>{month}</span>
+              </li>
+            )
+          }
+          lists.push(
             <HomeDraftCell
-              key={cur.expensesClaimsId}
-              draftCell={cur}
+              key={v.expensesClaimsId}
+              draftCell={v}
               type={type}
               deleteExp={_this.deleteExp} />
           )
         })
       }
     }
-    let className = 'wm-draft'
-    if (type === 5) {
-      className += ' wm-undo'
-    }
     return (
-      <div className={className} ref='approveList'>
-        <header>
-          <div>{title}</div>
-          <div>金额</div>
-          <div>{titleRight}</div>
-        </header>
-        <ul>{listHtml}</ul>
-        {noMore &&
+      <div className='wm-draft' ref='approveList'>
+        <ul>{ lists }</ul>
+        { noMore &&
           <div className='loadMore'>没有更多</div>
         }
       </div>
     )
-  }
-
-  deleteExp (expensesClaimsId) {
-    this.props.deleteExp(expensesClaimsId)
-  }
-
-  componentDidMount () {
-    this.props.getOffsetHeight(this.refs.approveList)
-  }
-  componentDidUpdate () {
-    this.props.getOffsetHeight(this.refs.approveList)
   }
 }
 

@@ -1,21 +1,36 @@
 @import '../../styles/baseStyle';
 
 .wm-range {
-  .fa {
-    color: $successColor;
+  padding: .15rem .12rem .24rem;
+  background-color: $mainColor;
+  .topic {
+    @include fontStyle($fontNameColor, .17rem, .18rem);
+    margin: .03rem 0;
+    padding-left: .02rem;
+    text-align: left;
+    border-left: .04rem solid $warningColor;
   }
-  p {
-    margin: .1rem .06rem 0;
+  .filter-area {
+    display: flex;
+    align-items: center;
+    margin: .22rem .13rem 0;
     text-align: left;
   }
   input {
-    width: calc(50% - .4rem);
-    margin: .05rem;
-    padding: $inputPadding;
-    border: 1px solid $borderColor;
-    border-radius: $borderRadius;
+    @include fontStyle($fontNameColor, .15rem, .21rem);
+    flex: auto;
+    padding: .08rem;
     text-align: center;
-    font-size: 14px;
-    line-height: 1.5;
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    width: 1rem;
+  }
+  .divide {
+    flex: none;
+    display: inline-block;
+    width: .24rem;
+    height: .02rem;
+    margin: 0 .1rem;
+    background-color: $borderSecondColor;
   }
 }
