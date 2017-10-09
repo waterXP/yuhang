@@ -29,6 +29,11 @@
   .bill {
     @include fontStyle($errorColor, .16rem, .19rem);
   }
+  &.tag-2, &.tag-4 {
+    .bill {
+      color: $lFontColor;
+    }
+  }
   .info-r {
     flex: none;
     margin-left: .1rem;

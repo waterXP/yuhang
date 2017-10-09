@@ -31,7 +31,7 @@
     flex: 1;
     display: inline-block;
     text-align: left;
-    &:first-child {
+    &.tm {
       flex: none;
       margin-right: .33rem;
       text-align: center;
@@ -44,17 +44,19 @@
         margin: 0;
       }
     }
-    &:nth-child(2) {
+    &.info {
       @include fontStyle($warningColor, .17rem, .24rem);
       flex: 1.5 1 auto;
       margin-right: .17rem;
-      word-break: break-all;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
-    &:nth-child(3) {
-      @include fontStyle($lFontColor, .16rem, .19rem);
+    &.bill {
+      @include fontStyle($fontNameColor, .16rem, .19rem);
       margin-right: .2rem;
     }
-    &:last-child {
+    &.flag {
       flex: none;
       img {
         height: .23rem;

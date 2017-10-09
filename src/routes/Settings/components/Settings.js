@@ -45,7 +45,6 @@ class Settings extends Component {
   }
   checkUrl () {
     const { step, setStep } = this.props
-    // console.log(this.props.step)
     if (step === 'fin') {
       toast('设置成功', 'success')
       setStep('')

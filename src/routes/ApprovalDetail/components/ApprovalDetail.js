@@ -37,7 +37,7 @@ class ApprovalDetail extends Component {
   }
 
   render () {
-    const { approvalDetail, query, isBusy } = this.props
+    const { approvalDetail, query, isBusy, deleteExp } = this.props
     if (approvalDetail && approvalDetail.master) {
       let { userName, deptName } = approvalDetail.master
       let title = ''
@@ -49,6 +49,7 @@ class ApprovalDetail extends Component {
       dingSetTitle(title)
       dingSetNavRight('')
     }
+    // console.log(deleteExp)
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&
@@ -56,6 +57,7 @@ class ApprovalDetail extends Component {
             ? <Receipt
               data={approvalDetail}
               addComment={this.commentHandler}
+              deleteExp={deleteExp}
               isBusy={isBusy}
               type={approvalDetail.master.status === 2 ||
                 approvalDetail.master.status === 3 ? 4 : 0}

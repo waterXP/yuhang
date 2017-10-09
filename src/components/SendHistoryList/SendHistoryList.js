@@ -77,13 +77,16 @@ class SendHistoryList extends Component {
             })
           }
         >
-          <span>
+          <span className='tm'>
             <p className='day'>{this.getDay(v.paidTime)}</p>
             <p className='date'>{removeYear(v.paidTime)}</p>
           </span>
-          <span>{v.paidPerson}已发放</span>
-          <span>{getCash(v.actualMoney)}</span>
-          <span>
+          <div className='info'>
+            <p className='name'>{v.paidPerson}</p>
+            <p className='status'>已发放</p>
+          </div>
+          <span className='bill'>{getCash(v.actualMoney)}</span>
+          <span className='flag'>
             <img src='imgs/icon_arrow.png' />
           </span>
         </li>

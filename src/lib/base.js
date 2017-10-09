@@ -304,6 +304,11 @@ export const confirm =
       },
       onFail: function (err) { toast(err) }
     })
+  } else {
+    const r = window.confirm('确认删除？')
+    if (r) {
+      callback && callback()
+    }
   }
 }
 

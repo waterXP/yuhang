@@ -91,6 +91,7 @@ class ApprovalInfo extends Component {
           statusClass = 'correct'
       }
     }
+    let className = tag ? 'tag-' + tag : 'tag-1'
     const strDT = getTimeFromStr(submitTime)
     let showDT = submitTime
     if (strDT.special) {
@@ -101,7 +102,7 @@ class ApprovalInfo extends Component {
     }
     return (
       <div
-        className='wm-approval-info'
+        className={`wm-approval-info ${className}`}
         onClick={this.gotoPage(
           { pathname: status === 0 ? '/new' : '/approval/detail',
             query: {
@@ -113,7 +114,7 @@ class ApprovalInfo extends Component {
       >
         <img src={createdAvatar} className='avatar' />
         <div className='info'>
-          <p className='title'>{ createdBy }的报销审批</p>
+          <p className='title'>{ createdBy }</p>
           <p className='name'>报销人：{ userName }</p>
           <p>
             <span className='name'>金额：</span>

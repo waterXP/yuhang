@@ -8,6 +8,7 @@ export const GET_APPROVAL_DETAIL = 'GET_APPROVAL_DETAIL'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const SET_FILTER = 'SET_FILTER'
 export const CLEAN_FILTER = 'CLEAN_FILTER'
+export const DELETE_EXP = 'DELETE_EXP'
 
 const fetchApprovalDetail = (dispatch, id, type) => {
   let params = {
@@ -127,13 +128,31 @@ export const cleanFilter = () => ({
   type: CLEAN_FILTER
 })
 
+export const deleteExp = (expensesClaimsId, type) => {
+  return asyncFetch(
+    'get expensesClaims/delete.json',
+    { id: expensesClaimsId },
+    (data, dispatch) => {
+      window.history.back()
+      // let url = {
+      //   pathname:'/home/list',
+      //   query: {
+      //     type: type
+      //   }
+      // }
+      // goLocation(url)
+    }
+  )
+}
+
 export const actions = {
   getList,
   inBusy,
   updateActive,
   cleanList,
   getApprovalDetail,
-  addComment
+  addComment,
+  deleteExp
 }
 
 const ACTION_HANDLERS = Object.assign({}, {

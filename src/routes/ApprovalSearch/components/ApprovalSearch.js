@@ -114,15 +114,13 @@ class ApprovalSearch extends Component {
           submitHandler={this.getResult}
           placeholder='报销单号、报销人、制单人、备注'
         />
-        { dirty
-            ? <ApprovalList
-              list={list}
-              tag={+query.status || 1}
-              handlerScroll={this.scrolled}
-              pageEnd={pageEnd}
-              isBusy={isBusy}
-            />
-            : <Cover />
+        { dirty && <ApprovalList
+            list={list}
+            tag={+query.status || 1}
+            handlerScroll={this.scrolled}
+            pageEnd={pageEnd}
+            isBusy={isBusy}
+          />
         }
       </div>
     )

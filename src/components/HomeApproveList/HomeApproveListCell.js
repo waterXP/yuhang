@@ -52,13 +52,13 @@ class HomeApproveListCell extends Component {
     const { submitTitme, dynamic, sumMoney } = this.props.approve
     return (
       <li className='list-cell' onClick={this.showDetail}>
-        <span>
+        <span className='tm'>
           <p className='day'>{this.getDay(submitTitme)}</p>
           <p className='date'>{removeYear(submitTitme)}</p>
         </span>
-        <span>{dynamic}</span>
-        <span>{getCash(sumMoney)}</span>
-        <span onClick={this.clickHandler}>
+        <span className='info'>{dynamic}</span>
+        <span className='bill'>{getCash(sumMoney)}</span>
+        <span className='flag' onClick={this.clickHandler}>
           <img src='imgs/icon_ding.png' />
         </span>
       </li>

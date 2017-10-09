@@ -45,13 +45,16 @@ class HomeRejectCell extends Component {
       sumMoney, statusName } = this.props.undoCell
     return (
       <li className='list-cell' onClick={this.showDetail}>
-        <span>
+        <span className='tm'>
           <p className='day'>{this.getDay(submitTime)}</p>
           <p className='date'>{removeYear(submitTime)}</p>
         </span>
-        <span className='reject'>{approvalPersonName}{statusName}</span>
-        <span>{getCash(sumMoney)}</span>
-        <span>
+        <div className='info'>
+          <p className='name reject'>{approvalPersonName}</p>
+          <p className='status'>{statusName}</p>
+        </div>
+        <span className='bill'>{getCash(sumMoney)}</span>
+        <span className='flag'>
           <img src='imgs/icon_arrow.png' />
         </span>
       </li>

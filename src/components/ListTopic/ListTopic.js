@@ -9,7 +9,6 @@ class ListTopic extends Component {
   }
   render () {
     const { text, className } = this.props
-    console.log(this.props)
     return (
       <div className={`wm-list-topic${className ? ' ' + className : ''}`}>
         <span>{text}</span>

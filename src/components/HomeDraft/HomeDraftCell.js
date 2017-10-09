@@ -73,15 +73,18 @@ class HomeDraftCell extends Component {
       approvalPersonName, statusName } = this.props.draftCell
     const type = this.props.type
     const dt = type === 4 ? submitTime : updatedAt
-    const user = type === 4 ? approvalPersonName : createdBy + '的'
+    const user = type === 4 ? approvalPersonName : createdBy
     return (
       <li className='list-cell' onClick={this.showDetail} >
-        <span>
+        <span className='tm'>
           <p className='day'>{this.getDay(dt)}</p>
           <p className='date'>{removeYear(dt)}</p>
         </span>
-        <span>{user}{statusName}</span>
-        <span>{getCash(sumMoney)}</span>
+        <div className='info'>
+          <p className='name'>{user}</p>
+          <p className='status'>{statusName}</p>
+        </div>
+        <span className='bill'>{getCash(sumMoney)}</span>
         {
           // <span>
           //   <a href='javascript:;' onClick={this.clickHandler} >
@@ -89,7 +92,7 @@ class HomeDraftCell extends Component {
           //   </a>
           // </span>
         }
-        <span>
+        <span className='flag'>
           <img src='imgs/icon_arrow.png' />
         </span>
       </li>

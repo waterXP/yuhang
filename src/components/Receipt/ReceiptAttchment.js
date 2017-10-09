@@ -12,7 +12,6 @@ export const ReceiptAttchment = ({ attachmentList }) => {
     }
     attchmentContent[attchmentContent.length - 1].push(v)
   })
-  console.log(attchmentContent)
   return (
     <div className='wm-receipt-attchment'>
         <span className='attachment-title'>附件</span>

@@ -24,13 +24,13 @@
       margin-top: .1rem;
     }
   }
-  .list-cell > span {
-    flex: 1;
+  .list-cell > span, .list-cell > div {
+    flex: auto;
     display: inline-block;
     text-align: left;
-    &:first-child {
+    &.tm {
       flex: none;
-      margin-right: .33rem;
+      margin-right: .5rem;
       text-align: center;
       .day {
         @include fontStyle($rFontColor, .13rem, .18rem);
@@ -41,18 +41,28 @@
         margin: 0;
       }
     }
-    &:nth-child(2) {
-      @include fontStyle($correctColor, .17rem, .24rem);
-      flex: 1.5 1 auto;
+    &.info {
       margin-right: .17rem;
-      word-break: break-all;
+      overflow: hidden;
+      p {
+        margin: 0;
+      }
+      .name {
+        @include fontStyle($fontNameColor, .17rem, .24rem);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .status {
+        @include fontStyle($correctColor, .13rem, .18rem);
+      }
     }
-    &:nth-child(3) {
-      @include fontStyle($lFontColor, .16rem, .19rem);
-      margin-right: .2rem;
+    &.bill {
+      @include fontStyle($fontNameColor, .16rem, .19rem);
+      margin-right: .15rem;
       text-align: right;
     }
-    &:last-child {
+    &.flag {
       flex: none;
       img {
         height: .23rem;

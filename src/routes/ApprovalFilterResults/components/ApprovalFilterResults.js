@@ -105,12 +105,6 @@ class ApprovalFilterResults extends Component {
     }
     return (
       <div className='wm-approval-filter-results'>
-        <input
-          className='top-btn'
-          type='button'
-          value='变更筛选条件'
-          onClick={this.cancel}
-        />
         <ApprovalList
           list={list}
           tag={status}

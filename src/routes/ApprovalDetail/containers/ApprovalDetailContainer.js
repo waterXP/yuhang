@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { getApprovalDetail, addComment } from '@/routes/Approval/modules/Approval'
+import { getApprovalDetail, addComment,
+  deleteExp } from '@/routes/Approval/modules/Approval'
 
 import ApprovalDetail from '../components/ApprovalDetail'
 
@@ -11,7 +12,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getApprovalDetail,
-  addComment
+  addComment,
+  deleteExp
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovalDetail)

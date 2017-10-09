@@ -62,7 +62,9 @@ class ApprovalList extends Component {
           ))
           : !isBusy && <NoData type='nodata' />
         }
-        { isBusy && <NoData type='loading' size='small' /> }
+        { list.length > 0
+          ? isBusy && <NoData type='loading' size='small' />
+          : isBusy && <NoData type='loading' /> }
         { !isBusy && pageEnd && list.length > 0 && <NoData type='loading' size='small' text='没有更多' /> }
       </div>
     )

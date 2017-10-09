@@ -28,6 +28,21 @@ class Receipt extends Component {
     }
     addComment(data.master.expensesClaimId, v, afterApproval)
   }
+  deleteExp = () => {
+    let expensesClaimId = this.props.data.master.expensesClaimId
+    this.props.deleteExp(expensesClaimId)
+  }
+  reSubmit = () => {
+    let { expensesClaimId, expensesClaimNo } = this.props.data.master
+    let url = {
+      pathname:'/new',
+      query: {
+        id: expensesClaimId,
+        expensesClaimNo: expensesClaimNo
+      }
+    }
+    goLocation(url)
+  }
   render () {
     const { data, type, addComment } = this.props
     let nType = +type
@@ -68,21 +83,6 @@ class Receipt extends Component {
         </div>
       </div>
     )
-  }
-  deleteExp = () => {
-    let expensesClaimId = this.props.data.master.expensesClaimId
-    this.props.deleteExp(expensesClaimId)
-  }
-  reSubmit = () => {
-    let { expensesClaimId, expensesClaimNo } = this.props.data.master
-    let url = {
-      pathname:'/new',
-      query: {
-        id: expensesClaimId,
-        expensesClaimNo: expensesClaimNo
-      }
-    }
-    goLocation(url)
   }
 }
 

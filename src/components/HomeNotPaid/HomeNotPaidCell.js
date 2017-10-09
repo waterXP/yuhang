@@ -45,13 +45,13 @@ class HomeNotPaidCell extends Component {
     const {submitTitme, sumMoney, statusName} = this.props.notPaid
     return (
       <li className='list-cell' onClick={this.showDetail}>
-        <span>
+        <span className='tm'>
           <p className='day'>{this.getDay(submitTitme)}</p>
           <p className='date'>{removeYear(submitTitme)}</p>
         </span>
-        <span>{statusName}</span>
-        <span>{getCash(sumMoney)}</span>
-        <span>
+        <span className='info'>{statusName}</span>
+        <span className='bill'>{getCash(sumMoney)}</span>
+        <span className='flag'>
           <img src='imgs/icon_arrow.png' />
         </span>
       </li>

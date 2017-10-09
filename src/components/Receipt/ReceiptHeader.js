@@ -56,12 +56,14 @@ export const ReceiptHeader = ({ data }) => {
               {data.expensesClaimNo}
             </span>
           </p>
-          <p className='flex'>
-            <span className='span-name'>报销人</span>
-            <span className='span-content'>
-              {data.userName && `${data.userName}（${data.deptName}）`}
-            </span>
-          </p>
+          {
+            data.createUserId !== data.userId && <p className='flex'>
+              <span className='span-name'>报销人</span>
+              <span className='span-content'>
+                {data.userName && `${data.userName}（${data.deptName}）`}
+              </span>
+            </p>
+          }
         </div>
       </div>
     </div>
