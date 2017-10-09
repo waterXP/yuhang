@@ -51,6 +51,12 @@ export const ReceiptHeader = ({ data }) => {
             </span>
           </p>
           <p className='flex'>
+            <span className='span-name'>所在部门</span>
+            <span className='span-content'>
+              {data.deptName}
+            </span>
+          </p>
+          <p className='flex'>
             <span className='span-name'>报销单号</span>
             <span className='span-content'>
               {data.expensesClaimNo}

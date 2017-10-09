@@ -53,9 +53,16 @@
     bottom: 0;
     margin: 0;
     padding: .7rem 0;
-    background-color: rgba(240, 240, 240, .7)
+    background-color: rgba(240, 240, 240, .7);
+    .box {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: 0 auto;
+      border-radius: 5px;
+      background-color: rgba(17, 17, 17, .7);
+    }
   }
-  &.loading:not(.small):not(.xsmall) {
+  &.loading:not(.small):not(.xsmall):not(.cover) {
     position: fixed;
     top: 0;
     left: 0;

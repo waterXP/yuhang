@@ -829,8 +829,6 @@ class ExpenseForm extends Component {
             labelName={labelName}
           />
         }
-        { !inited && <NoData type='loading' cover /> }
-        { isBusy && <NoData type='upload' cover /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
@@ -890,6 +888,8 @@ class ExpenseForm extends Component {
             clickHandle: this.commitHandle(false)
           }
         ]} />
+        { !inited && <NoData type='loading' cover /> }
+        { isBusy && <NoData type='upload' cover /> }
       </form>
     )
   }
