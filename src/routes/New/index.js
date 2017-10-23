@@ -1,5 +1,6 @@
 import { injectReducer } from '@/store/reducers'
 import NewTypeRoute from '../NewType'
+import NewImgsRoute from '../NewImgs'
 
 export default (store) => ({
   path : 'new',
@@ -12,6 +13,7 @@ export default (store) => ({
     }, 'new')
   },
   childRoutes: [
-    NewTypeRoute(store)
+    NewTypeRoute(store),
+    NewImgsRoute(store)
   ]
 })

@@ -2,7 +2,18 @@
 
 .wm-expense-account-info {
   text-align: left;
-  > label {
-    padding-left: .05rem;
+  .total-cash {
+    @include fontStyle($rFontColor, .15rem, .21rem);
+    padding: .06rem .12rem;
+    margin: 0;
+    font-weight: normal;
+    span {
+      color: $warningColor;
+    }
+  }
+  .account-detail {
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+    background-color: $mainColor;
   }
 }

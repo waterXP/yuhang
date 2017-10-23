@@ -1,16 +1,22 @@
 @import '../../styles/baseStyle';
 
 .wm-input-text {
-  width: 100%;
-  font-size: .16rem;
+  padding: .1rem .12rem .06rem;
   text-align: left;
+  .form-label {
+    @include fontStyle($fontNameColor, .15rem, .21rem);
+    font-weight: normal;
+  }
+  .required {
+    color: $errorColor;
+  }
   input {
+    @include fontStyle($fontColor, .17rem, .24rem);
     width: 100%;
-    font-size: .14rem;
-    border-radius: 4px;
-    line-height: inherit;
+    padding: .12rem;
     border: 1px solid $borderColor;
-    padding: .04rem .1rem;
-    outline:none;
+    border-radius: .05rem;
+    outline: none;
+    z-index: 99999999;
   }
 }

@@ -1,0 +1,53 @@
+@import '../../styles/baseStyle';
+
+.wm-approval-search-info {
+  margin: 0 .12rem .08rem;
+  padding: .16rem .12rem;
+  border-radius: 5px;
+  background-color: $mainColor;
+  p { margin: 0; }
+  .user-info {
+    display: flex;
+    padding-bottom: .08rem;
+    align-items: center;
+    border-bottom: 1px solid $borderColor;
+  }
+  .avatar {
+    flex: none;
+    width: .4rem;
+    height: .4rem;
+    margin-right: .1rem;
+    border-radius: 50%;
+  }
+  .info {
+    flex: auto;
+    text-align: left;
+  }
+  .creater {
+    @include fontStyle($fontColor, .17rem, .24rem);
+  }
+  .dt, .approval-info {
+    @include fontStyle($lFontColor, .13rem, .18rem);
+  }
+  .approval-info {
+    > p {
+      display: flex;
+    }
+    p {
+      padding-top: .07rem;
+      text-align: left;
+    }
+    .info-label {
+      flex: none;
+      display: inline-block;
+      width: .66rem;
+      text-align: right;
+    }
+    .info-value {
+      flex: auto;
+      // @include ellipsis;
+      text-align: left;
+      word-break: break-all;
+    }
+  }
+}

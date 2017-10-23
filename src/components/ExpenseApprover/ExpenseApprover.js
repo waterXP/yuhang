@@ -6,15 +6,17 @@ const ExpenseApprover = ({ approvers }) => {
   return (
     <div className='wm-expense-approver'>
       <p>审批人</p>
-      { approvers && approvers.length > 0 && approvers.map((v, i) =>
-        <div className='approvers' key={v.id}>
-          <div className='approverInfo'>
-            <img className='avatar' src={v.avatar} />
-            <p>{ v.nickName }</p>
+      <div className='approve-list'>
+        { approvers && approvers.length > 0 && approvers.map((v, i) =>
+          <div className='approvers' key={v.id}>
+            <div className='approverInfo'>
+              <img className='avatar' src={v.avatar} />
+              <p className='nick-name'>{ v.nickName }</p>
+            </div>
+            { approvers.length !== i + 1 && <img className='next-flag' src='imgs/icon_next.png' /> }
           </div>
-          { approvers.length !== i + 1 && <i className='fa fa-arrow-right' /> }
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

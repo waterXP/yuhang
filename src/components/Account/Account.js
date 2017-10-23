@@ -4,13 +4,13 @@ import './Account.scss'
 
 class Account extends Component {
   static propTypes = {
-    chooseBankName: PropTypes.string
+    content: PropTypes.string
   }
 
   render () {
     return (
       <div className='wm-account'>
-        <label>账号</label><h6>{this.props.chooseBankName}</h6>
+        <p>{this.props.content}</p>
       </div>
     )
   }

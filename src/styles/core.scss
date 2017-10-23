@@ -26,10 +26,64 @@ a, a:focus, a:hover {
 }
 
 .container {
+  position: relative;
+  width: 100%;
+  height: 100%;
   padding: 0;
 }
 ul, ol, li {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.color-font {
+  color: $fontColor !important;
+}
+.color-correct {
+  color: $correctColor !important;
+}
+.color-warning {
+  color: $warningColor !important;
+}
+.color-error {
+  color: $errorColor !important;
+}
+.color-secondary {
+  color: $secondaryColor !important;
+}
+.color-r-font {
+  color: $rFontColor !important;
+}
+
+input, input:before, input:after {
+  -webkit-user-select: initial !important;
+  -khtml-user-select: initial !important;
+  -moz-user-select: initial !important;
+  -ms-user-select: initial !important;
+  user-select: initial !important;
+}
+
+ .wm-color-secondary {
+  color: #ccc;
+}
+
+.wm-color-primary {
+  color: #38adef;
+}
+
+.wm-color-correct {
+  color: #78c06e;
+}
+
+.wm-color-error {
+  color: #d81e06;
+}
+
+.wm-color-important {
+  color: #ff9642;
+}
+.loadMore{
+  padding: .06rem 0;
+  color: #ccc;
 }

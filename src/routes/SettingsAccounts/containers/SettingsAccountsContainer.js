@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { getAccounts, initialAccounts } from '../modules/SettingsAccounts'
+import { getAccounts, initialAccounts,
+  delAccounts } from '../modules/SettingsAccounts'
 
 import SettingsAccounts from '../components/SettingsAccounts'
 
@@ -9,6 +10,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getAccounts,
+  delAccounts,
   initialAccounts
 }
 

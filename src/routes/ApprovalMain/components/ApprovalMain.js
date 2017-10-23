@@ -38,9 +38,13 @@ class ApprovalMain extends Component {
     this.updateActive = this::this.updateActive
     this.setConditions = this::this.setConditions
     this.devClicks = this::this.devClicks
+    this.initial = this::this.initial
   }
 
   componentDidMount () {
+    this.initial() 
+  }
+  initial () {
     const { updateActive, query } = this.props
     updateActive(+query.active || 1)
     dingSetTitle('明快报销')
@@ -53,7 +57,7 @@ class ApprovalMain extends Component {
         text: '筛选'
       }],
       this.setConditions
-    )
+    )    
   }
   scrolled (e) {
     const { inBusy, isBusy, page, active, getList } = this.props
@@ -104,6 +108,7 @@ class ApprovalMain extends Component {
           handlerScroll={this.scrolled}
           pageEnd={pageEnd}
           isBusy={isBusy}
+          handleInitial={this.initial}
         />
       </div>
     )

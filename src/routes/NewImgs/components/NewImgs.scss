@@ -1,0 +1,26 @@
+@import '../../../styles/baseStyle';
+
+.wm-new-imgs {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: right;
+  background-color: #000;
+  img {
+    width: 100%;
+    max-height: calc(100% - 1.03rem);
+    margin: .2rem 0;
+  }
+  button {
+    @include fontStyle($mainColor, .17rem, .24rem);
+    margin: 0 .22rem .19rem;
+    padding: .1rem .28rem;
+    background-color: $errorColor;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+}

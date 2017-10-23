@@ -80,8 +80,8 @@ class ExpenseDetails extends Component {
           />
         )}
         <ConfirmButton
-          text=' 增加明细'
-          icon='fa-plus'
+          text='增加明细'
+          img='imgs/icon_add.png'
           handleClick={this.handleClick} />
       </div>
     )

@@ -1,24 +1,72 @@
 @import '../../styles/baseStyle';
 
 .wm-accounts-list {
-  padding: 0;
+  padding: 0.05rem .2rem 0;
   list-style-type: none;
   text-align: left;
-  span {
-    float: right;
-  }
   li {
-    border: 1px solid $defaultColor;
-    border-radius: 0.06rem;
-    margin: 0.06rem 0;
-    padding: 0.06rem;
-    background-color: $backColor;
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 38.8%;
+    margin: 0 auto .08rem;
+    border-radius: .05rem;
   }
-
-  .icon {
-    width: 0.3rem;
+  .cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .65);
+    border-radius: .05rem;
+  }
+  .circle {
+    position: absolute;
+    width: .22rem;
+    height: .22rem;
+    top: 15.38%;
+    right: 5.97%;
+    border: 1px solid #858f99;
     border-radius: 50%;
-    vertical-align: top;
-    margin: 0.1rem;
+    &.sel {
+      background-color: $activeColor;
+      i {
+        color: $mainColor;
+      }
+    }
+  }
+  .card {
+    display: inline-block;
+  }
+  p {
+    margin: 0;
+  }
+  .name {
+    @include fontStyle($mainColor, .17rem, .24rem);
+    position: absolute;
+    top: 9.23%;
+    left: 19.1%;
+  }
+  .type {
+    @include fontStyle($mainColor, .13rem, .18rem);
+    position: absolute;
+    top: 27.69%;
+    left: 19.1%;
+  }
+  .wm-account {
+    position: absolute;
+    top: 56.92%;
+    left: 19.1%;
+  }
+  .default {
+    @include fontStyle($mainColor, .13rem, .18rem);
+    position: absolute;
+    top: 7.69%;
+    right: 2.98%;
+    display: inline-block;
+    padding: .01rem .1rem;
+    background: rgba(255, 255, 255, .14);
+    border-radius: .05rem;
   }
 }

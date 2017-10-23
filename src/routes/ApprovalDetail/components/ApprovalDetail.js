@@ -14,9 +14,9 @@ class ApprovalDetail extends Component {
     isBusy: PropTypes.bool.isRequired
   }
 
-  constructor (props) {
-    super(props)
-    this.commentHandler = this.commentHandler.bind(this)
+  constructor () {
+    super(...arguments)
+    this.commentHandler = this::this.commentHandler
   }
 
   componentDidMount () {
@@ -38,6 +38,7 @@ class ApprovalDetail extends Component {
 
   render () {
     const { approvalDetail, query, isBusy, deleteExp } = this.props
+    const status = approvalDetail.master && approvalDetail.master.status
     if (approvalDetail && approvalDetail.master) {
       let { userName, deptName } = approvalDetail.master
       let title = ''
@@ -49,20 +50,20 @@ class ApprovalDetail extends Component {
       dingSetTitle(title)
       dingSetNavRight('')
     }
-    // console.log(deleteExp)
+    const reSubmit = approvalDetail.isMy && (status === 2 || status === 3)
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&
-            (+query.id === approvalDetail.master.expensesClaimId)
-            ? <Receipt
+          (+query.id === approvalDetail.master.expensesClaimId)
+          ? <Receipt
               data={approvalDetail}
               addComment={this.commentHandler}
               deleteExp={deleteExp}
               isBusy={isBusy}
-              type={approvalDetail.master.status === 2 ||
-                approvalDetail.master.status === 3 ? 4 : 0}
+              afterApproval={ status < 1 || status > 3 }
+              reSubmit={ reSubmit }
             />
-            : <NoData type='loading' />
+          : <NoData type='loading' />
         }
       </div>
     )

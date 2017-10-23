@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FormButton from '@/components/FormButton'
-import InputSearch from '@/components/InputSearch'
+import SearchForm from '@/components/SearchForm'
 import UserList from '@/components/UserList'
-import { fetchData, toast, goLocation, dingSetTitle } from '@/lib/base'
+import UserInfo from '@/components/UserInfo'
+import Shortcut from '@/components/Shortcut'
+import { fetchData, toast, goLocation, dingSetTitle,
+  checkCharacter, compareCharacter } from '@/lib/base'
 import NoData from '@/components/NoData'
 import './SettingsAdministrator.scss'
 
@@ -19,13 +22,26 @@ class SettingsAdministrator extends Component {
       setAdmin: '',
       setId: '',
       isBusy: true,
-      keyword: ''
+      keyword: '',
+      shortcut: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').map((v) =>
+        ({ letter: v, pos: 0 })
+      ),
+      adminInfo: {},
+      orderedList: [],
+      text: ''
     }
     this.getAdminList = this::this.getAdminList
     this.handleClick = this::this.handleClick
     this.setAdmin = this::this.setAdmin
     this.gotoSettings = this::this.gotoSettings
     this.handleChange = this::this.handleChange
+    this.inBusy = this::this.inBusy
+    this.clearKeyword = this::this.clearKeyword
+    this.orderByPY = this::this.orderByPY
+    this.toPos = this::this.toPos
+    this.setPos = this::this.setPos
+    this.getOrderList = this::this.getOrderList
+    this.filterKeyword = this::this.filterKeyword
   }
   componentDidMount () {
     dingSetTitle('设置超管')
@@ -61,13 +77,15 @@ class SettingsAdministrator extends Component {
         if (v.superManDingId) {
           dingSetTitle('变更超管')
         }
+        this.getOrderList()
+        this.setPos()
       } else {
         toast(v.msg)
       }
     })
   }
-  handleClick () {
-    const { admin, setAdmin, setId } = this.state
+  handleClick (setAdmin, setId) {
+    const { admin } = this.state
     if (admin !== setAdmin && setAdmin !== '' && setId) {
       this.setState({
         isBusy: true
@@ -98,36 +116,174 @@ class SettingsAdministrator extends Component {
         setAdmin: v.dingid,
         setId: v.id
       })
+      this.handleClick(v.dingid, v.id)
     }
+    // this.handleClick()
   }
   gotoSettings () {
     const { setStep } = this.props
-    setStep('fin')
-    window.history.back()
-    // goLocation({
-    //   pathname: '/settings',
-    //   query: { state: 'fin' }
-    // })
+    this.setState({
+      text: '设置成功'
+    })
+    setTimeout((v) => {
+      setStep('fin')
+      window.history.back()
+    }, 1500)
+  }
+  inBusy (isBusy = false) {
+    this.setState({ isBusy })
+  }
+  clearKeyword () {
+    this.setState({ keyword: '' })
+  }
+  orderByPY () {
+    const { list, setAdmin } = this.state
+    const letters = '*abcdefghjklmnopqrstwxyz'.split('');
+    const zh = '阿八嚓哒妸发旮哈讥咔垃麻拏噢妑七呥扨它穵夕丫帀'.split('');
+    let r = []
+    let _list = [...list]
+    let adminInfo
+    letters.forEach((l, i) => {
+      const arr = { letter: l.toUpperCase(), data: [] }
+      for (let index = _list.length - 1; index > -1; index--) {
+        const v = _list[index]
+        if (v.dingid === setAdmin) {
+          adminInfo = v
+        } else {
+          const d = v.nickName
+          const tp = checkCharacter(d)
+          if (i === 0 && tp === 3) {
+            arr.data.push(v)
+            _list.splice(index, 1)
+          } else {
+            switch (tp) {
+              case 1:
+                if (d.charAt(0).toLowerCase() === l) {
+                  arr.data.push(v)
+                  _list.splice(index, 1)
+                }
+                break
+              case 2:
+                if ((!zh[i - 1] ||
+                  zh[i - 1].localeCompare(d, 'zh') <= 0) &&
+                  d.localeCompare(zh[i], 'zh') === - 1) {
+                  arr.data.push(v)
+                  _list.splice(index, 1)
+                }
+            }
+          }
+        }
+      }
+      if (arr.data.length) {
+        r.push(arr)
+        arr.data.sort((a, b) => {
+          return compareCharacter(a.nickName, b.nickName)
+        })
+      }
+    })
+    if (r[0].letter === '*') {
+      r[0].letter = '#'
+      r = [...r.slice(1), r[0]]
+    }
+    return { adminInfo, orderedList: r}
+  }
+  getOrderList () {
+    const { adminInfo, orderedList } = this.orderByPY()
+    this.setState({
+      adminInfo,
+      orderedList
+    })
+  }
+  toPos (pos) {
+    this.listRef.scrollTop = pos
+  }
+  setPos () {
+    let shortcut = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').map((v) =>
+      ({ letter: v, pos: 0 })
+    )
+
+    let curPos = this.adminRef ? this.adminRef.offsetHeight || 0 : 0
+    let sub = this.adminRef ? this.adminRef.offsetTop || 0 : 0
+    shortcut.forEach((v) => {
+      if (this.posRef[v.letter]) {
+        v.pos = curPos
+        curPos = v.pos + this.posRef[v.letter].offsetHeight
+      } else {
+        v.pos = curPos
+      }
+    })
+    this.setState({ shortcut })
+  }
+  filterKeyword () {
+    const { keyword, orderedList } = this.state
+    let r = []
+    orderedList.forEach((v) => {
+      v.data.forEach((v) => {
+        if (v.nickName.indexOf(keyword) > -1) {
+          r.push(v)
+        }
+      })
+    })
+    return [{ letter: '#', data: r }]
   }
   render () {
-    const { list, setAdmin, isBusy, keyword } = this.state
+    const { list, setAdmin, isBusy, keyword, shortcut,
+      adminInfo, orderedList, text } = this.state
+    const showList = !keyword ? orderedList : this.filterKeyword(orderedList)
+    this.posRef = {}
+    
     return (
       <div className='wm-settings-administrator'>
         { isBusy && <NoData type='loading' cover /> }
-        <InputSearch handleChange={this.handleChange} />
-        <UserList
-          title='钉钉管理员列表'
-          list={list}
-          admin={setAdmin}
-          setAdmin={this.setAdmin}
-          keyword={keyword}
+        { text && <NoData className='toast' text={text} /> }
+        { !isBusy && !keyword &&
+          <Shortcut toTop content={shortcut} handleClick={this.toPos} />
+        }
+        <SearchForm
+          inBusy={this.inBusy}
+          submitHandler={this.handleChange}
+          placeholder='搜索'
+          cancelHandler={this.clearKeyword}
+          hiddenButton
         />
-        <div className='confirm-btn'>
-          <FormButton
-            onClick={this.handleClick}
-            text='确认'
-            disabled={!setAdmin}
-          />
+        <div className='user-list' ref={(e) => this.listRef = e}>
+          {
+            (!keyword || adminInfo.nickName.indexOf(keyword) > -1) &&
+              <div
+                className={
+                  `admin${keyword && showList[0].data.length > 0
+                    ? ' bottom'
+                    : ''}`
+                }
+                ref={(e) => this.adminRef = e}>
+                {
+                  adminInfo && adminInfo.nickName && !keyword &&
+                    <p className='tips'>已选择的超管(只能一个)</p>
+                }
+                {
+                  adminInfo && adminInfo.nickName &&
+                    <UserInfo
+                      name={adminInfo.nickName}
+                      avatar={adminInfo.avatar}
+                      isAdmin
+                      keyword={keyword}
+                    />
+                }
+              </div>
+          }
+          {
+            showList.map((v) =>
+              <UserList
+                key={v.letter}
+                title={v.letter}
+                setAdmin={this.setAdmin}
+                list={v.data}
+                pos={(e) => this.posRef[v.letter] = e}
+                showTitle={!keyword}
+                keyword={keyword}
+              />
+            )
+          }
         </div>
       </div>
     )

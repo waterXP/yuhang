@@ -2,16 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormLabel from '../FormLabel'
 import FormSelect from '../FormSelect'
+import './ExpenseUserInfo.scss'
 
 export const ExpenseUserInfo = ({ name, deptName, departChange, type }) => {
   return (
-    <div>
+    <div className='wm-expense-user-info'>
       <FormLabel text='报销人' name='name' value={name} />
       <FormSelect
         text='部门'
         name='deptName'
         value={deptName}
-        iconRight={type < 2 ? 'fa-angle-right' : ''}
+        imgRight={type < 2 ? 'imgs/icon_arrow.png' : ''}
         clickHandler={departChange}
       />
     </div>

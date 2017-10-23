@@ -1,11 +1,27 @@
 @import '../../styles/baseStyle';
 
 .wm-confirm-button {
+  @include fontStyle($activeColor, .17rem, .24rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  color: $activeColor;
-  background-color: $backColor;
-  height: .5rem;
+  padding: .16rem;
+  border-top: 1px solid $borderColor;
+  border-bottom: 1px solid $borderColor;
+  background-color: $mainColor;
   &:focus, &:hover {
-    color: $activeHoverColor;
+    color: $activeColor;
+  }
+  .img-icon {
+    flex: none;
+    display: inline-block;
+    width: .16rem;
+    margin: .04rem .08rem .04rem 0;
+  }
+  span {
+    flex: none;
+    height: .24rem;
+    padding-top: .02rem;
   }
 }

@@ -27,10 +27,11 @@
       margin-top: .1rem;
     }
   }
-  .list-cell > span {
+  .list-cell > span, .list-cell > div {
     flex: 1;
     display: inline-block;
     text-align: left;
+    overflow: hidden;
     &.tm {
       flex: none;
       margin-right: .33rem;
@@ -45,15 +46,23 @@
       }
     }
     &.info {
-      @include fontStyle($warningColor, .17rem, .24rem);
-      flex: 1.5 1 auto;
+      // flex: auto;
       margin-right: .17rem;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      p {
+        margin: 0;
+      }
+      .name {
+        @include fontStyle($fontNameColor, .17rem, .24rem);
+        @include ellipsis;
+      }
+      .status {
+        @include fontStyle($warningColor, .13rem, .18rem);
+      }
     }
     &.bill {
+      // flex: auto;
       @include fontStyle($fontNameColor, .16rem, .19rem);
+      @include ellipsis;
       margin-right: .2rem;
     }
     &.flag {

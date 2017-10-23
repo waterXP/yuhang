@@ -6,62 +6,129 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: $btnBackColor;
-  padding: $panelPadding;
-  overflow: auto;
   z-index: 1;
-  .search {
-    margin-bottom: .1rem;
-  }
-  button {
-    font-size: .16rem;
-    padding: .02rem 0;
-    width: .34rem;
-    height: .22rem;
-    color: $activeColor;
-    border: none;
-    vertical-align: bottom;
-    background-color: transparent;
-  }
-  input {
-    width: calc(100% - .56rem);
-    height: .22rem;
-    background-color: $backColor;
-    border: none;
-  }
-  i.fa-search {
-    width: .22rem;
-    line-height: .22rem;
-    background-color: $backColor;
-    vertical-align: bottom;
-  }
-  li {
-    position: relative;
+  .title {
+    @include fontStyle($activeColor, .15rem, .21rem);
+    margin: 0;
+    padding: .03rem .12rem;
     text-align: left;
-    font-size: .16rem;
-    line-height: .24rem;
-    padding: .04rem .14rem;
-    background-color: $backColor;
-    border-bottom: 1px solid $borderColorSecondary;
-    i {
-      position: absolute;
-      right: .08rem;
-      font-size: .24rem;
-      line-height: .24rem;
-    }
-    &.active {
-      color: $backColor;
-      background-color: $activeColor;
-      i {
-        color: $backColor;
+  }
+  .all-list {
+    top: .71rem;
+    & > li {
+      border-top: 1px solid $borderColor;
+      border-bottom: 1px solid $borderColor;
+      background-color: $mainColor; 
+      & + li {
+        margin-top: .08rem;
       }
     }
-    &.return {
-      margin-bottom: .08rem;
+  }
+  .level-1:last-child > .type-info {
+    border-bottom: none;
+  }
+  .level-1 + ul > li:last-child {
+    & > .level-2:last-child > .type-info, & > ul {
+      border-bottom: none;      
+    }
+  }
+  .level-2 + ul {
+    border-bottom: 1px solid $borderColor;
+  }
+  .type-info {
+    display: flex;
+    align-items: center;
+    padding: .12rem 0;
+    border-bottom: 1px solid $borderColor;
+    > .name {
+      @include fontStyle($fontColor, .17rem, .24rem);
+      flex: auto;
+      text-align: left;
+    }
+    > .icon {
+      flex: none;
+      width: .08rem;
+      height: .13rem;
+      margin-right: .12rem;
+      &.opened {
+        margin-right: .095rem;
+        width: .13rem;
+        height: .08rem;
+      }
+    }
+  }
+  .level-1 > .type-info {
+    margin-left: .2rem;
+  }
+  .level-2 > .type-info {
+    margin-left: .38rem;
+    > .name {
+      color: $fontNameColor;
+    }
+  }
+  .level-1.active, .level-2.active {
+    background-color: rgba(21, 180, 241, .20);
+    .name {
+      color: $activeColor;
+    }
+  }
+  .level-2 + ul {
+    margin-left: .38rem;
+    padding: .18rem .07rem .11rem .1rem;
+    text-align: left;
+    li {
+      display: inline-block;
+      & + li {
+        margin-top: 0;
+      }
+    }
+    .name {
+      @include fontStyle($fontNameColor, .15rem, .21rem);
+      padding: .08rem .075rem;
+    }
+  }
+  .level-3 {
+    .type-info {
+      margin: 0 .1rem .16rem;
+      padding: 0;
+      background-color: $secondarySecondColor;
       border-bottom: none;
-      i {
+      border-radius: .05rem;
+    }
+    &.active .type-info {
+      background-color: rgba(21, 180, 241, .20);
+      .name {
         color: $activeColor;
-        font-size: .18rem;
+      }
+    }
+  }
+  .content > ul {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+  }
+  .search-list {
+    top: .52rem;
+    background-color: $mainColor;
+    li {
+      display: flex;
+      margin: 0;
+      border: none;
+      > span {
+        @include fontStyle($fontColor, .17rem, .24rem);
+        flex: auto;
+        margin-left: .12rem;
+        padding: .12rem 0;
+        border-bottom: 1px solid $borderColor;
+        text-align: left;
+      }
+      &.active {
+        background-color: rgba(21, 180, 241, .20);
+        span {
+          color: $activeColor;
+        }
       }
     }
   }

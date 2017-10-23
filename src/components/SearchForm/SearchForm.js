@@ -7,8 +7,9 @@ class SearchForm extends Component {
   static propTypes = {
     inBusy: PropTypes.func,
     submitHandler: PropTypes.func,
-    btnLink: PropTypes.string,
-    placeholder: PropTypes.string
+    cancelHandler: PropTypes.func,
+    placeholder: PropTypes.string,
+    hiddenButton: PropTypes.bool
   }
   constructor (props) {
     super(props)
@@ -16,16 +17,19 @@ class SearchForm extends Component {
       tm: null,
       dirty: false
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.clean = this.clean.bind(this)
-    this.getList = this.getList.bind(this)
+    this.handleChange = this::this.handleChange
+    this.clean = this::this.clean
+    this.getList = this::this.getList
+    this.handleCancel = this::this.handleCancel
   }
   handleChange (e) {
+    const { inBusy } = this.props
     const v = e.target.value
     this.setState({ dirty: !!v })
-    this.getList(v)
+    this.getList(v, v === '')
   }
   clean () {
+    const { inBusy } = this.props
     this.refs.searchInput.value = ''
     this.getList('', true)
     this.setState({ dirty: false })
@@ -37,6 +41,7 @@ class SearchForm extends Component {
       clearTimeout(tm)
     }
     if (immediately) {
+      inBusy(false)
       submitHandler(v)
       this.setState({
         tm: 0
@@ -54,8 +59,12 @@ class SearchForm extends Component {
       }
     }
   }
+  handleCancel () {
+    this.clean()
+    this.props.cancelHandler()
+  }
   render () {
-    const { btnLink, placeholder } = this.props
+    const { placeholder, cancelHandler, hiddenButton } = this.props
     const { dirty } = this.state
     return (
       <div className='wm-search-form'>
@@ -68,7 +77,7 @@ class SearchForm extends Component {
           onChange={this.handleChange}
         />
         { dirty && <i className='fa fa-times-circle' onClick={this.clean} /> }
-        <Link to={btnLink}>取消</Link>
+        { (!hiddenButton || dirty) && <a onClick={this.handleCancel}>取消</a> }
       </div>
     )
   }

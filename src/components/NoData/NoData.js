@@ -12,7 +12,7 @@ class NoData extends Component {
     cover: PropTypes.bool
   }
   render () {
-    const { text, imgsrc, icon, type, size, cover } = this.props
+    const { text, imgsrc, icon, type, size, cover, className } = this.props
     let showText = text
     let showIcon = icon
     let showImg = imgsrc
@@ -36,13 +36,20 @@ class NoData extends Component {
       case 'inDev':
         showText = text || '正在开发中……'
         showImg = 'imgs/in_dev.png'
+        break
+      case 'success':
+        showImg = 'imgs/success.png'
     }
     return (
-      <div className={`no-data${size ? ' ' + size : ''}${cover ? ' cover' : ''}${type ? ' ' + type : ''}`}>
+      <div className={
+        `no-data${size ? ' ' + size : ''}\
+        ${cover ? ' cover' : ''}${type ? ' ' + type : ''}\
+        ${className ? ' ' + className : ''}`
+      }>
         <div className='box'>
           { showImg
             ? <img src={showImg} />
-            : <i className={`fa ${showIcon || 'fa-smile-o'}`} />
+            : showIcon && <i className={`fa ${showIcon}`} />
           }
           { showText && <p>{ showText }</p> }
         </div>

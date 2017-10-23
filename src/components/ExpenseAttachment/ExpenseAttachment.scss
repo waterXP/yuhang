@@ -1,40 +1,50 @@
 @import '../../styles/baseStyle';
 
 .wm-expense-attachment {
-  @include form-control;
-  button, .img {
-    display: inline-block;
-    width: .5rem;
-    height: .5rem;
-    margin: .05rem;
+  text-align: left;
+  p {
+    @include fontStyle($rFontColor, .15rem, .21rem);
+    margin: 0;
+    padding: .06rem .12rem;
   }
-  .fa-plus {
-    font-size: .4rem;
+  .list {
+    padding: .06rem;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+    background-color: $mainColor;
+  }
+  button, .img, .add-img {
+    display: inline-block;
+    width: .78rem;
+    height: .78rem;
+    margin: .1rem;
+  }
+  .img img {
+    width: .78rem;
+    height: .78rem;
+  }
+  .add-img {
+    margin: 0;
   }
   .fa-times {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -.05rem;
+    right: -.05rem;
+    width: .14rem;
     border-radius: 50%;
     background-color: $defaultColor;
     font-size: .12rem;
     color: $backColor;
+    text-align: center;
     padding: .01rem;
   }
   button {
-    border: 1px dashed $borderColorSecondary;
+    padding: 0;
+    border: none;
+    border-radius: 0;
     background-color: transparent;
-    text-align: center;
-    vertical-align: top;
   }
   .img {
     position: relative;
-    padding: .05rem;
-    border: 1px solid transparent;
   }
-  img {
-    width: .4rem;
-    height: .4rem;
-  }
-  padding-bottom: .15rem;
 }

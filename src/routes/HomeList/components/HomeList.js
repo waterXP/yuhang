@@ -15,25 +15,13 @@ class HomeList extends Component {
       type: 0,
       text: ''
     }
+    this.initial = this::this.initial
     this.scrollHandler = this::this.scrollHandler
     this.getOffsetHeight = this::this.getOffsetHeight
     this.deleteExp = this::this.deleteExp
   }
   componentWillMount () {
-    this.type = parseInt(this.props.location.query.type)
-    const { initialApprove, getApproveList,
-      getSumMoney, isLoading, location } = this.props
-    const type = +location.query.type
-    this.setState({ type })
-    initialApprove()
-    getApproveList(1, false, type)
-    if (type === 1) {
-      getSumMoney(1)
-    } else if (type === 2) {
-      getSumMoney(2)
-    }
-
-    isLoading()
+    this.initial()
   }
   componentDidMount () {
     const { type } = this.state
@@ -59,7 +47,21 @@ class HomeList extends Component {
   }
   componentWillUnmount () {
     this.props.initialApprove()
-    console.log(this)
+  }
+  initial () {
+    this.type = parseInt(this.props.location.query.type)
+    const { initialApprove, getApproveList,
+      getSumMoney, isLoading, location } = this.props
+    const type = +location.query.type
+    this.setState({ type })
+    initialApprove()
+    getApproveList(1, false, type)
+    if (type === 1) {
+      getSumMoney(1)
+    } else if (type === 2) {
+      getSumMoney(2)
+    }
+    isLoading()    
   }
   getOffsetHeight (approveList, topics) {
     let height = 0
@@ -133,7 +135,9 @@ class HomeList extends Component {
           noMore={noMore}
           approveSumMoney={approveSumMoney}
           type={type}
-          corpId={corpId} />
+          corpId={corpId}
+          handleInitial={this.initial}
+        />
         break
       case 2 :
         switchList = <HomeNotPaid

@@ -3,10 +3,47 @@ import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
 import { fetchData, goLocation, toast, regPhone, regMail, dingSetTitle } from '@/lib/base'
+import { isDev } from '@/config'
+import DevButtons from '@/components/DevButtons'
 
 class SettingsEditAlipay extends Component {
   static propTypes = {
     query: PropTypes.object.isRequired
+  }
+
+  constructor () {
+    super(...arguments)
+    this.deleteAccount = this::this.deleteAccount
+    this.devClicks = this::this.devClicks
+  }
+  componentDidMount () {
+    let title = ''
+    if (this.props.query.id && !this.props.query.from) {
+      title = '编辑支付宝'
+    } else {
+      title = '新增支付宝'
+    }
+    dingSetTitle(title)
+  }
+
+  deleteAccount () {
+    confirm('确定要删除选择的银行卡吗？', '', () => {
+      const id = +this.props.query.id
+      fetchData('get /userAccounts/deleteMyAccount.json', { id })
+      .then((data) => {
+        if (data.result === 0) {
+          window.history.back()
+          // goLocation({
+          //   pathname: '/settings/accounts'
+          // })
+        } else {
+          toast(data.msg)
+        }
+      })
+    })
+  }
+  devClicks () {
+    this.deleteAccount()
   }
 
   updateAccount = (val) => {
@@ -50,34 +87,30 @@ class SettingsEditAlipay extends Component {
             }
           })
         } else {
-          goLocation({
-            pathname: '/settings/accounts'
-          })
+          window.history.back()
+          // goLocation({
+          //   pathname: '/settings/accounts'
+          // })
+
         }
       } else {
         toast(data.msg)
       }
     })
   }
-  componentDidMount () {
-    let title = ''
-    if (this.props.query.id) {
-      title = '编辑支付宝'
-    } else {
-      title = '新增支付宝'
-    }
-    dingSetTitle(title)
-  }
   render () {
     const { query } = this.props
     return (
-      <AccountEditForm
-        className='wm-settings-edit-alipay'
-        onSubmit={this.updateAccount}
-        type={2}
-        targetId={query.id}
-        fromPage={query.from || ''}
-      />
+      <div>
+        { isDev && query.id && !query.from && <DevButtons titles={['删除']} handleClick={this.devClicks} />}
+        <AccountEditForm
+          className='wm-settings-edit-alipay'
+          onSubmit={this.updateAccount}
+          type={2}
+          targetId={query.from ? 0 : +query.id}
+          fromPage={query.from || ''}
+        />
+      </div>
     )
   }
 }

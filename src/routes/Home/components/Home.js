@@ -45,7 +45,7 @@ class Home extends Component {
     const { rBtns, lBtns } = this
     const children = this.props.children
     return (children
-      ? <div>{children}</div>
+      ? <div className='wm-home'>{children}</div>
       : <div className='wm-home'>
         <RowButtons btns={rBtns} clickHandler={this.clickHandler} />
         <ListButtons btns={lBtns} clickHandler={this.clickHandler} />

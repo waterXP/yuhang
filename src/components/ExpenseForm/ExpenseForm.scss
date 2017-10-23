@@ -1,10 +1,10 @@
 @import '../../styles/baseStyle';
 
 .wm-expense-form {
-  >div + div, >button + div {
-    margin-top: .2rem;
+  > div + div {
+    margin-top: .1rem;
   }
-  >div + div.wm-block-buttons {
+  > div + .wm-modal-select {
     margin-top: 0;
   }
   .wm-expense-detail-info + .wm-expense-detail-info, .wm-confirm-button {
@@ -12,5 +12,8 @@
   }
   button:focus, textarea:focus, input:focus {
     outline: none;
+  }
+  > div + .wm-block-buttons {
+    margin-top: .12rem;
   }
 }

@@ -10,6 +10,7 @@ class FormLink extends Component {
     icon: PropTypes.string,
     value: PropTypes.string,
     iconRight: PropTypes.string,
+    imgRight: PropTypes.string,
     clickHandler: PropTypes.func
   }
   clickHandler (name) {
@@ -20,7 +21,7 @@ class FormLink extends Component {
   }
 
   render () {
-    const { text, name, icon, iconRight, value } = this.props
+    const { text, name, icon, iconRight, imgRight, value } = this.props
     return (
       <div className='wm-form-link'>
         <label>{text}</label>
@@ -35,6 +36,7 @@ class FormLink extends Component {
           {iconRight && ' '}
           {iconRight && <i className={`fa ${iconRight} wm-color-secondary`} />}
         </Field>
+        {imgRight && <img className='img-right' src={imgRight} />}
       </div>
     )
   }

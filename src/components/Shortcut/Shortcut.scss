@@ -1,0 +1,15 @@
+@import '../../styles/baseStyle';
+
+.wm-shortcut {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 0;
+  right: .05rem;
+  bottom: 0;
+  z-index: 1;
+  span {
+    @include fontStyle($fontNameColor, .12rem, .16rem);
+  }
+}

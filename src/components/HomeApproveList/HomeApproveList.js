@@ -3,6 +3,7 @@ import HomeApproveTotal from '../HomeApproveTotal'
 import HomeApproveListCell from './HomeApproveListCell'
 import PropTypes from 'prop-types'
 import './HomeApproveList.scss'
+
 class HomeApproveList extends Component {
   componentDidMount () {
     this.props.getOffsetHeight(this.refs.approveList, this.topics)
@@ -12,7 +13,7 @@ class HomeApproveList extends Component {
   }
   render () {
     const { approve, noMore, approveSumMoney,
-      type, corpId } = this.props
+      type, corpId, handleInitial } = this.props
     const sumMoney = approveSumMoney || 0
     let lists = []
     let currentMonth = ''
@@ -34,6 +35,7 @@ class HomeApproveList extends Component {
             key={i}
             approve={v}
             corpId={corpId}
+            handleInitial={handleInitial}
           />
         )
       })
@@ -49,12 +51,13 @@ class HomeApproveList extends Component {
 }
 
 HomeApproveList.propTypes = {
-  approve:PropTypes.object,
-  noMore:PropTypes.bool,
-  approveSumMoney:PropTypes.number,
-  type:PropTypes.number,
-  getOffsetHeight:PropTypes.func,
-  corpId:PropTypes.string
+  approve: PropTypes.object,
+  noMore: PropTypes.bool,
+  approveSumMoney: PropTypes.number,
+  type: PropTypes.number,
+  getOffsetHeight: PropTypes.func,
+  corpId: PropTypes.string,
+  handleInitial: PropTypes.func
 }
 
 export default HomeApproveList

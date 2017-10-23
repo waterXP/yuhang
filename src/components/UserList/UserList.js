@@ -9,19 +9,17 @@ class UserList extends Component {
     title: PropTypes.string,
     list: PropTypes.array,
     admin: PropTypes.string,
+    showTitle: PropTypes.bool,
     keyword: PropTypes.string
   }
 
   setAdmin = (id) => () => this.props.setAdmin(id)
   render () {
-    const { title, list, admin, keyword } = this.props
+    const { title, list, admin, pos, showTitle, keyword } = this.props
     let datas = list
-    if (keyword) {
-      datas = list.filter((v) => ~v.nickName.indexOf(keyword))
-    }
     return (
-      <ul className='wm-user-list'>
-        <li className='title'>{title}</li>
+      <ul className={`wm-user-list${showTitle ? '': ' in-search'}`} ref={pos}>
+        { showTitle && <li className='title'>{title}</li> }
         {
           datas.map((v) =>
             <li key={v.id} onClick={this.setAdmin(v)}>
@@ -29,6 +27,7 @@ class UserList extends Component {
                 name={v.nickName}
                 avatar={v.avatar}
                 isAdmin={admin === v.dingid}
+                keyword={keyword}
               />
             </li>
           )

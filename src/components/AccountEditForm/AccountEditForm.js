@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { reduxForm, initialize } from 'redux-form'
 import InputText from '../InputText'
 import FormButton from '../FormButton'
 import { fetchData, goLocation, toast } from '@/lib/base'
@@ -9,26 +8,29 @@ import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
   static propTypes = {
-    targetId: PropTypes.string,
-    dispatch: PropTypes.func,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
+    targetId: PropTypes.any,
     type: PropTypes.number,
     onSubmit: PropTypes.func,
     fromPage: PropTypes.string
   }
   constructor () {
     super()
-    this.initial = this.initial.bind(this)
+    this.initial = this::this.initial
+    this.setValue = this::this.setValue
+    this.checkValidate = this::this.checkValidate
+    this.handleSubmit = this::this.handleSubmit
     this.state = {
       account: 0,
-      oldChooseBankName: 0
+      oldChooseBankName: 0,
+      data: {},
+      params: {},
+      defaultCard: 0
     }
   }
   componentDidMount () {
-    if (this.props.targetId) {
-      this.initial(this.props.targetId)
+    const { targetId } = this.props
+    if (targetId) {
+      this.initial(targetId)
     }
   }
 
@@ -36,10 +38,12 @@ class AccountEditForm extends Component {
     fetchData('get /userAccounts/updateMyAccount.json', { id })
     .then((data) => {
       if (!data.result) {
-        this.props.dispatch(initialize('accountEditForm', data.data, true))
         this.setState({
-          account: data.data.account,
-          oldChooseBankName: data.data.chooseBankName
+          oldAccount: data.data.account,
+          oldChooseBankName: data.data.chooseBankName,
+          data: { ...data.data },
+          params: { ...data.data },
+          defaultCard: data.data.isDefault
         })
       } else {
         toast(data.msg)
@@ -47,101 +51,123 @@ class AccountEditForm extends Component {
     })
   }
 
-  deleteAccount (id) {
-    fetchData('get /userAccounts/deleteMyAccount.json', { id })
-    .then((data) => {
-      if (data.result === 0) {
-        goLocation({
-          pathname: '/settings/accounts'
-        })
-      } else {
-        toast(data.msg)
-      }
+  checkValidate () {
+    const { type } = this.props
+    const { params } = this.state
+    if (
+      !params.name ||
+      !params.chooseBankName ||
+      (
+        type === 1 &&
+        (
+          !params.bankName ||
+          !params.bankBranchName
+        )
+      )
+    ) {
+      return false
+    }
+    return true
+  }
+
+  setValue (e) {
+    const el = e.target
+    this.setState((prevState) => {
+      const tm = Object.assign(
+        {}, prevState, {
+          params: Object.assign(
+            {}, prevState.params, { [el.name]: el.value }
+          )
+        }
+      )
+      return tm
     })
   }
-  deleteHandle (id) {
-    return () => this.deleteAccount(id)
+
+  handleSubmit (isDefault) {
+    return () => {
+      const { oldAccount, oldChooseBankName, params, defaultCard } = this.state
+      const { fromPage, onSubmit } = this.props
+      onSubmit({
+        ...params,
+        isDefault: defaultCard || isDefault,
+        oldAccount,
+        oldChooseBankName,
+        fromPage,
+        defaultCard
+      })
+    }
   }
 
   render () {
-    const { handleSubmit, pristine, submitting, type,
-      onSubmit, targetId, fromPage } = this.props
+    const { type, onSubmit, targetId, fromPage } = this.props
+    const { data } = this.state
+    // console.log(data.name)
     const isBankAccount = type === 1
     let oldAccount = this.state.account
     let oldChooseBankName = this.state.oldChooseBankName
+    const valid = this.checkValidate()
     return (
-      <form className='wm-account-edit-form' onSubmit={handleSubmit}>
+      <form className='wm-account-edit-form'>
         <InputText
-          label='姓名'
+          label='银行名称'
           name='name'
-          id='field-name'
           maxLength='30'
+          handleChange={this.setValue}
+          defaultValue={data.name}
         />
         <InputText
           label='账号'
           name='chooseBankName'
-          id='field-chooseBankName'
           maxLength={isBankAccount ? 22 : 50}
+          required={true}
+          handleChange={this.setValue}
+          defaultValue={data.chooseBankName}
         />
         {isBankAccount &&
           <InputText
             label='银行名称'
             name='bankName'
-            id='field-bank-name'
             maxLength='50'
+            required={true}
+            handleChange={this.setValue}
+            defaultValue={data.bankName}
           />
         }
         {isBankAccount &&
           <InputText
-            label='开户行名称'
+            label='开户行'
             name='bankBranchName'
-            id='field-bank-branch-name'
             maxLength='50'
+            required={true}
+            handleChange={this.setValue}
+            defaultValue={data.bankBranchName}
           />
         }
         {isBankAccount &&
           <InputText
             label='开户行行号'
             name='bankCode'
-            id='field-bank-code'
             maxLength='20'
+            handleChange={this.setValue}
+            defaultValue={data.bankCode}
           />
         }
-        <FormButton
-          disabled={pristine || submitting}
-          text='保存为默认'
-          onClick={handleSubmit(values =>
-            onSubmit({
-              ...values,
-              oldAccount,
-              oldChooseBankName,
-              fromPage,
-              isDefault: 1
-            })
-          )} />
-        <FormButton
-          disabled={pristine || submitting}
-          text='保存'
-          onClick={handleSubmit(values =>
-            onSubmit({
-              ...values,
-              oldAccount,
-              oldChooseBankName,
-              fromPage,
-              isDefault: 0
-            })
-          )} />
-        {targetId && <FormButton
-          disabled={pristine || submitting}
-          text='删除'
-          onClick={this.deleteHandle(targetId)} />}
+        <div className='btns'>
+          <FormButton
+            disabled={!valid}
+            text='保存'
+            onClick={this.handleSubmit(0)}
+          />
+          <FormButton
+            disabled={!valid}
+            text='保存为默认'
+            onClick={this.handleSubmit(1)}
+          />
+        </div>
       </form>
     )
   }
 }
 
-export default connect(
-  state => ({ initialValues: {} })
-)(reduxForm({
-  form: 'accountEditForm'
-})(AccountEditForm))
+export default AccountEditForm

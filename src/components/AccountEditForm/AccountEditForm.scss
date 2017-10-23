@@ -1,7 +1,27 @@
 @import '../../styles/baseStyle';
 
 .wm-account-edit-form {
-  padding: $panelPadding;
-  padding-bottom: 0.3rem;
-  background-color: #eee;
+  .btns {
+    padding: .24rem .12rem .12rem;
+    .wm-form-button, .wm-form-button:hover {
+      @include fontStyle($mainColor, .17rem, .24rem);
+      padding: .12rem;
+      border-radius: .05rem;
+      &:first-child {
+        background-color: $activeColor;
+        border: 1px solid $activeColor;
+      }
+      &:nth-child(2) {
+        color: $activeColor;
+        background-color: $mainColor;
+        border: 1px solid $activeColor;
+      }
+    }
+    .wm-form-button[disabled], .wm-form-button[disabled]:hover {
+      color: $fontColor;
+      background-color: $borderColor;
+      border: 1px solid $borderColor;
+      opacity: 1;
+    }
+  }
 }

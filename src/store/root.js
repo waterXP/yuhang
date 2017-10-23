@@ -2,6 +2,8 @@ import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from '@/lib/base'
 import config, { dd } from '@/config'
 
 export const GET_CONFIG = 'GET_CONFIG'
+export const SET_STEP = 'SET_STEP'
+export const IN_BUSY = 'IN_BUSY'
 
 export const getConfig = (url) => {
   return (dispatch, getState) => {
@@ -34,8 +36,24 @@ export const getConfig = (url) => {
   }
 }
 
+export const setStep = (step = '') => {
+  return {
+    type: SET_STEP,
+    step
+  }
+}
+
+export const inBusy = (isBusy = true, clearStep) => {
+  return {
+    type: IN_BUSY,
+    isBusy,
+    clearStep
+  }
+}
+
 export const actions = {
-  getConfig
+  getConfig,
+  setStep
 }
 
 const ACTION_HANDLERS = {
@@ -108,10 +126,17 @@ const ACTION_HANDLERS = {
       return state
     }
   },
-  [FETCH_FAIL]: fetchFail
+  [FETCH_FAIL]: fetchFail,
+  [SET_STEP]: (state, { step }) => 
+    Object.assign({}, state, { step }),
+  [IN_BUSY]: (state, { isBusy, clearStep }) =>
+    Object.assign({}, state, { isBusy, step: clearStep ? '' : state.step })
 }
 
-const initialState = {}
+const initialState = {
+  step: '',
+  isBusy: false
+}
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state

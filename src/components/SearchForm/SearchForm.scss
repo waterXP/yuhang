@@ -27,11 +27,15 @@
     border: none;
     outline: none;
     border-radius: 5px;
+    &:last-child {
+      margin-right: .08rem;
+    }
   }
   a {
     @include fontStyle($activeColor, .16rem, .22rem);
     flex: none;
     display: inline-block;
+    width: auto;
     padding: .03rem .1rem;
   }
   border-bottom: 1px solid $borderColor;

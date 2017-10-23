@@ -1,17 +1,17 @@
 @import '../styles/baseStyle';
 
 .core-layout__viewport {
-  position: absolute;
+  // position: absolute;
   width: 100%;
-  top: 0;
-  left: 0;
-  bottom: .49rem;
-  margin-bottom: 0;
-  overflow: auto;
+  // top: 0;
+  // left: 0;
+  // bottom: .49rem;
+  margin-bottom: .49rem;
+  // overflow: auto;
   &.no-footer {
-    bottom: 0;
+    margin-bottom: 0;
   }
   &.sm-footer {
-    bottom: .4rem;
+    margin-bottom: .4rem;
   }
 }

@@ -1,12 +1,35 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings-administrator {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  .bottom {
+    .name {
+      border-bottom: 1px solid $borderColor;
+    }
+  }
+  .wm-search-form {
+    flex: none;
+  }
+  .wm-shortcut {
+    top: .45rem;
+  }
+  .tips {
+    @include fontStyle($rFontColor, .15rem, .21rem);
+    margin: 0;
+    padding: .12rem .12rem .07rem;
+    text-align: left;
+  }
   .no-data {
     z-index: 1;
     i {
       width: .7rem;
     }
+  }
+  .user-list {
+    flex: auto;
+    overflow: auto;
   }
   .wm-user-list {
     max-height: calc(100% - 1rem);

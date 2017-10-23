@@ -1,17 +1,26 @@
 @import '../../styles/baseStyle';
 
 .wm-block-buttons {
-  background-color: $backColor;
+  background-color: $mainColor;
+  box-shadow: 0 -.01rem .04rem 0 rgba(0,0,0,0.10);
   button {
-    margin: .05rem 0;
-    padding: .05rem 0;
+    @include fontStyle($activeColor, .17rem, .24rem);
+    position: relative;
+    margin: 0;
+    padding: .12rem 0;
     border: none;
-    font-size: 16px;
+    border-radius: 0;
     background-color: transparent;
-    color: $activeColor;
     outline: none;
-    & + button {
-      border-left: 1px solid $activeColor;
+    & + button:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      background-color: $borderSecondColor;
+      top: .18rem;
+      left: 0;
+      width: .01rem;
+      height: .14rem;
     }
   }
 }

@@ -38,6 +38,7 @@ class ApprovalSearch extends Component {
     this.scrolled = this::this.scrolled
     this.getResult = this::this.getResult
     this.cancel = this::this.cancel
+    this.getList = this::this.getList
   }
 
   componentDidMount () {
@@ -82,16 +83,17 @@ class ApprovalSearch extends Component {
 
   getResult (value) {
     if (value) {
-      const { getList, inBusy, query } = this.props
-      inBusy(true)
-      this.setState({ search: value })
-      getList(+query.status, {
-        search: value,
-        current_page: 1
-      })
-      this.setState({
-        dirty: true
-      })
+      this.getList(value)
+      // const { getList, inBusy, query } = this.props
+      // inBusy(true)
+      // this.setState({ search: value })
+      // getList(+query.status, {
+      //   search: value,
+      //   current_page: 1
+      // })
+      // this.setState({
+      //   dirty: true
+      // })
     } else {
       this.setState({
         dirty: false
@@ -99,20 +101,45 @@ class ApprovalSearch extends Component {
     }
   }
 
+  getList (value) {
+    // toast(1)
+    const search = value === undefined
+      ? this.state.search
+      : value
+    // const { search } = this.state
+    if (value !== undefined) {
+      this.setState({ search: value })
+    }
+    // toast(search)
+    if (search) {
+      const { getList, inBusy, query } = this.props
+      inBusy(true)
+      getList(+query.status, {
+        search,
+        current_page: 1
+      })
+      this.setState({
+        dirty: true
+      })
+    }
+  }
+
   render () {
     const { inBusy, isBusy, list, query, page } = this.props
     let pageEnd = true
-    if (page.current_page && page.total_page && page.current_page < page.total_page) {
+    if (page.current_page &&
+      page.total_page &&
+      page.current_page < page.total_page) {
       pageEnd = false
     }
-    const { dirty } = this.state
+    const { dirty, search } = this.state
     return (
       <div className='wm-approval-search'>
         <SearchForm
-          btnLink={`/approval/main?active=${+query.status}`}
           inBusy={inBusy}
           submitHandler={this.getResult}
           placeholder='报销单号、报销人、制单人、备注'
+          cancelHandler={this.cancel}
         />
         { dirty && <ApprovalList
             list={list}
@@ -120,6 +147,9 @@ class ApprovalSearch extends Component {
             handlerScroll={this.scrolled}
             pageEnd={pageEnd}
             isBusy={isBusy}
+            inSearch
+            keyword={search}
+            handleInitial={this.getList}
           />
         }
       </div>

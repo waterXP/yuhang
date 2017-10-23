@@ -1,13 +1,68 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings-accounts {
-  padding: $panelPadding;
-  text-align: left;
-
-  .btn {
-    color: $activeColor;
+  position: relative;
+  height: 100%;
+  padding-top: .14rem;
+  .title {
+    @include fontStyle($rFontColor, .15rem, .21rem);
+    margin: 0;
+    padding: 0 .12rem .07rem;
+    text-align: left;
+    &.fixed {
+      box-shadow: 0 .02rem .04rem 0 rgba(0, 0, 0, .2);
+    }
   }
-  .btn + .btn {
-    margin-left: .1rem;
+  .btns {
+    width: 100%;
+    padding: .24rem .12rem 0;
+    &.fixed {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      box-shadow: 0 -.01rem .04rem 0 rgba(0, 0, 0, .1);
+    }
+    button:focus {
+      outline: none;
+    }
+  }
+  .new-card {
+    @include fontStyle($mainColor, .17rem, .24rem)
+    width: 100%;
+    margin-bottom: .16rem;
+    padding: .12rem 0;
+    background-color: $activeColor;
+    border: none;
+    border-radius: .05rem;
+    &.disabled {
+      color: $fontColor;
+      background-color: $borderColor;
+    }
+  }
+  .wm-accounts-list.fixed {
+    position: absolute;
+    left: 0;
+    top: .42rem;
+    bottom: 1.52rem;
+    // bottom: .88rem;
+    width: 100%;
+    overflow: auto;
+  }
+  .row-btns {
+    display: flex;
+  }
+  .control-btn {
+    flex: auto;
+    @include fontStyle($fontColor, .17rem, .24rem);
+    margin-bottom: .16rem;
+    padding: .12rem 0;
+    border: none;
+    border-radius: .05rem;
+    background-color: $borderColor;
+    &:last-child {
+      margin-left: .25rem;
+      color: $mainColor;
+      background-color: $errorColor;
+    }
   }
 }

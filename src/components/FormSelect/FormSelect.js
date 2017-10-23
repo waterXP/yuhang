@@ -9,19 +9,21 @@ class FormSelect extends Component {
     name: PropTypes.string.isRequired,
     value: PropTypes.string,
     iconRight: PropTypes.string,
+    imgRight: PropTypes.string,
     clickHandler: PropTypes.func
   }
 
   render () {
-    const { text, name, value, iconRight, clickHandler } = this.props
+    const { text, name, value, iconRight, imgRight, clickHandler } = this.props
     return (
       <div className='wm-form-select'>
         <label>{text}</label>
         <Field name={name} component='button' type='button' onClick={clickHandler}>
           {value}
           {value && iconRight && ' '}
-          {iconRight && <i className={`fa ${iconRight} wm-color-secondary`} />}
+          {iconRight && <i className={`fa ${iconRight} wm-color-secondary`} />}          
         </Field>
+        {imgRight && <img className='img-right' src={imgRight} />}
       </div>
     )
   }

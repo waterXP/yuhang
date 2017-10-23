@@ -4,7 +4,7 @@ $mainColor: #fff;
 $footColor: rgba(247, 247, 247, .8);
 $activeColor: #15b4f1;
 $activeBackColor: rgba(21, 180, 241, .2);
-$borderColor: #e4e4e4;
+$borderColor: #eaeaea;
 $borderSecondColor: #d4d4d8;
 
 $fontColor: #333;
@@ -31,73 +31,64 @@ $border: 1px solid $borderColor;
   line-height: $height;
 }
 
-.color-font {
-  color: $fontColor;
-}
-.color-correct {
-  color: $correctColor;
-}
-.color-warning {
-  color: $warningColor;
-}
-.color-error {
-  color: $errorColor;
-}
-.color-secondary {
-  color: $secondaryColor;
-}
-.color-r-font {
-  color: $rFontColor;
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin form-control {
-  width: 100%;
-  padding: 0.05rem 0.1rem;
-  border-bottom: 1px solid $borderColorSecondary;
-  background-color: $mainColor;
+  @include fontStyle($fontNameColor, .17rem, .24rem);
+  display: flex;
+  align-items: center;
+  margin-left: .12rem;
+  padding: .12rem .12rem .12rem 0;
+  border-bottom: 1px solid $borderColor;
   text-align: left;
-  font-size: $inputFontSize;
   label {
-    display: inline-block;
+    flex: none;
     white-space: nowrap;
     overflow: visible;
     font-weight: normal;
     margin: 0;
     &:first-child {
-      width: $formLabelWidth;
       text-align: left;
     }
     &+label {
-      width: $formControlWidth;
+      flex: auto;
       text-align: right;
     }
   }
   button, input {
-    width: $formControlWidth;
+    @include ellipsis;
+    flex: auto;
     padding: 0;
     text-align: right;
     border: none;
     background-color: transparent;
     line-height: 0.2rem;
     height: 0.2rem;
-    overflow: hidden;
   }
   textarea {
+    @include fontStyle($fontNameColor, .15rem, .21rem);
+    flex: auto;
     width: 100%;
-    height: $inputLineHeight * 3;
+    height: .68rem;
+    padding: 0;
     border: none;
     background-color: transparent;
     resize: none;
   }
+  .img-right {
+    flex: none;
+    width: .08rem;
+    height: .13rem;
+    margin-left: .08rem;
+  }
+  &:last-child {
+    border-bottom: none;
+  }
 }
-
-input, input:before, input:after {
-  -webkit-user-select: initial !important;
-  -khtml-user-select: initial !important;
-  -moz-user-select: initial !important;
-  -ms-user-select: initial !important;
-  user-select: initial !important;
- } 
 
 $borderRadius: 4px;
 $inputPadding: .02rem .03rem;
@@ -135,7 +126,6 @@ $canClick: #38ADEF;
 $homeBg: $backColor;
 
 $coverBackColor: rgba(240, 240, 240, .7);
-
 
 @mixin form-border {
   border: 1px solid $borderColor;
@@ -181,28 +171,3 @@ $coverBackColor: rgba(240, 240, 240, .7);
 
 $formLabelWidth: 0.6rem;
 $formControlWidth: calc(100% - 0.6rem);
-
-
-.wm-color-secondary {
-  color: #ccc;
-}
-
-.wm-color-primary {
-  color: #38adef;
-}
-
-.wm-color-correct {
-  color: #78c06e;
-}
-
-.wm-color-error {
-  color: #d81e06;
-}
-
-.wm-color-important {
-  color: #ff9642;
-}
-.loadMore{
-  padding: .06rem 0;
-  color: #ccc;
-}

@@ -43,12 +43,16 @@ class CoreLayout extends Component {
   }
   render () {
     const { children, location } = this.props
+    const { pathname } = location
     let footerClass = ''
-    if (location.pathname.indexOf('/new') === 0) {
+    if (pathname.indexOf('/new') === 0 ||
+      (pathname.indexOf('/settings') === 0 &&
+        pathname !== '/settings' &&
+        pathname !== '/settings/')) {
       footerClass = ' no-footer'
-    } else if (location.pathname.indexOf('/home/approve/detail') === 0 ||
-      location.pathname.indexOf('/home/history/detail') === 0 ||
-      location.pathname.indexOf('/approval/detail') === 0) {
+    } else if (pathname.indexOf('/home/approve/detail') === 0 ||
+      pathname.indexOf('/home/history/detail') === 0 ||
+      pathname.indexOf('/approval/detail') === 0) {
       footerClass = ' sm-footer'
     }
     return (

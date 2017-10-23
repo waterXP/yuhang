@@ -7,15 +7,18 @@ import { history, dingSetTitle, dingSetNavRight, toast, fetchData } from '@/lib/
 class Settings extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
+    userInfo: PropTypes.object.isRequired,
     children : PropTypes.element,
     step: PropTypes.string,
-    setStep: PropTypes.func.isRequired
+    setStep: PropTypes.func.isRequired,
+    getUserInfo: PropTypes.func.isRequired
   }
 
   constructor () {
     super(...arguments)
     this.state = {
-      hasAuthority: false
+      hasAuthority: false,
+      amdinIcon: ''
     }
     this.checkAuthority = this::this.checkAuthority
   }
@@ -23,6 +26,7 @@ class Settings extends Component {
   componentDidMount () {
     this.checkUrl()
     this.checkAuthority()
+    this.props.getUserInfo()
   }
   componentDidUpdate () {
     this.checkUrl()
@@ -35,7 +39,8 @@ class Settings extends Component {
         const d = v.data
         if (d.isMain || d.isSuperMan) {
           this.setState({
-            hasAuthority: true
+            hasAuthority: true,
+            amdinIcon: d.superManAvatar || ''
           })
         }
       } else {
@@ -46,35 +51,47 @@ class Settings extends Component {
   checkUrl () {
     const { step, setStep } = this.props
     if (step === 'fin') {
-      toast('设置成功', 'success')
+      // toast('设置成功', 'success')
       setStep('')
       this.checkAuthority()
-      history.replace('/settings')      
+      history.replace('/settings')
+      dingSetTitle('我的')
+      dingSetNavRight('')
     }
-    dingSetTitle('我的')
-    dingSetNavRight('')
   }
 
   render () {
-    const { children } = this.props
-    const { hasAuthority } = this.state
+    const { children, userInfo } = this.props
+    const { hasAuthority, amdinIcon } = this.state
     return (
       <div className='wm-settings'>
         { children ||
-          <ul>
-            <li className='a-link'>
-              <Link to='/settings/accounts' activeClassName='active'>
-                <span className='fa fa-credit-card' />个人收款账号
-              </Link>
-            </li>
-            {
-              hasAuthority && <li className='a-link'>
-                <Link to='/settings/administrator' activeClassName='active'>
-                  <span className='fa fa-user' />超管设置
+          <div>
+            <div className='userinfo'>
+              <img className='avatar' src={userInfo.avatar || 'imgs/icon_empty.png'} />
+              <p className='name'>{userInfo.name}</p>
+              <p className='phone'>{userInfo.mobile}</p>
+            </div>
+            <ul>
+              <li className='a-link'>
+                <Link to='/settings/accounts' activeClassName='active'>
+                  <img className='icon' src='imgs/icon_rejected.png' />
+                  <span className='text'>个人收款账号</span>
+                  <img className='arrow' src='imgs/icon_arrow.png' />
                 </Link>
               </li>
-            }
-          </ul>
+              {
+                hasAuthority && <li className='a-link'>
+                  <Link to='/settings/administrator' activeClassName='active'>
+                    <img className='icon' src='imgs/icon_withdrawn.png' />
+                    <span className='text'>超管设置</span>
+                    { amdinIcon && <img className='admin-icon' src={amdinIcon} /> }
+                    <img className='arrow' src='imgs/icon_arrow.png' />
+                  </Link>
+                </li>
+              }
+            </ul>
+          </div>
         }
       </div>
     )

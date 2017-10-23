@@ -5,9 +5,8 @@ import ReceiptDetails from './ReceiptDetails'
 import ReceiptHistory from './ReceiptHistory'
 import ReceiptFlow from './ReceiptFlow'
 import ReceiptAttchment from './ReceiptAttchment'
-import ConfirmButton from '../ConfirmButton'
 import './Receipt.scss'
-import ReceiptDelete from './ReceiptDelete'
+import ReceiptButtons from './ReceiptButtons'
 import { goLocation } from '@/lib/base'
 
 class Receipt extends Component {
@@ -15,26 +14,21 @@ class Receipt extends Component {
     data: PropTypes.object.isRequired,
     addComment: PropTypes.func.isRequired,
     type: PropTypes.any,
-    deleteExp: PropTypes.func
+    deleteExp: PropTypes.func,
+    afterApproval: PropTypes.bool,
+    reSubmit: PropTypes.bool
   }
-  handleClick = (v = 'just test') => {
-    let { type, addComment, data } = this.props
-    let afterApproval = true
-    let nType = +type
-    if (nType === 2) {
-      afterApproval = true
-    } else if (nType === 4 || nType === 5) {
-      afterApproval = false
-    }
+  handleClick = (v = '') => {
+    const { addComment, data, afterApproval } = this.props
     addComment(data.master.expensesClaimId, v, afterApproval)
   }
   deleteExp = () => {
-    let expensesClaimId = this.props.data.master.expensesClaimId
+    const expensesClaimId = this.props.data.master.expensesClaimId
     this.props.deleteExp(expensesClaimId)
   }
   reSubmit = () => {
-    let { expensesClaimId, expensesClaimNo } = this.props.data.master
-    let url = {
+    const { expensesClaimId, expensesClaimNo } = this.props.data.master
+    const url = {
       pathname:'/new',
       query: {
         id: expensesClaimId,
@@ -44,20 +38,21 @@ class Receipt extends Component {
     goLocation(url)
   }
   render () {
-    const { data, type, addComment } = this.props
-    let nType = +type
-    let names = [
-      {
-        name: '删除',
-        fun: this.deleteExp
-      }, {
-        name: '重新提交',
-        fun: this.reSubmit
-      }
-    ]
-    if (!data.all) {
-      data.all = []
-    }
+    const { data, type, addComment, reSubmit } = this.props
+    const nType = +type
+    const allData = data.all || []
+    const buttons = reSubmit
+      ? [{
+          text: '删除',
+          func: this.deleteExp
+        }, {
+          text: '重新提交',
+          func: this.reSubmit
+        }]
+      : [{
+          text: '评论',
+          func: addComment
+        }]
     return (
       <div className='wm-receipt'>
         <ReceiptHeader data={data.master} />
@@ -69,15 +64,11 @@ class Receipt extends Component {
           <ReceiptAttchment attachmentList={data.attachmentList} />
         }
         <ReceiptFlow
-          processList={[...data.processList, ...data.all]} />
+          processList={[...data.processList, ...allData]} />
         <div className='fixed-bottom'>
-          { nType === 5 || nType === 4
-            ? <ReceiptDelete
-              names={names}
-            />
-            : <ConfirmButton
-              text='评论'
-              handleClick={addComment}
+          { buttons &&
+            <ReceiptButtons
+              btns={buttons}
             />
           }
         </div>

@@ -62,6 +62,26 @@ export const get = (url, params = {}) => {
   })
 }
 
+export const getHighLightText = (source, keyword) => {
+  if (!source) {
+    return { __html: '' }
+  }
+  let r = source.replace(
+    /[<>&"]/g,
+    (c) => ({
+      '<': '&lt;',
+      '>': '&gt;',
+      '&': '&amp;',
+      '"': '&quot;'
+    }[c])
+  )
+  r = r.replace(
+    new RegExp(keyword, 'gm'),
+    `<span class='color-error'>${keyword}</span>`
+  )
+  return { __html: r }
+}
+
 export const post = (url, params = {}) => {
   const headers = new Headers({
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -246,10 +266,13 @@ export const getNumber = (number = 0, dot = 2, min, max) => {
 }
 
 export const removeYear = (time) => {
-  time = time.split('-')
-  time.shift()
-  time = time.join('-')
-  return time
+  if (!time) {
+    return []
+  }
+  let _time = time.split('-')
+  _time.shift()
+  _time = _time.join('-')
+  return _time
 }
 export const pageSize = 20
 
@@ -342,10 +365,12 @@ export const dingSend = (users = [], corpId = '', text = '', cb1, cb2) => {
     }
   })
 }
-export const dingApproveDetail = (url) => {
+export const dingApproveDetail = (url, cb) => {
   dd.biz.util.openLink({
     url: url,
-    onSuccess : function (result) {},
+    onSuccess : function (result) {
+      cb && cb()
+    },
     onFail : function (err) { toast(err) }
   })
 }
@@ -574,6 +599,49 @@ export const dingSetMenu = (items, cb) => {
   }
 }
 
+export const checkCharacter =
+(str, table = ['^[a-zA-Z]', '^[\\u4E00-\\u9FFF]']) => {
+  let r = 1
+  let hit = false
+  table.find((v) => {
+    if (RegExp(v).test(str)) {
+      return true
+    } else {
+      r++
+    }
+  })
+  return r
+}
+
+export const compareCharacter = (a, b) => {
+  if (a === b) {
+    return 0
+  }
+  let _a = ''
+  let _b = ''
+  let max = a.length > b.length ? a.length : b.length
+  for (let i = 0; i < max; i++) {
+    if (a[i] !== b[i]) {
+      _a = a[i]
+      _b = b[i]
+      break
+    }
+  }
+  if (_a === undefined) {
+    return -1
+  }
+  if (_b === undefined) {
+    return 1
+  }
+  const _atp = checkCharacter(_a)
+  const _btp = checkCharacter(_b)
+  if (_atp !== _btp) {
+    return _atp - _btp
+  } else {
+    return _a.localeCompare(_b, 'zh')
+  }
+}
+
 export default {
   getUrlParams,
   fetchData,
@@ -590,5 +658,7 @@ export default {
   dingSend,
   dingApproveDetail,
   doFetch,
-  blurInput
+  blurInput,
+  checkCharacter,
+  compareCharacter
 }

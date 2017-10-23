@@ -13,8 +13,8 @@ import BlockButtons from '../BlockButtons'
 import ExpenseCheckbox from '../ExpenseCheckbox'
 import { fetchData, toast, getDate, getNumber,
   goLocation, openChosen, getChosenSource,
-  uploadImage, previewImage, blurInput } from '@/lib/base'
-import { saveData, setStep, getCostType,
+  uploadImage, blurInput, confirm } from '@/lib/base'
+import { saveData, cleanData, setStep, getCostType,
   setAppCatch } from '@/routes/New/modules/new'
 import NoData from '@/components/NoData'
 import './ExpenseForm.scss'
@@ -39,7 +39,6 @@ class ExpenseForm extends Component {
     costType: PropTypes.array,
     selProj: PropTypes.number,
     projectsList: PropTypes.array,
-    attachmentList: PropTypes.array,
     approvers: PropTypes.array,
     tags: PropTypes.array,
     nextTag: PropTypes.number,
@@ -49,13 +48,15 @@ class ExpenseForm extends Component {
     deptDingId: PropTypes.any,
     deptId: PropTypes.number,
     deptName: PropTypes.string,
+    attachmentList: PropTypes.array,
     originAttachments: PropTypes.array,
     restAttachments: PropTypes.array,
     isDraft: PropTypes.any,
     position: PropTypes.number,
     parentId: PropTypes.number,
     isDelete: PropTypes.any,
-    status: PropTypes.number
+    status: PropTypes.number,
+    expensesClaimId: PropTypes.number
   }
 
   constructor (props) {
@@ -70,7 +71,8 @@ class ExpenseForm extends Component {
       isBusy: false,
       inited: false,
       shouldScroll: false,
-      tm: 0
+      tm: 0,
+      text: ''
     }
     this.modalConfirm = this.modalConfirm.bind(this)
     this.modalClose = this.modalClose.bind(this)
@@ -84,23 +86,18 @@ class ExpenseForm extends Component {
     this.accountChange = this.accountChange.bind(this)
     this.showImg = this.showImg.bind(this)
     this.addAttachment = this.addAttachment.bind(this)
-    this.removeAttachment = this.removeAttachment.bind(this)
+    // this.removeAttachment = this.removeAttachment.bind(this)
     this.setCostType = this::this.setCostType
     this.setTM = this::this.setTM
     this.clearTM = this::this.clearTM
+    this.deleteDraft = this::this.deleteDraft
+    this.commitHandle = this::this.commitHandle
   }
 
   componentDidMount () {
-    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
-    // document.querySelector('.core-layout__viewport').scrollTo(0, 112)
-    // console.log(hashHistory)
     this.setTM()
     let { query, data, step } = this.props
-    if (step === 'set cost type' && data) {
-      this.initial(data)
-      return
-    }
-    if (query.from && data) {
+    if (data) {
       this.initial(data)
     } else {
       if (query.id) {
@@ -112,9 +109,7 @@ class ExpenseForm extends Component {
   }
 
   componentDidUpdate () {
-    // console.log(this.props.position)
     if (this.state.shouldScroll) {
-      // document.querySelector('.core-layout__viewport').scrollTo(0, this.props.position)
       document.querySelector('.core-layout__viewport').scrollTop = this.props.position
       this.setState({
         shouldScroll: false
@@ -122,50 +117,148 @@ class ExpenseForm extends Component {
     }
   }
 
-  setTM () {
-    // console.log(this.state.tm)
-    // const tm = setTimeout(() => window.location.reload(), 4000)
-    // console.log(tm)
-    let tm = 0
-    const { query } = this.props
-    // console.log(query)
-    if (!query.reload) {
-      tm = setTimeout(() => {
-        hashHistory.replace({
-          pathname: '/new',
-          query: Object.assign({ reload: 1 }, query)
-        })
-        window.location.reload()
-      }, 4000)
-    } else {
-      tm = setTimeout(() => {
-        toast('服务器未响应，请过段时间再试')
-        this.setState({
-          inited: true
-        })
-      }, 4000)
-    }
-    this.setState({
-      tm
-    })
-    // hashHistory.replace({
-    //   pathname: '/new',
-    //   query: {
-    //     reload: 1
-    //   }
-    // })
-    // console.log(this.state.tm)
-  }
-  clearTM () {
-    // console.log('clear tm')
+  // inital page normal
+  initial (data) {
     const { tm } = this.state
-    // console.log(tm)
-    if (tm) {
-      clearTimeout(tm)
-      this.setState({ tm: 0 })
+    const { query, dispatch, step, appCatch } = this.props
+    if (data) {
+      const {
+        userName, selDept, deptsList, details, selAccount,
+        costType, selProj, projectsList, isDraft, parentId,
+        attachmentList, approvers, tags, nextTag, position,
+        isDelete, status, originAttachments, restAttachments,
+        expensesClaimId
+      } = data
+      let _details = details
+      if (step === 'set cost type') {
+        const { index, costTypeId, costTypeName } = appCatch
+        if (index !== undefined && costTypeId &&
+          costTypeName && _details[index]) {
+          _details[index].feeType = costTypeId
+          _details[index].feeName = costTypeName
+        }
+        dispatch(setStep(''))
+      }
+      fetchData('get /userAccounts/myAccountList.json')
+      .then((d) => {
+        if (d.result === 0) {
+          const accountList = d.data
+          this.props.dispatch(
+            initialize('expenseForm', {
+              userName,
+              accountList: accountList || [],
+              selAccount: query.from === '/settings/accounts'
+              ? accountList.length - 1
+              : selAccount < accountList.length
+                ? selAccount
+                : -1,
+              selDept,
+              deptsList,
+              details: _details,
+              costType,
+              selProj,
+              projectsList: [...projectsList],
+              attachmentList,
+              originAttachments,
+              restAttachments,
+              approvers,
+              tags,
+              nextTag,
+              type: 1,
+              isDraft,
+              position,
+              parentId,
+              isDelete,
+              status,
+              expensesClaimId
+            })
+          )
+          this.setState({
+            inited: true,
+            shouldScroll: true
+          })
+          this.clearTM()
+          dispatch(cleanData())
+        } else {
+          if (d.result === 1) {
+            toast(d.msg)
+          } else {
+            if (d.ok === false) {
+              toast(d.statusText)
+            }
+          }
+          this.setState({ inited: true })
+          this.clearTM()
+          dispatch(cleanData())
+        }
+      })
+    } else {
+      Promise.all([
+        fetchData('get /expensesClaims/init.json'),
+        fetchData('get /userAccounts/myAccountList.json')
+      ])
+      .then(([d1, d2]) => {
+        if ((d1.result === 0 || d2.result === 0) && d1.data && d2.data) {
+          const { userName, deptsList,
+            projectsList, usersList } = d1.data
+          const accountList = d2.data || []
+          let selAccount = accountList.findIndex((v) => v.isDefault)
+          if (selAccount === -1 && accountList.length > 0) {
+            selAccount = 0
+          }
+          this.props.dispatch(
+            initialize('expenseForm', {
+              userName,
+              accountList,
+              selAccount,
+              selDept: 0,
+              deptsList,
+              details: [{ id: 1 }],
+              costType: [],
+              selProj: 0,
+              projectsList: [{ id: -1, name: '未选择' }, ...projectsList],
+              attachmentList: [],
+              originAttachments: [],
+              restAttachments: [],
+              approvers: usersList || [],
+              tags: [1],
+              nextTag: 2,
+              type: 1,
+              isDraft: false,
+              position: 0,
+              parentId: -1,
+              isDelete: false,
+              status: 1
+            })
+          )
+          dispatch(getCostType(deptsList[0].id))
+          this.setState({
+            inited: true
+          })
+          this.clearTM()
+        } else {
+          if (d1.result === 1) {
+            toast(d1.msg)
+          } else {
+            if (d1.ok === false) {
+              toast(d1.statusText)
+            }
+          }
+          if (d2.result === 1) {
+            toast(d2.msg)
+          } else {
+            if (d2.ok === false) {
+              toast(d2.statusText)
+            }
+          }
+          this.setState({ inited: true })
+          this.clearTM()
+        }
+      })
     }
   }
 
+  // inital from id which is refuse or rejext or draft 
   getModify (id) {
     fetchData('get /expensesClaims/modify.json', { id })
     .then((d) => {
@@ -184,7 +277,6 @@ class ExpenseForm extends Component {
       }
     })
   }
-
   initModify (d, id) {
     const { userAccountId, projectId, deptId, type } = d.expensesClaims
     const { dispatch } = this.props
@@ -254,10 +346,12 @@ class ExpenseForm extends Component {
             deptId: d.expensesClaims.deptId,
             deptName: d.deptName,
             isDraft: d.expensesClaims.type === 1 ? id : false,
+            // isDraft: d.expensesClaims.status === 3 ? id : false,
             position: 0,
             parentId: +id,
             isDelete: true,
-            status: d.expensesClaims.status
+            status: d.expensesClaims.status,
+            expensesClaimId: +id
           })
         )
         this.setState({
@@ -290,6 +384,43 @@ class ExpenseForm extends Component {
     })
   }
 
+  // save params for change route
+  save () {
+    const {
+      userName, selAccount, selDept, expensesClaimId,
+      deptsList, details, costType,
+      selProj, projectsList, attachmentList,
+      approvers, dispatch, tags, nextTag,
+      isDraft, isDelete, parentId, status,
+      restAttachments, originAttachments
+    } = this.props
+    dispatch(
+      saveData({
+        userName,
+        selAccount,
+        selDept,
+        deptsList,
+        details,
+        costType,
+        selProj,
+        projectsList,
+        attachmentList,
+        originAttachments,
+        restAttachments,
+        approvers,
+        tags,
+        nextTag,
+        isDraft,
+        position: document.querySelector('.core-layout__viewport').scrollTop || 0,
+        isDelete,
+        parentId,
+        status,
+        expensesClaimId
+      })
+    )
+  }
+
+  // use dev env, select modal
   modalOpen (options, target, targetName, labelId, labelName) {
     this.setState({
       openModal: true,
@@ -305,18 +436,20 @@ class ExpenseForm extends Component {
       this.save()
       hashHistory.replace({
         pathname: '/new',
-        query: {
-          from: '/new'
-        }
+        query: Object.assign(
+          {...this.props.query},
+          { from: '/new' }
+        )
       })
       let pathname = id === -0.2
         ? '/settings/edit/alipay'
         : '/settings/edit/account'
       goLocation({
         pathname,
-        query: {
-          from: '/new'
-        }
+        query: Object.assign(
+          {...this.props.query},
+          { from: '/new' }
+        )
       })
       return
     } else if (label === 'selDept') {
@@ -331,57 +464,40 @@ class ExpenseForm extends Component {
     })
   }
 
-  deptChanged (id) {
-    const { deptsList, selDept, details, type, dispatch } = this.props
-    if (deptsList[selDept].id !== id) {
-      dispatch(getCostType(id))
-      details.forEach((v) => {
-        v.feeName = ''
-        v.feeType = ''
-      })
-      fetchData('get /expensesClaims/changeDept.json', { deptId: id, cliamType: type || 1 })
-      .then((d) => {
-        if (!d.result) {
-          this.props.change('approvers', d.usersList || [])
-          this.props.change('selProj', -1)
-          this.props.change('projectsList', d.projectsList || [])
-        }
-      })
+
+  // when the server has no response, it's auto request
+  setTM () {
+    let tm = 0
+    const { query } = this.props
+    if (!query.reload) {
+      tm = setTimeout(() => {
+        hashHistory.replace({
+          pathname: '/new',
+          query: Object.assign({ reload: 1 }, query)
+        })
+        window.location.reload()
+      }, 4000)
+    } else {
+      tm = setTimeout(() => {
+        toast('服务器未响应，请过段时间再试')
+        this.setState({
+          inited: true
+        })
+      }, 4000)
+    }
+    this.setState({
+      tm
+    })
+  }
+  clearTM () {
+    const { tm } = this.state
+    if (tm) {
+      clearTimeout(tm)
+      this.setState({ tm: 0 })
     }
   }
 
-  save () {
-    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
-    const {
-      userName, selAccount, selDept,
-      deptsList, details, costType,
-      selProj, projectsList, attachmentList,
-      approvers, dispatch, tags, nextTag,
-      isDraft, isDelete, parentId, status
-    } = this.props
-    dispatch(
-      saveData({
-        userName,
-        selAccount,
-        selDept,
-        deptsList,
-        details,
-        costType,
-        selProj,
-        projectsList,
-        attachmentList,
-        approvers,
-        tags,
-        nextTag,
-        isDraft,
-        position: document.querySelector('.core-layout__viewport').scrollTop || 0,
-        isDelete,
-        parentId,
-        status
-      })
-    )
-  }
-
+  // change data
   changeDate (target, value) {
     this.props.change(target, getDate(value, 'yyyy-MM-dd'))
   }
@@ -397,145 +513,6 @@ class ExpenseForm extends Component {
       toast('金额超出范围（0 〜 999999.99）')
     }
   }
-
-  initial (data) {
-    const { tm } = this.state
-    const { query, dispatch, step, appCatch } = this.props
-    if (data) {
-      // after create new account
-      const {
-        userName, selDept, deptsList, details, selAccount,
-        costType, selProj, projectsList, isDraft, parentId,
-        attachmentList, approvers, tags, nextTag, position,
-        isDelete, status } = data
-      // console.log('************')
-      // console.log(position)
-      let _details = details
-      if (step === 'set cost type') {
-        const { index, costTypeId, costTypeName } = appCatch
-        if (index !== undefined && costTypeId &&
-          costTypeName && _details[index]) {
-          _details[index].feeType = costTypeId
-          _details[index].feeName = costTypeName
-        }
-        dispatch(setStep(''))
-      }
-      fetchData('get /userAccounts/myAccountList.json')
-      .then((d) => {
-        if (d.result === 0) {
-          const accountList = d.data
-          this.props.dispatch(
-            initialize('expenseForm', {
-              userName,
-              accountList: accountList || [],
-              selAccount: query.from === '/settings/accounts'
-              ? accountList.length - 1
-              : selAccount < accountList.length
-                ? selAccount
-                : -1,
-              selDept,
-              deptsList,
-              details: _details,
-              costType,
-              selProj,
-              projectsList: [{ id: -1, name: '请选择' }, ...projectsList],
-              attachmentList,
-              originAttachments: [],
-              restAttachments: [],
-              approvers,
-              tags,
-              nextTag,
-              type: 1,
-              isDraft,
-              position,
-              parentId,
-              isDelete,
-              status
-            })
-          )
-          this.setState({
-            inited: true,
-            shouldScroll: true
-          })
-          this.clearTM()
-        } else {
-          if (d.result === 1) {
-            toast(d.msg)
-          } else {
-            if (d.ok === false) {
-              toast(d.statusText)
-            }
-          }
-          this.setState({ inited: true })
-          this.clearTM()
-        }
-      })
-    } else {
-      Promise.all([
-        fetchData('get /expensesClaims/init.json'),
-        fetchData('get /userAccounts/myAccountList.json')
-      ])
-      .then(([d1, d2]) => {
-        if ((d1.result === 0 || d2.result === 0) && d1.data && d2.data) {
-          const { userName, deptsList,
-            projectsList, usersList } = d1.data
-          const accountList = d2.data || []
-          let selAccount = accountList.findIndex((v) => v.isDefault)
-          if (selAccount === -1 && accountList.length > 0) {
-            selAccount = 0
-          }
-          this.props.dispatch(
-            initialize('expenseForm', {
-              userName,
-              accountList,
-              selAccount,
-              selDept: 0,
-              deptsList,
-              details: [{ id: 1 }],
-              costType: [],
-              selProj: -1,
-              projectsList: [{ id: -1, name: '请选择' }, ...projectsList],
-              attachmentList: [],
-              originAttachments: [],
-              restAttachments: [],
-              approvers: usersList || [],
-              tags: [1],
-              nextTag: 2,
-              type: 1,
-              isDraft: false,
-              position: 0,
-              parentId: -1,
-              isDelete: false,
-              status: 1
-            })
-          )
-          dispatch(getCostType(deptsList[0].id))
-          this.setState({
-            inited: true
-          })
-          this.clearTM()
-        } else {
-          if (d1.result === 1) {
-            toast(d1.msg)
-          } else {
-            if (d1.ok === false) {
-              toast(d1.statusText)
-            }
-          }
-          if (d2.result === 1) {
-            toast(d2.msg)
-          } else {
-            if (d2.ok === false) {
-              toast(d2.statusText)
-            }
-          }
-          this.setState({ inited: true })
-          this.clearTM()
-        }
-      })
-    }
-  }
-
   departChange () {
     blurInput()
     const { deptsList, selDept, type } = this.props
@@ -552,6 +529,25 @@ class ExpenseForm extends Component {
       openChosen(source, selectedKey, (v) => {
         this.deptChanged(deptsList[+v.value].id)
         this.props.change('selDept', +v.value)
+      })
+    }
+  }
+  // after change department
+  deptChanged (id) {
+    const { deptsList, selDept, details, type, dispatch } = this.props
+    if (deptsList[selDept].id !== id) {
+      dispatch(getCostType(id))
+      details.forEach((v) => {
+        v.feeName = ''
+        v.feeType = ''
+      })
+      fetchData('get /expensesClaims/changeDept.json', { deptId: id, cliamType: type || 1 })
+      .then((d) => {
+        if (!d.result) {
+          this.props.change('approvers', d.usersList || [])
+          this.props.change('selProj', 0)
+          this.props.change('projectsList', [{ id: -1, name: '未选择' }, ...d.projectsList] || [{ id: -1, name: '未选择' }])
+        }
       })
     }
   }
@@ -573,7 +569,7 @@ class ExpenseForm extends Component {
   accountChange () {
     blurInput()
     const { accountList, selAccount } = this.props
-    const newCard = accountList.length < 5
+    const newCard = accountList.length < 20
       ? [{
         id: -0.1,
         chooseBankName: '新增银行卡'
@@ -603,25 +599,24 @@ class ExpenseForm extends Component {
           this.save()
           hashHistory.replace({
             pathname: '/new',
-            query: {
-              from: '/new'
-            }
+            query: Object.assign(
+              {...this.props.query},
+              { from: '/new' }
+            )
           })
           let pathname = id === -0.2
             ? '/settings/edit/alipay'
             : '/settings/edit/account'
           goLocation({
             pathname,
-            query: {
-              from: '/new'
-            }
+            query: Object.assign(
+              {...this.props.query},
+              { from: '/new' }
+            )
           })
         }
       })
     }
-  }
-  showImg (img) {
-    previewImage(img)
   }
   addAttachment () {
     blurInput()
@@ -630,17 +625,18 @@ class ExpenseForm extends Component {
     let temp = attachmentList || []
     if (isDev) {
       this.props.change('attachmentList', [...temp,
-        'https://yfl2.taofairy.com/wangbacms/hqh/images/icon_empty.png'])
+        'imgs/icon_empty.png'])
     } else {
       uploadImage(max, (v) => {
         this.props.change('attachmentList', [...temp, ...v])
       })
     }
   }
-  removeAttachment (i, target) {
-    let temp = [...this.props[target]]
-    temp.splice(i, 1)
-    this.props.change(target, temp)
+  showImg (index) {
+    const { dispatch } = this.props
+    dispatch(setStep('view imgs'))
+    this.save()
+    goLocation('/new/imgs')
   }
 
   updateNextTag (nextTag) {
@@ -651,7 +647,37 @@ class ExpenseForm extends Component {
   }
 
   commitHandle (v) {
-    return this.commit.bind(this, v)
+    return () => {
+      if (!this.state.text) {
+        this.commit(v)
+      }
+    }
+  }
+
+  deleteDraft () {
+    if (!this.state.text) {
+      confirm('确定要删除草稿吗？', '', () => {
+        const { expensesClaimId } = this.props
+        this.setState({ isBusy: true })
+        fetchData('get expensesClaims/delete.json', {
+          id: expensesClaimId
+        }).then((d) => {
+          if (d.result === 0) {
+            this.setState({
+              isBusy: false,
+              text: '已删除草稿'
+            })
+            setTimeout(
+              () => window.history.back(),
+              1500
+            )
+          } else {
+            toast(d.msg)
+            this.setState({ isBusy: false })
+          }
+        })
+      })
+    }
   }
 
   commit (draft) {
@@ -659,7 +685,7 @@ class ExpenseForm extends Component {
       selAccount, accountList, projectsList, selProj,
       attachmentList, deptDingId, deptId, deptName, isDraft,
       query, originAttachments, restAttachments, parentId,
-      isDelete, status } = this.props
+      isDelete, status, expensesClaimId } = this.props
     const account = accountList[selAccount]
     const project = projectsList[selProj]
     let detailses = []
@@ -766,6 +792,9 @@ class ExpenseForm extends Component {
         params.delete = 1
       }
     }
+    if (!draft && expensesClaimId) {
+      params.expensesClaimId = expensesClaimId
+    }
 
     this.setState({ isBusy: true })
     const action = draft
@@ -789,7 +818,6 @@ class ExpenseForm extends Component {
     })
   }
   setCostType (index) {
-    // console.log(document.querySelector('.core-layout__viewport').scrollTop)
     const { dispatch } = this.props
     if (index === undefined) {
       return
@@ -810,25 +838,34 @@ class ExpenseForm extends Component {
   }
 
   render () {
-    const { userName, totalCash, restAttachments, deptsList,
+    const { userName, totalCash, restAttachments, deptsList, status,
       selDept, projectsList, selProj, accountList, selAccount,
       details, attachmentList, approvers, tags, nextTag, type,
-      deptName, parentId, isDelete } = this.props
+      deptName, parentId, isDelete, isDraft, expensesClaimId
+    } = this.props
     const { options, target, openModal, inited,
-      targetName, labelId, labelName, isBusy } = this.state
+      targetName, labelId, labelName, isBusy, text } = this.state
+    const btns = status === 0
+      ? [{
+          text: '保存',
+          clickHandle: this.commitHandle(true)
+        }, {
+          text: '删除',
+          clickHandle: this.deleteDraft
+        }, {
+          text: '提交',
+          clickHandle: this.commitHandle(false)          
+        }]
+      : [{
+          text: '存草稿',
+          clickHandle: this.commitHandle(true)
+        }, {
+          text: '提交',
+          clickHandle: this.commitHandle(false)
+        }]
     return (
       <form className='wm-expense-form' onSubmit={this.handleSubmit}>
-        { openModal &&
-          <ModalSelect
-            options={options}
-            active={target}
-            select={this.modalConfirm}
-            close={this.modalClose}
-            scope={targetName}
-            labelId={labelId}
-            labelName={labelName}
-          />
-        }
+        { text && <NoData className='toast' text={text} /> }
         <ExpenseUserInfo
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
@@ -854,7 +891,7 @@ class ExpenseForm extends Component {
           projName={
             (projectsList && selProj > -1)
               ? projectsList[selProj].name
-              : '请选择'
+              : '未选择'
           }
           projChange={this.projChange}
           accountName={
@@ -869,27 +906,29 @@ class ExpenseForm extends Component {
           attachmentList={attachmentList}
           restAttachments={restAttachments}
           addAttachment={this.addAttachment}
-          removeAttachment={this.removeAttachment}
           showImg={this.showImg}
         />
         <ExpenseApprover approvers={approvers} />
         {
-          parentId > -1 && <ExpenseCheckbox
+          parentId > -1 && expensesClaimId && status !== 0 &&
+          <ExpenseCheckbox
             isDelete={isDelete}
           /> 
         }
-        <BlockButtons btns={[
-          {
-            text: '存草稿',
-            clickHandle: this.commitHandle(true),
-            hide: type && type > 1
-          }, {
-            text: '提交',
-            clickHandle: this.commitHandle(false)
-          }
-        ]} />
+        <BlockButtons btns={btns} />
         { !inited && <NoData type='loading' cover /> }
-        { isBusy && <NoData type='upload' cover /> }
+        { isBusy && <NoData type='loading' cover /> }
+        { openModal &&
+          <ModalSelect
+            options={options}
+            active={target}
+            select={this.modalConfirm}
+            close={this.modalClose}
+            scope={targetName}
+            labelId={labelId}
+            labelName={labelName}
+          />
+        }
       </form>
     )
   }
@@ -939,6 +978,7 @@ export default connect(
     isDraft: selector(state, 'isDraft'), 
     parentId: selector(state, 'parentId'),
     isDelete: selector(state, 'isDelete'),
+    expensesClaimId: selector(state, 'expensesClaimId'),
     initialValues: { details: [] }
   })
 )(reduxForm({

@@ -1,17 +1,20 @@
 @import '../../styles/baseStyle';
 
 .wm-user-list {
-  margin-bottom: .15rem;
-  border-top: 1px solid $borderColor;
-  border-bottom: 1px solid $borderColor;
-  background-color: #fff;
   .title {
-    height: .3rem;
-    padding: .06rem .1rem 0;
-    border-bottom: 1px solid $borderColor;
-    color: $activeColor;
+    @include fontStyle($fontNameColor, .17rem, .24rem);
+    padding: .03rem .12rem;
   }
-  li:last-child span {
-    border-bottom: none;
+  li + li:not(:last-child) {
+    .line {
+      border-bottom: 1px solid $borderColor;
+    }
+  }
+  &.in-search {
+    li:not(:last-child) {
+      .line {
+        border-bottom: 1px solid $borderColor;
+      }
+    }
   }
 }

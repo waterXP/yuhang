@@ -46,13 +46,7 @@ export const deleteExp = (expensesClaimsId, type) => {
     'get expensesClaims/delete.json',
     { id: expensesClaimsId },
     (data, dispatch) => {
-      let url = {
-        pathname:'/home/list',
-        query: {
-          type: type
-        }
-      }
-      goLocation(url)
+      window.history.back()
     }
   )
 }

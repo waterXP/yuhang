@@ -49,9 +49,16 @@ class HomeHistoryDetail extends Component {
     return (
       isLoading
       ? <NoData type='loading' />
-      : <div>{historyDetail.master &&
-        (+query.id === historyDetail.master.expensesClaimId) &&
-        <Receipt data={historyDetail} addComment={this.commentHandler} type={3} />}
+      : <div>
+        { historyDetail.master &&
+          (+query.id === historyDetail.master.expensesClaimId) &&
+          <Receipt
+            data={historyDetail}
+            addComment={this.commentHandler}
+            type={3}
+            afterApproval
+          />
+        }
       </div>
     )
   }

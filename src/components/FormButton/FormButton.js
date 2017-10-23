@@ -6,7 +6,7 @@ export const FormButton = ({ type, disabled, onClick, text }) => {
   return (
     <button
       type={type || 'button'}
-      className='btn btn-primary wm-form-button'
+      className='wm-form-button'
       disabled={disabled}
       onClick={onClick}>
       {text}

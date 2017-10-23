@@ -1,18 +1,38 @@
-import { asyncFetch } from '@/lib/base'
+import { asyncFetch, fetchData } from '@/lib/base'
 
 export const GET_ACCOUNTS = 'GET_ACCOUNTS'
+export const DEL_ACCOUNTS = 'DEL_ACCOUNTS'
 export const INITIAL_ACCOUNTS = 'INITIAL_ACCOUNTS'
 
-export const getAccounts = () => {
+const _getAccounts = (dispatch, getState) => {
+  fetchData('get /userAccounts/myAccountList.json')
+  .then((data) => {
+    return dispatch({
+      type: GET_ACCOUNTS,
+      accounts: data.data
+    })
+  })
+  .catch((e) => {
+    return dispatch({
+      type: FETCH_FAIL,
+      err: e
+    })
+  })
+
+}
+
+
+export const getAccounts = () => _getAccounts
+
+export const delAccounts = (accounts) => {
+  const userAccountIds = accounts.join(',')
   return asyncFetch(
-    'get /userAccounts/myAccountList.json',
-    {},
-    (data, dispatch) => {
-      return dispatch({
-        type: GET_ACCOUNTS,
-        accounts: data.data
-      })
-    }
+    'post /userAccounts/deleteBatch.json',
+    {
+      type: 'my',
+      userAccountIds
+    },
+    (data, dispatch, getState) => _getAccounts(dispatch, getState)
   )
 }
 

@@ -26,7 +26,6 @@ class ApprovalComment extends Component {
   }
   modalConfirm = (v) => {
     const { addComment, query } = this.props
-    console.log(v.length)
     if (v.length > 200) {
       toast('字数不能超过200')
     } else {

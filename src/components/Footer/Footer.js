@@ -10,7 +10,10 @@ class Footer extends Component {
     return (
       <div>
         {(pathname.indexOf('/new') === -1 &&
-          pathname.indexOf('detail') === -1) &&
+          pathname.indexOf('detail') === -1 &&
+          (pathname.indexOf('/settings') === -1 ||
+            pathname === '/settings' ||
+            pathname === '/settings/')) &&
           <footer className='footer'>
             {footerBtns.map((aBtn, index) =>
               <FooterButtonContainer

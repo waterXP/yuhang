@@ -8,25 +8,27 @@ export const ExpenseAccountInfo = ({ totalCash, accountChange,
   accountName, projChange, projName, hasProj }) => {
   return (
     <div className='wm-expense-account-info'>
-      <label className='wm-color-secondary'>
-        报销总金额：<span className='wm-color-important'>
-          {getCash(totalCash)}元
+      <label className='total-cash'>
+        报销总金额：<span>
+          {getCash(totalCash)}
         </span>
       </label>
-      <FormSelect
-        text='收款账号'
-        name='account'
-        value={accountName}
-        clickHandler={accountChange}
-        iconRight='fa-angle-right'
-      />
-      { hasProj && <FormSelect
-        text='项目'
-        name='subject'
-        value={projName}
-        clickHandler={projChange}
-        iconRight='fa-angle-right'
-      /> }
+      <div className='account-detail'>
+        <FormSelect
+          text='收款账号'
+          name='account'
+          value={accountName}
+          clickHandler={accountChange}
+          iconRight='fa-angle-right'
+        />
+        { hasProj && <FormSelect
+          text='项目'
+          name='subject'
+          value={projName}
+          clickHandler={projChange}
+          iconRight='fa-angle-right'
+        /> }
+      </div>
     </div>
   )
 }

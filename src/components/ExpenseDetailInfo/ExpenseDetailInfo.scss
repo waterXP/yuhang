@@ -1,17 +1,29 @@
 @import '../../styles/baseStyle';
 
 .wm-expense-detail-info {
-  &>button {
-    float: right;
-    border: none;
-    background-color: transparent;
-    color: $activeColor;
+  .detail-topic {
+    display: flex;
+    span {
+      @include fontStyle($rFontColor, .15rem, .21rem);
+      flex: auto;
+      padding: .06rem .12rem;
+      text-align: left;
+    }
+    &>button {
+      @include fontStyle($errorColor, .15rem, .21rem);
+      flex: auto;
+      padding: .06rem .12rem;
+      border: none;
+      text-align: right;
+      background-color: transparent;
+    }
+  }
+  .detail-units {
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+    background-color: $mainColor;
   }
   .wm-form-link {
     clear: both;
-  }
-  span {
-    float: left;
-    margin: .02rem 0 .02rem .1rem;
   }
 }

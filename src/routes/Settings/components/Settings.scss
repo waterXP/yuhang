@@ -6,43 +6,71 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: $backColorSecondary;
-  .fa {
-    width: .2rem;
-    margin-right: .1rem;
-    text-align: center;
-    color: $activeBorderColor;
-  }
   ul {
-    padding: 0;
     list-style-type: none;
     text-align: left;
   }
   .a-link {
-    margin-top: .15rem;
-    border-top: 1px solid $defaultColor;
-    border-bottom: 1px solid $defaultColor;
+    margin-top: .12rem;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
   }
 
   a {
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: .1rem .08rem;
-    background-color: $backColor;
+    padding: .09rem .14rem .09rem .16rem;
+    background-color: $mainColor;
     color: $fontColor;
     font-size: $inputFontSize;
-
-    &:after {
-      content: '>';
-      position: absolute;
-      top: .08rem;
-      right: .08rem;
-      font-size: .16rem;
-      color: $defaultColor;
+    .icon {
+      flex: none;
+      width: .24rem;
+      height: .3rem;
+      margin-right: .14rem;
+    }
+    .text {
+      @include ellipsis;
+      flex: auto;
+    }
+    .admin-icon {
+      flex: none;
+      width: .3rem;
+      height: .3rem;
+      margin-left: .1rem;
+      border-radius: 50%;
+    }
+    .arrow {
+      flex: none;
+      width: .08rem;
+      height: .13rem;
+      margin-left: .1rem;
     }
     &:focus, &:hover {
       text-decoration: none;
+    }
+  }
+  .userinfo {
+    position: relative;
+    height: 1.99rem;
+    padding: .11rem 0 ;
+    background: url('../assets/me_back.png') no-repeat 0/cover;
+    img {
+      width: .9rem;
+      height: .9rem;
+      margin: .03rem 0 .16rem;
+      box-shadow: 0 0 .05rem rgba(224, 244, 252, .20), 0 0 .1rem rgba(238, 248, 252, .12);
+      border-radius: 50%;
+    }
+    .name {
+      @include fontStyle($mainColor, .2rem, .28rem);
+      margin-bottom: .03rem;
+    }
+    .phone {
+      @include fontStyle($mainColor, .15rem, .17rem);
+      margin-bottom: .03rem;
     }
   }
 }

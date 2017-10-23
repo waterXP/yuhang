@@ -26,33 +26,37 @@ class ExpenseDetailInfo extends Component {
     const { data, deleteHandler, title, detail, hasDel, setCostType } = this.props
     return (
       <div className='wm-expense-detail-info'>
-        <span>{title}</span>
-        { hasDel && <button type='button' className='close-button' onClick={deleteHandler}>删除</button> }
-        <FormLink
-          text='费用类型'
-          name={`${data}.feeName`}
-          value={detail && detail.feeName ? detail.feeName : '请选择(必填)'}
-          iconRight='fa-angle-right'
-          clickHandler={setCostType}
-        />
-        <FormNumber
-          text='金额'
-          decimal={2}
-          name={`${data}.cash`}
-          handlerBlur={this.handlerBlur(`${data}.cash`)}
-          placeholder='输入金额'
-        />
-        <FormLink
-          text='发生日期'
-          name={`${data}.startDate`}
-          value={detail && detail.startDate ? detail.startDate : '请选择(必填)'}
-          iconRight='fa-angle-right'
-          clickHandler={this.clickHandler(detail.startDate)}
-        />
-        <FormTextArea
-          name={`${data}.memo`}
-          placeholder='备注：'
-          maxLength={200} />
+        <div className='detail-topic'>
+          <span>{title}</span>
+          { hasDel && <button type='button' className='close-button' onClick={deleteHandler}>删除</button> }
+        </div>
+        <div className='detail-units'>
+          <FormLink
+            text='费用类型'
+            name={`${data}.feeName`}
+            value={detail && detail.feeName ? detail.feeName : '请选择(必填)'}
+            imgRight='imgs/icon_arrow.png'
+            clickHandler={setCostType}
+          />
+          <FormNumber
+            text='金额'
+            decimal={2}
+            name={`${data}.cash`}
+            handlerBlur={this.handlerBlur(`${data}.cash`)}
+            placeholder='输入金额'
+          />
+          <FormLink
+            text='发生日期'
+            name={`${data}.startDate`}
+            value={detail && detail.startDate ? detail.startDate : '请选择(必填)'}
+            imgRight='imgs/icon_arrow.png'
+            clickHandler={this.clickHandler(detail.startDate)}
+          />
+          <FormTextArea
+            name={`${data}.memo`}
+            placeholder='备注：'
+            maxLength={200} />
+        </div>
       </div>
     )
   }

@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
-import { confirm, dingSetNavRight, dingSetTitle, goLocation } from '@/lib/base'
+import { confirm, dingSetNavRight,
+  dingSetTitle, goLocation } from '@/lib/base'
 import PropTypes from 'prop-types'
 import NoData from '@/components/NoData'
 
 class HomeApproveDetail extends Component {
   constructor () {
-    super()
-    this.deleteExp = this.deleteExp.bind(this)
-    this.commentHandler = this.commentHandler.bind(this)
+    super(...arguments)
+    this.deleteExp = this::this.deleteExp
+    this.commentHandler = this::this.commentHandler
   }
   componentWillMount () {
-    let { id, type } = this.props.params
+    const { id, type } = this.props.params
     this.props.initialApproveDetail()
     this.props.detailLoading()
     if (+type === 2) {
@@ -23,7 +24,6 @@ class HomeApproveDetail extends Component {
 
   commentHandler () {
     const { id, type } = this.props.params
-    console.log(id, type)
     goLocation({
       pathname: '/home/comment',
       query: {
@@ -33,15 +33,22 @@ class HomeApproveDetail extends Component {
     })
   }
   deleteExp (expensesClaimId) {
-    let message = '请确认是否删除此报销单'
-    let title = '提示'
-    confirm(message, title, this.props.deleteExp.bind(null, expensesClaimId, this.props.params.type))
+    const message = '请确认是否删除此报销单'
+    const title = '提示'
+    confirm(
+      message,
+      title,
+      this.props.deleteExp.bind(
+        null, expensesClaimId, this.props.params.type
+      )
+    )
   }
 
   render () {
-    let { detail, isLoading, isBusy } = this.props
+    const { detail, isLoading, isBusy, params } = this.props
+    const nType = +params.type
     if (detail && detail.master) {
-      let { userName, deptName } = detail.master
+      const { userName, deptName } = detail.master
       let title = ''
       if (userName) {
         title = userName + '的报销单'
@@ -52,16 +59,18 @@ class HomeApproveDetail extends Component {
       dingSetNavRight('')
     }
     return (
-      <div>
+      <div className='wm-home-approve-detail'>
         { isLoading
           ? <NoData type='loading' />
           : detail && detail.master
           ? <Receipt
-            data={this.props.detail}
+            data={detail}
             addComment={this.commentHandler}
-            type={this.props.params.type}
+            type={params.type}
             deleteExp={this.deleteExp}
             isBusy={isBusy}
+            afterApproval={ nType !== 4 && nType !== 5 }
+            reSubmit={ nType === 4 || nType === 5 }
           />
           : ''
         }

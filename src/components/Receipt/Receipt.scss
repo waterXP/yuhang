@@ -14,7 +14,6 @@
   button {
     @include fontStyle($activeColor, .17rem, .24rem);
     background-color: $mainColor;
-    height: .49rem;
     outline: none;
   }
   .flex {
@@ -91,7 +90,7 @@
   }
 }
 
-.wm-receipt-delete {
+.wm-receipt-buttons {
   display: flex;
   flex-direction: row;
   padding: 0.12rem 0;

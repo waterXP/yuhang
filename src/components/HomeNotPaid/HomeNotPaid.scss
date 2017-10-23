@@ -46,11 +46,9 @@
     }
     &.info {
       @include fontStyle($errorColor, .17rem, .24rem);
+      @include ellipsis;
       flex: 1.5 1 auto;
       margin-right: .17rem;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
     }
     &.bill {
       @include fontStyle($lFontColor, .16rem, .19rem);

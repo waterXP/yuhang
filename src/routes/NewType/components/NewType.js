@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import SearchForm from '@/components/SearchForm'
+import NoData from '@/components/NoData'
 import './NewType.scss'
-import { goLocation } from '@/lib/base'
+import { goLocation, getHighLightText } from '@/lib/base'
 
 class NewType extends Component {
   static propTypes = {
@@ -13,13 +15,17 @@ class NewType extends Component {
   constructor () {
     super(...arguments)
     this.state = {
-      currentPaths: [],
-      paths: [],
-      inSearch: false
+      inSearch: false,
+      isBusy: false,
+      keyword: '',
+      opened: {}
     }
-    this.getParents = this::this.getParents
-    this.toggleSearch = this::this.toggleSearch
+    this.inputSearch = this::this.inputSearch
     this.getPaths = this::this.getPaths
+    this.inBusy = this::this.inBusy
+    this.handleToggle = this::this.handleToggle
+    this.buildList = this::this.buildList
+    this.cancelSearch = this::this.cancelSearch
   }
 
   componentDidMount () {
@@ -38,12 +44,19 @@ class NewType extends Component {
       this.getPaths(costTypes, +costTypeId, [])
     }
   }
+
+  inBusy (isBusy = true) {
+    this.setState({ isBusy })
+  }
+
+  // initial paths for opened && active item
   getPaths (list, targetId, paths) {
     list.forEach((v) => {
       if (v.id === targetId) {
+        let opened = {}
+        paths.forEach((v) => opened[v] = true)
         this.setState({
-          paths: [...paths],
-          currentPaths: [...paths]
+          opened
         })
       } else {
         if (v.childs) {
@@ -53,11 +66,16 @@ class NewType extends Component {
     })
   }
 
-  toggleSearch () {
-    if (this.state.inSearch) {
-      this.keyword.value = ''
-    }
-    this.setState((prevState, props) => ({ inSearch: !prevState.inSearch }))
+  // search keyword
+  inputSearch (keyword) {
+    const inSearch = keyword ? true : false
+    this.setState({ inSearch, keyword })
+  }
+  cancelSearch () {
+    this.setState({
+      keyword: '',
+      inSearch: false
+    })
   }
   getSearchList (list, origin, paths, keyword) {
     origin.forEach((v) => {
@@ -75,107 +93,108 @@ class NewType extends Component {
     })
   }
 
-  setType (costTypeId, costTypeName) {
+  // click handle
+  setType (costTypeId, costTypeName, e) {
+    e.stopPropagation()
     this.props.setAppCatch({
       index: this.props.appCatch.index,
       costTypeId,
       costTypeName
     })
     window.history.back()
-    // goLocation('/new')
   }
-  getChildren (id) {
-    this.setState(({ currentPaths }) => {
-      return { currentPaths: [...currentPaths, id] }
-    })
-  }
-  getParents () {
-    this.setState(({ currentPaths }) => {
-      if (currentPaths && currentPaths.length > 0) {
-        currentPaths.pop()
-      }
-      return { currentPaths }
-    })
-  }
-
   handleSelect (costTypeId, costTypeName) {
     return this.setType.bind(this, costTypeId, costTypeName)
   }
-  handleGetChildren (id) {
-    return this.getChildren.bind(this, id)
+  handleToggle (id) {
+    return (e) => {
+      e.stopPropagation()
+      return this.setState((prevState) =>
+        ({ opened: Object.assign(
+          {},
+          prevState.opened,
+          { [id]: !prevState.opened[id] }
+        ) })
+      )
+    }
+  }
+
+  // build cost type list
+  buildList (list, i) {
+    const { costTypes, appCatch } = this.props
+    const { opened } = this.state
+    const { costTypeId } = appCatch || 0
+    return list.map((v) =>
+      <li
+        key={v.id}
+        onClick={v.childs
+          ? this.handleToggle(v.id)
+          : this.handleSelect(v.id, v.name)}
+      >
+        <div className={`level-${i}${costTypeId === v.id ? ' active' : ''}`}>
+          <div className='type-info'>
+            <span className='name'>{v.name}</span>
+            { v.childs &&
+              <img
+                className={`icon${opened[v.id] ? ' opened' : ''}`}
+                src={`${opened[v.id] ? 'imgs/icon_arrow_2.png' : 'imgs/icon_arrow.png'}`}
+              />
+            }
+          </div>
+        </div>
+        { v.childs && opened[v.id] &&
+          <ul>{ this.buildList(v.childs, i + 1) }</ul>
+        }
+      </li>
+    )
   }
 
   render () {
     const { costTypes, appCatch } = this.props
-    const { inSearch, paths, currentPaths } = this.state
+    const { inSearch, keyword, isBusy } = this.state
     const { costTypeId } = appCatch || 0
-
     let list = []
     if (inSearch) {
-      this.getSearchList(list, costTypes, [], this.keyword.value)
+      this.getSearchList(list, costTypes, [], keyword)
     } else {
       list = costTypes
-      if (currentPaths.length > 0) {
-        currentPaths.forEach((parentId) => {
-          list = (list.find((v) => v.id === parentId)).childs
-        })
-      }
     }
-
     return (
       <div className='wm-new-type'>
         <div className='search'>
-          <i className='fa fa-search' />
-          <input type='text' ref={(e) => { this.keyword = e }} />
-          <button type='button' onClick={this.toggleSearch}>
-            { inSearch ? '取消' : '搜索' }
-          </button>
-        </div>
-        <ul>
-          { currentPaths.length > 0 &&
-            !inSearch &&
-            <li
-              onClick={this.getParents}
-              className='return'
-            >
-              返回上级
-              <i className='fa fa-reply' />
-            </li>
+          { <SearchForm
+              inBusy={this.inBusy}
+              submitHandler={this.inputSearch}
+              placeholder='搜索费用或关键词'
+              cancelHandler={this.cancelSearch}
+              hiddenButton
+            />
           }
-          { list && list.length > 0 && list.map((v) => {
-            if (inSearch) {
-              return (
-                <li
-                  key={`s-${v.id}`}
-                  onClick={this.handleSelect(v.id, v.name)}
-                  className={`${costTypeId === v.id ? 'active' : ''}`}
-                >
-                  { v.name }
-                </li>
-              )
-            } else {
-              return (
-                <li
-                  key={v.id}
-                  onClick={v.childs
-                    ? this.handleGetChildren(v.id)
-                    : this.handleSelect(v.id, v.name)
-                  }
-                  className={
-                    `${
-                      costTypeId === v.id ||
-                      paths[currentPaths.length] === v.id
-                        ? 'active'
-                        : ''
-                    }`
-                  }
-                >
-                  { v.name }{ v.childs && <i className='fa fa-angle-right wm-color-secondary' /> }
-                </li>
-              )
+        </div>
+        { isBusy && <NoData type='loading' /> }
+        { !isBusy && <div className='content'>
+            { !inSearch && <p className='title'>费用类型</p> }
+            {
+              inSearch
+                ? <ul className='search-list'>
+                    { list.map((v) =>
+                      <li
+                        key={v.id}
+                        className={v.id === costTypeId ? 'active' : ''}
+                        onClick={this.handleSelect(v.id, v.name)}
+                      >
+                        <span
+                          dangerouslySetInnerHTML={
+                            getHighLightText(v.name, keyword)
+                          }
+                        />
+                      </li>)
+                    }
+                  </ul>
+                : <ul className='all-list'>{this.buildList(list, 1)}</ul>
             }
-          })}
-        </ul>
+          </div>
+        }
       </div>
     )
   }

@@ -1,9 +1,9 @@
+@import '../../styles/baseStyle';
+
 .wm-account {
-  label {
-    margin: 0 0.1rem 0.02rem 0;
-  }
-  h6 {
-    display: inline-block;
-    margin: 0 0 0.02rem;
+  p {
+    @include fontStyle($mainColor, .24rem, .29rem);
+    margin: 0;
+    letter-spacing: .01rem;
   }
 }

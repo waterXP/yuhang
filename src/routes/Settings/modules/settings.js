@@ -1,6 +1,8 @@
+import { asyncFetch } from '@/lib/base'
 import { settingsAccountsHandlers } from '../../SettingsAccounts/'
 
 export const SET_STEP = 'SET_STEP'
+export const GET_USER_INFO = 'GET_USER_INFO'
 
 export const setStep = (step) => {
   return {
@@ -8,15 +10,29 @@ export const setStep = (step) => {
     step
   }
 }
+export const getUserInfo = () => {
+  return asyncFetch(
+    'get /users/loginUserMsg.json',
+    {},
+    (d, dispatch) => {
+      return dispatch({
+        type: GET_USER_INFO,
+        userInfo: d.data
+      })
+    })
+}
 
 export const actions = {
-  setStep
+  setStep,
+  getUserInfo
 }
 
 const ACTION_HANDLERS = Object.assign(
   {
     [SET_STEP]: (state, { step }) =>
-      Object.assign({}, state, { step })
+      Object.assign({}, state, { step }),
+    [GET_USER_INFO]: (state, { userInfo }) =>
+      Object.assign({}, state, { userInfo })
   },
   settingsAccountsHandlers
 )
@@ -39,7 +55,8 @@ const initialState = {
     { id: 10, text: '11月' },
     { id: 11, text: '12月' }
   ],
-  step: ''
+  step: '',
+  userInfo: {}
 }
 
 export default function (state = initialState, action) {

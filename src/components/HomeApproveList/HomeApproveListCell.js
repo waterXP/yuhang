@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { dingApproveDetail, dingSend, removeYear, getCash } from '@/lib/base'
+import { dingApproveDetail, dingSend, removeYear, getCash, toast } from '@/lib/base'
 import PropTypes from 'prop-types'
 
 class HomeApproveListCell extends Component {
@@ -26,7 +26,11 @@ class HomeApproveListCell extends Component {
     dingSend(dingId, this.props.corpId)
   }
   showDetail () {
-    dingApproveDetail(this.props.approve.dingApproveUrl)
+    const { handleInitial, approve } = this.props
+    dingApproveDetail(
+      approve.dingApproveUrl,
+      handleInitial
+    )
   }
   getDay (submitTitme) {
     const { today } = this.state
@@ -49,14 +53,17 @@ class HomeApproveListCell extends Component {
     return day[d.getDay()]
   }
   render () {
-    const { submitTitme, dynamic, sumMoney } = this.props.approve
+    const { submitTitme, dynamic, sumMoney, username } = this.props.approve
     return (
       <li className='list-cell' onClick={this.showDetail}>
         <span className='tm'>
           <p className='day'>{this.getDay(submitTitme)}</p>
           <p className='date'>{removeYear(submitTitme)}</p>
         </span>
-        <span className='info'>{dynamic}</span>
+        <div className='info'>
+          <p className='name'>{username}</p>
+          <p className='status'>{dynamic}</p>
+        </div>
         <span className='bill'>{getCash(sumMoney)}</span>
         <span className='flag' onClick={this.clickHandler}>
           <img src='imgs/icon_ding.png' />
@@ -67,8 +74,9 @@ class HomeApproveListCell extends Component {
 }
 
 HomeApproveListCell.propTypes = {
-  approve:PropTypes.object,
-  corpId:PropTypes.string
+  approve: PropTypes.object,
+  corpId: PropTypes.string,
+  handleInitial: PropTypes.func
 }
 
 export default HomeApproveListCell

@@ -22,28 +22,32 @@ class ApprovalInfo extends Component {
     getApproveUrl: PropTypes.func
   }
   gotoPage (location) {
-    const { tag, dingApproveUrl, expensesClaimsId, getApproveUrl } = this.props
+    const { tag, dingApproveUrl, expensesClaimsId, getApproveUrl,
+      handleInitial } = this.props
     const { status } = this.props
-    let isDingDetail = false
-    switch (tag) {
-      case 1:
-        isDingDetail = true
-        break
-      case 2:
-        if (status === 1) {
-          isDingDetail = true
-        }
-        break
-      case 4:
-        if (status === 1 || status === 2 || status === 3) {
-          isDingDetail = true
-        }
-    }
+    // if (tag === 1 || status === 1) {
+
+    // }
+    const isDingDetail = tag === 1 || status === 1
+    // switch (tag) {
+    //   case 1:
+    //     isDingDetail = true
+    //     break
+    //   case 2:
+    //     if (status === 1) {
+    //       isDingDetail = true
+    //     }
+    //     break
+    //   case 4:
+    //     if (status === 1 || status === 2 || status === 3) {
+    //       isDingDetail = true
+    //     }
+    // }
     if (!isDev && isDingDetail) {
       if (!dingApproveUrl) {
         return () => getApproveUrl(expensesClaimsId, dingApproveDetail)
       }
-      return () => dingApproveDetail(dingApproveUrl)
+      return () => dingApproveDetail(dingApproveUrl, handleInitial)
     }
     return () => goLocation(location)
   }
@@ -91,7 +95,7 @@ class ApprovalInfo extends Component {
           statusClass = 'correct'
       }
     }
-    let className = tag ? 'tag-' + tag : 'tag-1'
+    const className = tag ? 'tag-' + tag : 'tag-1'
     const strDT = getTimeFromStr(submitTime)
     let showDT = submitTime
     if (strDT.special) {
@@ -107,7 +111,8 @@ class ApprovalInfo extends Component {
           { pathname: status === 0 ? '/new' : '/approval/detail',
             query: {
               id: expensesClaimsId,
-              type: status > 3 || status === -1 ? 'afterApproval' : ''
+              type: status > 3 || status === -1 ? 'afterApproval' : '',
+              tag
             }
           }
         )}
