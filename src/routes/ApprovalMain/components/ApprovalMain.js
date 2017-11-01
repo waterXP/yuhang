@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import ApprovalNavs from '@/components/ApprovalNavs'
 import ApprovalList from '@/components/ApprovalList'
 import './ApprovalMain.scss'
-import { dingSetTitle, dingSetMenu, toast, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetTitle, dingSetMenu, toast } from '@/lib/ddApi'
 import { isDev } from '@/config'
 import DevButtons from '@/components/DevButtons'
 import { hashHistory } from 'react-router'
@@ -32,22 +33,21 @@ class ApprovalMain extends Component {
     cleanFilter: PropTypes.func
   }
 
-  constructor (props) {
-    super(props)
+  constructor () {
+    super(...arguments)
     this.scrolled = this::this.scrolled
     this.updateActive = this::this.updateActive
     this.setConditions = this::this.setConditions
     this.devClicks = this::this.devClicks
     this.initial = this::this.initial
   }
-
   componentDidMount () {
     this.initial() 
   }
   initial () {
     const { updateActive, query } = this.props
     updateActive(+query.active || 1)
-    dingSetTitle('明快报销')
+    dingSetTitle('审批')
     dingSetMenu(
       [{
         id: 'search',
@@ -109,6 +109,7 @@ class ApprovalMain extends Component {
           pageEnd={pageEnd}
           isBusy={isBusy}
           handleInitial={this.initial}
+          loaded={page['current_page'] !== undefined}
         />
       </div>
     )

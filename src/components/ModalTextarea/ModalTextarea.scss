@@ -26,6 +26,9 @@
     padding: .1rem .12rem;
     resize: none;
     background-color: $mainColor;
+    &:focus {
+      outline: none;
+    }
   }
   .no-data.small {
     position: absolute;

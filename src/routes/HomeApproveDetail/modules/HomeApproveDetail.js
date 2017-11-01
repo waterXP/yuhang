@@ -1,4 +1,5 @@
-import { asyncFetch, goLocation, fetchData, toast } from '@/lib/base'
+import { asyncFetch, goLocation, fetchData } from '@/lib/base'
+import { toast } from '@/lib/ddApi'
 
 export const GET_APPROVE_DETAIL = 'GET_APPROVE_DETAIL'
 export const INITIAL_APPROVE_DETAIL = 'INITIAL_APPROVE_DETAIL'

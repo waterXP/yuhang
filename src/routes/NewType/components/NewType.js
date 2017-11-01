@@ -4,6 +4,7 @@ import SearchForm from '@/components/SearchForm'
 import NoData from '@/components/NoData'
 import './NewType.scss'
 import { goLocation, getHighLightText } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class NewType extends Component {
   static propTypes = {
@@ -26,6 +27,11 @@ class NewType extends Component {
     this.handleToggle = this::this.handleToggle
     this.buildList = this::this.buildList
     this.cancelSearch = this::this.cancelSearch
+  }
+
+  componentDidUpdate () {
+    dingSetTitle('费用类型选择')
+    dingSetNavRight('')
   }
 
   componentDidMount () {

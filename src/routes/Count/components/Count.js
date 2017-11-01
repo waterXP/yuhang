@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Count.scss'
-import { dingSetTitle, dingSetNavRight } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 import NoData from '@/components/NoData'
 

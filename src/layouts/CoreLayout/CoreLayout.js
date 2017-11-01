@@ -4,6 +4,7 @@ import FooterContainer from '@/containers/FooterContainer'
 import './CoreLayout.scss'
 import '@/styles/core.scss'
 import { hashHistory } from 'react-router'
+import { toast } from '@/lib/ddApi'
 
 // export const CoreLayout = (props) => {
 //   const { children, location } = props
@@ -31,9 +32,32 @@ class CoreLayout extends Component {
     children : PropTypes.element,
     location: PropTypes.object.isRequired
   }
+  constructor () {
+    super(...arguments)
+    this.state = {
+      noFooter: false
+    }
+  }
   componentDidMount () {
     if (!this.props.children) {
       hashHistory.replace('/home')
+    }
+    window.onresize = () => {
+
+      // toast('why you need resize')
+      const { clientHeight, clientWidth } = document.getElementById('root')
+      // toast(el.height)
+      // toast(e)
+      // toast(clientHeight + ' dfdf ' + clientWidth)
+      if (clientHeight < clientWidth) {
+        this.setState({
+          noFooter: true
+        })
+      } else {
+        this.setState({
+          noFooter: false
+        })
+      }
     }
   }
   componentDidUpdate () {
@@ -43,6 +67,7 @@ class CoreLayout extends Component {
   }
   render () {
     const { children, location } = this.props
+    const { noFooter } = this.state
     const { pathname } = location
     let footerClass = ''
     if (pathname.indexOf('/new') === 0 ||
@@ -55,12 +80,15 @@ class CoreLayout extends Component {
       pathname.indexOf('/approval/detail') === 0) {
       footerClass = ' sm-footer'
     }
+    if (noFooter) {
+      footerClass = ' no-footer'
+    }
     return (
       <div className='container text-center'>
         <div className={`core-layout__viewport${footerClass}`}>
           { children }
         </div>
-        <FooterContainer />
+        { !noFooter && <FooterContainer /> }
       </div>
     )
   }

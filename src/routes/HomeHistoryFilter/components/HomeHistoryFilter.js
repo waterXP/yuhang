@@ -4,8 +4,8 @@ import SendHistoryList from '@/components/SendHistoryList'
 import './HomeHistoryFilter.scss'
 import NoData from '@/components/NoData'
 import ListTopic from '@/components/ListTopic'
-import { dingSetNavRight, goLocation, dingSetTitle,
-  datePicker, getDate } from '@/lib/base'
+import { goLocation, getDate } from '@/lib/base'
+import { dingSetTitle, datePicker, dingSetNavRight } from '@/lib/ddApi'
 
 class HomeHistoryFilter extends Component {
   static propTypes = {
@@ -25,7 +25,8 @@ class HomeHistoryFilter extends Component {
   constructor () {
     super(...arguments)
     this.state = {
-      text: ''      
+      text: '',
+      hasScroll: false
     }
     this.setTopics = this::this.setTopics
     this.selDate = this::this.selDate
@@ -37,6 +38,15 @@ class HomeHistoryFilter extends Component {
     dingSetNavRight('重新筛选', () => {
       this.selDate()
     }, true)
+  }
+  componentDidUpdate () {
+    const { hasScroll } = this.state
+    if (!hasScroll) {
+      this.checkScroll()
+    }
+  }
+  componentWillUnmount () {
+    this.props.clearHistory()
   }
   getList (v) {
     const { getPaidHistory, isLoading, clearHistory } = this.props
@@ -89,18 +99,29 @@ class HomeHistoryFilter extends Component {
       this.setState({ text })
     }
   }
-  componentWillUnmount () {
-    this.props.clearHistory()
+  checkScroll () {
+    const el = this.refs.history
+    if (el.clientHeight < el.scrollHeight) {
+      this.setState({
+        hasScroll: true
+      })
+    }
   }
   render () {
-    const { paidHistory, loadingBool, loadMoreBool } = this.props
-    const { text } = this.state
+    const { paidHistory, loadingBool, loadMoreBool,
+      total_page, cPage } = this.props
+    const { text, hasScroll } = this.state
     let noData = false
     if (!paidHistory || paidHistory.length === 0) {
       noData = true
     }
+    const pageEnd = total_page === cPage && cPage > 0
     return (
-      <div className='wm-settings-history-filter' onScroll={this.scrollHandler} ref='history'>
+      <div
+        className='wm-settings-history-filter'
+        onScroll={this.scrollHandler}
+        ref='history'
+      >
       { text && <ListTopic text={ text } /> }
         { loadingBool
             ? <NoData type='loading' />
@@ -112,6 +133,8 @@ class HomeHistoryFilter extends Component {
                   setTopics={this.setTopics} />
         }
         { loadMoreBool && <NoData type='loading' size='small' /> }
+        { hasScroll && pageEnd &&
+          <div className='loadMore'>已经到底啦〜</div> }
       </div>
     )
   }

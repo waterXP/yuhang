@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import './ApprovalFilterResults.scss'
 import ApprovalList from '@/components/ApprovalList'
 import { approveStatus } from '@/lib/enums'
-import { dingSetTitle, dingSetMenu } from '@/lib/base'
+import { dingSetTitle, dingSetMenu } from '@/lib/ddApi'
 
 class ApprovalFilterResults extends Component {
   static propTypes = {
@@ -111,6 +111,7 @@ class ApprovalFilterResults extends Component {
           handlerScroll={this.scrolled}
           pageEnd={pageEnd}
           isBusy={isBusy}
+          loaded
         />
       </div>
     )

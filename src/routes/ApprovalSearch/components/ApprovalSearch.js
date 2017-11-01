@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import './ApprovalSearch.scss'
 
 import SearchForm from '@/components/SearchForm'
-import Cover from '@/components/Cover'
 import ApprovalList from '@/components/ApprovalList'
-import { dingSetTitle, dingSetMenu } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class ApprovalSearch extends Component {
   static propTypes = {
@@ -61,13 +60,14 @@ class ApprovalSearch extends Component {
       default:
         dingSetTitle('明快报销')
     }
-    dingSetMenu(
-      [{
-        id: 'cancel',
-        text: '取消'
-      }],
-      this.cancel
-    )
+    dingSetNavRight('')
+    // dingSetMenu(
+    //   [{
+    //     id: 'cancel',
+    //     text: '取消'
+    //   }],
+    //   this.cancel
+    // )
   }
   cancel () {
     window.history.back()
@@ -112,8 +112,9 @@ class ApprovalSearch extends Component {
     }
     // toast(search)
     if (search) {
-      const { getList, inBusy, query } = this.props
+      const { getList, inBusy, query, cleanList } = this.props
       inBusy(true)
+      cleanList()
       getList(+query.status, {
         search,
         current_page: 1
@@ -150,6 +151,7 @@ class ApprovalSearch extends Component {
             inSearch
             keyword={search}
             handleInitial={this.getList}
+            loaded={page['current_page'] !== undefined}
           />
         }
       </div>

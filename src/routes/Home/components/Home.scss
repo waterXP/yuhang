@@ -5,10 +5,14 @@
 }
 .wm-home {
   .homeLine {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     flex-direction: row;
   }
   .homeBtnCell {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     height: .9rem;
     text-align: center;

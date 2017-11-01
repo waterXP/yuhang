@@ -1,6 +1,8 @@
 @import '../../../styles/baseStyle';
 
 .wm-settings-administrator {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -10,6 +12,8 @@
     }
   }
   .wm-search-form {
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
   }
   .wm-shortcut {
@@ -28,6 +32,8 @@
     }
   }
   .user-list {
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     overflow: auto;
   }

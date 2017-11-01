@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import InputText from '../InputText'
 import FormButton from '../FormButton'
-import { fetchData, goLocation, toast } from '@/lib/base'
+import { fetchData, goLocation } from '@/lib/base'
+import { toast } from '@/lib/ddApi'
 import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
@@ -21,7 +22,7 @@ class AccountEditForm extends Component {
     this.handleSubmit = this::this.handleSubmit
     this.state = {
       account: 0,
-      oldChooseBankName: 0,
+      oldSeAccount: 0,
       data: {},
       params: {},
       defaultCard: 0
@@ -40,7 +41,7 @@ class AccountEditForm extends Component {
       if (!data.result) {
         this.setState({
           oldAccount: data.data.account,
-          oldChooseBankName: data.data.chooseBankName,
+          oldSeAccount: data.data.seAccount,
           data: { ...data.data },
           params: { ...data.data },
           defaultCard: data.data.isDefault
@@ -56,7 +57,7 @@ class AccountEditForm extends Component {
     const { params } = this.state
     if (
       !params.name ||
-      !params.chooseBankName ||
+      !params.seAccount ||
       (
         type === 1 &&
         (
@@ -86,13 +87,13 @@ class AccountEditForm extends Component {
 
   handleSubmit (isDefault) {
     return () => {
-      const { oldAccount, oldChooseBankName, params, defaultCard } = this.state
+      const { oldAccount, oldSeAccount, params, defaultCard } = this.state
       const { fromPage, onSubmit } = this.props
       onSubmit({
         ...params,
         isDefault: defaultCard || isDefault,
         oldAccount,
-        oldChooseBankName,
+        oldSeAccount,
         fromPage,
         defaultCard
       })
@@ -105,24 +106,25 @@ class AccountEditForm extends Component {
     // console.log(data.name)
     const isBankAccount = type === 1
     let oldAccount = this.state.account
-    let oldChooseBankName = this.state.oldChooseBankName
+    let oldSeAccount = this.state.oldSeAccount
     const valid = this.checkValidate()
     return (
       <form className='wm-account-edit-form'>
         <InputText
-          label='银行名称'
+          label='姓名'
           name='name'
           maxLength='30'
+          required={true}
           handleChange={this.setValue}
           defaultValue={data.name}
         />
         <InputText
           label='账号'
-          name='chooseBankName'
+          name='seAccount'
           maxLength={isBankAccount ? 22 : 50}
           required={true}
           handleChange={this.setValue}
-          defaultValue={data.chooseBankName}
+          defaultValue={data.seAccount}
         />
         {isBankAccount &&
           <InputText

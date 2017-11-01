@@ -2,28 +2,43 @@
 
 .wm-filter {
   margin-top: .08rem;
-  padding: .15rem .12rem .12rem;
+  padding: .15rem .06rem .18rem;
   background-color: $mainColor;
   .topic {
     @include fontStyle($fontNameColor, .17rem, .18rem);
-    margin: .03rem 0;
+    margin: .03rem .06rem 0;
     padding-left: .02rem;
     text-align: left;
     border-left: .04rem solid $warningSecondColor;
   }
   .filter-area {
-    margin-top: .22rem;
+    margin-top: .16rem;
     text-align: left;
   }
   button {
     @include fontStyle($fontNameColor, .15rem, .21rem);
-    width: 1rem;
-    margin: 0 .12rem .12rem 0;
+    width: calc(33% - .12rem);
+    margin: .06rem;
     padding: .08rem;
     background-color: $secondarySecondColor;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
     &.active {
       color: $activeColor;
       background-color: $activeBackColor;
+      box-shadow: none;
+      &.btn:focus, &.btn:active {
+        outline: none;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: none;
+      }
+    }
+    &.btn:focus, &.btn:active {
+      outline: none;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: none;
     }
   }
 }

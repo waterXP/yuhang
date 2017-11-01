@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { dingPreviewImage } from '@/lib/base'
+import { dingPreviewImage } from '@/lib/ddApi'
 
 export const ReceiptAttchment = ({ attachmentList }) => {
   let attachmentUrls = []

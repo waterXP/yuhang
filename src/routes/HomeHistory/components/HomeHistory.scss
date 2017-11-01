@@ -1,11 +1,18 @@
 @import '../../../styles/baseStyle';
 
-.wm-settings-history {
+.wm-home-history {
   /* padding-top: $panelPaddingTop; */
   position: absolute;
   top: 0;
   right: 0;
   bottom: .49rem;
   left: 0;
-  overflow:auto;
+  overflow: auto;
+  .loadMore {
+    @include fontStyle($rFontColor, .13rem, .18rem);
+    padding: .07rem 0 .34rem;
+  }
+}
+.no-footer .wm-home-history {
+  bottom: 0;
 }

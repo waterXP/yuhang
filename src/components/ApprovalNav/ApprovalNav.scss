@@ -7,10 +7,13 @@
   width: 25%;
   text-align: center;
   a {
-    @include fontStyle($activeColor, .15rem, .21rem);
+    @include fontStyle($fontColor, .15rem, .21rem);
     display: inline-block;
     margin-top: .16rem;
     text-align: center;
+  }
+  &.active a {
+    color: $activeColor;
   }
   &.active:after {
     content: '';

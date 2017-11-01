@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, toast, regPhone, regMail, dingSetTitle } from '@/lib/base'
+import { fetchData, goLocation, regPhone, regMail } from '@/lib/base'
+import { toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 import { isDev } from '@/config'
 import DevButtons from '@/components/DevButtons'
 
@@ -24,6 +25,7 @@ class SettingsEditAlipay extends Component {
       title = '新增支付宝'
     }
     dingSetTitle(title)
+    dingSetNavRight('')
   }
 
   deleteAccount () {

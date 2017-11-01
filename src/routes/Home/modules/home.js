@@ -2,8 +2,8 @@ import { HomeApproveDetail } from '../../HomeApproveDetail'
 import { HomeHistoryHandlers } from '../../HomeHistory'
 import { HomeHistoryDetailHandlers } from '../../HomeHistoryDetail'
 import { HomeListHandlers } from '../../HomeList'
-import { fetchData, toast } from '@/lib/base'
-
+import { fetchData } from '@/lib/base'
+import { toast } from '@/lib/ddApi'
 // export const IN_BUSY = 'IN_BUSY'
 
 // export const inBusy = (state) => {
@@ -47,7 +47,6 @@ const initialState = {
     pageCount: 1
   },
   loadMore: false,
-  noMore: false,
   approveSumMoney: 0,
   paidHistory: [],
   historyDetail: {},

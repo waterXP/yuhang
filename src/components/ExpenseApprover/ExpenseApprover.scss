@@ -9,7 +9,7 @@
   }
   .approve-list {
     padding: .24rem .12rem;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap;
     border-top: 1px solid $borderColor;
     border-bottom: 1px solid $borderColor;
@@ -19,7 +19,7 @@
     display: inline-block;
     vertical-align: top;
   }
-  .approverInfo {
+  .approver-info {
     display: inline-block;
     text-align: center;
     p {
@@ -40,5 +40,6 @@
   .nick-name {
     @include fontStyle($lFontColor, .15rem, .21rem);
     padding: 0;
+    max-width: .7rem;
   }
 }

@@ -4,7 +4,7 @@ import './ModalTextarea.scss'
 import NoData from '../NoData'
 import { isDev } from '@/config'
 
-import { toast, dingSetMenu } from '@/lib/base'
+import { toast, dingSetMenu } from '@/lib/ddApi'
 
 class ModalTextarea extends Component {
   static propTypes = {
@@ -12,32 +12,33 @@ class ModalTextarea extends Component {
     text: PropTypes.string,
     handleClick: PropTypes.func,
     cancel: PropTypes.func,
-    isBusy: PropTypes.bool
+    isBusy: PropTypes.bool,
+    modalRef: PropTypes.func
   }
-  componentDidMount () {
-    dingSetMenu(
-      [{
-        id: 1,
-        text: '确定'
-      }],
-      this.handleClick
-    )    
-  }
-  handleClick = () => {
-    if (!this.textarea.value) {
-      toast('请输入评论内容')
-    } else {
-      return this.props.handleClick(this.textarea.value)
-    }
-  }
+  // componentDidMount () {
+  //   dingSetMenu(
+  //     [{
+  //       id: 1,
+  //       text: '确定'
+  //     }],
+  //     this.handleClick
+  //   )
+  // }
+  // handleClick = () => {
+  //   return this.props.handleClick()
+  //   // else {
+  //   //   return this.props.handleClick(this.textarea.value)
+  //   // }
+  // }
   render () {
-    const { placeholder, text, cancel, isBusy } = this.props
+    const { placeholder, text, cancel, isBusy, modalRef,
+      handleClick } = this.props
     return (
       <div className='wm-modal-textarea'>
-        { isBusy && <NoData type='loading' size='small' /> }
+        { isBusy && <NoData type='loading' /> }
         <div className='container'>
           <textarea
-            ref={(e) => { this.textarea = e }}
+            ref={modalRef}
             placeholder={placeholder}
             defaultValue={text}
             disabled={isBusy}
@@ -56,7 +57,7 @@ class ModalTextarea extends Component {
               className='btn-right'
               type='button'
               disabled={isBusy}
-              onClick={this.handleClick}
+              onClick={handleClick}
             >确定</button>
           }
         </div>

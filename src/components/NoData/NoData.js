@@ -12,7 +12,7 @@ class NoData extends Component {
     cover: PropTypes.bool
   }
   render () {
-    const { text, imgsrc, icon, type, size, cover, className } = this.props
+    const { text, imgsrc, icon, type, size, cover, className, noImg } = this.props
     let showText = text
     let showIcon = icon
     let showImg = imgsrc
@@ -47,7 +47,7 @@ class NoData extends Component {
         ${className ? ' ' + className : ''}`
       }>
         <div className='box'>
-          { showImg
+          { showImg && !noImg
             ? <img src={showImg} />
             : showIcon && <i className={`fa ${showIcon}`} />
           }

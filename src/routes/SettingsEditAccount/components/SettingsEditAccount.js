@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, toast, confirm,
-  regAccount, dingSetTitle, dingSetMenu } from '@/lib/base'
+import { fetchData, goLocation, regAccount } from '@/lib/base'
+import { toast, confirm, dingSetTitle, dingSetMenu,
+  dingSetNavRight } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
 import { isDev } from '@/config'
 import DevButtons from '@/components/DevButtons'
@@ -37,6 +38,7 @@ class SettingsEditAccount extends Component {
       )
     } else {
       title = '新增银行卡号'
+      dingSetNavRight('')
     }
     dingSetTitle(title)
   }
@@ -66,12 +68,29 @@ class SettingsEditAccount extends Component {
       if (val.id) {
         action = 'post /userAccounts/updateMyAccount.json'
       }
-      let { name, chooseBankName, bankBranchName, defaultCard,
-        bankName, oldAccount, oldChooseBankName, isDefault } = val
-      if (oldChooseBankName && chooseBankName === oldChooseBankName) {
+      let { name, seAccount, bankBranchName, defaultCard,
+        bankName, oldAccount, oldSeAccount, isDefault } = val
+      const pattern = new RegExp(
+        '^[a-zA-Z0-9\u4E00-\u9FA5\ \~\
+        \`\!\@\#\$\%\^\&\*\(\)\-\_\+\=\
+        \|\\\\[\\]\{\}\;\:\"\'\,\<\.\>\
+        \/\?\u3002\uff1f\uff01\uff0c\u3001\
+        \uff1b\uff1a\u201c\u201d\u2018\u2019\
+        \uff08\uff09\u300a\u300b\u3008\u3009\
+        \u3010\u3011\u300e\u300f\u300c\u300d\
+        \ufe43\ufe44\u3014\u3015\u2026\u2014\
+        \uff5e\ufe4f\uffe5]*$',
+        'g'
+      )
+      if (!pattern.test(bankBranchName)) {
+        toast('开户行名称格式不正确')
+        this.setState({ isBusy: false })
+        return
+      }
+      if (oldSeAccount && seAccount === oldSeAccount) {
         val.account = oldAccount
       } else {
-        val.account = chooseBankName
+        val.account = seAccount
       }
       let account = val.account
       if (!name) {

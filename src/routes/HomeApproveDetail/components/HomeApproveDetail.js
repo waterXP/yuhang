@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
-import { confirm, dingSetNavRight,
-  dingSetTitle, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/ddApi'
 import PropTypes from 'prop-types'
 import NoData from '@/components/NoData'
 
@@ -20,6 +20,10 @@ class HomeApproveDetail extends Component {
     } else {
       this.props.getApproveDetail(id, false)
     }
+  }
+  componentDidMount () {
+    dingSetTitle('报销详情')
+    dingSetNavRight('')
   }
 
   commentHandler () {

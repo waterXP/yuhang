@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation, confirm, removeYear, getCash } from '@/lib/base'
+import { goLocation, removeYear, getCash } from '@/lib/base'
+import { confirm } from '@/lib/ddApi'
 
 class HomeDraftCell extends Component {
   constructor () {
@@ -70,7 +71,7 @@ class HomeDraftCell extends Component {
   }
   render () {
     const { submitTime, updatedAt, sumMoney, createdBy,
-      approvalPersonName, statusName } = this.props.draftCell
+      approvalPersonName, statusName, costTypeName } = this.props.draftCell
     const type = this.props.type
     const dt = type === 4 ? submitTime : updatedAt
     const user = type === 4 ? approvalPersonName : createdBy
@@ -81,8 +82,7 @@ class HomeDraftCell extends Component {
           <p className='date'>{removeYear(dt)}</p>
         </span>
         <div className='info'>
-          <p className='name'>{user}</p>
-          <p className='status'>{statusName}</p>
+          <p className='cost-type'>{costTypeName}</p>
         </div>
         <span className='bill'>{getCash(sumMoney)}</span>
         {

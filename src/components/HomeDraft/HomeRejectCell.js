@@ -50,8 +50,8 @@ class HomeRejectCell extends Component {
           <p className='date'>{removeYear(submitTime)}</p>
         </span>
         <div className='info'>
-          <p className='name reject'>{approvalPersonName}</p>
-          <p className='status'>{statusName}</p>
+          <p className='name'>{approvalPersonName}</p>
+          <p className='status reject'>{statusName}</p>
         </div>
         <span className='bill'>{getCash(sumMoney)}</span>
         <span className='flag'>

@@ -50,6 +50,14 @@ export const ReceiptHeader = ({ data }) => {
               {getCash(data.summoney)}<i> 元</i>
             </span>
           </p>
+          { data.projectName &&
+            <p className='flex'>
+              <span className='span-name'>项目名称</span>
+              <span className='span-content'>
+                {data.projectName}
+              </span>
+            </p>
+          }
           <p className='flex'>
             <span className='span-name'>所在部门</span>
             <span className='span-content'>

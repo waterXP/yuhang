@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import HomeApproveList from '@/components/HomeApproveList'
 import HomeNotPaid from '@/components/HomeNotPaid'
 import HomeDraft from '@/components/HomeDraft'
-import { dingSetTitle } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
 import ListTopic from '@/components/ListTopic'
 import './HomeList.scss'
@@ -13,12 +13,14 @@ class HomeList extends Component {
     super(...arguments)
     this.state = {
       type: 0,
-      text: ''
+      text: '',
+      hasScroll: false
     }
     this.initial = this::this.initial
     this.scrollHandler = this::this.scrollHandler
     this.getOffsetHeight = this::this.getOffsetHeight
     this.deleteExp = this::this.deleteExp
+    this.checkScroll = this::this.checkScroll
   }
   componentWillMount () {
     this.initial()
@@ -44,9 +46,16 @@ class HomeList extends Component {
       default :
         dingSetTitle('明快报销')
     }
+    dingSetNavRight('')
   }
   componentWillUnmount () {
     this.props.initialApprove()
+  }
+  componentDidUpdate () {
+    const { hasScroll } = this.state
+    if (!hasScroll) {
+      this.checkScroll()
+    }
   }
   initial () {
     this.type = parseInt(this.props.location.query.type)
@@ -55,7 +64,7 @@ class HomeList extends Component {
     const type = +location.query.type
     this.setState({ type })
     initialApprove()
-    getApproveList(1, false, type)
+    getApproveList(1, type)
     if (type === 1) {
       getSumMoney(1)
     } else if (type === 2) {
@@ -85,12 +94,12 @@ class HomeList extends Component {
     if (deviceHeight + scrollTop + 50 > height && !isLoading) {
       if (cPage + 1 === pageCount) {
         this.props.loadMore()
-        this.props.getApproveList(cPage + 1, true, this.type)
+        this.props.getApproveList(cPage + 1, this.type)
         this.loadMore = true
       } else if (cPage + 1 < pageCount) {
         this.props.loadMore()
         this.loadMore = false
-        this.props.getApproveList(cPage + 1, false, this.type)
+        this.props.getApproveList(cPage + 1, this.type)
       }
     }
 
@@ -114,11 +123,19 @@ class HomeList extends Component {
   deleteExp (expensesClaimsId) {
     this.props.deleteExp(expensesClaimsId, 1, this.loadMore, this.type)
   }
+  checkScroll () {
+    const el = this.listRef
+    if (el.clientHeight < el.scrollHeight) {
+      this.setState({
+        hasScroll: true
+      })
+    }
+  }
   render () {
     const { approve, loading, loadMore,
-      noMore, approveSumMoney } = this.props.approve
+      approveSumMoney } = this.props.approve
     const { corpId } = this.props
-    const { type, text } = this.state
+    const { type, text, hasScroll } = this.state
     let hasNoData = false
     if (!loading) {
       const approveList = approve ? approve.list : []
@@ -132,20 +149,21 @@ class HomeList extends Component {
         switchList = <HomeApproveList
           approve={approve}
           getOffsetHeight={this.getOffsetHeight}
-          noMore={noMore}
           approveSumMoney={approveSumMoney}
           type={type}
           corpId={corpId}
           handleInitial={this.initial}
+          hasScroll={hasScroll}
         />
         break
       case 2 :
         switchList = <HomeNotPaid
           approve={approve}
           getOffsetHeight={this.getOffsetHeight}
-          noMore={noMore}
           approveSumMoney={approveSumMoney}
-          type={type} />
+          type={type}
+          hasScroll={hasScroll}
+        />
         break
       case 4 :
       case 5 :
@@ -154,11 +172,16 @@ class HomeList extends Component {
           type={type}
           approve={approve}
           deleteExp={this.deleteExp}
-          noMore={noMore}
-          getOffsetHeight={this.getOffsetHeight} />
+          getOffsetHeight={this.getOffsetHeight}
+          hasScroll={hasScroll}
+        />
     }
     return (
-      <div className='wm-approve-list' onScroll={this.scrollHandler}>
+      <div
+        className='wm-home-list'
+        onScroll={this.scrollHandler}
+        ref={el => this.listRef = el}
+      >
         { text && <ListTopic className={type < 3 ? 'has-sum' : ''} text={ text } /> }
         { loading
           ? <NoData type='loading' />
@@ -179,7 +202,6 @@ HomeList.propTypes = {
     }),
     loading:PropTypes.bool.isRequired,
     loadMore:PropTypes.bool.isRequired,
-    noMore:PropTypes.bool.isRequired,
     approveSumMoney:PropTypes.number
   }).isRequired,
   deleteExp:PropTypes.func.isRequired,

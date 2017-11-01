@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalDetail.scss'
-import { dingSetTitle, dingSetNavRight, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 import Receipt from '@/components/Receipt'
 import NoData from '@/components/NoData'
@@ -20,6 +21,8 @@ class ApprovalDetail extends Component {
   }
 
   componentDidMount () {
+    dingSetTitle('报销单详情')
+    dingSetNavRight('')
     const { type, id } = this.props.query
     if (id) {
       this.props.getApprovalDetail(id, type)
@@ -39,17 +42,17 @@ class ApprovalDetail extends Component {
   render () {
     const { approvalDetail, query, isBusy, deleteExp } = this.props
     const status = approvalDetail.master && approvalDetail.master.status
-    if (approvalDetail && approvalDetail.master) {
-      let { userName, deptName } = approvalDetail.master
-      let title = ''
-      if (userName) {
-        title = userName + '的报销单'
-      } else {
-        title = deptName + '的报销单'
-      }
-      dingSetTitle(title)
-      dingSetNavRight('')
-    }
+    // if (approvalDetail && approvalDetail.master) {
+    //   let { userName, deptName } = approvalDetail.master
+    //   let title = ''
+    //   if (userName) {
+    //     title = userName + '的报销单'
+    //   } else {
+    //     title = deptName + '的报销单'
+    //   }
+    //   dingSetTitle(title)
+    //   dingSetNavRight('')
+    // }
     const reSubmit = approvalDetail.isMy && (status === 2 || status === 3)
     return (
       <div className='wm-approval-detail'>

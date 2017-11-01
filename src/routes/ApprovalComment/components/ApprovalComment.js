@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { goLocation, dingSetNavRight, toast } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 import ModalTextarea from '@/components/ModalTextarea'
 import { hashHistory } from 'react-router'
 
@@ -10,6 +11,31 @@ class ApprovalComment extends Component {
     addComment: PropTypes.func.isRequired,
     isBusy: PropTypes.bool
   }
+  constructor () {
+    super(...arguments)
+    this.modalConfirm = this::this.modalConfirm
+  }
+  componentDidMount () {
+    dingSetTitle('发表评论')
+    // dingSetNavRight(
+    //   '确定',
+    //   this.modalConfirm,
+    //   true
+    // )
+    dingSetNavRight(
+      '确定',
+      this.modalConfirm,
+      true
+    )
+  }
+  // componentDidUpdate () {
+  //   dingSetTitle('发表评论')
+  //   dingSetNavRight(
+  //     '确定',
+  //     this.modalConfirm,
+  //     true
+  //   )
+  // }
   modalClose = () => {
     const { id, type } = this.props.query
     if (history.length > 0) {
@@ -24,16 +50,21 @@ class ApprovalComment extends Component {
       })
     }
   }
-  modalConfirm = (v) => {
-    const { addComment, query } = this.props
-    if (v.length > 200) {
-      toast('字数不能超过200')
-    } else {
-      addComment(+query.id, v, this.modalClose)
+
+  modalConfirm = () => {
+    const { value } = this.modalRef
+    if (!value) {
+      toast('请输入评论内容')
+      return
     }
+    if (value.length > 200) {
+      toast('字数不能超过200')
+      return
+    }
+    const { addComment, query } = this.props
+    addComment(+query.id, value, this.modalClose)
   }
   render () {
-    dingSetNavRight('')
     const { isBusy } = this.props
     return (
       <ModalTextarea
@@ -42,6 +73,7 @@ class ApprovalComment extends Component {
         handleClick={this.modalConfirm}
         cancel={this.modalClose}
         isBusy={isBusy}
+        modalRef={el => this.modalRef = el}
       />
     )
   }

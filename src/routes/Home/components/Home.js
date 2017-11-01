@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import RowButtons from '@/components/RowButtons'
 import ListButtons from '@/components/ListButtons'
 
-import { dingSetTitle, dingSetNavRight, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 import './Home.scss'
 import imgDraft from '../assets/draft.png'
@@ -19,15 +20,12 @@ class Home extends Component {
     super(...arguments)
     this.clickHandler = this::this.clickHandler
   }
-  componentDidMount () {
-    dingSetNavRight('')
-  }
-  shouldComponentUpdate (nextProps, nextState) {
-    if (nextProps.location.pathname === '/home') {
+  componentDidUpdate () {
+    const { children } = this.props
+    if (!children) {
       dingSetTitle('明快报销')
       dingSetNavRight('')
     }
-    return true
   }
 
   clickHandler (value) {
@@ -43,7 +41,7 @@ class Home extends Component {
 
   render () {
     const { rBtns, lBtns } = this
-    const children = this.props.children
+    const { children } = this.props
     return (children
       ? <div className='wm-home'>{children}</div>
       : <div className='wm-home'>

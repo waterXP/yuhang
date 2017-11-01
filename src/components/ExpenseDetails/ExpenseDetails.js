@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ExpenseDetailInfo from '../ExpenseDetailInfo'
 import ConfirmButton from '../ConfirmButton'
-import { getDate, openDatePicker, blurInput } from '@/lib/base'
+import { getDate, blurInput } from '@/lib/base'
+import { openDatePicker, toast } from '@/lib/ddApi'
 
 import { isDev } from '@/config'
 
@@ -16,13 +17,25 @@ class ExpenseDetails extends Component {
     changeDate: PropTypes.func,
     details: PropTypes.array,
     formatCurrency: PropTypes.func,
-    setCostType: PropTypes.func
+    setCostType: PropTypes.func,
+    setPos: PropTypes.func
   }
   constructor (props) {
     super(props)
     this.setDate = this.setDate.bind(this)
     this.setCostType = this.setCostType.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.state = {
+      setPos: false
+    }
+  }
+  componentDidUpdate () {
+    if (this.state.setPos) {
+      this.props.setPos(this.areaRef.offsetHeight - 240)
+      this.setState({
+        setPos: false
+      })
+    }
   }
   deleteHandler (i) {
     return () => this.deleteInfo(i)
@@ -37,12 +50,16 @@ class ExpenseDetails extends Component {
   }
   handleClick () {
     blurInput()
-    let { fields, updateTags, updateNextTag, tags, nextTag } = this.props
+    let { fields, updateTags, updateNextTag,
+      tags, nextTag } = this.props
     let temp = [...tags]
     temp.push(nextTag)
     updateTags(temp)
     updateNextTag(nextTag + 1)
     fields.push({ id: nextTag })
+    this.setState({
+      setPos: true
+    })
   }
   setDate (value, target) {
     blurInput()
@@ -50,8 +67,13 @@ class ExpenseDetails extends Component {
       this.props.changeDate(target, getDate(+new Date(), 'yyyy-MM-dd'))
     }
     const defaultValue = value ? +new Date(value) : +new Date()
-    openDatePicker(defaultValue, (newDate) =>
-      this.props.changeDate(target, newDate))
+    openDatePicker(defaultValue, (newDate) => {
+      if (+new Date(newDate) > +new Date()) {
+        toast('时间不能大于当前时间')
+      } else {
+        this.props.changeDate(target, newDate)
+      }
+    })
   }
   setCostType (index) {
     return this.props.setCostType.bind(this, index)
@@ -62,7 +84,7 @@ class ExpenseDetails extends Component {
   render () {
     let { fields, details, tags } = this.props
     return (
-      <div>
+      <div ref={el => this.areaRef = el}>
         {tags && fields && fields.map((v, i) =>
           <ExpenseDetailInfo
             key={tags[i]}

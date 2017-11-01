@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { updateAccount } from '../modules/SettingsEditAlipay'
+// import { updateAccount } from '../modules/SettingsEditAlipay'
 
 import SettingsEditAlipay from '../components/SettingsEditAlipay'
 
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  updateAccount
+  // updateAccount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditAlipay)

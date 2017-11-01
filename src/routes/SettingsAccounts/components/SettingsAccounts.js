@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { goLocation, dingSetTitle, dingSetNavRight,
-  toast, dingSetMenu, confirm } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight,
+  toast, dingSetMenu, confirm} from '@/lib/ddApi'
 import PropTypes from 'prop-types'
 import './SettingsAccounts.scss'
 import AccountList from '@/components/AccountList'
@@ -143,12 +144,12 @@ class SettingsAccounts extends Component {
             </button>
           }
           {
-            !inControl && <button
-              className='new-card disabled'
-              // onClick={this.handleClick({
-              //   pathname: 'settings/edit/alipay'
-              // })}
-            >新增支付宝</button>
+            // !inControl && <button
+            //   className='new-card disabled'
+            //   // onClick={this.handleClick({
+            //   //   pathname: 'settings/edit/alipay'
+            //   // })}
+            // >新增支付宝</button>
           }
           {
             inControl && <div className='row-btns'>

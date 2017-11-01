@@ -1,4 +1,4 @@
-import { asyncFetch, fetchData } from '@/lib/base'
+import { asyncFetch, fetchData, FETCH_FAIL } from '@/lib/base'
 
 export const GET_ACCOUNTS = 'GET_ACCOUNTS'
 export const DEL_ACCOUNTS = 'DEL_ACCOUNTS'

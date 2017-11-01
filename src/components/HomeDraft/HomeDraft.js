@@ -21,11 +21,12 @@ class HomeDraft extends Component {
   }
 
   render () {
-    const { type, noMore, approve } = this.props
+    const { type, approve, hasScroll } = this.props
     const _this = this
     let lists = []
     let currentMonth = ''
     let topics = []
+    const { cPage, pageCount } = approve
     this.topics = topics
     if (approve && approve.list) {
       if (type === 5) {
@@ -69,10 +70,10 @@ class HomeDraft extends Component {
       }
     }
     return (
-      <div className='wm-draft' ref='approveList'>
+      <div className='wm-home-draft' ref='approveList'>
         <ul>{ lists }</ul>
-        { noMore &&
-          <div className='loadMore'>没有更多</div>
+        { cPage === pageCount && hasScroll &&
+          <div className='loadMore'>已经到底啦〜</div>
         }
       </div>
     )
@@ -82,9 +83,9 @@ class HomeDraft extends Component {
 HomeDraft.propTypes = {
   type:PropTypes.number.isRequired,
   approve:PropTypes.object,
-  noMore:PropTypes.bool.isRequired,
   deleteExp:PropTypes.func,
-  getOffsetHeight:PropTypes.func.isRequired
+  getOffsetHeight:PropTypes.func.isRequired,
+  hasScroll: PropTypes.bool
 }
 
 export default HomeDraft

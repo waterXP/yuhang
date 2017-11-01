@@ -22,10 +22,11 @@ export const ReceiptDetails = ({ data, title }) => {
             <span className='span-name'>金额</span>
             <span className='span-content'>{getCash(v.money)}</span>
           </p>
-          <p className='flex'>
-            <span className='span-name'>备注</span>
-            <span className='span-content'>{v.remark}</span>
-          </p>
+          { v.remark && <p className='flex'>
+              <span className='span-name'>备注</span>
+              <span className='span-content'>{v.remark}</span>
+            </p>
+          }
         </div>)
       }) }
     </div>

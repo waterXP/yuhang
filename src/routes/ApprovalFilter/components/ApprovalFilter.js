@@ -6,8 +6,8 @@ import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import ApprovalList from '@/components/ApprovalList'
 import { approveStatus } from '@/lib/enums'
-import { getObjArray, dingSetTitle, dingSetMenu,
-  goLocation } from '@/lib/base'
+import { getObjArray, goLocation } from '@/lib/base'
+import { dingSetTitle, dingSetMenu } from '@/lib/ddApi'
 
 class ApprovalFilter extends Component {
   static propTypes = {
@@ -34,6 +34,7 @@ class ApprovalFilter extends Component {
           break
         default:
           filter = getObjArray(approveStatus, 'id', 'text')
+          .filter((v) => +v.id !== 0 )
       }
     }
     this.state = {

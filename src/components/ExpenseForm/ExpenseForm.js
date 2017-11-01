@@ -11,9 +11,10 @@ import ExpenseAttachment from '../ExpenseAttachment'
 import ExpenseApprover from '../ExpenseApprover'
 import BlockButtons from '../BlockButtons'
 import ExpenseCheckbox from '../ExpenseCheckbox'
-import { fetchData, toast, getDate, getNumber,
-  goLocation, openChosen, getChosenSource,
-  uploadImage, blurInput, confirm } from '@/lib/base'
+import { fetchData, getDate, getNumber, goLocation,
+  blurInput } from '@/lib/base'
+import { toast, openChosen, getChosenSource,
+  uploadImage, confirm } from '@/lib/ddApi'
 import { saveData, cleanData, setStep, getCostType,
   setAppCatch } from '@/routes/New/modules/new'
 import NoData from '@/components/NoData'
@@ -56,7 +57,8 @@ class ExpenseForm extends Component {
     parentId: PropTypes.number,
     isDelete: PropTypes.any,
     status: PropTypes.number,
-    expensesClaimId: PropTypes.number
+    expensesClaimId: PropTypes.number,
+    setPos: PropTypes.func
   }
 
   constructor (props) {
@@ -92,6 +94,7 @@ class ExpenseForm extends Component {
     this.clearTM = this::this.clearTM
     this.deleteDraft = this::this.deleteDraft
     this.commitHandle = this::this.commitHandle
+    this.setPos = this::this.setPos
   }
 
   componentDidMount () {
@@ -573,19 +576,18 @@ class ExpenseForm extends Component {
       ? [{
         id: -0.1,
         chooseBankName: '新增银行卡'
-      }
+      }]
       // , {
       //   id: -0.2,
       //   chooseBankName: '新增支付宝'
       // }
-      ]
       : []
     let list = accountList ? [...accountList, ...newCard] : [...newCard]
     if (isDev) {
       this.modalOpen(list, selAccount, 'selAccount', 'id', 'chooseBankName')
     } else {
       let selectedKey = '新增银行卡'
-      if (accountList && accountList > 0) {
+      if (accountList && accountList.length > 0) {
         selectedKey = selAccount >= 0
           ? accountList[selAccount].chooseBankName
           : accountList[0].chooseBankName
@@ -803,14 +805,23 @@ class ExpenseForm extends Component {
     fetchData(action, params)
     .then((d) => {
       if (d.result === 0) {
-        const pathname = draft ? '/home/list' : '/approval/main'
-        goLocation({
-          pathname,
-          query: {
-            active: 2,
-            type: 6
-          }
+        this.setState({
+          text: '操作成功'
         })
+        setTimeout(() => {
+          this.setState({
+            isBusy: false,
+            text: ''
+          })
+          const pathname = draft ? '/home/list' : '/approval/main'
+          goLocation({
+            pathname,
+            query: {
+              active: 2,
+              type: 6
+            }
+          })
+        }, 1500)
       } else {
         toast(d.msg)
         this.setState({ isBusy: false })
@@ -835,6 +846,9 @@ class ExpenseForm extends Component {
   handleSubmit (e) {
     e.preventDefault()
     return
+  }
+  setPos (v) {
+    this.props.setPos(v)
   }
 
   render () {
@@ -885,6 +899,7 @@ class ExpenseForm extends Component {
           updateTags={this.updateTags}
           updateNextTag={this.updateNextTag}
           setCostType={this.setCostType}
+          setPos={this.setPos}
         />
         <ExpenseAccountInfo
           totalCash={totalCash()}
@@ -917,7 +932,7 @@ class ExpenseForm extends Component {
         }
         <BlockButtons btns={btns} />
         { !inited && <NoData type='loading' cover /> }
-        { isBusy && <NoData type='loading' cover /> }
+        { isBusy && !text && <NoData type='loading' cover /> }
         { openModal &&
           <ModalSelect
             options={options}

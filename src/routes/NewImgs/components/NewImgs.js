@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './NewImgs.scss'
-import { goLocation, confirm, toast } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { confirm, toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class NewImgs extends Component {
   static propTypes = {
@@ -31,6 +32,11 @@ class NewImgs extends Component {
 
   componentWillMount () {
     this.checkParams()
+  }
+
+  componentDidUpdate () {
+    dingSetTitle('图片浏览')
+    dingSetNavRight('')
   }
 
   getUrls () {

@@ -54,12 +54,12 @@ class ExpenseAttachment extends Component {
 
     return (
       <div className='wm-expense-attachment'>
-        <p>添加图片（可不加）</p>
+        <p>添加图片</p>
         <div className='list'>
           { rest.length > 0 && rest }
           { add.length >0 && add }
           { attachmentList.length + restAttachments.length < 9 &&
-            <button type='button' onClick={() => addAttachment()}>
+            <button className='img' type='button' onClick={() => addAttachment()}>
               <img className='add-img' src='imgs/icon_add_button.png' />
             </button>
           }

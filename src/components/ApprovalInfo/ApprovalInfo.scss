@@ -5,8 +5,12 @@
   padding: .16rem .12rem;
   border-radius: 5px;
   background-color: $mainColor;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   .avatar {
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
     width: .4rem;
     height: .4rem;
@@ -14,10 +18,14 @@
     border-radius: 50%;
   }
   .info {
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     text-align: left;
+    overflow: hidden;
     > p {
       margin-bottom: .03rem;
+      @include ellipsis;
     }
   }
   .title {
@@ -35,6 +43,8 @@
     }
   }
   .info-r {
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
     margin-left: .1rem;
     text-align: right;

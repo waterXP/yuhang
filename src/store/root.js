@@ -1,4 +1,5 @@
-import { fetchData, fetchFail, FETCH_FAIL, getTestAccount } from '@/lib/base'
+import { fetchData, fetchFail, FETCH_FAIL,
+  getTestAccount, errFunc } from '@/lib/base'
 import config, { dd } from '@/config'
 
 export const GET_CONFIG = 'GET_CONFIG'
@@ -93,6 +94,7 @@ const ACTION_HANDLERS = {
           }
         })
         if (!isLogin) {
+          // alert('not loading')
           dd.runtime.permission.requestAuthCode({
             corpId: config.corpid,
             onSuccess: function (result) {
@@ -123,6 +125,7 @@ const ACTION_HANDLERS = {
       })
       return Object.assign({}, state, { corpId: d.corpId })
     } else {
+      errFunc(action.data.statusText)
       return state
     }
   },

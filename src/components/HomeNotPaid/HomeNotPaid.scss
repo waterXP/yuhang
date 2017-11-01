@@ -17,7 +17,11 @@
     }
   }
   .list-cell {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin: .0 .12rem .08rem;
     padding: .2rem .176rem .2rem .16rem;
@@ -28,12 +32,16 @@
     }
   }
   .list-cell > span {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     display: inline-block;
     text-align: left;
     &.tm {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
-      margin-right: .66rem;
+      margin-right: 15.1%;
       text-align: center;
       .day {
         @include fontStyle($rFontColor, .13rem, .18rem);
@@ -47,15 +55,23 @@
     &.info {
       @include fontStyle($errorColor, .17rem, .24rem);
       @include ellipsis;
-      flex: 1.5 1 auto;
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
       margin-right: .17rem;
     }
     &.bill {
       @include fontStyle($lFontColor, .16rem, .19rem);
+      @include ellipsis;
+      -webkit-box-flex: none;
+      -ms-flex: none;
+      flex: none;
       margin-right: .15rem;
       text-align: right;
     }
     &.flag {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
       img {
         height: .13rem;

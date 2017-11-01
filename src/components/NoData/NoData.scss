@@ -3,6 +3,7 @@
 .no-data {
   padding: $panelPadding;
   margin: .7rem 0;
+  z-index: 999999;
   i {
     color: $activeColor;
     font-size: .7rem;

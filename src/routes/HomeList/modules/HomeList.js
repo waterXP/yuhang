@@ -1,4 +1,5 @@
-import { asyncFetch, pageSize, dingShowPreLoad, dingHidePreLoad } from '@/lib/base'
+import { asyncFetch, pageSize } from '@/lib/base'
+import { dingShowPreLoad, dingHidePreLoad } from '@/lib/ddApi'
 
 export const GET_APPROVE = 'GET_APPROVE'
 export const INITIAL_APPROVE = 'INITIAL_APPROVE'
@@ -9,7 +10,7 @@ export const GET_OFFSET_HEIGHT = 'GET_OFFSET_HEIGHT'
 export const LOAD_MORE = 'LOAD_MORE'
 export const DELETE_EXP = 'DELETE_EXP'
 
-export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
+export const getApproveList = (cPage = 1, type = 1) => {
   let params = {
     current_page: cPage,
     pageSize: pageSize
@@ -23,8 +24,8 @@ export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
       url = 'get /expensesClaimsMobile/waitPaidList.json'
       break
     case 4 :
-      url = 'get /expensesClaims/myList.json'
-      params.statusVal = 2
+      url = 'get /expensesClaims/draftList.json'
+      params.status = 2
       break
     case 5 :
       url = 'get /expensesClaims/myList.json'
@@ -32,8 +33,8 @@ export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
       // params.type = 'allReject'
       break
     case 6 :
-      url = 'get /expensesClaims/myList.json'
-      params.statusVal = 0
+      url = 'get /expensesClaims/draftList.json'
+      params.status = 0
       break
     default :
       return
@@ -57,7 +58,6 @@ export const getApproveList = (cPage = 1, noMore = false, type = 1) => {
         type: GET_APPROVE,
         approve: dataCell,
         isLoading: false,
-        noMore: noMore,
         loadMore: false
       })
     }
@@ -137,7 +137,6 @@ export const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       approve: action.approve,
       isLoading: action.isLoading,
-      noMore: action.noMore,
       loadMore: action.loadMore
     })
   },

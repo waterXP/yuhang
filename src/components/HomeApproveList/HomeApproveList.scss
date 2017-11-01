@@ -17,7 +17,11 @@
     }
   }
   .list-cell {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin: .0 .12rem .08rem;
     padding: .2rem .176rem .2rem .16rem;
@@ -28,13 +32,17 @@
     }
   }
   .list-cell > span, .list-cell > div {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     display: inline-block;
     text-align: left;
     overflow: hidden;
     &.tm {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
-      margin-right: .33rem;
+      margin-right: 15.1%;
       text-align: center;
       .day {
         @include fontStyle($rFontColor, .13rem, .18rem);
@@ -46,28 +54,43 @@
       }
     }
     &.info {
-      // flex: auto;
       margin-right: .17rem;
+      -webkit-box-flex: 1.5;
+      -ms-flex: 1.5;
+      flex: 1.5;
       p {
         margin: 0;
       }
       .name {
         @include fontStyle($fontNameColor, .17rem, .24rem);
         @include ellipsis;
+        width: .8rem;
       }
       .status {
         @include fontStyle($warningColor, .13rem, .18rem);
       }
     }
     &.bill {
+      // -webkit-box-flex: auto;
+      // -ms-flex: auto;
       // flex: auto;
       @include fontStyle($fontNameColor, .16rem, .19rem);
       @include ellipsis;
-      margin-right: .2rem;
+      -webkit-box-flex: none;
+      -ms-flex: none;
+      flex: none;
+      margin-right: 9.1%;
+      text-align: right;
+      width: .76rem;
     }
     &.flag {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
       img {
+        height: .13rem;
+      }
+      &.ding img {
         height: .23rem;
       }
     }

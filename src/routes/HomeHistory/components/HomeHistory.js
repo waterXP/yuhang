@@ -4,8 +4,8 @@ import SendHistoryList from '@/components/SendHistoryList'
 import './HomeHistory.scss'
 import NoData from '@/components/NoData'
 import ListTopic from '@/components/ListTopic'
-import { dingSetNavRight, goLocation, dingSetTitle,
-  datePicker } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetNavRight, dingSetTitle, datePicker } from '@/lib/ddApi'
 
 class HomeHistory extends Component {
   static propTypes = {
@@ -24,10 +24,12 @@ class HomeHistory extends Component {
   constructor () {
     super(...arguments)
     this.state = {
-      text: ''      
+      text: '',
+      hasScroll: false
     }
     this.setTopics = this::this.setTopics
     this.selDate = this::this.selDate
+    this.checkScroll = this::this.checkScroll
   }
 
   componentDidMount () {
@@ -36,6 +38,12 @@ class HomeHistory extends Component {
     dingSetNavRight('筛选', () => {
       this.selDate()
     }, true)
+  }
+  componentDidUpdate () {
+    const { hasScroll } = this.state
+    if (!hasScroll) {
+      this.checkScroll()
+    }
   }
   componentWillUnmount () {
     this.props.clearHistory()
@@ -90,15 +98,29 @@ class HomeHistory extends Component {
       this.setState({ text })
     }
   }
+  checkScroll () {
+    const el = this.refs.history
+    if (el.clientHeight < el.scrollHeight) {
+      this.setState({
+        hasScroll: true
+      })
+    }
+  }
   render () {
-    const { paidHistory, loadingBool, loadMoreBool } = this.props
-    const { text } = this.state
+    const { paidHistory, loadingBool, loadMoreBool,
+      total_page, cPage } = this.props
+    const { text, hasScroll } = this.state
     let noData = false
     if (!paidHistory || paidHistory.length === 0) {
       noData = true
     }
+    const pageEnd = total_page === cPage && cPage > 0
     return (
-      <div className='wm-settings-history' onScroll={this.scrollHandler} ref='history'>
+      <div
+        className='wm-home-history'
+        onScroll={this.scrollHandler}
+        ref='history'
+      >
       { text && <ListTopic text={ text } /> }
         { loadingBool
             ? <NoData type='loading' />
@@ -107,9 +129,12 @@ class HomeHistory extends Component {
               : <SendHistoryList
                   datas={paidHistory}
                   pathname='detail'
-                  setTopics={this.setTopics} />
+                  setTopics={this.setTopics}
+                />
         }
         { loadMoreBool && <NoData type='loading' size='small' /> }
+        { hasScroll && pageEnd &&
+          <div className='loadMore'>已经到底啦〜</div> }
       </div>
     )
   }

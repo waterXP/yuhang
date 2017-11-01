@@ -1,9 +1,6 @@
 @import '../../../styles/baseStyle';
 
 .wm-approval-filter-results {
-  .top-btn {
-
-  }
   .wm-approval-list {
     position: absolute;
     top: 0;
@@ -13,3 +10,7 @@
     padding-top: .12rem
   }
 }
+.no-footer .wm-approval-filter-results .wm-approval-list {
+  bottom: 0;
+}
+

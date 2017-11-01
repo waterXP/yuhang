@@ -87,3 +87,7 @@ input, input:before, input:after {
   padding: .06rem 0;
   color: #ccc;
 }
+
+#root {
+  border-top: 1px solid $borderColor;
+}

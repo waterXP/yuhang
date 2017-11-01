@@ -1,4 +1,4 @@
-.wm-approve-list {
+.wm-home-list {
   position: absolute;
   top: 0;
   right: 0;
@@ -11,4 +11,7 @@
     }
     padding-left: .12rem;
   }
+}
+.no-footer .wm-home-list {
+  bottom: 0;
 }

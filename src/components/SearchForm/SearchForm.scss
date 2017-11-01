@@ -1,6 +1,8 @@
 @import '../../styles/baseStyle';
 
 .wm-search-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: .08rem 0 .08rem .08rem;
   background-color: $mainColor;
@@ -19,6 +21,8 @@
     right: .62rem;
   }
   input {
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     padding: .04rem .29rem .04rem .29rem;
     width: calc(100% - .9rem);
@@ -33,6 +37,8 @@
   }
   a {
     @include fontStyle($activeColor, .16rem, .22rem);
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
     display: inline-block;
     width: auto;

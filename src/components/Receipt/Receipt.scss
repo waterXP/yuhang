@@ -1,6 +1,6 @@
 @import '../../styles/baseStyle';
 .wm-receipt {
-  margin-bottom: .09rem;
+  margin-bottom: .49rem;
   background-color: $mainColor;
   .fixed-bottom {
     position: fixed;
@@ -17,9 +17,13 @@
     outline: none;
   }
   .flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
   .span-name {
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
     display: inline-block;
     margin: .03rem 0;
@@ -28,6 +32,8 @@
     @include fontStyle($lFontColor, .15rem, .2rem);
   }
   .span-content {
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     margin: .03rem 0;
     margin-left: .1rem;
@@ -45,14 +51,21 @@
   margin-left: .2rem;
   text-align: left;
   p { margin: 0; }
-  .main-info { border-bottom: $border; }
+  .main-info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom: $border;
+  }
   .avatar {
     @include avatar(.4rem);
     margin: .16rem .12rem .14rem 0;
   }
   .base-info {
     display: inline-block;
+    max-width: calc(100% - .5rem);
     .name {
+      @include ellipsis;
       margin-top: .14rem;
       font-size: .17rem;
       line-height: .24rem;
@@ -91,6 +104,8 @@
 }
 
 .wm-receipt-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   flex-direction: row;
   padding: 0.12rem 0;
@@ -98,6 +113,8 @@
   height: .49rem;
   a {
     @include fontStyle($activeColor, .17rem, .24rem);
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     // border-right: 1px solid $borderSecondColor;
     &:after {
@@ -178,6 +195,9 @@
         border-left: none;
       }
     }
+    &:last-child {
+      padding-bottom: .3rem;
+    }
   }
 
   .avatar {
@@ -207,6 +227,8 @@
       font-size: .15rem;
       line-height: .21rem;
       &:first-child {
+        @include ellipsis;
+        max-width: calc(100% - 1.2rem);
         margin-right: .1rem;
       }
     }

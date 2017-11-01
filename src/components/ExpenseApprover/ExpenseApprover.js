@@ -9,7 +9,7 @@ const ExpenseApprover = ({ approvers }) => {
       <div className='approve-list'>
         { approvers && approvers.length > 0 && approvers.map((v, i) =>
           <div className='approvers' key={v.id}>
-            <div className='approverInfo'>
+            <div className='approver-info'>
               <img className='avatar' src={v.avatar} />
               <p className='nick-name'>{ v.nickName }</p>
             </div>

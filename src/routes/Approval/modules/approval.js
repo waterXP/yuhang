@@ -1,4 +1,5 @@
-import { asyncFetch, fetchData, toast, FETCH_FAIL } from '@/lib/base'
+import { asyncFetch, fetchData, FETCH_FAIL } from '@/lib/base'
+import { toast } from '@/lib/ddApi'
 
 export const GET_LIST = 'GET_LIST'
 export const IN_BUSY = 'IN_BUSY'

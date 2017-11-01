@@ -15,16 +15,43 @@ class ApprovalList extends Component {
     tag: PropTypes.number,
     isBusy: PropTypes.bool,
     inSearch: PropTypes.bool,
-    keyword: PropTypes.string
+    keyword: PropTypes.string,
+    loaded: PropTypes.bool
   }
-  constructor (props) {
-    super(props)
-    this.scrolled = this.scrolled.bind(this)
-    this.getApproveUrl = this.getApproveUrl.bind(this)
+  constructor () {
+    super(...arguments)
+    this.scrolled = this::this.scrolled
+    this.getApproveUrl = this::this.getApproveUrl
+    this.checkHasMore = this::this.checkHasMore
+    this.state = {
+      hasMore: false
+    }
   }
   componentDidMount () {
     if (!this.props.pageEnd) {
       this.checkScroll(this.targetDiv)
+    }
+    this.checkHasMore()
+  }
+  componentDidUpdate () {
+    this.checkHasMore()
+  }
+  checkHasMore () {
+    const hasMore = this.targetDiv
+      ? this.targetDiv.clientHeight < this.targetDiv.scrollHeight
+      : false
+    if (hasMore) {
+      if (!this.state.hasMore) {
+        this.setState({
+          hasMore
+        })
+      }
+    } else {
+      if (this.state.hasMore) {
+        this.setState({
+          hasMore
+        })
+      }
     }
   }
   getApproveUrl (expensesClaimsId, cb) {
@@ -48,7 +75,8 @@ class ApprovalList extends Component {
   }
   render () {
     const { list, tag, pageEnd, isBusy, inSearch,
-      keyword, handleInitial } = this.props
+      keyword, handleInitial, loaded } = this.props
+    const { hasMore } = this.state
     return (
       <div
         className='wm-approval-list'
@@ -74,13 +102,14 @@ class ApprovalList extends Component {
               {...data}
             />
           ))
-          : !isBusy && <NoData type='nodata' />
+          : !isBusy && loaded && <NoData type='nodata' />
         }
         { list.length > 0
           ? isBusy && <NoData type='loading' size='small' />
           : isBusy && <NoData type='loading' /> }
         {
-          // !isBusy && pageEnd && list.length > 0 && <NoData type='loading' size='small' text='没有更多' />
+          !isBusy && pageEnd && hasMore &&
+          list.length > 0 && <NoData type='loading' size='small' text='已经到底啦〜' noImg />
         }
       </div>
     )

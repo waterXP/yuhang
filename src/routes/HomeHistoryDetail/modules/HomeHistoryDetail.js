@@ -1,4 +1,5 @@
-import { fetchData, toast, FETCH_FAIL } from '@/lib/base'
+import { fetchData, FETCH_FAIL } from '@/lib/base'
+import { toast } from '@/lib/ddApi'
 
 const GET_HISTORY_DETAIL = 'GET_HISTORY_DETAIL'
 const IN_BUSY = 'IN_BUSY'

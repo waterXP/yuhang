@@ -2,11 +2,17 @@
 
 .wm-user-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background-color: $mainColor;
   cursor: pointer;
   .avatar {
+    -webkit-box-flex: none;
+    -ms-flex: none;
     flex: none;
     width: .3rem;
     height: .3rem;
@@ -16,6 +22,8 @@
   .line {
     @include ellipsis;
     @include fontStyle($fontColor, .17rem, .24rem);
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     text-align: left;
     padding: .09rem 0;

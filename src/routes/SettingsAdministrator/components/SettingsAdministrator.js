@@ -5,8 +5,10 @@ import SearchForm from '@/components/SearchForm'
 import UserList from '@/components/UserList'
 import UserInfo from '@/components/UserInfo'
 import Shortcut from '@/components/Shortcut'
-import { fetchData, toast, goLocation, dingSetTitle,
+import { fetchData, goLocation,
   checkCharacter, compareCharacter } from '@/lib/base'
+import { toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
+import { toPinyin } from '@/lib/py'
 import NoData from '@/components/NoData'
 import './SettingsAdministrator.scss'
 
@@ -45,6 +47,7 @@ class SettingsAdministrator extends Component {
   }
   componentDidMount () {
     dingSetTitle('设置超管')
+    dingSetNavRight('')
     this.checkAuthority()
   }
   checkAuthority () {
@@ -138,54 +141,40 @@ class SettingsAdministrator extends Component {
   }
   orderByPY () {
     const { list, setAdmin } = this.state
-    const letters = '*abcdefghjklmnopqrstwxyz'.split('');
-    const zh = '阿八嚓哒妸发旮哈讥咔垃麻拏噢妑七呥扨它穵夕丫帀'.split('');
-    let r = []
+    let orderedList = []
     let _list = [...list]
     let adminInfo
-    letters.forEach((l, i) => {
-      const arr = { letter: l.toUpperCase(), data: [] }
-      for (let index = _list.length - 1; index > -1; index--) {
-        const v = _list[index]
-        if (v.dingid === setAdmin) {
-          adminInfo = v
-        } else {
-          const d = v.nickName
-          const tp = checkCharacter(d)
-          if (i === 0 && tp === 3) {
-            arr.data.push(v)
-            _list.splice(index, 1)
-          } else {
-            switch (tp) {
-              case 1:
-                if (d.charAt(0).toLowerCase() === l) {
-                  arr.data.push(v)
-                  _list.splice(index, 1)
-                }
-                break
-              case 2:
-                if ((!zh[i - 1] ||
-                  zh[i - 1].localeCompare(d, 'zh') <= 0) &&
-                  d.localeCompare(zh[i], 'zh') === - 1) {
-                  arr.data.push(v)
-                  _list.splice(index, 1)
-                }
-            }
-          }
+
+    _list.forEach((d, i) => {
+      if (d.dingid === setAdmin) {
+        adminInfo = d
+        return
+      }
+
+      const name = d.nickName
+      const tp = checkCharacter(name)
+      let target = 26
+      let letter = '#'
+      if (tp < 3) {
+        letter = (tp === 2 ? toPinyin(name) : name).charAt(0).toUpperCase()
+        target = letter.charCodeAt(0) - 65
+
+      }
+      if (!orderedList[target]) {
+        orderedList[target] = {
+          letter,
+          data: []
         }
       }
-      if (arr.data.length) {
-        r.push(arr)
-        arr.data.sort((a, b) => {
-          return compareCharacter(a.nickName, b.nickName)
-        })
-      }
+      orderedList[target].data.push(d)
     })
-    if (r[0].letter === '*') {
-      r[0].letter = '#'
-      r = [...r.slice(1), r[0]]
-    }
-    return { adminInfo, orderedList: r}
+    orderedList = orderedList.filter((v) => v)
+    orderedList.forEach((v) =>
+      v.data.sort((a, b) => {
+        return compareCharacter(a.nickName, b.nickName)
+      })
+    )
+    return { adminInfo, orderedList}
   }
   getOrderList () {
     const { adminInfo, orderedList } = this.orderByPY()
@@ -231,7 +220,6 @@ class SettingsAdministrator extends Component {
       adminInfo, orderedList, text } = this.state
     const showList = !keyword ? orderedList : this.filterKeyword(orderedList)
     this.posRef = {}
-    
     return (
       <div className='wm-settings-administrator'>
         { isBusy && <NoData type='loading' cover /> }

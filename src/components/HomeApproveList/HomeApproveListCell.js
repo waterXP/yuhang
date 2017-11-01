@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { dingApproveDetail, dingSend, removeYear, getCash, toast } from '@/lib/base'
+import { removeYear, getCash } from '@/lib/base'
+import { dingApproveDetail, dingSend, toast } from '@/lib/ddApi'
 import PropTypes from 'prop-types'
 
 class HomeApproveListCell extends Component {
@@ -65,7 +66,7 @@ class HomeApproveListCell extends Component {
           <p className='status'>{dynamic}</p>
         </div>
         <span className='bill'>{getCash(sumMoney)}</span>
-        <span className='flag' onClick={this.clickHandler}>
+        <span className='flag ding' onClick={this.clickHandler}>
           <img src='imgs/icon_ding.png' />
         </span>
       </li>

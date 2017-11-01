@@ -14,7 +14,11 @@
     }
   }
   .list-cell {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin: .0 .12rem .08rem;
     padding: .2rem .176rem .2rem .16rem;
@@ -25,12 +29,16 @@
     }
   }
   .list-cell > span, .list-cell > div {
+    -webkit-box-flex: auto;
+    -ms-flex: auto;
     flex: auto;
     display: inline-block;
     text-align: left;
     &.tm {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
-      margin-right: .5rem;
+      margin-right: 14.1%;
       text-align: center;
       .day {
         @include fontStyle($rFontColor, .13rem, .18rem);
@@ -50,6 +58,7 @@
       .name {
         @include fontStyle($fontNameColor, .17rem, .24rem);
         @include ellipsis;
+        width: .8rem;
       }
       .status {
         @include fontStyle($correctColor, .13rem, .18rem);
@@ -57,13 +66,16 @@
     }
     &.bill {
       @include fontStyle($fontNameColor, .16rem, .19rem);
-      margin-right: .15rem;
+      margin-right: 9.1%;
       text-align: right;
+      width: .76rem;
     }
     &.flag {
+      -webkit-box-flex: none;
+      -ms-flex: none;
       flex: none;
       img {
-        height: .23rem;
+        height: .13rem;
       }
     }
   }

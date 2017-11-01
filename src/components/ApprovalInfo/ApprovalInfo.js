@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalInfo.scss'
 
-import { dingApproveDetail, getCash, goLocation,
-  getTimeFromStr, getDate } from '@/lib/base'
+import { getCash, goLocation, getTimeFromStr, getDate } from '@/lib/base'
+import { dingApproveDetail } from '@/lib/ddApi'
 
 import { isDev } from '@/config'
 
@@ -54,7 +54,7 @@ class ApprovalInfo extends Component {
   render () {
     const { userName, sumMoney, statusName, submitTime, createdBy,
       createdAvatar, expensesClaimsId, status, tag,
-      submitTimeStamp } = this.props
+      submitTimeStamp, deptName } = this.props
     let statusClass = 'important'
     if (tag === 3) {
       statusClass = 'r-font'
@@ -120,7 +120,7 @@ class ApprovalInfo extends Component {
         <img src={createdAvatar} className='avatar' />
         <div className='info'>
           <p className='title'>{ createdBy }</p>
-          <p className='name'>报销人：{ userName }</p>
+          <p className='name'>报销人：{ userName }（{ deptName }）</p>
           <p>
             <span className='name'>金额：</span>
             <span className='bill'>{ getCash(sumMoney) }</span>

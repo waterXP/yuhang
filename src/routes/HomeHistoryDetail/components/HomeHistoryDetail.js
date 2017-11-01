@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Receipt from '@/components/Receipt'
-import { dingSetNavRight, dingSetTitle, goLocation } from '@/lib/base'
+import { goLocation } from '@/lib/base'
+import { dingSetNavRight, dingSetTitle } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
 
 class HomeHistoryDetail extends Component {
@@ -27,6 +28,8 @@ class HomeHistoryDetail extends Component {
     })
   }
   componentDidMount () {
+    dingSetTitle('报销详情')
+    dingSetNavRight('')
     if (this.props.query.id) {
       this.props.getHistoryDetail(this.props.query.id)
     }
@@ -35,17 +38,17 @@ class HomeHistoryDetail extends Component {
 
   render () {
     const { historyDetail, query, isLoading } = this.props
-    if (historyDetail.master) {
-      let { userName, deptName } = historyDetail.master
-      let title = ''
-      if (userName) {
-        title = userName + '的报销单'
-      } else {
-        title = deptName + '的报销单'
-      }
-      dingSetTitle(title)
-      dingSetNavRight('')
-    }
+    // if (historyDetail.master) {
+    //   let { userName, deptName } = historyDetail.master
+    //   let title = ''
+    //   if (userName) {
+    //     title = userName + '的报销单'
+    //   } else {
+    //     title = deptName + '的报销单'
+    //   }
+    //   dingSetTitle(title)
+    //   dingSetNavRight('')
+    // }
     return (
       isLoading
       ? <NoData type='loading' />

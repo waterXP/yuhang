@@ -12,11 +12,12 @@ class HomeNotPaid extends Component {
     this.props.getOffsetHeight(this.refs.notPaidList, this.topics)
   }
   render () {
-    let { approveSumMoney, noMore, approve } = this.props
+    let { approveSumMoney, approve, hasScroll } = this.props
     const sumMoney = approveSumMoney || 0
     let lists = []
     let currentMonth = ''
     let topics = []
+    const { cPage, pageCount } = approve
     this.topics = topics
     if (approve && approve.list) {
       approve.list.map((v, i, arr) => {
@@ -38,16 +39,17 @@ class HomeNotPaid extends Component {
       <div className='wm-home-not-paid' ref='notPaidList'>
         <HomeNotPaidTotal total={sumMoney} />
         <ul>{ lists }</ul>
-        { noMore && <div className='loadMore'>没有更多</div> }
+        { cPage === pageCount && hasScroll &&
+          <div className='loadMore'>已经到底啦〜</div> }
       </div>
     )
   }
 }
 HomeNotPaid.propTypes = {
   approveSumMoney:PropTypes.number,
-  noMore:PropTypes.bool,
   approve:PropTypes.object,
-  getOffsetHeight:PropTypes.func.isRequired
+  getOffsetHeight:PropTypes.func.isRequired,
+  hasScroll: PropTypes.bool
 }
 
 export default HomeNotPaid

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalSearchInfo.scss'
 
-import { dingApproveDetail, getCash, goLocation,
-  getDate, getHighLightText } from '@/lib/base'
+import { getCash, goLocation, getDate, getHighLightText } from '@/lib/base'
+import { dingApproveDetail } from '@/lib/ddApi'
 
 import { isDev } from '@/config'
 

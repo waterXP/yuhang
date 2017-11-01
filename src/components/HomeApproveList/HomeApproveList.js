@@ -12,12 +12,13 @@ class HomeApproveList extends Component {
     this.props.getOffsetHeight(this.refs.approveList, this.topics)
   }
   render () {
-    const { approve, noMore, approveSumMoney,
-      type, corpId, handleInitial } = this.props
+    const { approve, approveSumMoney,
+      type, corpId, handleInitial, hasScroll } = this.props
     const sumMoney = approveSumMoney || 0
     let lists = []
     let currentMonth = ''
     let topics = []
+    const { cPage, pageCount } = approve
     this.topics = topics
     if (approve && approve.list) {
       approve.list.map((v, i) => {
@@ -44,7 +45,8 @@ class HomeApproveList extends Component {
       <div className='wm-home-approve-list' ref='approveList'>
         <HomeApproveTotal total={sumMoney} />
         <ul>{ lists }</ul>
-        { noMore && <div className='loadMore'>没有更多</div> }
+        { cPage === pageCount && hasScroll &&
+          <div className='loadMore'>已经到底啦〜</div> }
       </div>
     )
   }
@@ -52,12 +54,12 @@ class HomeApproveList extends Component {
 
 HomeApproveList.propTypes = {
   approve: PropTypes.object,
-  noMore: PropTypes.bool,
   approveSumMoney: PropTypes.number,
   type: PropTypes.number,
   getOffsetHeight: PropTypes.func,
   corpId: PropTypes.string,
-  handleInitial: PropTypes.func
+  handleInitial: PropTypes.func,
+  hasScroll: PropTypes.bool
 }
 
 export default HomeApproveList

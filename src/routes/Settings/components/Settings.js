@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import './Settings.scss'
-import { history, dingSetTitle, dingSetNavRight, toast, fetchData } from '@/lib/base'
+import { history, fetchData } from '@/lib/base'
+import { dingSetTitle, dingSetNavRight, toast } from '@/lib/ddApi'
 
 class Settings extends Component {
   static propTypes = {
@@ -30,6 +31,11 @@ class Settings extends Component {
   }
   componentDidUpdate () {
     this.checkUrl()
+    const { children } = this.props
+    if (!children) {
+      dingSetTitle('我的')
+      dingSetNavRight('')
+    }
   }
   checkAuthority () {
     this.setState({ hasAuthority: false })
@@ -55,8 +61,8 @@ class Settings extends Component {
       setStep('')
       this.checkAuthority()
       history.replace('/settings')
-      dingSetTitle('我的')
-      dingSetNavRight('')
+      // dingSetTitle('我的')
+      // dingSetNavRight('')
     }
   }
 
@@ -68,9 +74,16 @@ class Settings extends Component {
         { children ||
           <div>
             <div className='userinfo'>
-              <img className='avatar' src={userInfo.avatar || 'imgs/icon_empty.png'} />
-              <p className='name'>{userInfo.name}</p>
-              <p className='phone'>{userInfo.mobile}</p>
+              <div className='avatar-bg'>
+                <img className='avatar' src={userInfo.avatar || 'imgs/icon_empty.png'} />
+              </div>
+              <p className='name'>{userInfo.nickName}</p>
+              <p className='phone'>
+                { userInfo.mobile && userInfo.mobile !== 'null'
+                  ? userInfo.mobile
+                  : ''
+                }
+              </p>
             </div>
             <ul>
               <li className='a-link'>

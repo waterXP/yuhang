@@ -30,7 +30,7 @@ export const ReceiptFlow = ({ processList }) => {
             <div className='info'>
               <p className='base-info'>
                 <span className='pull-left'>{data.userName}</span>
-                {data.type !== undefined &&
+                {data.type !== undefined && data.type !== 3 &&
                   <span className={`pull-left ${className[data.type]}`}
                   >
                     {approveDetailType[data.type]}
@@ -44,7 +44,7 @@ export const ReceiptFlow = ({ processList }) => {
                 }
                 <span className='clearfix' />
               </p>
-              {data.remark && <p className='comment'>{data.remark}</p>}
+              {data.type !== 1 && data.remark && <p className='comment'>{data.remark}</p>}
             </div>
           </div>
         )
