@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Receipt from '@/components/Receipt'
+import ReceiptButtons from '@/components/Receipt/ReceiptButtons'
 import { goLocation } from '@/lib/base'
 import { dingSetNavRight, dingSetTitle } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
+import './HomeHistoryDetail.scss'
 
 class HomeHistoryDetail extends Component {
   static propTypes = {
@@ -38,29 +40,24 @@ class HomeHistoryDetail extends Component {
 
   render () {
     const { historyDetail, query, isLoading } = this.props
-    // if (historyDetail.master) {
-    //   let { userName, deptName } = historyDetail.master
-    //   let title = ''
-    //   if (userName) {
-    //     title = userName + '的报销单'
-    //   } else {
-    //     title = deptName + '的报销单'
-    //   }
-    //   dingSetTitle(title)
-    //   dingSetNavRight('')
-    // }
+    const buttons = [{
+        text: '评论',
+        func: this.commentHandler
+      }]
     return (
-      isLoading
-      ? <NoData type='loading' />
-      : <div>
-        { historyDetail.master &&
-          (+query.id === historyDetail.master.expensesClaimId) &&
-          <Receipt
-            data={historyDetail}
-            addComment={this.commentHandler}
-            type={3}
-            afterApproval
-          />
+      <div className='wm-home-history-detail'>
+        { isLoading
+          ? <NoData type='loading' />
+          : historyDetail.master &&
+            (+query.id === historyDetail.master.expensesClaimId) &&
+            <div className='content'>
+              <Receipt
+                data={historyDetail}
+              />
+              <ReceiptButtons
+                btns={buttons}
+              />
+            </div>
         }
       </div>
     )

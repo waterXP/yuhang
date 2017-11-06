@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import './ApprovalFilterResults.scss'
 import ApprovalList from '@/components/ApprovalList'
 import { approveStatus } from '@/lib/enums'
+import { goBack } from '@/lib/base'
 import { dingSetTitle, dingSetMenu } from '@/lib/ddApi'
 
 class ApprovalFilterResults extends Component {
@@ -93,7 +94,7 @@ class ApprovalFilterResults extends Component {
     }
   }
   cancel () {
-    window.history.back()
+    goBack()
   }
   render () {
     const { isBusy, list, query, page } = this.props

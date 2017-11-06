@@ -9,7 +9,8 @@ class SearchForm extends Component {
     submitHandler: PropTypes.func,
     cancelHandler: PropTypes.func,
     placeholder: PropTypes.string,
-    hiddenButton: PropTypes.bool
+    hiddenButton: PropTypes.bool,
+    autoFocus: PropTypes.bool
   }
   constructor (props) {
     super(props)
@@ -21,6 +22,9 @@ class SearchForm extends Component {
     this.clean = this::this.clean
     this.getList = this::this.getList
     this.handleCancel = this::this.handleCancel
+  }
+  componentDidMount () {
+    this.props.autoFocus && this.refs.searchInput.focus()
   }
   handleChange (e) {
     const { inBusy } = this.props

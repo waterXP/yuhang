@@ -7,6 +7,9 @@
       @include fontStyle($mainColor, .17rem, .24rem);
       padding: .12rem;
       border-radius: .05rem;
+      &:focus {
+        outline: none;
+      }
       &:first-child {
         background-color: $activeColor;
         border: 1px solid $activeColor;

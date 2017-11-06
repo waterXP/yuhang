@@ -21,7 +21,7 @@ class FormSelect extends Component {
         <Field name={name} component='button' type='button' onClick={clickHandler}>
           {value}
           {value && iconRight && ' '}
-          {iconRight && <i className={`fa ${iconRight} wm-color-secondary`} />}          
+          {iconRight && <i className={`fa ${iconRight} wm-color-secondary`} />}
         </Field>
         {imgRight && <img className='img-right' src={imgRight} />}
       </div>

@@ -1,21 +1,12 @@
 @import '../../styles/baseStyle';
 .wm-receipt {
-  margin-bottom: .49rem;
-  background-color: $mainColor;
-  .fixed-bottom {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: .49rem;
-    background-color: $mainColor;
-    box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, .1)
-  }
-  button {
-    @include fontStyle($activeColor, .17rem, .24rem);
-    background-color: $mainColor;
-    outline: none;
-  }
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: .49rem;
+  left: 0;
+  // background-color: $mainColor;
+  overflow-y: auto;
   .flex {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -48,8 +39,9 @@
 }
 
 .wm-receipt-header {
-  margin-left: .2rem;
+  padding-left: .2rem;
   text-align: left;
+  background-color: $mainColor;
   p { margin: 0; }
   .main-info {
     display: -webkit-box;
@@ -82,13 +74,14 @@
 }
 
 .wm-receipt-details {
-  margin: 0 .2rem;
+  padding: .1rem .2rem 0;
   text-align: left;
+  background-color: $mainColor;
   .detail {
-    margin-bottom: .17rem;
+    padding-bottom: .17rem;
   }
   .title {
-    margin: .1rem 0 .06rem;
+    margin: 0 0 .06rem;
     padding: .02rem .08rem;
     background-color: $backSecondColor;
     font-size: .17rem;
@@ -103,36 +96,8 @@
   }
 }
 
-.wm-receipt-buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-direction: row;
-  padding: 0.12rem 0;
-  z-index: 999;
-  height: .49rem;
-  a {
-    @include fontStyle($activeColor, .17rem, .24rem);
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    // border-right: 1px solid $borderSecondColor;
-    &:after {
-      content: ' ';
-      display: block;
-      position: absolute;
-      top: .18rem;
-      height: .14rem;
-      width: 1px;
-      background-color: $borderSecondColor;
-    }
-    &:first-child:after {
-      display: none;
-    }
-  }
-}
-
 .wm-receipt-attchment {
+  background-color: $mainColor;
   text-align: left;
   .attachment-title {
     @include fontStyle($rFontColor, .15rem, .21rem);
@@ -173,6 +138,7 @@
 }
 
 .wm-receipt-flow {
+  background-color: $mainColor;
   &:before, &:after {
     content: ' ';
     display: block;
@@ -194,9 +160,6 @@
       .info {
         border-left: none;
       }
-    }
-    &:last-child {
-      padding-bottom: .3rem;
     }
   }
 
@@ -228,7 +191,7 @@
       line-height: .21rem;
       &:first-child {
         @include ellipsis;
-        max-width: calc(100% - 1.2rem);
+        max-width: calc(100% - 1.7rem);
         margin-right: .1rem;
       }
     }
@@ -245,6 +208,7 @@
 }
 
 .wm-receipt-history {
+  background-color: $mainColor;
   text-align: left;
   .topic {
     @include fontStyle($rFontColor, .15rem, .21rem);

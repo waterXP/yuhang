@@ -1,4 +1,4 @@
-import { asyncFetch, fetchData, FETCH_FAIL } from '@/lib/base'
+import { asyncFetch, fetchData, FETCH_FAIL, goBack } from '@/lib/base'
 import { toast } from '@/lib/ddApi'
 
 export const GET_LIST = 'GET_LIST'
@@ -134,7 +134,7 @@ export const deleteExp = (expensesClaimsId, type) => {
     'get expensesClaims/delete.json',
     { id: expensesClaimsId },
     (data, dispatch) => {
-      window.history.back()
+      goBack()
       // let url = {
       //   pathname:'/home/list',
       //   query: {

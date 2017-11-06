@@ -78,7 +78,7 @@ class CoreLayout extends Component {
     } else if (pathname.indexOf('/home/approve/detail') === 0 ||
       pathname.indexOf('/home/history/detail') === 0 ||
       pathname.indexOf('/approval/detail') === 0) {
-      footerClass = ' sm-footer'
+      footerClass = ' no-footer'
     }
     if (noFooter) {
       footerClass = ' no-footer'

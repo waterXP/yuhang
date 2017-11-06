@@ -206,6 +206,10 @@ export const getTestAccount = () => {
   )
 }
 
+export const goBack = hashHistory.goBack
+
+export const reload = window.location.reload
+
 export const fetchFail = (state, action) => {
   errFunc(action.err)
   return state

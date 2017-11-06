@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAlipay.scss'
-import { fetchData, goLocation, regPhone, regMail } from '@/lib/base'
+import { fetchData, goLocation, regPhone, regMail, goBack } from '@/lib/base'
 import { toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 import { isDev } from '@/config'
 import DevButtons from '@/components/DevButtons'
@@ -34,7 +34,7 @@ class SettingsEditAlipay extends Component {
       fetchData('get /userAccounts/deleteMyAccount.json', { id })
       .then((data) => {
         if (data.result === 0) {
-          window.history.back()
+          goBack()
           // goLocation({
           //   pathname: '/settings/accounts'
           // })
@@ -89,7 +89,7 @@ class SettingsEditAlipay extends Component {
             }
           })
         } else {
-          window.history.back()
+          goBack()
           // goLocation({
           //   pathname: '/settings/accounts'
           // })

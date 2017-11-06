@@ -9,7 +9,8 @@ class InputText extends Component {
     placeholder: PropTypes.string,
     maxLength: PropTypes.any,
     handleChange: PropTypes.func,
-    defaultValue: PropTypes.string
+    defaultValue: PropTypes.string,
+    inputRef: PropTypes.func
   }
 
   constructor () {
@@ -23,7 +24,7 @@ class InputText extends Component {
     const { defaultValue } = this.props
     const { initialized } = this.state
     if (!initialized && defaultValue) {
-      this.refs.content.value = defaultValue
+      this.inputRef.value = defaultValue
       this.setState({
         initialized: true
       })
@@ -31,7 +32,7 @@ class InputText extends Component {
   }
 
   render () {
-    const { label, name, placeholder, maxLength,
+    const { label, name, placeholder, maxLength, inputRef,
       required, handleChange, defaultValue } = this.props
     return (
       <div className='wm-input-text'>
@@ -43,7 +44,10 @@ class InputText extends Component {
           placeholder={placeholder}
           maxLength={maxLength}
           onChange={handleChange}
-          ref='content'
+          ref={(el) => {
+            this.inputRef = el
+            inputRef && inputRef(el)
+          }}
         />
       </div>
     )

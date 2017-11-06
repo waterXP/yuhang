@@ -8,12 +8,16 @@ class Range extends Component {
     updateRange: PropTypes.func,
     title: PropTypes.string,
     range: PropTypes.array,
-    placeholder: PropTypes.array
+    placeholder: PropTypes.array,
+    autoFocus: PropTypes.bool
   }
   constructor (props) {
     super(props)
     this.handleFocus = this.handleFocus.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
+  }
+  componentDidMount () {
+    this.props.autoFocus && this.min.focus()
   }
   handleFocus (e) {
     e.target.select()

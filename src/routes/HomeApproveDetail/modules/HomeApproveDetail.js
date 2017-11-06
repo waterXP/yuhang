@@ -1,4 +1,4 @@
-import { asyncFetch, goLocation, fetchData } from '@/lib/base'
+import { asyncFetch, goLocation, fetchData, goBack } from '@/lib/base'
 import { toast } from '@/lib/ddApi'
 
 export const GET_APPROVE_DETAIL = 'GET_APPROVE_DETAIL'
@@ -47,7 +47,7 @@ export const deleteExp = (expensesClaimsId, type) => {
     'get expensesClaims/delete.json',
     { id: expensesClaimsId },
     (data, dispatch) => {
-      window.history.back()
+      goBack()
     }
   )
 }

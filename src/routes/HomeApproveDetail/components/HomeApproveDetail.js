@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import Receipt from '@/components/Receipt'
+import ReceiptButtons from '@/components/Receipt/ReceiptButtons'
 import { goLocation } from '@/lib/base'
 import { confirm, dingSetNavRight, dingSetTitle } from '@/lib/ddApi'
 import PropTypes from 'prop-types'
 import NoData from '@/components/NoData'
+import './HomeApproveDetail.scss'
 
 class HomeApproveDetail extends Component {
   constructor () {
     super(...arguments)
     this.deleteExp = this::this.deleteExp
     this.commentHandler = this::this.commentHandler
+    this.reSubmit = this::this.reSubmit
   }
   componentWillMount () {
     const { id, type } = this.props.params
@@ -36,7 +39,8 @@ class HomeApproveDetail extends Component {
       }
     })
   }
-  deleteExp (expensesClaimId) {
+  deleteExp () {
+    const { expensesClaimId } = this.props.detail.master
     const message = '请确认是否删除此报销单'
     const title = '提示'
     confirm(
@@ -47,6 +51,18 @@ class HomeApproveDetail extends Component {
       )
     )
   }
+  reSubmit () {
+    const { expensesClaimId, expensesClaimNo } = this.props.detail.master
+    const url = {
+      pathname:'/new',
+      query: {
+        id: expensesClaimId,
+        expensesClaimNo: expensesClaimNo
+      }
+    }
+    goLocation(url)
+  }
+
 
   render () {
     const { detail, isLoading, isBusy, params } = this.props
@@ -62,20 +78,32 @@ class HomeApproveDetail extends Component {
       dingSetTitle(title)
       dingSetNavRight('')
     }
+    const buttons = nType === 4 || nType === 5
+      ? [{
+          text: '删除',
+          func: this.deleteExp
+        }, {
+          text: '重新提交',
+          func: this.reSubmit
+        }]
+      : [{
+          text: '评论',
+          func: this.commentHandler
+        }]
     return (
       <div className='wm-home-approve-detail'>
         { isLoading
           ? <NoData type='loading' />
           : detail && detail.master
-          ? <Receipt
-            data={detail}
-            addComment={this.commentHandler}
-            type={params.type}
-            deleteExp={this.deleteExp}
-            isBusy={isBusy}
-            afterApproval={ nType !== 4 && nType !== 5 }
-            reSubmit={ nType === 4 || nType === 5 }
-          />
+          ? <div className='content'>
+            <Receipt
+              data={detail}
+              isBusy={isBusy}
+            />
+            <ReceiptButtons
+              btns={buttons}
+            />
+          </div>
           : ''
         }
       </div>

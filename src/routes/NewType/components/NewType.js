@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import SearchForm from '@/components/SearchForm'
 import NoData from '@/components/NoData'
 import './NewType.scss'
-import { goLocation, getHighLightText } from '@/lib/base'
+import { goLocation, getHighLightText, goBack } from '@/lib/base'
 import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class NewType extends Component {
@@ -107,7 +107,7 @@ class NewType extends Component {
       costTypeId,
       costTypeName
     })
-    window.history.back()
+    goBack()
   }
   handleSelect (costTypeId, costTypeName) {
     return this.setType.bind(this, costTypeId, costTypeName)

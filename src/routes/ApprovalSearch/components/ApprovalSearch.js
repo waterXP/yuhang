@@ -4,6 +4,7 @@ import './ApprovalSearch.scss'
 
 import SearchForm from '@/components/SearchForm'
 import ApprovalList from '@/components/ApprovalList'
+import { goBack } from '@/lib/base'
 import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class ApprovalSearch extends Component {
@@ -70,7 +71,7 @@ class ApprovalSearch extends Component {
     // )
   }
   cancel () {
-    window.history.back()
+    goBack()
   }
   scrolled (e) {
     const { inBusy, isBusy, page, query, getList } = this.props
@@ -141,6 +142,7 @@ class ApprovalSearch extends Component {
           submitHandler={this.getResult}
           placeholder='报销单号、报销人、制单人、备注'
           cancelHandler={this.cancel}
+          autoFocus
         />
         { dirty && <ApprovalList
             list={list}

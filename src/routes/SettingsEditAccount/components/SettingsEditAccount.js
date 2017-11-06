@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
 import './SettingsEditAccount.scss'
-import { fetchData, goLocation, regAccount } from '@/lib/base'
+import { fetchData, goLocation, regAccount, goBack } from '@/lib/base'
 import { toast, confirm, dingSetTitle, dingSetMenu,
   dingSetNavRight } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
@@ -49,7 +49,7 @@ class SettingsEditAccount extends Component {
       fetchData('get /userAccounts/deleteMyAccount.json', { id })
       .then((data) => {
         if (data.result === 0) {
-          window.history.back()
+          goBack()
         } else {
           toast(data.msg)
         }
@@ -60,7 +60,7 @@ class SettingsEditAccount extends Component {
     this.deleteAccount()
   }
 
-  updateAccount = (val) => {
+  updateAccount = (val, focusInput) => {
     const { isBusy } = this.state
     if (!isBusy) {
       this.setState({ isBusy: true })
@@ -85,6 +85,7 @@ class SettingsEditAccount extends Component {
       if (!pattern.test(bankBranchName)) {
         toast('开户行名称格式不正确')
         this.setState({ isBusy: false })
+        focusInput('bankBranchName')
         return
       }
       if (oldSeAccount && seAccount === oldSeAccount) {
@@ -96,30 +97,35 @@ class SettingsEditAccount extends Component {
       if (!name) {
         toast('姓名不能为空')
         this.setState({ isBusy: false })
+        focusInput('name')
         return
       } else if (name.length > 30) {
         toast('姓名太长')
         this.setState({ isBusy: false })
+        focusInput('name')
         return
       }
       if (!account) {
         toast('账号不能为空')
         this.setState({ isBusy: false })
+        focusInput('account')
         return
-      } else if (regAccount.test(account)) {
-      } else {
+      } else if (!regAccount.test(account)) {
         toast('账号不正确')
         this.setState({ isBusy: false })
+        focusInput('account')
         return
       }
       if (!bankName) {
         toast('请输入银行名称')
         this.setState({ isBusy: false })
+        focusInput('bankName')
         return
       }
       if (!bankBranchName) {
-        toast('请输入支行名称')
+        toast('请输入开户行名称')
         this.setState({ isBusy: false })
+        focusInput('bankBranchName')
         return
       }
       // if (!bankCode) {
@@ -157,9 +163,9 @@ class SettingsEditAccount extends Component {
             //     }
             //   })
             // } else {
-            //   window.history.back()
+            //   goBack()
             // }
-            window.history.back()
+            goBack()
           }, 1500)
         } else {
           this.setState({ isBusy: false })

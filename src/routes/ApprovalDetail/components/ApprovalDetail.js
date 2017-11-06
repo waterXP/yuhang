@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './ApprovalDetail.scss'
 import { goLocation } from '@/lib/base'
-import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
+import { confirm, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 import Receipt from '@/components/Receipt'
+import ReceiptButtons from '@/components/Receipt/ReceiptButtons'
 import NoData from '@/components/NoData'
 
 class ApprovalDetail extends Component {
@@ -18,6 +19,8 @@ class ApprovalDetail extends Component {
   constructor () {
     super(...arguments)
     this.commentHandler = this::this.commentHandler
+    this.deleteExp = this::this.deleteExp
+    this.reSubmit = this::this.reSubmit
   }
 
   componentDidMount () {
@@ -38,34 +41,59 @@ class ApprovalDetail extends Component {
       }
     })
   }
+  deleteExp () {
+    const { expensesClaimId } = this.props.approvalDetail.master
+    const message = '请确认是否删除此报销单'
+    const title = '提示'
+    confirm(
+      message,
+      title,
+      this.props.deleteExp.bind(
+        null, expensesClaimId
+      )
+    )
+  }
+  reSubmit () {
+    const { expensesClaimId, expensesClaimNo } = this.props.approvalDetail.master
+    const url = {
+      pathname:'/new',
+      query: {
+        id: expensesClaimId,
+        expensesClaimNo: expensesClaimNo
+      }
+    }
+    goLocation(url)    
+  }
 
   render () {
     const { approvalDetail, query, isBusy, deleteExp } = this.props
     const status = approvalDetail.master && approvalDetail.master.status
-    // if (approvalDetail && approvalDetail.master) {
-    //   let { userName, deptName } = approvalDetail.master
-    //   let title = ''
-    //   if (userName) {
-    //     title = userName + '的报销单'
-    //   } else {
-    //     title = deptName + '的报销单'
-    //   }
-    //   dingSetTitle(title)
-    //   dingSetNavRight('')
-    // }
-    const reSubmit = approvalDetail.isMy && (status === 2 || status === 3)
+
+    const buttons = approvalDetail.isMy && (status === 2 || status === 3)
+      ? [{
+          text: '删除',
+          func: this.deleteExp
+        }, {
+          text: '重新提交',
+          func: this.reSubmit
+        }]
+      : [{
+          text: '评论',
+          func: this.commentHandler
+        }]
     return (
       <div className='wm-approval-detail'>
         { approvalDetail.master &&
           (+query.id === approvalDetail.master.expensesClaimId)
-          ? <Receipt
-              data={approvalDetail}
-              addComment={this.commentHandler}
-              deleteExp={deleteExp}
-              isBusy={isBusy}
-              afterApproval={ status < 1 || status > 3 }
-              reSubmit={ reSubmit }
-            />
+          ? <div className='content'>
+              <Receipt
+                data={approvalDetail}
+                isBusy={isBusy}
+              />
+              <ReceiptButtons
+                btns={buttons}
+              />
+            </div>
           : <NoData type='loading' />
         }
       </div>

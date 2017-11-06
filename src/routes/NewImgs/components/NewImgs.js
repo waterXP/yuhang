@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './NewImgs.scss'
-import { goLocation } from '@/lib/base'
+import { goLocation, goBack } from '@/lib/base'
 import { confirm, toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class NewImgs extends Component {
@@ -61,7 +61,7 @@ class NewImgs extends Component {
         this.props.removeAttachment(i)
         toast('照片已删除。')
         if (urls.length <= 1) {
-          window.history.back()
+          goBack()
         } else {
           this.setState({
             index: index === urls.length - 1 ? 0 : index,

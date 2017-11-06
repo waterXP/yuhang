@@ -12,7 +12,7 @@ import ExpenseApprover from '../ExpenseApprover'
 import BlockButtons from '../BlockButtons'
 import ExpenseCheckbox from '../ExpenseCheckbox'
 import { fetchData, getDate, getNumber, goLocation,
-  blurInput } from '@/lib/base'
+  blurInput, goBack, reload } from '@/lib/base'
 import { toast, openChosen, getChosenSource,
   uploadImage, confirm } from '@/lib/ddApi'
 import { saveData, cleanData, setStep, getCostType,
@@ -478,7 +478,7 @@ class ExpenseForm extends Component {
           pathname: '/new',
           query: Object.assign({ reload: 1 }, query)
         })
-        window.location.reload()
+        reload()
       }, 4000)
     } else {
       tm = setTimeout(() => {
@@ -670,7 +670,7 @@ class ExpenseForm extends Component {
               text: '已删除草稿'
             })
             setTimeout(
-              () => window.history.back(),
+              goBack,
               1500
             )
           } else {

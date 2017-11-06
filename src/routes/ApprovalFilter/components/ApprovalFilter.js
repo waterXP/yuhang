@@ -6,7 +6,7 @@ import Filter from '@/components/Filter'
 import FormButton from '@/components/FormButton'
 import ApprovalList from '@/components/ApprovalList'
 import { approveStatus } from '@/lib/enums'
-import { getObjArray, goLocation } from '@/lib/base'
+import { getObjArray, goLocation, goBack } from '@/lib/base'
 import { dingSetTitle, dingSetMenu } from '@/lib/ddApi'
 
 class ApprovalFilter extends Component {
@@ -76,7 +76,7 @@ class ApprovalFilter extends Component {
     )
   }
   cancel () {
-    window.history.back()
+    goBack()
   }
   handleClick () {
     const { query, setFilter, cleanList } = this.props
@@ -115,7 +115,7 @@ class ApprovalFilter extends Component {
     return (
       <div className='wm-approval-filter'>
         <div className='filter'>
-          <Range {...rangeAttr} />
+          <Range {...rangeAttr} autoFocus />
           { status !== 1 && <Filter
             title='报销状态选择'
             conditions={filter}

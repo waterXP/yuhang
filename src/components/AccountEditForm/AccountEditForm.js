@@ -20,6 +20,7 @@ class AccountEditForm extends Component {
     this.setValue = this::this.setValue
     this.checkValidate = this::this.checkValidate
     this.handleSubmit = this::this.handleSubmit
+    this.focusInput = this::this.focusInput
     this.state = {
       account: 0,
       oldSeAccount: 0,
@@ -87,6 +88,11 @@ class AccountEditForm extends Component {
 
   handleSubmit (isDefault) {
     return () => {
+      // const valid = this.checkValidate()
+      // if (!this.checkValidate()) {
+      //   toast('')
+      //   return
+      // }
       const { oldAccount, oldSeAccount, params, defaultCard } = this.state
       const { fromPage, onSubmit } = this.props
       onSubmit({
@@ -96,8 +102,12 @@ class AccountEditForm extends Component {
         oldSeAccount,
         fromPage,
         defaultCard
-      })
+      }, this.focusInput)
     }
+  }
+
+  focusInput (target) {
+    this[`${target}Ref`] && this[`${target}Ref`].focus()
   }
 
   render () {
@@ -107,7 +117,7 @@ class AccountEditForm extends Component {
     const isBankAccount = type === 1
     let oldAccount = this.state.account
     let oldSeAccount = this.state.oldSeAccount
-    const valid = this.checkValidate()
+    // const valid = this.checkValidate()
     return (
       <form className='wm-account-edit-form'>
         <InputText
@@ -117,6 +127,8 @@ class AccountEditForm extends Component {
           required={true}
           handleChange={this.setValue}
           defaultValue={data.name}
+          placeholder='请输入姓名'
+          inputRef={(el) => this.nameRef = el}
         />
         <InputText
           label='账号'
@@ -125,6 +137,8 @@ class AccountEditForm extends Component {
           required={true}
           handleChange={this.setValue}
           defaultValue={data.seAccount}
+          placeholder='请输入账号'
+          inputRef={(el) => this.accountRef = el}
         />
         {isBankAccount &&
           <InputText
@@ -134,6 +148,8 @@ class AccountEditForm extends Component {
             required={true}
             handleChange={this.setValue}
             defaultValue={data.bankName}
+            placeholder='请输入银行名称'
+            inputRef={(el) => this.bankNameRef = el}
           />
         }
         {isBankAccount &&
@@ -144,6 +160,8 @@ class AccountEditForm extends Component {
             required={true}
             handleChange={this.setValue}
             defaultValue={data.bankBranchName}
+            placeholder='请输入开户行'
+            inputRef={(el) => this.bankBranchNameRef = el}
           />
         }
         {isBankAccount &&
@@ -157,15 +175,14 @@ class AccountEditForm extends Component {
         }
         <div className='btns'>
           <FormButton
-            disabled={!valid}
             text='保存'
             onClick={this.handleSubmit(0)}
           />
-          <FormButton
-            disabled={!valid}
-            text='保存为默认'
-            onClick={this.handleSubmit(1)}
-          />
+          { !data.isDefault && <FormButton
+              text='保存为默认'
+              onClick={this.handleSubmit(1)}
+            />
+          }
         </div>
       </form>
     )

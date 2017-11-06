@@ -5,9 +5,9 @@ import SearchForm from '@/components/SearchForm'
 import UserList from '@/components/UserList'
 import UserInfo from '@/components/UserInfo'
 import Shortcut from '@/components/Shortcut'
-import { fetchData, goLocation,
+import { fetchData, goLocation, goBack,
   checkCharacter, compareCharacter } from '@/lib/base'
-import { toast, dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
+import { toast, dingSetTitle, dingSetNavRight, confirm } from '@/lib/ddApi'
 import { toPinyin } from '@/lib/py'
 import NoData from '@/components/NoData'
 import './SettingsAdministrator.scss'
@@ -115,11 +115,16 @@ class SettingsAdministrator extends Component {
   }
   setAdmin (v) {
     if (v) {
-      this.setState({
-        setAdmin: v.dingid,
-        setId: v.id
-      })
-      this.handleClick(v.dingid, v.id)
+      confirm(
+        `确定要将${v.nickName}设为超管吗？`,
+        '', () => {
+          this.setState({
+            setAdmin: v.dingid,
+            setId: v.id
+          })
+          this.handleClick(v.dingid, v.id)
+        }
+      )
     }
     // this.handleClick()
   }
@@ -130,7 +135,7 @@ class SettingsAdministrator extends Component {
     })
     setTimeout((v) => {
       setStep('fin')
-      window.history.back()
+      goBack()
     }, 1500)
   }
   inBusy (isBusy = false) {
