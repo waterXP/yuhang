@@ -7,12 +7,12 @@
   // top: 0;
   // left: 0;
   // bottom: .49rem;
-  margin-bottom: .49rem;
+  padding-bottom: .49rem;
   // overflow: auto;
   &.no-footer {
-    margin-bottom: 0;
+    padding-bottom: 0;
   }
   &.sm-footer {
-    margin-bottom: .49rem;
+    padding-bottom: .49rem;
   }
 }

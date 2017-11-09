@@ -638,7 +638,7 @@ class ExpenseForm extends Component {
     const { dispatch } = this.props
     dispatch(setStep('view imgs'))
     this.save()
-    goLocation('/new/imgs')
+    goLocation({ pathname: '/new/imgs', query: { index }})
   }
 
   updateNextTag (nextTag) {

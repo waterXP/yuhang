@@ -87,7 +87,7 @@ class NewImgs extends Component {
       const { touchX } = this.state
       const sub = touchX - e.changedTouches[0].clientX
       if (urls.length > 1) {
-        if (sub > 50) {
+        if (sub > 80) {
           this.setState(({ index }) => {
             if (index === urls.length - 1) {
               return { index: 0 }
@@ -95,7 +95,7 @@ class NewImgs extends Component {
               return { index: index + 1 }
             }
           })
-        } else if (sub < -50) {
+        } else if (sub < -80) {
           this.setState(({ index }) => {
             if (index === 0) {
               return { index: urls.length - 1 }
@@ -112,11 +112,13 @@ class NewImgs extends Component {
     const { attachmentList, restAttachments } = this.props
     const { index = 0, urls = [] } = this.state
     return <div className='wm-new-imgs'>
-        <img
-          src={urls[index] || 'imgs/icon_empty.png'}
-          onTouchStart={this.touchStartHandle}
-          onTouchEnd={this.touchEndHandle}
-        />
+        <div className='img-box'>
+          <img
+            src={urls[index] || 'imgs/icon_empty.png'}
+            onTouchStart={this.touchStartHandle}
+            onTouchEnd={this.touchEndHandle}
+          />
+        </div>
         <button type='button' onClick={this.clickHandle(index)}>删除</button>
       </div>
   }

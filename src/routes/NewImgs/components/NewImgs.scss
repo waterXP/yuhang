@@ -4,13 +4,17 @@
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
+  min-height: 100%;
   text-align: right;
   background-color: #000;
+  .img-box {
+    min-height: calc(100% - 1.03rem);
+    vertical-align: middle;
+  }
   img {
     width: 100%;
-    max-height: calc(100% - 1.03rem);
+    // max-height: calc(100% - 1.03rem);
     margin: .2rem 0;
   }
   button {
