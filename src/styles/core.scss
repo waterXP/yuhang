@@ -107,3 +107,9 @@ input::-moz-placeholder, textarea::-moz-placeholder {
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #999;
 }
+
+#root > div > .no-data.cover {
+  margin-top: 1.4rem;
+  background-color: transparent;
+}
+

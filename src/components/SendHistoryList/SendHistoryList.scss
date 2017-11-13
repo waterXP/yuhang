@@ -1,6 +1,7 @@
 @import '../../styles/baseStyle';
 
 .wm-send-history-list {
+  -webkit-overflow-scrolling : touch;
   width: 100%;
   .list-topic {
     padding: .07rem 0 .06rem .12rem;

@@ -5,6 +5,7 @@ import config, { dd } from '@/config'
 export const GET_CONFIG = 'GET_CONFIG'
 export const SET_STEP = 'SET_STEP'
 export const IN_BUSY = 'IN_BUSY'
+export const IN_DEV = 'IN_DEV'
 
 export const getConfig = (url) => {
   return (dispatch, getState) => {
@@ -123,12 +124,13 @@ const ACTION_HANDLERS = {
       dd.error(function (err) {
         alert('dd error: ' + JSON.stringify(err))
       })
-      return Object.assign({}, state, { corpId: d.corpId })
+      return Object.assign({}, state, { corpId: d.corpId, isBusy: false })
     } else {
       errFunc(action.data.statusText)
       return state
     }
   },
+  [IN_DEV]: (state, action) => Object.assign({}, state, { isBusy: false }),
   [FETCH_FAIL]: fetchFail,
   [SET_STEP]: (state, { step }) => 
     Object.assign({}, state, { step }),

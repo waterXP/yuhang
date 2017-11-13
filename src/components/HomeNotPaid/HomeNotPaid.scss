@@ -3,6 +3,7 @@
 .wm-home-not-paid {
   background: $homeBg;
   ul {
+    -webkit-overflow-scrolling : touch;
     padding-top: .36rem;
   }
   .list-topic {

@@ -15,6 +15,7 @@
   }
   .all-list {
     top: .71rem;
+    -webkit-overflow-scrolling : touch;
     & > li {
       border-top: 1px solid $borderColor;
       border-bottom: 1px solid $borderColor;

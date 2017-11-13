@@ -3,12 +3,24 @@
 <head>
   <title>Wages Mobile</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover,shrink-to-fit=no">
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name=format-detection content="telephone=no">
   <link rel='stylesheet' href='./styles/css/bootstrap.min.css'>
   <link rel='stylesheet' href='./styles/css/font-awesome.min.css'>
   <script type="text/javascript" src="https://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js"></script>
 </head>
 <body>
-  <div id="root" style="height: 100%"></div>
+  <div id="root" style="height: 100%"><span id='no-react'></span></div>
+  <script>
+    setTimeout(function () {
+      if (document.getElementById('no-react')) {
+        const reload = window.confirm('服务端未响应，是否刷新页面？')
+        if (reload) {
+          window.location.reload()
+        }
+      }
+    }, 4000);
+  </script>
 </body>
 </html>

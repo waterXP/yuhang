@@ -22,7 +22,6 @@ let render = () => {
     MOUNT_NODE
   )
 }
-
 // This code is excluded from production bundle
 if (__DEV__) {
   if (module.hot) {
@@ -52,6 +51,33 @@ if (__DEV__) {
       })
     )
   }
+}
+
+/**
+ * fix ios device bounce
+ * check elements's heigth,
+ * if all element not heighter then root element,
+ * prevent default
+ */
+const u = navigator.userAgent
+const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+if (isiOS) {
+  const deviceHeight = document.body.offsetHeight
+  const rootElement = document.getElementById('root')
+  document.body.addEventListener(
+    'touchmove',
+    function (e) {
+      let target = e.target
+      while (target !== rootElement) {
+        if (deviceHeight < target.scrollHeight) {
+          return
+        }
+        target = target.parentNode
+      }
+      e.preventDefault()
+    },
+    false
+  )
 }
 
 // ========================================================

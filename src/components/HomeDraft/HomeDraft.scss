@@ -1,6 +1,9 @@
 @import '../../styles/baseStyle';
 
 .wm-home-draft {
+  ul {
+    -webkit-overflow-scrolling : touch;
+  }
   .list-topic {
     padding: .07rem 0 .06rem .12rem;
     background-color: $backColor;

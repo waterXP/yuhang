@@ -23,10 +23,15 @@ class SettingsAccounts extends Component {
 
   constructor () {
     super(...arguments)
+    /**
+     * in iphone offsetHeight will equal scrollHeight
+     * so get the winow height at constructor
+     */
     this.state = {
       tooLong: false,
       inControl: false,
-      delList: {}
+      delList: {},
+      totalHeight: document.body.offsetHeight - 1
     }
     this.controlHandler = this::this.controlHandler
     this.cancelControl = this::this.cancelControl
@@ -105,7 +110,8 @@ class SettingsAccounts extends Component {
   checkListHeight (previousState) {
     const { parent, btns } = this.refs
     const list = this.refList
-    const totalHeight = parent.offsetHeight
+    // const totalHeight = parent.offsetHeight
+    const totalHeight = this.state.totalHeight
     const contentTop = list.offsetTop
     const contentHeight = list.scrollHeight
     const btnsHeight = btns.offsetHeight
@@ -119,6 +125,7 @@ class SettingsAccounts extends Component {
   render () {
     const { accounts } = this.props
     const { tooLong, inControl, delList } = this.state
+
     return (
       <div className='wm-settings-accounts' ref='parent'>
         { isDev && !inControl && <DevButtons titles={['操作']} handleClick={this.controlHandler} />}
