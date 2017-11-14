@@ -12,16 +12,19 @@ class Settings extends Component {
     children : PropTypes.element,
     step: PropTypes.string,
     setStep: PropTypes.func.isRequired,
-    getUserInfo: PropTypes.func.isRequired
+    getUserInfo: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired
   }
 
   constructor () {
     super(...arguments)
     this.state = {
       hasAuthority: false,
-      amdinIcon: ''
+      amdinIcon: '',
+      mount: true
     }
     this.checkAuthority = this::this.checkAuthority
+    this.checkUrl = this::this.checkUrl
   }
 
   componentDidMount () {
@@ -37,6 +40,9 @@ class Settings extends Component {
       dingSetNavRight('')
     }
   }
+  componentWillUnmount () {
+    this.setState({ mount: false })
+  }
   checkAuthority () {
     this.setState({ hasAuthority: false })
     fetchData('get managers/authorityInfo.json')
@@ -44,10 +50,14 @@ class Settings extends Component {
       if (v && v.data && v.result === 0) {
         const d = v.data
         if (d.isMain || d.isSuperMan) {
-          this.setState({
-            hasAuthority: true,
-            amdinIcon: d.superManAvatar || ''
-          })
+          const currentLocation =
+            this.props.router.getCurrentLocation().pathname
+          if (currentLocation === '/settings') {
+            this.setState({
+              hasAuthority: true,
+              amdinIcon: d.superManAvatar || ''
+            })
+          }
         }
       } else {
         toast(v.msg)

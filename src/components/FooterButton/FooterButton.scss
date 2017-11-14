@@ -31,7 +31,9 @@
   }
   > img {
     width: .26rem;
-    max-width: 100%;    
+    max-width: 100%; 
+    outline: none;
+    vertical-align: bottom;
   }
   > i {
     font-size: .28rem;

@@ -58,6 +58,8 @@ if (__DEV__) {
  * check elements's heigth,
  * if all element not heighter then root element,
  * prevent default
+ * if result is bad, just commit the following code
+ * and commit all -webkit-overflow-scrolling: touch; in css
  */
 const u = navigator.userAgent
 const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)

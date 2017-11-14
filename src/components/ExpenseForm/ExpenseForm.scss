@@ -1,7 +1,7 @@
 @import '../../styles/baseStyle';
 
 .wm-expense-form {
-  -webkit-overflow-scrolling : touch;
+  -webkit-overflow-scrolling: touch;
   > div + div {
     margin-top: .1rem;
   }
@@ -10,6 +10,7 @@
   }
   .wm-expense-detail-info + .wm-expense-detail-info, .wm-confirm-button {
     margin-top: .1rem;
+    border: none;
   }
   button:focus, textarea:focus, input:focus {
     outline: none;

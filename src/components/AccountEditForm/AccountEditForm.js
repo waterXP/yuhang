@@ -178,7 +178,7 @@ class AccountEditForm extends Component {
             text='保存'
             onClick={this.handleSubmit(0)}
           />
-          { !data.isDefault && <FormButton
+          { (!targetId || data.isDefault === 0) && <FormButton
               text='保存为默认'
               onClick={this.handleSubmit(1)}
             />

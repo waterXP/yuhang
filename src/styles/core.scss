@@ -17,6 +17,17 @@ html, body {
   color: $fontColor;
 }
 
+body {
+  font-size: .14rem;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
@@ -25,6 +36,9 @@ a, a:focus, a:hover {
   text-decoration: none;
 }
 
+.text-center {
+  text-align: center;
+}
 .container {
   position: relative;
   width: 100%;
@@ -35,6 +49,10 @@ ul, ol, li {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+p {
+  margin: 0;
+  padding: 0;
 }
 
 .color-font {

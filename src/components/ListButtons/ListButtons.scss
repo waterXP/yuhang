@@ -28,6 +28,7 @@
     }
   }
   span {
+    @include fontStyle($fontColor, .14rem, .48rem);
     flex-grow: 1;
     text-align: left;
     line-height: .48rem;

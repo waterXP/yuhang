@@ -1,6 +1,9 @@
 @import '../../styles/baseStyle';
 
 .wm-account-edit-form {
+  .form-label {
+    margin-bottom: .06rem;
+  }
   .btns {
     padding: .24rem .12rem .12rem;
     .wm-form-button, .wm-form-button:hover {
