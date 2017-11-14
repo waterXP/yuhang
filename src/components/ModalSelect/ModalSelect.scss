@@ -9,7 +9,8 @@
   background-color: rgba(230, 230, 230, .6);
   .container {
     width: 2rem;
-    margin-top: .5rem;
+    height: auto;
+    margin: .5rem auto 0;
     background-color: $backColor;
     overflow: auto;
   }

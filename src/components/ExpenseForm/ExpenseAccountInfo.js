@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormSelect from '../FormSelect'
 import { getCash } from '@/lib/base'
-import './ExpenseAccountInfo.scss'
 
 export const ExpenseAccountInfo = ({ totalCash, accountChange,
   accountName, projChange, projName, hasProj }) => {

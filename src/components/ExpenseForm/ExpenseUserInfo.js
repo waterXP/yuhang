@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormLabel from '../FormLabel'
 import FormSelect from '../FormSelect'
-import './ExpenseUserInfo.scss'
 
 export const ExpenseUserInfo = ({ name, deptName, departChange, type }) => {
   return (

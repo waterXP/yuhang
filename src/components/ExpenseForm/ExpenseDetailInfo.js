@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import FormLink from '../FormLink'
 import FormNumber from '../FormNumber'
 import FormTextArea from '../FormTextArea'
-import './ExpenseDetailInfo.scss'
 
 class ExpenseDetailInfo extends Component {
   static propTypes = {

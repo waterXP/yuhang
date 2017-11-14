@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './ExpenseAttachment.scss'
 import { goLocation } from '@/lib/base'
 
 class ExpenseAttachment extends Component {

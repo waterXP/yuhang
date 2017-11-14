@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ExpenseDetailInfo from '../ExpenseDetailInfo'
+import ExpenseDetailInfo from './ExpenseDetailInfo'
 import ConfirmButton from '../ConfirmButton'
 import { getDate, blurInput } from '@/lib/base'
 import { openDatePicker, toast } from '@/lib/ddApi'

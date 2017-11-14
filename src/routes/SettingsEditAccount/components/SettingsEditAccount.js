@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
-import './SettingsEditAccount.scss'
 import { fetchData, goLocation, regAccount, goBack } from '@/lib/base'
 import { toast, confirm, dingSetTitle, dingSetMenu,
   dingSetNavRight } from '@/lib/ddApi'
