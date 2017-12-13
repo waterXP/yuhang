@@ -14,7 +14,8 @@ export const DELETE_EXP = 'DELETE_EXP'
 const fetchApprovalDetail = (dispatch, id, type) => {
   let params = {
     expensesClaimsId: id,
-    showAttachments: true
+    showAttachments: true,
+    channel: 'mobile'
   }
   if (type) {
     params.type = type

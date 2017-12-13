@@ -6,14 +6,17 @@ import { dingSetTitle, dingSetNavRight } from '@/lib/ddApi'
 
 class New extends Component {
   static propTypes = {
-    children: PropTypes.element
+    children: PropTypes.element,
+    getAlipaySwitch: PropTypes.func,
+    alipaySwitch: PropTypes.number
   }
   constructor () {
     super(...arguments)
     this.setPos = this::this.setPos
   }
   componentDidUpdate () {
-    const { children } = this.props
+    const { children, getAlipaySwitch } = this.props
+    getAlipaySwitch()
     if (!children) {
       dingSetTitle('个人报销')
       dingSetNavRight('')
@@ -23,13 +26,17 @@ class New extends Component {
     this.newRef.scrollTop = v
   }
   render () {
-    const { children } = this.props
+    const { children, alipaySwitch } = this.props
     return (
       <div
         className='wm-new wm-new-personal-expense'
         ref={el => this.newRef = el}
       >
-        { children || <ExpenseForm setPos={this.setPos} /> }
+        { children || <ExpenseForm
+            setPos={this.setPos}
+            alipaySwitch={alipaySwitch}
+          />
+        }
       </div>
     )
   }

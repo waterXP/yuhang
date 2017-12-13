@@ -26,6 +26,7 @@ import ModalSelect from '../ModalSelect'
 
 class ExpenseForm extends Component {
   static propTypes = {
+    alipaySwitch: PropTypes.number,
     query: PropTypes.object,
     step: PropTypes.string,
     appCatch: PropTypes.object,
@@ -33,6 +34,7 @@ class ExpenseForm extends Component {
     dispatch: PropTypes.func,
     change: PropTypes.func,
     userName: PropTypes.string,
+    illustrate: PropTypes.string,
     selAccount: PropTypes.number,
     selDept: PropTypes.number,
     deptsList: PropTypes.array,
@@ -126,7 +128,7 @@ class ExpenseForm extends Component {
     const { query, dispatch, step, appCatch } = this.props
     if (data) {
       const {
-        userName, selDept, deptsList, details, selAccount,
+        userName, illustrate, selDept, deptsList, details, selAccount,
         costType, selProj, projectsList, isDraft, parentId,
         attachmentList, approvers, tags, nextTag, position,
         isDelete, status, originAttachments, restAttachments,
@@ -155,6 +157,7 @@ class ExpenseForm extends Component {
               : selAccount < accountList.length
                 ? selAccount
                 : -1,
+              illustrate,
               selDept,
               deptsList,
               details: _details,
@@ -202,7 +205,7 @@ class ExpenseForm extends Component {
       ])
       .then(([d1, d2]) => {
         if ((d1.result === 0 || d2.result === 0) && d1.data && d2.data) {
-          const { userName, deptsList,
+          const { userName, deptsList, illustrate,
             projectsList, usersList } = d1.data
           const accountList = d2.data || []
           let selAccount = accountList.findIndex((v) => v.isDefault)
@@ -212,6 +215,7 @@ class ExpenseForm extends Component {
           this.props.dispatch(
             initialize('expenseForm', {
               userName,
+              illustrate,
               accountList,
               selAccount,
               selDept: 0,
@@ -281,7 +285,7 @@ class ExpenseForm extends Component {
     })
   }
   initModify (d, id) {
-    const { userAccountId, projectId, deptId, type } = d.expensesClaims
+    const { userAccountId, projectId, deptId, type, illustrate } = d.expensesClaims
     const { dispatch } = this.props
     let params = {
       deptId: deptId,
@@ -326,6 +330,7 @@ class ExpenseForm extends Component {
         this.props.dispatch(
           initialize('expenseForm', {
             userName: d.userName,
+            illustrate: illustrate,
             accountList: d2.data,
             selAccount: userAccountId !== null
               ? accountList.findIndex((v) => v.id === userAccountId)
@@ -391,7 +396,7 @@ class ExpenseForm extends Component {
   save () {
     const {
       userName, selAccount, selDept, expensesClaimId,
-      deptsList, details, costType,
+      deptsList, details, costType, illustrate,
       selProj, projectsList, attachmentList,
       approvers, dispatch, tags, nextTag,
       isDraft, isDelete, parentId, status,
@@ -401,6 +406,7 @@ class ExpenseForm extends Component {
       saveData({
         userName,
         selAccount,
+        illustrate,
         selDept,
         deptsList,
         details,
@@ -571,17 +577,20 @@ class ExpenseForm extends Component {
   }
   accountChange () {
     blurInput()
-    const { accountList, selAccount } = this.props
-    const newCard = accountList.length < 20
-      ? [{
+    const { accountList, selAccount, alipaySwitch } = this.props
+    let newCard = []
+    if (accountList.length < 20) {
+      newCard.push({
         id: -0.1,
         chooseBankName: '新增银行卡'
-      }]
-      // , {
-      //   id: -0.2,
-      //   chooseBankName: '新增支付宝'
-      // }
-      : []
+      })
+      if (alipaySwitch) {
+        newCard.push({
+          id: -0.2,
+          chooseBankName: '新增支付宝'
+        })
+      }
+    }
     let list = accountList ? [...accountList, ...newCard] : [...newCard]
     if (isDev) {
       this.modalOpen(list, selAccount, 'selAccount', 'id', 'chooseBankName')
@@ -684,10 +693,11 @@ class ExpenseForm extends Component {
 
   commit (draft) {
     const { type, deptsList, selDept, details, totalCash,
-      selAccount, accountList, projectsList, selProj,
+      selAccount, accountList, projectsList, selProj, illustrate,
       attachmentList, deptDingId, deptId, deptName, isDraft,
       query, originAttachments, restAttachments, parentId,
       isDelete, status, expensesClaimId } = this.props
+    console.log('..jkljlkjl')
     const account = accountList[selAccount]
     const project = projectsList[selProj]
     let detailses = []
@@ -752,6 +762,9 @@ class ExpenseForm extends Component {
       params.deptId = deptId
       params.deptDingId = deptDingId
       params.deptName = deptName
+    }
+    if (illustrate) {
+      params.illustrate = illustrate
     }
 
     if (query.expensesClaimNo) {
@@ -852,7 +865,7 @@ class ExpenseForm extends Component {
   }
 
   render () {
-    const { userName, totalCash, restAttachments, deptsList, status,
+    const { userName, illustrate, totalCash, restAttachments, deptsList, status,
       selDept, projectsList, selProj, accountList, selAccount,
       details, attachmentList, approvers, tags, nextTag, type,
       deptName, parentId, isDelete, isDraft, expensesClaimId
@@ -884,6 +897,7 @@ class ExpenseForm extends Component {
           deptName={type < 2 ? deptsList && selDept > -1 &&
             deptsList[selDept].name : deptName}
           name={userName}
+          illustrate={illustrate}
           departChange={this.departChange}
           type={type}
         />
@@ -958,6 +972,7 @@ export default connect(
     appCatch: state.new.appCatch,
     data: state.new.data,
     userName: selector(state, 'userName'),
+    illustrate: selector(state, 'illustrate'),
     costType: selector(state, 'costType'),
     selDept: selector(state, 'selDept'),
     selProj: selector(state, 'selProj'),

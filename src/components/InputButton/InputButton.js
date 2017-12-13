@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './InputText.scss'
+import './InputButton.scss'
 
-class InputText extends Component {
+class InputButton extends Component {
   static propTypes = {
     label: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     placeholder: PropTypes.string,
     maxLength: PropTypes.any,
     handleChange: PropTypes.func,
@@ -15,25 +15,23 @@ class InputText extends Component {
   }
 
   render () {
-    const { label, name, placeholder, maxLength, inputRef,
-      required, handleChange, handleClick, value } = this.props
+    const { label, value, required, handleClick, placeholder,
+      inputRef } = this.props
     return (
-      <div className='wm-input-text'>
+      <div className='wm-input-button'>
         { label && <label className='form-label'>{label}</label> }
         { required && <span className='required'>*</span> }
-        <input
-          type='text'
-          name={name}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          onChange={({ target }) => handleChange(target.value)}
+        <button
+          type='button'
           onClick={handleClick}
           ref={(el) => inputRef && inputRef(el)}
-          value={value || ''}
-        />
+        >
+          { value || '请选择开户行' }
+          <img className="img-right" src="imgs/icon_arrow.png" />
+        </button>
       </div>
     )
   }
 }
 
-export default InputText
+export default InputButton

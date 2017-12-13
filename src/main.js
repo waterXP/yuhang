@@ -60,27 +60,26 @@ if (__DEV__) {
  * prevent default
  * if result is bad, just commit the following code
  * and commit all -webkit-overflow-scrolling: touch; in css
+ * but it will effect the input box: cannot type when cursor moved
  */
-const u = navigator.userAgent
-const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
-if (isiOS) {
-  const deviceHeight = document.body.offsetHeight
-  const rootElement = document.getElementById('root')
-  document.body.addEventListener(
-    'touchmove',
-    function (e) {
-      let target = e.target
-      while (target !== rootElement) {
-        if (deviceHeight < target.scrollHeight) {
-          return
-        }
-        target = target.parentNode
-      }
-      e.preventDefault()
-    },
-    false
-  )
-}
+// const u = navigator.userAgent
+// const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+// if (isiOS) {
+//   const deviceHeight = document.body.offsetHeight
+//   const rootElement = document.getElementById('root')
+//   const listener = function (e) {
+//     let target = e.target
+//     while (target !== rootElement) {
+//       if (deviceHeight < target.scrollHeight) {
+//         return
+//       }
+//       target = target.parentNode
+//     }
+//     e.preventDefault()
+//   }
+//   document.body.addEventListener('touchmove', listener, false)
+//   document.body.removeEventListener('touchmove', listener, false)
+// }
 
 // ========================================================
 // Go!

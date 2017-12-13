@@ -1,33 +1,45 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AccountEditForm from '@/components/AccountEditForm'
-import { fetchData, goLocation, regAccount, goBack } from '@/lib/base'
+import { fetchData, regAccount, goBack } from '@/lib/base'
 import { toast, confirm, dingSetTitle, dingSetMenu,
   dingSetNavRight } from '@/lib/ddApi'
 import NoData from '@/components/NoData'
 import { isDev } from '@/config'
 import DevButtons from '@/components/DevButtons'
+import './SettingsEditAccount.scss'
 
 class SettingsEditAccount extends Component {
   static propTypes = {
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    getBankBranchs: PropTypes.func,
+    bankInfo: PropTypes.object,
+    getBankInfo: PropTypes.func,
+    clearBankInfo: PropTypes.func,
+    children: PropTypes.element
   }
 
   constructor () {
     super(...arguments)
     this.deleteAccount = this::this.deleteAccount
-    this.devClicks = this::this.devClicks
+    this.updateAccount = this::this.updateAccount
+    this.setBankInfo = this::this.setBankInfo
+    this.setParams = this::this.setParams
+    this.editAccount = this::this.editAccount
     this.state = {
       isBusy: false,
       text: '',
-      icon: ''
+      icon: '',
+      params: {}
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
+    const { query, getBankInfo } = this.props
     let title = ''
-    if (this.props.query.id && !this.props.query.from) {
+    if (query.id) {
       title = '编辑银行卡号'
+      getBankInfo(query.id, this.setBankInfo)
       dingSetMenu(
         [{
           id: 'delete',
@@ -41,7 +53,33 @@ class SettingsEditAccount extends Component {
     }
     dingSetTitle(title)
   }
+  componentWillUnmount () {
+    this.props.clearBankInfo()
+  }
 
+  editAccount () {
+    const { params } = this.state
+    if (!params.accountEdited) {
+      this.setState({
+        params: Object.assign(
+          {}, params, {
+            accountEdited: true,
+            seAccount: ''
+          }
+        )
+      })
+    }
+  }
+  setBankInfo (params) {
+    this.setState({
+      params: { ...params }
+    })
+  }
+  setParams (params) {
+    this.setState({
+      params: Object.assign({}, this.state.params, params)
+    })
+  }
   deleteAccount () {
     confirm('确定要删除该银行卡吗？', '', () => {
       const id = +this.props.query.id
@@ -55,20 +93,19 @@ class SettingsEditAccount extends Component {
       })
     })
   }
-  devClicks () {
-    this.deleteAccount()
-  }
-
-  updateAccount = (val, focusInput) => {
-    const { isBusy } = this.state
+  updateAccount = (isDefault, focusInput) => {
+    const { isBusy, params } = this.state
     if (!isBusy) {
       this.setState({ isBusy: true })
       let action = 'post /userAccounts/saveMyAccount.json'
-      if (val.id) {
+      if (params.id) {
         action = 'post /userAccounts/updateMyAccount.json'
       }
-      let { name, seAccount, bankBranchName, defaultCard,
-        bankName, oldAccount, oldSeAccount, isDefault } = val
+      const { name, bankBranchName, defaultCard, bankName,
+        oldAccount, province, city, isOther, seAccount,
+        bankCode, id, accountEdited } = params
+      const _account = accountEdited ? seAccount : oldAccount
+      const _isDefault = defaultCard || isDefault
       const pattern = new RegExp(
         '^[a-zA-Z0-9\u4E00-\u9FA5\ \~\
         \`\!\@\#\$\%\^\&\*\(\)\-\_\+\=\
@@ -81,18 +118,6 @@ class SettingsEditAccount extends Component {
         \uff5e\ufe4f\uffe5]*$',
         'g'
       )
-      if (!pattern.test(bankBranchName)) {
-        toast('开户行名称格式不正确')
-        this.setState({ isBusy: false })
-        focusInput('bankBranchName')
-        return
-      }
-      if (oldSeAccount && seAccount === oldSeAccount) {
-        val.account = oldAccount
-      } else {
-        val.account = seAccount
-      }
-      let account = val.account
       if (!name) {
         toast('姓名不能为空')
         this.setState({ isBusy: false })
@@ -104,12 +129,12 @@ class SettingsEditAccount extends Component {
         focusInput('name')
         return
       }
-      if (!account) {
+      if (!_account) {
         toast('账号不能为空')
         this.setState({ isBusy: false })
         focusInput('account')
         return
-      } else if (!regAccount.test(account)) {
+      } else if (!regAccount.test(_account)) {
         toast('账号不正确')
         this.setState({ isBusy: false })
         focusInput('account')
@@ -121,21 +146,52 @@ class SettingsEditAccount extends Component {
         focusInput('bankName')
         return
       }
+      if (!province) {
+        toast('请选择省份')
+        this.setState({ isBusy: false })
+        focusInput('province')
+        return
+      }
+      if (!city) {
+        toast('请选择城市')
+        this.setState({ isBusy: false })
+        focusInput('city')
+        return
+      }
       if (!bankBranchName) {
         toast('请输入开户行名称')
+        this.setState({ isBusy: false })
+        if (isOther) {
+          focusInput('bankBranchName')
+        } else {
+          focusInput('isOther')
+        }
+        return
+      } else if (!pattern.test(bankBranchName)) {
+        toast('开户行名称格式不正确')
         this.setState({ isBusy: false })
         focusInput('bankBranchName')
         return
       }
-      // if (!bankCode) {
-      //   toast('请输入支行行号')
-      //   return
-      // }
-
-      fetchData(action, {
+      let p = {
+        name,
+        account: _account,
         type: 1,
-        ...val
-      })
+        isPublic: 0,
+        bankName,
+        province,
+        city,
+        bankBranchName,
+        isOther,
+        isDefault: _isDefault
+      }
+      if (id) {
+        p.id = id
+      }
+      if (bankCode) {
+        p.bankCode = bankCode
+      }
+      fetchData(action, p)
       .then((data) => {
         if (data.result === 0) {
           if (isDefault && !defaultCard) {
@@ -154,16 +210,6 @@ class SettingsEditAccount extends Component {
               text: '',
               icon: ''
             })
-            // if (val.fromPage) {
-            //   goLocation({
-            //     pathname: val.fromPage,
-            //     query: {
-            //       from: '/settings/accounts'
-            //     }
-            //   })
-            // } else {
-            //   goBack()
-            // }
             goBack()
           }, 1500)
         } else {
@@ -175,28 +221,35 @@ class SettingsEditAccount extends Component {
   }
 
   render () {
-    const { query } = this.props
-    const { text, icon } = this.state
+    const { query, getBankBranchs, children, bankInfo } = this.props
+    const { text, icon, params } = this.state
+    const child = React.Children.map(
+      this.props.children, child =>
+        React.cloneElement(child, {
+          bankParams: params,
+          setParams: this.setParams
+        })
+    )
     return (
       <div className='wm-settings-edit-account'>
-        {
-          isDev && query.id && !query.from &&
-          <DevButtons titles={['删除']} handleClick={this.devClicks} />
+        { isDev && query.id && !query.from &&
+          <DevButtons titles={['删除']} handleClick={this.deleteAccount} />
         }
-        {
-          text &&
-          (
-            icon
-              ? <NoData type='success' />
-              : <NoData className='toast' text={text} />
-          )
-        }
-        <AccountEditForm
-          onSubmit={this.updateAccount}
-          type={1}
-          targetId={query.from ? 0 : query.id}
-          fromPage={query.from || ''}
-        />
+        { text && (
+          icon
+            ? <NoData type='success' />
+            : <NoData className='toast' text={text} />
+        )}
+        { child || <AccountEditForm
+          type='account'
+          targetId={+query.id}
+          getBankBranchs={getBankBranchs}
+          query={query}
+          bankParams={params}
+          setParams={this.setParams}
+          editAccount={this.editAccount}
+          saveAccount={this.updateAccount}
+        /> }
       </div>
     )
   }

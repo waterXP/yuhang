@@ -5,7 +5,8 @@ import { getAccounts, initialAccounts,
 import SettingsAccounts from '../components/SettingsAccounts'
 
 const mapStateToProps = (state) => ({
-  accounts: state.settings.accounts
+  accounts: state.settings.accounts,
+  alipaySwitch: state.root.alipaySwitch
 })
 
 const mapDispatchToProps = {

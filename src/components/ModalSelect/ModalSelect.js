@@ -18,26 +18,26 @@ class ModalSelect extends Component {
   render () {
     const { options, active, labelId, labelName,
       close, scope } = this.props
-    let _id = labelId || 'id'
-    let _name = labelName || 'name'
     return (
       <div className='wm-modal-select'>
         <div className='container'>
           <button className='btn btn-xs' onClick={close}>
-            <i className='fa fa-times' />
+            x
           </button>
           <ul>
             {
               options.map((v, i) => {
+                const _id = labelId ? v[labelId] : v
+                const _name = labelName ? v[labelName] : v
                 return (
                   <li
-                    key={v[_id]}
+                    key={_id}
                     onClick={
-                      active !== i && this.clickHandle(i, scope, v[_id])
+                      active !== i && this.clickHandle(i, scope, _id)
                     }
                     className={`${active === i ? 'active' : ''}`}
                   >
-                    { v[_name] }
+                    { _name }
                   </li>
                 )
               })

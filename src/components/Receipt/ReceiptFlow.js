@@ -6,34 +6,31 @@ import userImage from '@/assets/user.png'
 export const ReceiptFlow = ({ processList }) => {
   let className = [
     'color-secondary',
-    'color-error',
-    'color-error',
-    'color-secondary',
     'color-correct',
     'color-warning',
-    'color-warning',
-    'color-correct',
-    'color-error',
-    'color-correct',
-    'color-warning',
-    'color-warning',
-    'color-warning'
+    'color-error'
   ]
-  className[-2] = 'color-secondary'
-  className[-1] = 'color-error'
+  let pl = []
+  processList.forEach((d) => {
+    if (d.result) {
+      pl.push(d)
+    }
+  })
   return (
     <div className='wm-receipt-flow'>
-      {processList.map((data, i) => {
+      {pl.map((data, i) => {
         return (
           <div className='flow clearfix' key={i}>
             <img className='avatar' src={data.avatar || userImage} />
             <div className='info'>
               <p className='base-info'>
-                <span className='pull-left'>{data.userName}</span>
+                <span className='pull-left'>{data.userName || data.title}</span>
                 {data.type !== undefined && data.type !== 3 &&
-                  <span className={`pull-left ${className[data.type]}`}
-                  >
-                    {approveDetailType[data.type]}
+                  <span className={`pull-left ${className[data.color]}`}>
+                    {
+                      // approveDetailType[data.type]
+                      data.result
+                    }
                   </span>
                 }
                 {data.updateTime &&
@@ -44,7 +41,8 @@ export const ReceiptFlow = ({ processList }) => {
                 }
                 <span className='clearfix' />
               </p>
-              {data.type !== 1 && data.remark && <p className='comment'>{data.remark}</p>}
+              {data.type !== 1 && data.type !== 13 &&
+                data.remark && <p className='comment'>{data.remark}</p>}
             </div>
           </div>
         )

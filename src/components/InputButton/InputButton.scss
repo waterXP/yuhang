@@ -1,0 +1,37 @@
+@import '../../styles/baseStyle';
+
+.wm-input-button {
+  padding: .1rem .12rem .06rem;
+  text-align: left;
+  .form-label {
+    @include fontStyle($fontNameColor, .15rem, .21rem);
+    font-weight: normal;
+  }
+  .required {
+    @include fontStyle($errorColor, .15rem, .21rem);
+  }
+  button {
+    @include fontStyle($fontColor, .17rem, .24rem);
+    @include ellipsis;
+    position: relative;
+    width: 100%;
+    padding: .12rem .24rem .12rem .12rem;
+    background-color: #fff;
+    border: 1px solid $borderColor;
+    border-radius: .05rem;
+    text-align: left;
+    outline: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    &+.select-button {
+      margin-left: .2rem;
+    }
+    .img-right {
+      position: absolute;
+      width: .08rem;
+      height: .13rem;
+      top: .18rem;
+      right: .1rem;
+    }
+  }
+}

@@ -7,6 +7,10 @@ export const getUrlParams = (name) => {
   return ''
 }
 const modelType = +getUrlParams('modelType')
+const u = navigator.userAgent
+const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+const deviceHeight = document.body.offsetHeight
+const rootElement = document.getElementById('root')
 
 if (process.env.NODE_ENV !== 'development' && window.parent) {
 } else {
@@ -20,6 +24,9 @@ export const isDev = process.env.NODE_ENV === 'development'
 export default {
   dd,
   modelType,
+  deviceHeight,
+  rootElement,
+  isiOS,
   prodApi: modelType !== 1
     ? 'http://120.77.209.222/wagestest/'
     : 'http://wages.hz.taeapp.com/',

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { hashHistory, Router } from 'react-router'
 import { Provider, connect } from 'react-redux'
 import { getConfig, inBusy } from '@/store/root'
+import { setEvent } from '@/lib/base'
 import NoData from '@/components/NoData'
 
 class AppContainer extends Component {
@@ -11,11 +12,13 @@ class AppContainer extends Component {
     routes: PropTypes.object.isRequired,
     store: PropTypes.object.isRequired,
     inBusy: PropTypes.func.isRequired,
-    isBusy: PropTypes.bool
+    isBusy: PropTypes.bool,
+    location: PropTypes.object
   }
 
   componentDidMount () {
-    const { inBusy, getConfig } = this.props
+    const { inBusy, getConfig, location } = this.props
+    setEvent(location.pathname)
     inBusy()
     getConfig()
   }
@@ -41,7 +44,8 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isBusy: state.root.isBusy
+  isBusy: state.root.isBusy,
+  location: state.location
 })
 
 const mapDispatchToProps = {

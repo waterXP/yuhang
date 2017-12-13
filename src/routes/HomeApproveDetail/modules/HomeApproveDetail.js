@@ -22,6 +22,7 @@ export const getApproveDetail = (expensesClaimsId = 1, detailType) => {
       expensesClaimsId: expensesClaimsId
     }
   }
+  params.channel = 'mobile'
   return asyncFetch(
     'get expensesClaimsView/approveDetail.json',
     params,

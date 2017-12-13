@@ -18,7 +18,8 @@ class SettingsAccounts extends Component {
       id: PropTypes.number.isRequired,
       isDefault: PropTypes.number.isRequired,
       account: PropTypes.string.isRequired
-    }).isRequired).isRequired
+    }).isRequired).isRequired,
+    alipaySwitch: PropTypes.number
   }
 
   constructor () {
@@ -123,14 +124,17 @@ class SettingsAccounts extends Component {
   }
 
   render () {
-    const { accounts } = this.props
+    const { accounts, alipaySwitch } = this.props
     const { tooLong, inControl, delList } = this.state
-
     return (
       <div className='wm-settings-accounts' ref='parent'>
-        { isDev && !inControl && <DevButtons titles={['操作']} handleClick={this.controlHandler} />}
+        { isDev && !inControl &&
+          <DevButtons titles={['操作']} handleClick={this.controlHandler} />
+        }
         <p className={`title${tooLong ? ' fixed' : ''}`}>
-          个人收款账号{accounts.length > 0 ? `（${accounts.length}）` : ''}
+          个人收款账号{
+            accounts && accounts.length > 0 ? `（${accounts.length}）` : ''
+          }
         </p>
         <AccountList
           isTooLong={tooLong}
@@ -151,12 +155,12 @@ class SettingsAccounts extends Component {
             </button>
           }
           {
-            // !inControl && <button
-            //   className='new-card disabled'
-            //   // onClick={this.handleClick({
-            //   //   pathname: 'settings/edit/alipay'
-            //   // })}
-            // >新增支付宝</button>
+            !inControl && !!alipaySwitch && <button
+              className='new-card'
+              onClick={this.handleClick({
+                pathname: 'settings/edit/alipay'
+              })}
+            >新增支付宝</button>
           }
           {
             inControl && <div className='row-btns'>
@@ -181,4 +185,3 @@ class SettingsAccounts extends Component {
 }
 
 export default SettingsAccounts
-

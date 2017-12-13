@@ -78,6 +78,14 @@ export const ReceiptHeader = ({ data }) => {
               </span>
             </p>
           }
+          {
+            data.illustrate && <p className='flex'>
+              <span className='span-name'>说明</span>
+              <span className='span-content'>
+                {data.illustrate}
+              </span>
+            </p>
+          }
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
-import { fetchData, fetchFail, FETCH_FAIL,
-  getTestAccount, errFunc } from '@/lib/base'
+import { fetchData, fetchFail, FETCH_FAIL, asyncFetch, getTestAccount,
+  errFunc } from '@/lib/base'
 import config, { dd } from '@/config'
 
 export const GET_CONFIG = 'GET_CONFIG'
 export const SET_STEP = 'SET_STEP'
 export const IN_BUSY = 'IN_BUSY'
 export const IN_DEV = 'IN_DEV'
+export const GET_ALIPAY_SWITCH = 'GET_ALIPAY_SWITCH'
 
 export const getConfig = (url) => {
   return (dispatch, getState) => {
@@ -53,9 +54,20 @@ export const inBusy = (isBusy = true, clearStep) => {
   }
 }
 
+export const getAlipaySwitch = () =>
+  asyncFetch(
+    'get /isvTickets/getAplipaySwitch.json', {},
+    ({ data }, dispatch) =>
+      dispatch({
+        type: GET_ALIPAY_SWITCH,
+        alipaySwitch: data
+      })
+  )
+
 export const actions = {
   getConfig,
-  setStep
+  setStep,
+  getAlipaySwitch
 }
 
 const ACTION_HANDLERS = {
@@ -135,12 +147,15 @@ const ACTION_HANDLERS = {
   [SET_STEP]: (state, { step }) => 
     Object.assign({}, state, { step }),
   [IN_BUSY]: (state, { isBusy, clearStep }) =>
-    Object.assign({}, state, { isBusy, step: clearStep ? '' : state.step })
+    Object.assign({}, state, { isBusy, step: clearStep ? '' : state.step }),
+  [GET_ALIPAY_SWITCH]: (state, { alipaySwitch }) =>
+    Object.assign({}, state, { alipaySwitch })
 }
 
 const initialState = {
   step: '',
-  isBusy: false
+  isBusy: false,
+  alipaySwitch: 0
 }
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

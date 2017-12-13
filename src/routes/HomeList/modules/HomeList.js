@@ -29,8 +29,8 @@ export const getApproveList = (cPage = 1, type = 1) => {
       break
     case 5 :
       url = 'get /expensesClaims/myList.json'
-      params.statusVal = 3
-      // params.type = 'allReject'
+      // params.statusVal = 3
+      params.type = 'allReject'
       break
     case 6 :
       url = 'get /expensesClaims/draftList.json'

@@ -13,7 +13,8 @@ class Settings extends Component {
     step: PropTypes.string,
     setStep: PropTypes.func.isRequired,
     getUserInfo: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
+    getAlipaySwitch: PropTypes.func
   }
 
   constructor () {
@@ -28,9 +29,11 @@ class Settings extends Component {
   }
 
   componentDidMount () {
+    const { getUserInfo, getAlipaySwitch } = this.props
     this.checkUrl()
     this.checkAuthority()
-    this.props.getUserInfo()
+    getUserInfo()
+    getAlipaySwitch()
   }
   componentDidUpdate () {
     this.checkUrl()

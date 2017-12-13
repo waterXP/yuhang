@@ -2,122 +2,81 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import InputText from '../InputText'
+import SelectCity from '../SelectCity'
+import InputButton from '../InputButton'
 import FormButton from '../FormButton'
-import { fetchData, goLocation } from '@/lib/base'
+import { fetchData, goLocation, removeQuery } from '@/lib/base'
 import { toast } from '@/lib/ddApi'
 import './AccountEditForm.scss'
 
 class AccountEditForm extends Component {
   static propTypes = {
-    targetId: PropTypes.any,
-    type: PropTypes.number,
-    onSubmit: PropTypes.func,
-    fromPage: PropTypes.string
+    type: PropTypes.string,
+    targetId: PropTypes.number,
+    getBankBranchs: PropTypes.func,
+    query: PropTypes.object,
+    bankParams: PropTypes.object,
+    setParams: PropTypes.func,
+    editAccount: PropTypes.func,
+    saveAccount: PropTypes.func
   }
   constructor () {
-    super()
-    this.initial = this::this.initial
-    this.setValue = this::this.setValue
-    this.checkValidate = this::this.checkValidate
-    this.handleSubmit = this::this.handleSubmit
+    super(...arguments)
     this.focusInput = this::this.focusInput
-    this.state = {
-      account: 0,
-      oldSeAccount: 0,
-      data: {},
-      params: {},
-      defaultCard: 0
-    }
-  }
-  componentDidMount () {
-    const { targetId } = this.props
-    if (targetId) {
-      this.initial(targetId)
-    }
-  }
-
-  initial (id) {
-    fetchData('get /userAccounts/updateMyAccount.json', { id })
-    .then((data) => {
-      if (!data.result) {
-        this.setState({
-          oldAccount: data.data.account,
-          oldSeAccount: data.data.seAccount,
-          data: { ...data.data },
-          params: { ...data.data },
-          defaultCard: data.data.isDefault
-        })
-      } else {
-        toast(data.msg)
-      }
-    })
-  }
-
-  checkValidate () {
-    const { type } = this.props
-    const { params } = this.state
-    if (
-      !params.name ||
-      !params.seAccount ||
-      (
-        type === 1 &&
-        (
-          !params.bankName ||
-          !params.bankBranchName
-        )
-      )
-    ) {
-      return false
-    }
-    return true
-  }
-
-  setValue (e) {
-    const el = e.target
-    this.setState((prevState) => {
-      const tm = Object.assign(
-        {}, prevState, {
-          params: Object.assign(
-            {}, prevState.params, { [el.name]: el.value }
-          )
-        }
-      )
-      return tm
-    })
-  }
-
-  handleSubmit (isDefault) {
-    return () => {
-      // const valid = this.checkValidate()
-      // if (!this.checkValidate()) {
-      //   toast('')
-      //   return
-      // }
-      const { oldAccount, oldSeAccount, params, defaultCard } = this.state
-      const { fromPage, onSubmit } = this.props
-      onSubmit({
-        ...params,
-        isDefault: defaultCard || isDefault,
-        oldAccount,
-        oldSeAccount,
-        fromPage,
-        defaultCard
-      }, this.focusInput)
-    }
+    this.setProvince = this::this.setProvince
+    this.setCity = this::this.setCity
+    this.setBankBranch = this::this.setBankBranch
+    this.getBankBranchs = this::this.getBankBranchs
   }
 
   focusInput (target) {
     this[`${target}Ref`] && this[`${target}Ref`].focus()
   }
+  setProvince (v) {
+    const { setParams, bankParams } = this.props
+    const province = v === '选择省份' ? '' : v
+    if (bankParams.province !== province) {
+      setParams({
+        province, city: '', bankBranchName: ''
+      })
+    }
+  }
+  setCity (v) {
+    const { setParams, bankParams } = this.props
+    const city = v === '选择城市' ? '' : v
+    if (bankParams.city !== city) {
+      setParams({
+        city,
+        bankBranchName: ''
+      })
+    }
+  }
+  getBankBranchs () {
+    const { getBankBranchs, bankParams, query } = this.props
+    const { city, province, bankName } = bankParams
+    if (city && province) {
+      getBankBranchs(
+        { city, province, bankName: bankName || '' },
+        () => goLocation({
+          pathname: '/settings/edit/account/branch',
+          query
+        })
+      )
+    }
+  }
+  setBankBranch () {
+    const { city, province } = this.props.bankParams
+    if (!city || !province) {
+      toast('请先选择地区')
+      return
+    }
+    this.getBankBranchs()
+  }
 
   render () {
-    const { type, onSubmit, targetId, fromPage } = this.props
-    const { data } = this.state
-    // console.log(data.name)
-    const isBankAccount = type === 1
-    let oldAccount = this.state.account
-    let oldSeAccount = this.state.oldSeAccount
-    // const valid = this.checkValidate()
+    const { type, targetId, getBankBranchs, bankParams, setParams,
+      editAccount, saveAccount } = this.props
+    const isBankAccount = type === 'account'
     return (
       <form className='wm-account-edit-form'>
         <InputText
@@ -125,8 +84,8 @@ class AccountEditForm extends Component {
           name='name'
           maxLength='30'
           required={true}
-          handleChange={this.setValue}
-          defaultValue={data.name}
+          handleChange={(v) => setParams({ name: v })}
+          value={bankParams.name}
           placeholder='请输入姓名'
           inputRef={(el) => this.nameRef = el}
         />
@@ -135,8 +94,9 @@ class AccountEditForm extends Component {
           name='seAccount'
           maxLength={isBankAccount ? 22 : 50}
           required={true}
-          handleChange={this.setValue}
-          defaultValue={data.seAccount}
+          handleChange={(v) => setParams({ seAccount: v })}
+          handleClick={() => !bankParams.accountEdited && editAccount()}
+          value={bankParams.seAccount}
           placeholder='请输入账号'
           inputRef={(el) => this.accountRef = el}
         />
@@ -146,41 +106,62 @@ class AccountEditForm extends Component {
             name='bankName'
             maxLength='50'
             required={true}
-            handleChange={this.setValue}
-            defaultValue={data.bankName}
+            handleChange={(v) => setParams({ bankName: v })}
+            value={bankParams.bankName}
             placeholder='请输入银行名称'
             inputRef={(el) => this.bankNameRef = el}
           />
         }
         {isBankAccount &&
-          <InputText
+          <SelectCity
+            label='地区'
+            province={bankParams.province}
+            city={bankParams.city}
+            required={true}
+            setProvince={this.setProvince}
+            setCity={this.setCity}
+            inputProvince={(el) => this.provinceRef = el}
+            inputCity={(el) => this.cityRef = el}
+          />
+        }
+        {isBankAccount &&
+          <InputButton
             label='开户行'
+            value={bankParams.isOther ? '其它' : bankParams.bankBranchName}
+            required={true}
+            handleClick={this.setBankBranch}
+            inputRef={(el) => this.isOtherRef = el}
+          />
+        }
+        {isBankAccount && !!bankParams.isOther &&
+          <InputText
+            label=''
             name='bankBranchName'
             maxLength='50'
-            required={true}
-            handleChange={this.setValue}
-            defaultValue={data.bankBranchName}
+            handleChange={(v) => setParams({ bankBranchName: v })}
+            value={bankParams.bankBranchName}
             placeholder='请输入开户行'
             inputRef={(el) => this.bankBranchNameRef = el}
           />
         }
-        {isBankAccount &&
+        {isBankAccount && (bankParams.isOther || bankParams.bankBranchName) &&
           <InputText
             label='开户行行号'
             name='bankCode'
             maxLength='20'
-            handleChange={this.setValue}
-            defaultValue={data.bankCode}
+            handleChange={(v) => setParams({ bankCode: v })}
+            value={bankParams.bankCode}
+            inputRef={(el) => this.bankCodeRef = el}
           />
         }
         <div className='btns'>
           <FormButton
             text='保存'
-            onClick={this.handleSubmit(0)}
+            onClick={() => saveAccount(0, this.focusInput)}
           />
-          { (!targetId || data.isDefault === 0) && <FormButton
+          { !bankParams.isDefault && <FormButton
               text='保存为默认'
-              onClick={this.handleSubmit(1)}
+              onClick={() => saveAccount(1, this.focusInput)}
             />
           }
         </div>

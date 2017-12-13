@@ -1,4 +1,4 @@
-import { hashHistory } from 'react-router'
+import { hashHistory, location } from 'react-router'
 import config, { dd, isDev, getUrlParams } from '@/config'
 import React from 'react'
 import fetch from 'isomorphic-fetch'
@@ -222,6 +222,23 @@ export const fetchFin = (state, action) => {
 export const goLocation = (location = { pathname: '/' }) =>
   hashHistory.push(location)
 
+export const setQuery = (query) => {
+  const location = hashHistory.getCurrentLocation()
+  hashHistory.replace({
+    pathname: location.pathname,
+    query: Object.assign({}, location.query, query)
+  })
+}
+export const removeQuery = (target) => {
+  const location = hashHistory.getCurrentLocation()
+  let query = Object.assign({}, location.query)
+  delete query[target]
+  hashHistory.replace({
+    pathname: location.pathname,
+    query
+  })
+}
+
 export const getDate = (nDate = (new Date()), fmt = 'yyyy-MM-dd hh:mm:ss') => {
   const sDate = new Date(nDate)
   const dateObj = {
@@ -395,6 +412,45 @@ export const compareCharacter = (a, b) => {
       _b = toPinyin(_b)
     }
     return _a < _b ? -1 : 1
+  }
+}
+
+/**
+ * fix ios device bounce
+ * check elements's heigth,
+ * if all element not heighter then root element,
+ * prevent default
+ * if result is bad, just commit the following code
+ * and commit all -webkit-overflow-scrolling: touch; in css
+ * but it will effect the input box: cannot type when cursor moved
+ * so when the page has no input box, fix bounce
+ */
+const listener = function (e) {
+  if (config.isiOS) {
+    let target = e.target
+    while (target !== config.rootElement) {
+      if (config.deviceHeight < target.scrollHeight) {
+        return
+      }
+      target = target.parentNode
+    }
+    e.preventDefault()
+  }
+}
+export const addEvent = () => document.body.addEventListener('touchmove', listener, false)
+export const stopEvent = () => document.body.removeEventListener('touchmove', listener, false)
+export const setEvent = (url) => {
+  switch (url) {
+    case '/new':
+    case '/new/type':
+    case '/approval/search':
+    case '/approval/filter':
+    case '/settings/edit/account':
+    case '/settings/administrator':
+      stopEvent()
+      break
+    default:
+      addEvent()
   }
 }
 

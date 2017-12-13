@@ -8,7 +8,8 @@ const fetchHistoryDetail = (dispatch, id) => {
   fetchData('get /expensesClaimsView/approveDetail.json', {
     expensesClaimsId: id,
     showAttachments: true,
-    type: 'afterApproval'
+    type: 'afterApproval',
+    channel: 'mobile'
   }).then((data) => {
     if (data.result === 0) {
       return dispatch({

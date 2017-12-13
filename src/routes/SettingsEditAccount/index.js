@@ -1,3 +1,5 @@
+import SettingsSetBranchRoute from '../SettingsSetBranch'
+// console.log(SettingsSetBranchRoute)
 export default (store) => ({
   path : 'edit/account',
   getComponent (nextState, cb) {
@@ -5,5 +7,8 @@ export default (store) => ({
       const Container = require('./containers/SettingsEditAccountContainer').default
       cb(null, Container)
     }, 'editAccount')
-  }
+  },
+  childRoutes: [
+    SettingsSetBranchRoute(store)
+  ]
 })

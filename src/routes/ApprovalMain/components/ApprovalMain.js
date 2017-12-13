@@ -42,7 +42,7 @@ class ApprovalMain extends Component {
     this.initial = this::this.initial
   }
   componentDidMount () {
-    this.initial() 
+    this.initial()
   }
   initial () {
     const { updateActive, query } = this.props

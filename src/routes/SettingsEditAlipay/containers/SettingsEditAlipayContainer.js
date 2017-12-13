@@ -1,14 +1,16 @@
 import { connect } from 'react-redux'
-// import { updateAccount } from '../modules/SettingsEditAlipay'
-
 import SettingsEditAlipay from '../components/SettingsEditAlipay'
+import {
+  getBankInfo, clearBankInfo
+} from '../../Settings/modules/settings'
 
 const mapStateToProps = (state) => ({
-  query: state.location.query
+  query: state.location.query,
+  bankInfo: state.settings.bankInfo
 })
 
 const mapDispatchToProps = {
-  // updateAccount
+  getBankInfo, clearBankInfo
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditAlipay)
