@@ -1,0 +1,16 @@
+@import '../../../styles/baseStyle.scss';
+
+.yh-cover {
+  display: inline-block;
+  width: 614px;
+  height: 534px;
+  background: url(../assets/cover.png) no-repeat center / cover;
+  text-align: left;
+  p {
+    @include fontStyle($mainColor, 24px, 31px);
+    margin: 4px 51px;
+    &:first-child {
+      margin-top: 230px;
+    }
+  }
+}

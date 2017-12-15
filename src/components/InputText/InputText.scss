@@ -1,24 +1,11 @@
 @import '../../styles/baseStyle';
 
-.wm-input-text {
-  padding: .1rem .12rem .06rem;
-  text-align: left;
-  .form-label {
-    @include fontStyle($fontNameColor, .15rem, .21rem);
-    font-weight: normal;
-  }
-  .required {
-    @include fontStyle($errorColor, .15rem, .21rem);
-  }
-  input {
-    @include fontStyle($fontColor, .17rem, .24rem);
-    width: 100%;
-    padding: .12rem;
-    border: 1px solid $borderColor;
-    border-radius: .05rem;
+.yh-input-text {
+  @include fontStyle($llFontColor, 14px, 20px);
+  @include border;
+  width: 264px;
+  padding: 10px;
+  &:focus {
     outline: none;
-    z-index: 99999999;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 }

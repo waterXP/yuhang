@@ -10,7 +10,6 @@ export const LOCATION_CHANGE = 'LOCATION_CHANGE'
 // Actions
 // ------------------------------------
 export function locationChange (location = '/') {
-  setEvent(location.pathname)
   return {
     type    : LOCATION_CHANGE,
     payload : location

@@ -1,0 +1,35 @@
+@import '../../styles/baseStyle.scss';
+
+.yh-step {
+  div {
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .in-step {
+    .step {
+      width: 77px;
+      height: 57px;
+      background: url(./assets/step.png) no-repeat center / 100%;
+      user-select: none;
+    }
+  }
+  .out-step {
+    min-width: 77px;
+    .step {
+      @include fontStyle($hFontColor, 30px, 47px);
+      width: 57px;
+      height: 57px;
+      margin: 0 auto;
+      border: 5px solid $hFontColor;
+      border-radius: 50%;
+      text-align: center;
+      font-weight: bold;
+      user-select: none;
+    }
+  }
+  .text {
+    @include fontStyle($secondaryColor, 16px, 21px);
+    margin-top: 6px;
+    text-align: center;
+  }
+}

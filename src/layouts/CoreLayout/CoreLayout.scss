@@ -1,18 +1,6 @@
 @import '../styles/baseStyle';
 
 .core-layout__viewport {
-  // position: absolute;
   width: 100%;
   height: 100%;
-  // top: 0;
-  // left: 0;
-  // bottom: .49rem;
-  padding-bottom: .49rem;
-  // overflow: auto;
-  &.no-footer {
-    padding-bottom: 0;
-  }
-  &.sm-footer {
-    padding-bottom: .49rem;
-  }
 }

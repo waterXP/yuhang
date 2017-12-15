@@ -1,0 +1,27 @@
+@import '../../../styles/baseStyle';
+
+.yh-form-input {
+  position: relative;
+  margin-bottom: 15px;
+  .required {
+    @include fontStyle($errorColor, 14px, 19px);
+    width: 17px;
+    display: inline-block;
+  }
+  .form-label {
+    @include fontStyle($llFontColor, 14px, 19px);
+    width: 89px;
+    text-align: left;
+    font-weight: normal;
+  }
+  .form-text {
+    @include fontStyle($llFontColor, 14px, 19px);
+    @include border;
+    width: 242px;
+    padding: 5px 9px;
+    margin-right: 17px;
+    &:focus {
+      outline: none;
+    }
+  }
+}

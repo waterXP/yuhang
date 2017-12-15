@@ -1,7 +1,7 @@
 {
-  "name": "wages-mobile",
+  "name": "INNOVATION",
   "version": "3.0.0-alpha.3",
-  "description": "wages mobile",
+  "description": "INNOVATION OF YUHANG",
   "main": "index.js",
   "engines": {
     "node": ">=4.5.0",
@@ -115,7 +115,6 @@
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "redux": "^3.6.0",
-    "redux-form": "^6.7.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.0.0",
     "rimraf": "^2.5.4",

@@ -1,0 +1,10 @@
+@import '../../../styles/baseStyle';
+
+.yh-form-warning {
+  position: absolute;
+  display: inline-block;
+  top: 6px;
+  span {
+    @include fontStyle($errorColor, 12px, 17px);
+  }
+}

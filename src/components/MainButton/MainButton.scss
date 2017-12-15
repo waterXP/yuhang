@@ -1,0 +1,15 @@
+@import '../../styles/baseStyle';
+
+.yh-main-button {
+  @include fontStyle($llFontColor, 14px, 20px);
+  @include border;
+  width: 264px;
+  padding: 10px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: darken($mainColor, 10%);
+  }
+}

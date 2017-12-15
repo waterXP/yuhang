@@ -1,41 +1,74 @@
-export const approveStatus = {
-  '-3': '拒绝发放',
-  '-2': '拒绝签收',
-  '-1': '作废',
-  '0': '草稿',
-  '1': '审批中',
-  '2': '已撤回',
-  '3': '已拒绝',
-  '4': '审批通过',
-  '5': '待票审',
-  '6': '票审搁置',
-  '7': '待发放',
-  '8': '发放搁置',
-  '9': '已发放'
-}
+export const registerStep = [
+  '填写账号',
+  '身份验证',
+  '完成'
+]
 
-export const approveDetailType = {
-  '-2': '已转交',
-  '-1': '作废',
-  '0': '发起',
-  '1': '撤回',
-  '2': '拒绝',
-  '3': '评论',
-  '4': '通过',
-  '5': '审批中',
-  '6': '待审批',
-  '7': '签收通过',
-  '8': '签收搁置',
-  '9': '发放通过',
-  '10': '发放搁置',
-  '11': '记账',
-  '12': '红冲',
-  '13': '待签收'
-}
+export const registerTab = [
+  {
+    key: 'mobile',
+    value: '手机注册'
+  }, {
+    key: 'mail',
+    value: '邮箱注册'
+  }
+]
 
-export const approvalStatus = {
-  '1': '待我审批',
-  '2': '我发起的',
-  '3': '抄送我的',
-  '4': '我已审批'
-}
+export const registerForm = [
+  {
+    text: '手机号',
+    key: 'mobile',
+    type: 'text',
+    isRequired: true,
+    unique: 'mobile',
+    regStr: '^1[34578]\\d{9}$'
+  }, {
+    text: '验证码',
+    key: 'validate',
+    type: 'validate',
+    isRequired: true,
+    unique: 'mobile'
+  }, {
+    text: '邮箱',
+    key: 'mail',
+    type: 'text',
+    isRequired: true,
+    unique: 'mail',
+    regStr: '^1[34578]\\d{9}$'
+  }, {
+    text: '密码',
+    key: 'password',
+    type: 'password',
+    isRequired: true
+  }, {
+    text: '确认密码',
+    key: 'confirm',
+    type: 'password',
+    isRequired: true
+  }, {
+    text: '真实姓名',
+    key: 'name',
+    type: 'text'
+  }, {
+    text: '公司名称',
+    key: 'company',
+    type: 'text'
+  }, {
+    text: '职位',
+    key: 'position',
+    type: 'text'
+  }, {
+    text: '工作地址',
+    key: 'address',
+    type: 'text'
+  }, {
+    text: '我已阅读并同意遵守',
+    key: 'agree',
+    type: 'checkbox',
+    link: '《创新余杭用户服务协议》'
+  }, {
+    type: 'submit',
+    text: '注册',
+    key: 'submit'
+  }
+]

@@ -1,0 +1,20 @@
+@import '../../../styles/baseStyle';
+
+.yh-form-submit {
+  position: relative;
+  @include fontStyle($fontColor, 12px, 17px);
+  @include likeButton;
+  display: block;
+  margin: 23px auto 0;
+  padding: 12px 0;
+  width: 331px;
+  border: 1px solid $hborderColor;
+  border-radius: 2px;
+  background-color: $mainColor;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: darken($mainColor, 10%);
+  }
+}

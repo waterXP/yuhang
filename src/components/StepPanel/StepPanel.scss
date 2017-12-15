@@ -1,0 +1,14 @@
+@import '../../styles/baseStyle';
+
+.yh-step-panel {
+  background-color: $mainColor;
+  .title {
+    @include fontStyle($mainColor, 22px, 29px);
+    padding: 20px 0;
+    background-color: $warningColor;
+  }
+  .yh-step {
+    margin: 28px 100px 0 0;
+    text-align: right;
+  }
+}

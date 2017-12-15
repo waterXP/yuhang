@@ -2,27 +2,25 @@ $backColor: #f5f5f9;
 $backSecondColor: #f4f4f4;
 $mainColor: #fff;
 $footColor: rgba(247, 247, 247, .8);
-$activeColor: #15b4f1;
-$activeBackColor: rgba(21, 180, 241, .2);
-$borderColor: #eaeaea;
-$borderSecondColor: #d4d4d8;
+$activeColor: #3599f4;
+$borderColor: #d9d9d9;
+$hborderColor: #e67338;
 
-$fontColor: #333;
-$fontNameColor: #666;
-$lFontColor: #999;
-$rFontColor: #ccc;
+$fontColor: #392d2f;
+$lFontColor: #7a7a7a;
+$llFontColor: #b3b3b3;
+$hFontColor: #ccc;
 
 $correctColor: #00c853;
-$warningColor: #ffae39;
-$warningSecondColor: #ec7070;
-$errorColor: #f65d4d;
-$secondaryColor: #999;
-$secondarySecondColor: #eee;
+$warningColor: #fd643f;
+$errorColor: #f21b1b;
+$secondaryColor: #7a7a7a;
 
-$border: 1px solid $borderColor;
+$panelPadding: 0.2rem .06rem 0;
 
 @mixin border {
   border: 1px solid $borderColor;
+  border-radius: 2px;
 }
 
 @mixin fontStyle ($color, $size, $height) {
@@ -37,153 +35,7 @@ $border: 1px solid $borderColor;
   text-overflow: ellipsis;
 }
 
-@mixin form-control {
-  @include fontStyle($fontNameColor, .17rem, .24rem);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: .12rem;
-  padding: .12rem .12rem .12rem 0;
-  border-bottom: 1px solid $borderColor;
-  text-align: left;
-  label {
-    -webkit-box-flex: none;
-    -ms-flex: none;
-    flex: none;
-    white-space: nowrap;
-    overflow: visible;
-    font-weight: normal;
-    margin: 0;
-    &:first-child {
-      text-align: left;
-    }
-    &+label {
-      @include ellipsis;
-      -webkit-box-flex: auto;
-      -ms-flex: auto;
-      flex: auto;
-      text-align: right;
-      margin-left: .2rem;
-    }
-  }
-  button, input {
-    @include ellipsis;
-    -webkit-box-flex: auto;
-    -ms-flex: auto;
-    flex: auto;
-    padding: 0;
-    text-align: right;
-    border: none;
-    background-color: transparent;
-    line-height: 0.2rem;
-    height: 0.2rem;
-  }
-  textarea {
-    @include fontStyle($fontNameColor, .15rem, .21rem);
-    -webkit-box-flex: auto;
-    -ms-flex: auto;
-    flex: auto;
-    width: 100%;
-    height: .68rem;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    resize: none;
-  }
-  .img-right {
-    -webkit-box-flex: none;
-    -ms-flex: none;
-    flex: none;
-    width: .08rem;
-    height: .13rem;
-    margin-left: .08rem;
-  }
-  &:last-child {
-    border-bottom: none;
-  }
+@mixin likeButton {
+  cursor: pointer;
+  user-select: none;
 }
-
-$borderRadius: 4px;
-$inputPadding: .02rem .03rem;
-
-$inputFontSize: 0.16rem;
-$inputLineHeight: 0.18rem;
-$defaultColor: #c7c7cc;
-
-$panelPaddingTop: 0.2rem;
-
-$panelPadding: 0.2rem .06rem 0;
-$radiusCycle: 0.12rem;
-
-
-$activeHoverColor: #1e84dc;
-
-$activeBorderColor: #3793d4;
-$activeHoverBorderColor: #136ebd;
-
-$successColor: #17c3a3;
-
-
-$backColorSecondary: #eee;
-
-$btnBackColor: #f4f4f4;
-$btnSuccessBackColor: #dcf6ef;
-
-$disabledColor: #666;
-$disabledBorderColor: #666;
-$disabledOpacity: .3;
-
-$borderColorSecondary: #c7c7cc;
-
-$canClick: #38ADEF;
-$homeBg: $backColor;
-
-$coverBackColor: rgba(240, 240, 240, .7);
-
-@mixin form-border {
-  border: 1px solid $borderColor;
-  border-left: none;
-  border-right: none;
-}
-
-@mixin cover {  
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  background-color: $coverBackColor;
-}
-
-@mixin left-arrow ($top, $size) {
-  &:before {
-    content: ' ';
-    position: absolute;
-    top: $top;
-    left: -.1rem;
-    border: $size solid transparent;
-    border-right: $size solid $borderColorSecondary;
-  }
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: $top;
-    left: -.095rem;
-    border: $size solid transparent;
-    border-right: $size solid $backColor;
-  }
-}
-
-@mixin avatar ($size) {
-  width: $size;
-  height: $size;
-  border-radius: 50%;
-  vertical-align: top;
-}
-
-$formLabelWidth: 0.6rem;
-$formControlWidth: calc(100% - 0.6rem);

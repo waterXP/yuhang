@@ -6,7 +6,6 @@
 // Just remove them if they're not what you want
 html {
   box-sizing: border-box;
-  font-size: 625%;
 }
 
 html, body {
@@ -18,7 +17,7 @@ html, body {
 }
 
 body {
-  font-size: .14rem;
+  font-size: 14px;
 }
 
 label {
@@ -55,25 +54,6 @@ p {
   padding: 0;
 }
 
-.color-font {
-  color: $fontColor !important;
-}
-.color-correct {
-  color: $correctColor !important;
-}
-.color-warning {
-  color: $warningColor !important;
-}
-.color-error {
-  color: $errorColor !important;
-}
-.color-secondary {
-  color: $secondaryColor !important;
-}
-.color-r-font {
-  color: $rFontColor !important;
-}
-
 input, input:before, input:after {
   -webkit-user-select: initial !important;
   -khtml-user-select: initial !important;
@@ -82,27 +62,8 @@ input, input:before, input:after {
   user-select: initial !important;
 }
 
- .wm-color-secondary {
-  color: #ccc;
-}
-
-.wm-color-primary {
-  color: #38adef;
-}
-
-.wm-color-correct {
-  color: #78c06e;
-}
-
-.wm-color-error {
-  color: #d81e06;
-}
-
-.wm-color-important {
-  color: #ff9642;
-}
 .loadMore{
-  padding: .06rem 0;
+  padding: 6px 0;
   color: #ccc;
 }
 
@@ -127,7 +88,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 #root > div > .no-data.cover {
-  margin-top: 1.4rem;
+  margin-top: 140px;
   background-color: transparent;
 }
 

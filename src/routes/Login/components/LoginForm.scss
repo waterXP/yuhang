@@ -1,0 +1,52 @@
+@import '../../../styles/baseStyle.scss';
+
+.yh-login-form {
+  height: 534px;
+  background-color: $mainColor;
+  .login-form {
+    display: inline-block;
+    width: 378px;
+    padding: 119px 60px 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .title {
+    @include fontStyle($lFontColor, 20px, 26px);
+    position: relative;
+    margin-bottom: 17px;
+    &:after {
+      position: absolute;
+      content: ' ';
+      width: 20px;
+      height: 2px;
+      top: 12px;
+      right: 6px;
+      background-color: $warningColor;
+    }
+  }
+  .sub-title {
+    @include fontStyle($fontColor, 20px, 24px);
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+  .warning {
+    @include fontStyle($errorColor, 12px, 17px);
+    margin-bottom: 9px;
+  }
+  .yh-input-text {
+    margin-bottom: 16px;
+  }
+  .hint {
+    text-align: right;
+    margin-top: 11px;
+  }
+  .help-link {
+    @include fontStyle($llFontColor, 12px, 16px);
+    @include likeButton;
+    margin-left: 8px;
+    &:active {
+      color: darken($llFontColor, 10%);
+    }
+  }
+}

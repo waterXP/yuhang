@@ -1,0 +1,17 @@
+@import '../../styles/baseStyle';
+
+.yh-tab {
+  margin-bottom: 25px;
+  li {
+    @include fontStyle(lFontColor, 16px, 21px);
+    @include likeButton;
+    display: inline-block;
+    width: 220px;
+    padding: 8px 0 9px;
+    border-bottom: 1px solid $borderColor;
+    &.active {
+      padding-bottom: 8px;
+      border-bottom: 2px solid $hborderColor;
+    }
+  }
+}

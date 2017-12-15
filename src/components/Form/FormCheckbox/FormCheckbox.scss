@@ -1,0 +1,31 @@
+@import '../../../styles/baseStyle';
+
+.yh-form-checkbox {
+  position: relative;
+  .content{
+    position: relative;
+    width: 331px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .label {
+    @include likeButton;
+    @include fontStyle($llFontColor, 12px, 16px);
+    font-weight: normal;
+    input {
+      @include likeButton;
+      margin-right: 7px;
+    }
+  }
+  .link {
+    @include fontStyle($activeColor, 12px, 16px);
+    @include likeButton;
+  }
+  .yh-form-warning {
+    position: absolute;
+    display: inline-block;
+    width: 68px;
+    top: 0;
+    left: 331px;
+  }
+}

@@ -1,0 +1,13 @@
+@import '../../../styles/baseStyle.scss';
+
+.yh-login-register {
+  max-width: 1200px;
+  padding-top: 29px;
+  margin: 0 auto;
+  .yh-breadcrumbs {
+    margin-bottom: 10px;
+  }
+  .yh-step-panel {
+    padding-bottom: 154px;
+  }
+}

@@ -1,0 +1,112 @@
+@import '../../styles/baseStyle';
+
+.yh-loading {
+  display: inline-block;
+  padding: $panelPadding;
+  margin: 70px 0;
+  z-index: 999999;
+  i {
+    color: $activeColor;
+    font-size: 70px;
+  }
+  img {
+    width: 120px;
+  }
+  p {
+    margin-top: 13px;
+    @include fontStyle($hFontColor, 17px, 24px);
+  }
+  &.small {
+    padding-top: 0;
+    margin: 0 0 .34rem;
+    i {
+      font-size: .3rem;
+    }
+    img {
+      width: .22rem;
+    }
+    p {
+      @include fontStyle($hFontColor, 13px, 18px);
+      display: inline-block;
+      margin: 0 0 0 .12rem;
+      vertical-align: middle;
+    }
+  }
+  &.xsmall {
+    padding: 0;
+    margin: 0;
+    img {
+      height: 12px;
+    }
+    i {
+      font-size: 14px;
+    }
+    p {
+      font-size: 14px;
+      display: inline-block;
+      margin: 6px 6px 2px;
+    }
+  }
+  &.cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 70px 0;
+    background-color: rgba(240, 240, 240, .7);
+    .box {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 5px;
+      background-color: rgba(17, 17, 17, .7);
+    }
+  }
+  &.success {
+    padding: 0;
+    opacity: .65;
+  }
+  &.loading:not(.small):not(.xsmall):not(.cover), &.success {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 190px 0 0;
+    .box {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 5px;
+      background-color: rgba(17, 17, 17, .7);
+    }
+  }
+  &.toast {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 50%;
+    padding: 0;
+    .box {
+      display: inline-block;
+      background-color: rgba(17, 17, 17, .7);
+      padding: 23px;
+      border-radius: 5px;
+    }
+    &.flag .box {
+      padding: 25px 3px 24px;
+      i {
+        @include fontStyle($mainColor, 50px, 50px);
+        width: 50px;
+        margin: 0;
+      }
+    }
+    p {
+      @include fontStyle($mainColor, 15px, 21px);
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+@import '../../styles/baseStyle';
+
+.yh-breadcrumbs {
+  @include fontStyle($secondaryColor, 20px, 26px);
+  text-align: left;
+}
