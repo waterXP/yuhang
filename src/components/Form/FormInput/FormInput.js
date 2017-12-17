@@ -28,7 +28,7 @@ class FormInput extends Component {
 
   render () {
     const { label, name, value, setValue, isRequired, type,
-      inValid, submited, isDifferent, regStr } = this.props
+      inValid, submited = true, isDifferent, regStr, regFail } = this.props
     return <div className='yh-form-input'>
       <span className='required'>{ isRequired ? '*' : ' ' }</span>
       <label className='form-label'>{ label }</label>
@@ -45,7 +45,7 @@ class FormInput extends Component {
         isDifferent && name === 'confirm' &&
         <FormWarning text={`两次输入的密码不一样`} /> }
       { submited && value && regStr && !RegExp(regStr).test(value) &&
-        <FormWarning text={`${label}格式不正确`} />}
+        <FormWarning text={regFail || `${label}格式不正确`} />}
   </div>
   }
 }

@@ -1,10 +1,16 @@
 @import '../../../styles/baseStyle.scss';
 
-.yh-login-forget {
-  .yh-input-text {
-    display: block;
+.yh-login-validate {
+  .mobile-number {
+    @include fontStyle($llFontColor, 14px, 19px);
     width: 379px;
-    margin: 46px auto 0;
+    margin: 19px auto;
+    text-align: left;
+    span {
+      display: inline-block;
+      margin-left: 36px;
+      color: $fontColor;
+    }
   }
   .warning {
     display: block;

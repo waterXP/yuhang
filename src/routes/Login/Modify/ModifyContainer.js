@@ -1,15 +1,16 @@
 import { connect } from 'react-redux'
-import Forget from './Forget'
+import Modify from './Modify'
 
-import { setForgetAccount } from '../modules/login'
+import { setNewPassword } from '../modules/login'
 
 const mapStateToProps = (state) => ({
+  account: state.login.account
 })
 const mapDispatchToProps = {
-  setForgetAccount
+  setNewPassword
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Forget)
+)(Modify)

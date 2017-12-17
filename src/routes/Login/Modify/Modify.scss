@@ -1,0 +1,41 @@
+@import '../../../styles/baseStyle.scss';
+
+.yh-login-modify {
+  .mobile-number {
+    @include fontStyle($llFontColor, 14px, 19px);
+    width: 379px;
+    margin: 19px auto;
+    text-align: left;
+    span {
+      display: inline-block;
+      margin-left: 36px;
+      color: $fontColor;
+    }
+  }
+  .yh-form-input {
+    margin: 0 auto 25px;
+    .required {
+      display: none;
+    }
+    .form-label {
+      width: 120px;
+    }
+    .form-text {
+      @include fontStyle($llFontColor, 12px ,16px);
+      width: 259px;
+      margin-right: 0;
+      padding: 12px 8px;
+    }
+  }
+  .yh-main-button {
+    display: block;
+    width: 379px;
+    margin: 12px auto 0;
+    color: $mainColor;
+    background-color: $warningColor;
+    border-color: $warningColor;
+    &:active {
+      background-color: darken($warningColor, 10%);
+    }
+  }
+}

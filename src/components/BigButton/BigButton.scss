@@ -1,0 +1,19 @@
+@import '../../styles/baseStyle';
+
+.yh-big-button {
+  @include fontStyle($warningColor, 20px, 26px);
+  @include likeButton;
+  display: block;
+  width: 198px;
+  margin: 40px auto;
+  padding: 13px 0;
+  border: 1px solid $warningColor;
+  border-radius: 4px;
+  background-color: $mainColor;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: darken($mainColor, 10%);
+  }
+}

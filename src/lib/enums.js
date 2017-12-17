@@ -4,6 +4,13 @@ export const registerStep = [
   '完成'
 ]
 
+export const forgetStep = [
+  '填写账号',
+  '身份验证',
+  '重置密码',
+  '完成'
+]
+
 export const registerTab = [
   {
     key: 'mobile',
@@ -14,6 +21,10 @@ export const registerTab = [
   }
 ]
 
+export const regMobile = '^1[34578]\\d{9}$'
+export const regMail = '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$'
+export const regPassword = '^[A-Za-z0-9_]{6,16}$'
+
 export const registerForm = [
   {
     text: '手机号',
@@ -21,7 +32,8 @@ export const registerForm = [
     type: 'text',
     isRequired: true,
     unique: 'mobile',
-    regStr: '^1[34578]\\d{9}$'
+    regStr: regMobile,
+    regFail: '手机号格式不正确'
   }, {
     text: '验证码',
     key: 'validate',
@@ -34,12 +46,15 @@ export const registerForm = [
     type: 'text',
     isRequired: true,
     unique: 'mail',
-    regStr: '^1[34578]\\d{9}$'
+    regStr: regMail,
+    regFail: '邮箱格式不正确'
   }, {
     text: '密码',
     key: 'password',
     type: 'password',
-    isRequired: true
+    isRequired: true,
+    regStr: regPassword,
+    regFail: '密码长度6-16位，支持数字字母，下划线'
   }, {
     text: '确认密码',
     key: 'confirm',

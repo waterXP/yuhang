@@ -9,8 +9,13 @@
     .step {
       width: 77px;
       height: 57px;
-      background: url(./assets/step.png) no-repeat center / 100%;
+      background: url(./assets/step.png) no-repeat left center / 77px 57px;
       user-select: none;
+    }
+    &:last-child {
+      .step {
+        width: 57px;
+      }
     }
   }
   .out-step {

@@ -18,12 +18,17 @@ class RegisterForm extends Component {
   }
   constructor () {
     super(...arguments)
-    this.state = { clock: 0, submited: false }
+    this.state = { clock: 0, submited: false, tm: 0 }
     this.setValue = this::this.setValue
     this.setChange = this::this.setChange
     this.getValidate = this::this.getValidate
-    this.startTime = this::this.startTime
+    this.startTimer = this::this.startTimer
     this.handleSubmit = this::this.handleSubmit
+  }
+
+  componentWillUnmount () {
+    const { tm } = this.state
+    tm && clearTimeout(tm)
   }
 
   setValue ({ target }) {
@@ -36,16 +41,18 @@ class RegisterForm extends Component {
   }
   getValidate () {
     this.props.getValidate(
-      this.startTime(60)
+      this.startTimer(60)
     )
   }
-  startTime (tm) {
+  startTimer (seconds) {
     this.setState(
       ({ clock }) => {
-        return ({ clock: tm || (clock - 1) })
+        return ({ clock: seconds || (clock - 1) })
       }, () => {
         if (this.state.clock > 0) {
-          setTimeout(this.startTime, 1000)
+          this.setState({
+            tm: setTimeout(this.startTimer, 1000)
+          })
         }
       }
     )
@@ -53,19 +60,20 @@ class RegisterForm extends Component {
   handleSubmit () {
     if (!this.state.submited) {
       this.setState({ submited: true })
-      const { type, params } = this.props
-      const { mobile, validate, mail, password, confirm } = params
-      if (type === 'mobile') {
-        const regPhone = /^1[34578]\d{9}$/
-        if (mobile && regPhone.test(mobile) &&
-          validate && password === confirm) {
-          this.props.handleSubmit()
-        }
-      } else {
-        const regMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-        if (mail && regMail.test(mail) && password === confirm) {
-          this.props.handleSubmit()
-        }
+    }
+    const { type, params } = this.props
+    const { mobile, validate, mail, password, confirm, agree } = params
+    if (type === 'mobile') {
+      const regPhone = /^1[34578]\d{9}$/
+      if (agree && mobile && regPhone.test(mobile) &&
+        validate && password === confirm) {
+        this.props.handleSubmit()
+      }
+    } else {
+      const regMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      if (agree && mail && regMail.test(mail) &&
+        password === confirm) {
+        this.props.handleSubmit()
       }
     }
   }

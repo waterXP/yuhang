@@ -319,6 +319,16 @@ export const doFetch = (action, params = {}) => {
     })
 }
 
-export const regPhone = /^1[34578]\d{9}$/
-export const regMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-export const regAccount = /^([1-9]{1})(\d{7,23})$/
+export const mask = (mail) => {
+  let a = mail.split('@')
+  let length = a[0].length
+  if (length === 0) {
+    return
+  }
+  const visible = length > 3 ? 3 : 1
+  a[0] = a[0].substr(0, visible)
+  for (let i = visible; i < length; i++) {
+    a[0] += '*'
+  }
+  return a.join('@')
+}

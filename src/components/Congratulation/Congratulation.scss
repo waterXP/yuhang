@@ -1,0 +1,11 @@
+@import '../../styles/baseStyle';
+
+.yh-congratulation {
+  @include fontStyle($errorColor, 36px, 50px);
+  padding: 60px 0 40px;
+  span {
+    display: inline-block;
+    padding-left: 10px;
+    color: $fontColor;
+  }
+}

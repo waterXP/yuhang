@@ -1,0 +1,24 @@
+@import '../../styles/baseStyle';
+
+.yh-timer-button {
+  @include fontStyle($llFontColor, 14px, 19px);
+  @include likeButton;
+  width: 102px;
+  margin-left: 13px;
+  padding: 10px 0;
+  border: 1px solid $llFontColor;
+  border-radius: 2px;
+  background-color: $mainColor;
+  &:active {
+    background-color: darken($mainColor, 10%);
+  }
+  &:focus {
+    outline: none;
+  }
+  &.disabled {
+    cursor: not-allowed;
+    &:active {
+      background-color: $mainColor;
+    }
+  }
+}

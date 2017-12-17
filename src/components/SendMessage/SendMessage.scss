@@ -1,0 +1,24 @@
+@import '../../styles/baseStyle.scss';
+
+.yh-send-message {
+  width: 584px;
+  height: 107px;
+  margin: 40px auto 0;
+  background: url('./assets/email_me.png') no-repeat left center / 107px 107px;
+  .result {
+    @include fontStyle($fontColor, 24px, 31px);
+    padding: 13px 0 20px 129px;
+    text-align: left;
+    font-weight: bold;
+    span {
+      display: inline-block;
+      padding-left: 17px;
+      color: $warningColor;
+    }
+  }
+  .tips {
+    @include fontStyle($llFontColor, 14px, 19px);
+    padding-left: 129px;
+    text-align: left;
+  }
+}

@@ -14,6 +14,7 @@ html, body {
   height: 100%;
   background-color: $backColor;
   color: $fontColor;
+  font-family: 'Microsoft YaHei';
 }
 
 body {
@@ -55,6 +56,7 @@ p {
 }
 
 input, input:before, input:after {
+  font-family: 'Microsoft YaHei';
   -webkit-user-select: initial !important;
   -khtml-user-select: initial !important;
   -moz-user-select: initial !important;
@@ -94,4 +96,10 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .pull-right {
   float: right!important;
+}
+
+.content-panel {
+  max-width: 1200px;
+  padding-top: 29px;
+  margin: 0 auto;
 }

@@ -10,6 +10,7 @@ class Step extends Component {
 
   render () {
     const { step, index } = this.props
+    const length = step.length
     return <div className='yh-step'>
         {
           step.map((v, i) =>
@@ -21,7 +22,7 @@ class Step extends Component {
                   : 'out-step'
               }
             >
-              <p className='step'>{ i <= index ? ' ' : i }</p>
+              <p className='step'>{ i <= index ? ' ' : i + 1 }</p>
               <p className='text'>{ v }</p>
             </div>
           )

@@ -2,5 +2,6 @@
 
 .yh-breadcrumbs {
   @include fontStyle($secondaryColor, 20px, 26px);
+  margin-bottom: 19px;
   text-align: left;
 }

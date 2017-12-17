@@ -1,63 +1,60 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './Forget.scss'
+import './Validate.scss'
+import { forgetStep } from '@/lib/enums'
 import { goLocation } from '@/lib/base'
-import { forgetStep, regMobile, regMail } from '@/lib/enums'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import StepPanel from '@/components/StepPanel'
 import Record from '@/components/Record'
 import InputText from '@/components/InputText'
 import MainButton from '@/components/MainButton'
+import TimerButton from '@/components/TimerButton'
 
-class Forget extends Component {
+class Validate extends Component {
   static propTypes = {
-    setForgetAccount: PropTypes.func
+    account: PropTypes.string,
+    getValidate: PropTypes.func,
+    setValidate: PropTypes.func
   }
 
   constructor () {
     super(...arguments)
     this.handleClick = this::this.handleClick
-    this.state = { account: '', showError: false }
-  }
-
-  componentWillMount () {
-    this.props.setForgetAccount()
+    this.state = { validate: '', showError: false }
   }
 
   handleClick () {
-    const { account } = this.state
-    const { setForgetAccount } = this.props
-    if (account && (RegExp(regMobile).test(account) ||
-      RegExp(regMail).test(account))) {
-      setForgetAccount(account)
-      if (RegExp(regMobile).test(account)) {
-        goLocation('/login/validate')
-      } else {
-        goLocation({
-          pathname: '/login/confirm',
-          query: { from: 'forget' }
-        })
+    this.props.setValidate(
+      (d) => {
+        if (d) {
+          goLocation('/login/modify')
+        } else {
+          this.setState({ showError: true })
+        }
       }
-    } else {
-      this.setState({ showError: true })
-    }
+    )
   }
 
   render () {
-    const { showError, account } = this.state
-    return <div className='yh-login-forget content-panel'>
+    const { account, getValidate } = this.props
+    const { validate, showError } = this.state
+    return <div className='yh-login-validate content-panel'>
         <Breadcrumbs>创新余杭</Breadcrumbs>
         <StepPanel
           title='重置密码'
           step={forgetStep}
-          index={0}
+          index={1}
         >
-          <InputText
-            value={account}
-            placeholder='手机号/邮箱'
-            setValue={v => this.setState({ account: v })}
-          />
+          <p className='mobile-number'>手机号<span>{ account }</span></p>
+          <div className='validate-group'>
+            <InputText
+              value={validate}
+              placeholder='验证码'
+              setValue={v => this.setState({ validate: v })}
+            />
+            <TimerButton handleClick={() => getValidate()} />
+          </div>
           <div className='warning'>
             { showError &&
               <span>
@@ -73,4 +70,4 @@ class Forget extends Component {
   }
 }
 
-export default Forget
+export default Validate

@@ -1,15 +1,13 @@
 import { connect } from 'react-redux'
-import Forget from './Forget'
-
-import { setForgetAccount } from '../modules/login'
+import Complete from './Complete'
 
 const mapStateToProps = (state) => ({
+  query: state.location.query
 })
 const mapDispatchToProps = {
-  setForgetAccount
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Forget)
+)(Complete)

@@ -28,12 +28,14 @@ class FormBuilder extends Component {
     const { params } = this.props
     const { isDifferent } = this.state
     const { target } = e
-    const { name, value } = target
-    const another = name === 'password' ? 'confirm' : 'password'
-    if (value === params[another]) {
-      this.setState({ isDifferent: false })
-    } else if (!isDifferent) {
-      this.setState({ isDifferent: true })
+    const { name, value, type } = target
+    if (type === 'password') {
+      const another = name === 'password' ? 'confirm' : 'password'
+      if (value === params[another]) {
+        this.setState({ isDifferent: false })
+      } else if (!isDifferent) {
+        this.setState({ isDifferent: true })
+      }
     }
     this.props.setValue(e)
   }
@@ -60,6 +62,7 @@ class FormBuilder extends Component {
                 submited={submited}
                 isDifferent={isDifferent}
                 regStr={v.regStr}
+                regFail={v.regFail}
               />
             )
             break

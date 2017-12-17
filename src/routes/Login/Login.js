@@ -17,7 +17,8 @@ class Login extends Component {
   }
 
   componentWillMount () {
-    this.props.clearUserInfo()
+    // clear user info
+    // this.props.clearUserInfo()
   }
 
   render () {

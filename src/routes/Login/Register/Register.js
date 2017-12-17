@@ -8,6 +8,7 @@ import RegisterForm from '../components/RegisterForm'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import StepPanel from '@/components/StepPanel'
+import Record from '@/components/Record'
 
 class Register extends Component {
   static propTypes = {
@@ -37,23 +38,26 @@ class Register extends Component {
     const { type, params } = this.state
     const { mobile, validate, mail, password, confirm, name, company,
       position, address, agree} = params
-    if (confirm === password) {
-      const p = {
-        password,
-        name: name || '',
-        company: company || '',
-        position: position || '',
-        address: address || '',
-        agree
-      }
-      if (type === 'mobile') {
-        p.mobile = mobile
-        p.validate = validate
-      } else {
-        p.mail = mail
-      }
-      register(p)
+    const p = {
+      password,
+      name: name || '',
+      company: company || '',
+      position: position || '',
+      address: address || '',
+      agree
     }
+    if (type === 'mobile') {
+      p.mobile = mobile
+      p.validate = validate
+    } else {
+      p.mail = mail
+    }
+    console.log('???')
+    register(p, () => goLocation(
+      type === 'mobile'
+        ? '/login/complete'
+        : '/login/confirm'
+    ))
   }
   changeTab ({ key }) {
     if (key !== this.state.type) {
@@ -68,7 +72,7 @@ class Register extends Component {
   render () {
     const { getValidate, wrongValidate } = this.props
     const { type, params } = this.state
-    return <div className='yh-login-register'>
+    return <div className='yh-login-register content-panel'>
         <Breadcrumbs>创新余杭</Breadcrumbs>
         <StepPanel
           title='用户注册'
@@ -85,6 +89,7 @@ class Register extends Component {
             getValidate={getValidate}
             wrongValidate={wrongValidate}
           />
+          <Record />
         </StepPanel>
       </div>
   }

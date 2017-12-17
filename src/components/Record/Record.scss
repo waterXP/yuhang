@@ -1,0 +1,6 @@
+@import '../../styles/baseStyle.scss';
+
+.yh-record {
+  @include fontStyle($lFontColor, 14px, 19px);
+  padding: 80px 0 0;
+}

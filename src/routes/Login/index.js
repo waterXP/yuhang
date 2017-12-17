@@ -1,6 +1,11 @@
 import { injectReducer } from '@/store/reducers'
 import RegisterRoute from './Register'
 import ForgetRoute from './Forget'
+import ConfirmRoute from './Confirm'
+import CompleteRoute from './Complete'
+import ValidateRoute from './Validate'
+import ModifyRoute from './Modify'
+
 export default (store) => ({
   path : 'login',
   getComponent (nextState, cb) {
@@ -13,6 +18,10 @@ export default (store) => ({
   },
   childRoutes: [
     RegisterRoute(store),
-    ForgetRoute(store)
+    ForgetRoute(store),
+    ConfirmRoute(store),
+    CompleteRoute(store),
+    ValidateRoute(store),
+    ModifyRoute(store)
   ]
 })

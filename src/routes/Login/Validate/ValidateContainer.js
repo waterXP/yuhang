@@ -1,15 +1,17 @@
 import { connect } from 'react-redux'
-import Forget from './Forget'
+import Validate from './Validate'
 
-import { setForgetAccount } from '../modules/login'
+import { getValidate, setValidate } from '../modules/login'
 
 const mapStateToProps = (state) => ({
+  account: state.login.account
 })
 const mapDispatchToProps = {
-  setForgetAccount
+  getValidate,
+  setValidate
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Forget)
+)(Validate)
