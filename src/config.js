@@ -5,5 +5,7 @@ const isDev = process.env.NODE_ENV === 'development'
 export default {
   deviceHeight,
   rootElement,
-  isDev
+  isDev,
+  prodApi: 'http://sso.chanyecloud.com/',
+  devApi: '/api/'
 }

@@ -1,0 +1,194 @@
+.mainWrap {
+	padding: 40px 50px;
+	overflow: hidden;
+}
+
+button {
+	background: #E2E2E2;
+	border-radius: 6px;
+	line-height: 28px;
+	font-size: 14px;
+	color: #262935;
+	padding: 0 15px;
+	border: none;
+	outline: none;
+}
+
+button:hover {
+	background: #FD643F;
+	color: #FFFFFF;
+}
+
+.path-box {
+	font-size: 16px;
+	color: #323A45;
+	letter-spacing: -0.03px;
+}
+
+.search-box {
+	margin-top: 23px;
+	height: 28px;
+}
+
+.search-box input {
+	width: 230px;
+	height: 28px;
+	border: 1px solid #979797;
+	padding: 0 10px;
+}
+
+.search-box button {
+	margin-left: 20px;
+}
+
+/* list */
+.list {
+	padding: 15px;
+	border: 1px solid #979797;
+	margin-top: 28px;
+	width: 100%;
+}
+
+.list table {
+	width: 100%;
+}
+
+.list tr {
+	height: 45px;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+.list tr th ,
+.list tr td {
+	padding: 0 15px;
+}
+
+.list tr td button {
+	float: right;
+	margin-left: 15px;
+}
+
+/* modal */
+.modal-dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.modal-content {
+	transform: translate(-50%, -50%);
+	background: #FFFFFF;
+	border-radius: 6px;
+	width: 458px;
+	padding: 10px 20px;
+}
+
+.modal-content h4 {
+	font-size: 18px;
+	color: #323A45;
+	font-weight: bold;
+}
+
+.modal-content .search-box {
+	margin-top: 0;
+}
+
+.modal-footer {
+	text-align: center;
+}
+
+.modal-footer .confirm {
+	margin-left: 40px;
+	background: #EF2840;
+	color: #FFFFFF;
+}
+
+.modal-table {
+	margin-top: 20px;
+	width: 100%;
+}
+
+.modal-table td {
+	border: 1px solid #979797;
+	line-height: 35px;
+	text-align: center;
+}
+
+.modal-content .close {
+	width: 25px;
+	height: 25px;
+}
+
+.modal-content .close:hover {
+	background: #CECECE;
+	border-radius: 50%;
+	color: #FFFFFF;
+}
+
+/* quota弹框 */
+/* 配额变更 */
+.quota {
+	height: 22px;
+	margin-bottom: 12px;
+	font-size: 14px;
+	color: #323A45;
+	line-height: 20px;
+}
+
+.quota .label {
+	width: 180px;
+	padding-left: 20px;
+	font-size: 14px;
+	color: #323A45;
+	line-height: 20px;
+	float: left;
+	text-align: left;
+	vertical-align: top;
+	font-weight: normal;
+}
+
+.quota.double .label {
+	width: 112px;
+}
+
+.quota.double .input-box {
+	width: 80px;
+}
+
+.quota .input-box {
+	line-height: 22px;
+	float: left;
+}
+
+.quota input {
+	border: 1px solid #979797;
+	height: 22px;
+	width: 130px;
+	padding: 0 8px;
+}
+
+.quota input[type=number] {
+	width: 52px;
+	margin-right: 8px;
+}
+
+.mt-30 {
+	margin-top: 30px;
+}
+
+.required {
+	position: relative;
+}
+
+.required::before {
+	content: "*";
+	position: absolute;
+	left: 10px;
+	top: 2px;
+	color: red;
+}
+
+/* 变更记录 */
+.record-content {
+	width: 850px;
+}

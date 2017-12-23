@@ -39,7 +39,7 @@ if (project.env === 'development') {
   app.use(express.static(project.paths.public()))
 
   app.use('/api', proxy({
-    target: 'http:/127.0.0.1/',
+    target: 'http://sso.dev.chanyecloud.com/',
     pathRewrite: { '^/api' : '' },
     changeOrigin: true
   }))

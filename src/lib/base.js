@@ -1,4 +1,5 @@
 import { hashHistory, location } from 'react-router'
+import config from '@/config'
 import React from 'react'
 import fetch from 'isomorphic-fetch'
 export const FETCH_FAIL = 'FETCH_FAIL'
@@ -134,6 +135,8 @@ export const fetchData = (action, params = {}) => {
   if (url.indexOf('/') === 0) {
     url = url.substr(1)
   }
+  url = (process.env.NODE_ENV === 'development'
+    ? config.devApi : config.prodApi) + url
 
   for (let v in params) {
     if (params[v] === null) {
@@ -145,24 +148,6 @@ export const fetchData = (action, params = {}) => {
   } else {
     return post(url, params)
   }
-}
-
-export const getTestAccount = () => {
-  const headers = new Headers({
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-  })
-  return fetch('/api/setUser.jsp', {
-    method: 'GET',
-    credentials: 'same-origin',
-    headers: headers
-  })
-  .then(
-    (res) => {
-      if (!res.ok) {
-        errFunc(res.statusText)
-      }
-    }
-  )
 }
 
 export const goBack = hashHistory.goBack
