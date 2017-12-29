@@ -7,18 +7,21 @@ class InputText extends Component {
   static propTypes = {
     value: PropTypes.string,
     setValue: PropTypes.func,
-    tyep: PropTypes.string
+    type: PropTypes.string,
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string
   }
 
   render () {
-    const { value, setValue, type, placeholder } = this.props
+    const { value, setValue, type, placeholder, disabled } = this.props
     return <input
-        className='yh-input-text'
-        type={type || 'text'}
-        value={value}
-        placeholder={placeholder}
-        onChange={({ target }) => setValue(target.value)}
-      />
+      className='yh-input-text'
+      type={type || 'text'}
+      value={value}
+      placeholder={placeholder}
+      onChange={({ target }) => setValue(target.value)}
+      disabled={disabled}
+    />
   }
 }
 

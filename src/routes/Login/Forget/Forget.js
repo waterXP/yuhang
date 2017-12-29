@@ -12,7 +12,8 @@ import MainButton from '@/components/MainButton'
 
 class Forget extends Component {
   static propTypes = {
-    setForgetAccount: PropTypes.func
+    setForgetAccount: PropTypes.func,
+    isBusy: PropTypes.bool
   }
 
   constructor () {
@@ -45,31 +46,35 @@ class Forget extends Component {
   }
 
   render () {
+    const { isBusy } = this.props
     const { showError, account } = this.state
     return <div className='yh-login-forget content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title='重置密码'
-          step={forgetStep}
-          index={0}
-        >
-          <InputText
-            value={account}
-            placeholder='手机号/邮箱'
-            setValue={v => this.setState({ account: v })}
-          />
-          <div className='warning'>
-            { showError &&
-              <span>
-                <i className='fas fa-exclamation-circle' />
-                输入的账号有误，请重新填写
-              </span>
-            }&nbsp;
-          </div>
-          <MainButton handleClick={this.handleClick}>下一步</MainButton>
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title='重置密码'
+        step={forgetStep}
+        index={0}
+      >
+        <InputText
+          value={account}
+          placeholder='手机号/邮箱'
+          setValue={v => this.setState({ account: v })}
+          disabled={isBusy}
+        />
+        <div className='warning'>
+          { showError &&
+            <span>
+              <i className='fas fa-exclamation-circle' />
+              输入的账号有误，请重新填写
+            </span>
+          }&nbsp;
+        </div>
+        <MainButton handleClick={this.handleClick} disabled={isBusy}>
+          下一步
+        </MainButton>
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

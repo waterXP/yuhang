@@ -87,3 +87,57 @@ export const registerForm = [
     key: 'submit'
   }
 ]
+
+export const toastType = {
+  correct: 'fa-check-circle',
+  warning: 'fa-exclamation-circle',
+  error: 'fa-times-circle',
+  normal: 'fa-info-circle'
+}
+
+export const userCenterLink = '/'
+export const rateLink = '/'
+export const searchLink = '/'
+export const mainMenuLinks = [
+  {
+    text: '首页',
+    link: '/'
+  }, {
+    text: '云市场',
+    link: '/'
+  }, {
+    text: '服务云',
+    link: '/'
+  }, {
+    text: '文档',
+    link: '/'
+  }, {
+    text: '支持',
+    link: '/'
+  }
+]
+export const sidebar = [
+  {
+    key: 'account-manage',
+    name: '账号管理',
+    path: '/account',
+    icon: 'archive',
+    children: [
+      {
+        key: 'personal',
+        name: '个人认证待审核',
+        path: '/account/personal',
+        icon: 'user'
+      }, {
+        key: 'enterprise',
+        name: '企业认证待审核',
+        path: '/account/enterprise',
+        icon: 'users'
+      }
+    ]
+  },
+]
+
+export const pageSizeGroup = [10, 20, 30, 50]
+export const showPages = 5
+

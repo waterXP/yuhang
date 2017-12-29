@@ -1,0 +1,24 @@
+@import '../styles/baseStyle';
+
+.yh-navigation {
+  min-width: 1200px;
+  width: 100%;
+  min-height: 70px;
+  background-color: #0a2432;
+  overflow: auto;
+  .dropDownMenu {
+    @include fontStyle($mainColor, 16px, 22px);
+    @include likeButton;
+    padding: 24px 20px;
+    border: none;
+    background-color: transparent;
+    vertical-align: top;
+    &:active {
+      color: $errorColor;
+    }
+  }
+  .logo {
+    width: 161px;
+    margin: 16px 40px 15px 30px;
+  }
+}

@@ -15,7 +15,9 @@ class FormBuilder extends Component {
     clock: PropTypes.number,
     handleLink: PropTypes.func,
     handleSubmit: PropTypes.func,
-    wrongValidate: PropTypes.bool
+    wrongValidate: PropTypes.bool,
+    submited: PropTypes.bool,
+    disabled: PropTypes.bool
   }
 
   constructor () {
@@ -42,12 +44,13 @@ class FormBuilder extends Component {
 
   render () {
     const { items, unique, setValue, setChange, params, setTime,
-      clock, handleLink, handleSubmit, submited, wrongValidate } = this.props
+      clock, handleLink, handleSubmit, submited, wrongValidate,
+      disabled } = this.props
     const { isDifferent } = this.state
     const content = []
     items.forEach(v => {
       if (!v.unique || v.unique === unique) {
-        switch(v.type) {
+        switch (v.type) {
           case 'text':
           case 'password':
             content.push(
@@ -63,6 +66,7 @@ class FormBuilder extends Component {
                 isDifferent={isDifferent}
                 regStr={v.regStr}
                 regFail={v.regFail}
+                disabled={disabled}
               />
             )
             break
@@ -79,6 +83,7 @@ class FormBuilder extends Component {
                 clock={clock}
                 submited={submited}
                 wrongValidate={wrongValidate}
+                disabled={disabled}
               />
             )
             break
@@ -93,6 +98,7 @@ class FormBuilder extends Component {
                 handleLink={handleLink}
                 handleChange={setChange}
                 submited={submited}
+                disabled={disabled}
               />
             )
             break
@@ -103,6 +109,7 @@ class FormBuilder extends Component {
                 value={v.text}
                 handleSubmit={handleSubmit}
                 submited={submited}
+                disabled={disabled}
               />
             )
         }

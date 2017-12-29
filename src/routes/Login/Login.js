@@ -13,7 +13,9 @@ class Login extends Component {
     children: PropTypes.element,
     loginFail: PropTypes.bool,
     login: PropTypes.func,
-    clearUserInfo: PropTypes.func
+    // clearUserInfo: PropTypes.func,
+    isBusy: PropTypes.bool,
+    toast: PropTypes.func
   }
 
   componentWillMount () {
@@ -22,18 +24,22 @@ class Login extends Component {
   }
 
   render () {
-    const { loginFail, login, children } = this.props
+    const { loginFail, login, children, isBusy, toast } = this.props
     const result = children
       ? <div>{ children }</div>
       : <div className='yh-login'>
-          <div className='logo'></div>
+        <div className='login-panel'>
+          <div className='logo'><img src='/assets/logo.png' /></div>
           <LoginForm
             loginFail={loginFail}
             login={login}
             forgetPassword={() => goLocation('/login/forget')}
             register={() => goLocation('/login/register')}
+            isBusy={isBusy}
+            toast={toast}
           />
         </div>
+      </div>
     return result
   }
 }

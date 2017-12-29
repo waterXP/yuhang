@@ -5,7 +5,7 @@ import './FormInput.scss'
 import FormWarning from '../FormWarning'
 
 class FormInput extends Component {
-  static propTyeps = {
+  static propTypes = {
     isRequired: PropTypes.bool,
     label: PropTypes.string,
     name: PropTypes.string,
@@ -14,7 +14,9 @@ class FormInput extends Component {
     type: PropTypes.string,
     submited: PropTypes.bool,
     isDifferent: PropTypes.bool,
-    regStr: PropTypes.string
+    regStr: PropTypes.string,
+    regFail: PropTypes.string,
+    disabled: PropTypes.bool
   }
 
   constructor () {
@@ -27,8 +29,8 @@ class FormInput extends Component {
   }
 
   render () {
-    const { label, name, value, setValue, isRequired, type,
-      inValid, submited = true, isDifferent, regStr, regFail } = this.props
+    const { label, name, value, isRequired, type, disabled,
+      submited = true, isDifferent, regStr, regFail } = this.props
     return <div className='yh-form-input'>
       <span className='required'>{ isRequired ? '*' : ' ' }</span>
       <label className='form-label'>{ label }</label>
@@ -38,6 +40,7 @@ class FormInput extends Component {
         type={type || 'text'}
         value={value || ''}
         onChange={this.handleChange}
+        disabled={disabled}
       />
       { isRequired && submited && !value &&
         <FormWarning text={`请输入${label}`} /> }
@@ -46,7 +49,7 @@ class FormInput extends Component {
         <FormWarning text={`两次输入的密码不一样`} /> }
       { submited && value && regStr && !RegExp(regStr).test(value) &&
         <FormWarning text={regFail || `${label}格式不正确`} />}
-  </div>
+    </div>
   }
 }
 

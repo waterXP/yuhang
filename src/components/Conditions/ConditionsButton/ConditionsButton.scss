@@ -1,0 +1,15 @@
+@import '../../../styles/baseStyle';
+
+.yh-conditions-button {
+  @include fontStyle($fontColor, 14px, 18px);
+  @include likeButton;
+  @include disabled;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border: 1px solid $borderColor;
+  border-radius: 2px;
+  background-color: $mainColor;
+  &:active {
+    background-color: darken($mainColor, 10%);
+  }
+}

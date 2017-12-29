@@ -1,0 +1,20 @@
+@import '../../styles/baseStyle';
+
+.yh-login-info {
+  display: inline-block;
+  float: right;
+  margin: 25px 40px;
+  > a, > span {
+    padding: 25px 10px;
+  }
+  a, span {
+    @include fontStyle($mainColor, 14px, 20px);
+  }
+  a {
+    @include likeButton;
+  }
+  a:active {
+    @include likeButton;
+    color: $errorColor;
+  }
+}

@@ -1,0 +1,18 @@
+@import '../../styles/baseStyle';
+
+.yh-bread-in-content {
+  @include fontStyle($fontColor, 14px, 18px);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  text-align: left;
+  border-bottom: 1px solid $borderColor;
+  .fa-angle-right {
+    margin: 0 5px;
+  }
+  span {
+    padding-bottom: 8px;
+    &:first-child {
+      border-bottom: 2px solid $warningColor;
+    }
+  }
+}

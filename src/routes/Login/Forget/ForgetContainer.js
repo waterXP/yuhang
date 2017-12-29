@@ -4,6 +4,7 @@ import Forget from './Forget'
 import { setForgetAccount } from '../modules/login'
 
 const mapStateToProps = (state) => ({
+  isBusy: state.root.isBusy
 })
 const mapDispatchToProps = {
   setForgetAccount

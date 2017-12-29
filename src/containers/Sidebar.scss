@@ -1,0 +1,24 @@
+@import '../styles/baseStyle';
+
+.yh-sidebar {
+  li {
+    @include fontStyle($fontColor, 14px, 20px);
+    padding: 10px 20px;
+    text-align: left;
+    background-color: darken($mainColor, 10%);
+    cursor: pointer;
+    user-select: none;
+    &.menu-parent {
+      &.active {
+        background-color: lighten($activeColor, 20%);
+      }
+    }
+    &.menu-child {
+      padding-left: 30px;
+      &.active {
+        cursor: default;
+        background-color: $activeColor;
+      }
+    }
+  }
+}

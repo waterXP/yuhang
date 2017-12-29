@@ -1,6 +1,7 @@
 import { goLocation } from '@/lib/base'
 
 export const LOGIN = 'LOGIN'
+export const LOGOUT = 'LOGOUT'
 export const CLEAR_USER_INFO = 'CLEAR_USER_INFO'
 export const REGISTER = 'REGISTER'
 export const GET_VALIDATE = 'GET_VALIDATE'
@@ -11,6 +12,12 @@ export const SET_NEW_PASSWORD = 'SET_NEW_PASSWORD'
 export const login = (username, password) =>
   (dispatch, getState) => {
     dispatch({
+      type: 'IN_BUSY',
+      isBusy: true,
+      step: 'login'
+    })
+    // dispatch(toast('error', '' + +new Date(), 'foobar'))
+    dispatch({
       type: LOGIN,
       loginFail: false,
       userInfo: {
@@ -18,8 +25,16 @@ export const login = (username, password) =>
         password
       }
     })
+    dispatch({
+      type: 'IN_BUSY',
+      isBusy: false,
+      step: 'logined'
+    })
     goLocation('/home')
   }
+export const logout = () =>({
+  type: LOGOUT
+})
 export const clearUserInfo = () => ({
   type: CLEAR_USER_INFO
 })
@@ -33,7 +48,7 @@ export const register = (params, callback) =>
     // async fetch type here
     console.log(params)
     if (params.mail) {
-      dispatch({ type: setForgetAccount , account: params.mail})
+      dispatch({ type: setForgetAccount, account: params.mail })
     }
     dispatch({ type: REGISTER })
     dispatch({
@@ -55,14 +70,34 @@ export const setForgetAccount = (account = '') => ({
 })
 export const setValidate = (callback) =>
   (dispatch, getState) => {
+    dispatch({
+      type: 'IN_BUSY',
+      isBusy: true,
+      step: 'set-validate'
+    })
     // async fetch type here
     dispatch({ type: SET_VALIDATE })
     // result is correct or fail
+    dispatch({
+      type: 'IN_BUSY',
+      isBusy: false,
+      step: ''
+    })
     callback && callback(true)
   }
 export const setNewPassword = (callback) =>
   (dispatch, getState) => {
+    dispatch({
+      type: 'IN_BUSY',
+      isBusy: true,
+      step: 'set-new-password'
+    })
     dispatch({ type: SET_NEW_PASSWORD })
+    dispatch({
+      type: 'IN_BUSY',
+      isBusy: false,
+      step: ''
+    })
     // result is correct or fail
     callback && callback(true)
   }
@@ -73,6 +108,8 @@ const ACTION_HANDLERS = Object.assign({}, {
       loginFail,
       userInfo
     }),
+  [LOGOUT]: state =>
+    Object.assign({}, state, { userInfo: {} }),
   [CLEAR_USER_INFO]: state =>
     Object.assign({}, state, {
       userInfo: {}

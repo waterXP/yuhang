@@ -5,7 +5,9 @@
   @include border;
   width: 264px;
   padding: 10px;
+  background-color: $mainColor;
   &:focus {
     outline: none;
   }
+  @include disabled;
 }

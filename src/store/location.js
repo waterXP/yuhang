@@ -1,5 +1,4 @@
 import hashHistory from 'react-router/lib/hashHistory'
-import { setEvent } from '@/lib/base'
 
 // ------------------------------------
 // Constants

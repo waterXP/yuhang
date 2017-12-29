@@ -6,17 +6,19 @@ import './MainButton.scss'
 class MainButton extends Component {
   static propTypes = {
     children: PropTypes.node,
-    handleClick: PropTypes.func
+    handleClick: PropTypes.func,
+    disabled: PropTypes.bool
   }
 
   render () {
-    const { children, handleClick } = this.props
+    const { children, handleClick, disabled } = this.props
     return <button
-        className='yh-main-button'
-        onClick={handleClick}
-      >
-        { children }
-      </button>
+      className='yh-main-button'
+      onClick={handleClick}
+      disabled={disabled}
+    >
+      { children }
+    </button>
   }
 }
 

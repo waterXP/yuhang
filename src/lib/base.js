@@ -1,4 +1,4 @@
-import { hashHistory, location } from 'react-router'
+import { hashHistory } from 'react-router'
 import config from '@/config'
 import React from 'react'
 import fetch from 'isomorphic-fetch'
@@ -165,7 +165,7 @@ export const fetchFin = (state, action) => {
 
 export const goLocation = (location = { pathname: '/' }, replace) =>
   replace
-    ? hashHistory.replace('/home')
+    ? hashHistory.replace(location)
     : hashHistory.push(location)
 
 export const setQuery = (query) => {

@@ -13,7 +13,9 @@ import Record from '@/components/Record'
 class Register extends Component {
   static propTypes = {
     register: PropTypes.func,
-    getValidate: PropTypes.func
+    getValidate: PropTypes.func,
+    wrongValidate: PropTypes.bool,
+    isBusy: PropTypes.bool
   }
 
   constructor () {
@@ -36,8 +38,8 @@ class Register extends Component {
   handleSubmit () {
     const { register } = this.props
     const { type, params } = this.state
-    const { mobile, validate, mail, password, confirm, name, company,
-      position, address, agree} = params
+    const { mobile, validate, mail, password, name, company,
+      position, address, agree } = params
     const p = {
       password,
       name: name || '',
@@ -52,7 +54,6 @@ class Register extends Component {
     } else {
       p.mail = mail
     }
-    console.log('???')
     register(p, () => goLocation(
       type === 'mobile'
         ? '/login/complete'
@@ -70,28 +71,29 @@ class Register extends Component {
   }
 
   render () {
-    const { getValidate, wrongValidate } = this.props
+    const { getValidate, wrongValidate, isBusy } = this.props
     const { type, params } = this.state
     return <div className='yh-login-register content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title='用户注册'
-          step={registerStep}
-          index={0}
-        >
-          <RegisterForm
-            type={type}
-            params={params}
-            handleLink={this.handleLink}
-            handleSubmit={this.handleSubmit}
-            changeTab={this.changeTab}
-            setValue={this.setValue}
-            getValidate={getValidate}
-            wrongValidate={wrongValidate}
-          />
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title='用户注册'
+        step={registerStep}
+        index={0}
+      >
+        <RegisterForm
+          type={type}
+          params={params}
+          handleLink={this.handleLink}
+          handleSubmit={this.handleSubmit}
+          changeTab={this.changeTab}
+          setValue={this.setValue}
+          getValidate={getValidate}
+          wrongValidate={wrongValidate}
+          disabled={isBusy}
+        />
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

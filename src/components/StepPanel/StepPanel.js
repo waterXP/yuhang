@@ -15,14 +15,14 @@ class StepPanel extends Component {
   render () {
     const { children, title, step, index } = this.props
     return <div className='yh-step-panel'>
-        { title && <p className='title'>{ title }</p> }
-        <div className='content'>
-          { step && step.length > 0 &&
-              <Step step={step} index={index} />
-          }
-          { children }
-        </div>
+      { title && <p className='title'>{ title }</p> }
+      <div className='content'>
+        { step && step.length > 0 &&
+          <Step step={step} index={index} />
+        }
+        { children }
       </div>
+    </div>
   }
 }
 

@@ -1,0 +1,61 @@
+@import '../../styles/baseStyle';
+
+.yh-toast {
+  width: 400px;
+  min-height: 120px;
+  margin-bottom: 16px;
+  padding: 16px 24px;
+  background-color: $mainColor;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  text-align: left;
+  .header {
+    margin-bottom: 10px;
+  }
+  .title, .close-button {
+    @include fontStyle($fontColor, 16px, 20px);
+    display: inline-block;
+  }
+  .title {
+    width: 337px;
+  }
+  .close-button {
+    width: 15px;
+    padding: 0;
+    border: 0;
+    text-align: right;
+    color: $fontColor;
+    background-color: transparent;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      color: $llFontColor;
+    }
+  }
+  .type, .content {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .type {
+    width: 20px;
+    &.correct {
+      color: $correctColor;
+    }
+    &.warning {
+      color: $warningColor;
+    }
+    &.error {
+      color: $errorColor;
+    }
+    &.normal {
+      color: $secondaryColor;
+    }
+  }
+  .content {
+    @include fontStyle($lFontColor, 14px, 18px);
+    width: 332px;
+    text-align: left;
+  }
+}

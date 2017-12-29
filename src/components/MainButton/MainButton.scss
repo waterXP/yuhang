@@ -6,10 +6,12 @@
   width: 264px;
   padding: 10px;
   cursor: pointer;
+  background-color: $disabledColor;
   &:focus {
     outline: none;
   }
   &:active {
     background-color: darken($mainColor, 10%);
   }
+  @include disabled;
 }

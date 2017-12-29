@@ -1,6 +1,7 @@
 import CoreLayout from '@/layouts/CoreLayout'
 import HomeRoute from './Home'
 import LoginRoute from './Login'
+import AccountRoute from './Account'
 
 export const createRoutes = (store) => ({
   path        : '/',
@@ -8,6 +9,7 @@ export const createRoutes = (store) => ({
   childRoutes : [
     LoginRoute(store),
     HomeRoute(store),
+    AccountRoute(store),
     {
       path: '*',
       component: CoreLayout,

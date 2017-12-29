@@ -1,7 +1,17 @@
 @import '../../styles/baseStyle.scss';
 
 .yh-login {
-  padding: 100px 0;
-  width: 992px;
+  padding: 205px 0 285px;
   margin: auto;
+  background: url('./assets/background.png') no-repeat center center / cover;
+  .login-panel {
+    width: 992px;
+    margin: auto;
+  }
+  .logo {
+    text-align: left;
+    img {
+      width: 216px;
+    }
+  }
 }

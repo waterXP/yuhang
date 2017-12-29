@@ -7,13 +7,14 @@ import { forgetStep, regPassword } from '@/lib/enums'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import StepPanel from '@/components/StepPanel'
 import Record from '@/components/Record'
-import InputText from '@/components/InputText'
 import MainButton from '@/components/MainButton'
 import Form from '@/components/Form'
 
 class Forget extends Component {
   static propTypes = {
-    account: PropTypes.string
+    account: PropTypes.string,
+    setNewPassword: PropTypes.func,
+    isBusy: PropTypes.bool
   }
 
   constructor () {
@@ -27,6 +28,10 @@ class Forget extends Component {
   }
 
   handleClick () {
+    const { password, confirm } = this.state
+    if (!RegExp(regPassword).test(password) || password !== confirm) {
+      return
+    }
     this.props.setNewPassword(
       (d) => {
         if (d) {
@@ -44,38 +49,47 @@ class Forget extends Component {
   }
 
   render () {
-    const { account } = this.props
+    const { account, isBusy} = this.props
     const { password, confirm } = this.state
     return <div className='yh-login-modify content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title='重置密码'
-          step={forgetStep}
-          index={2}
-        >
-          <p className='mobile-number'>手机号／邮箱<span>{ account }</span></p>
-          <Form.Input
-            label='新登录密码'
-            name='password'
-            type='password'
-            placeholder='密码长度6-16位，支持数字字母，下划线'
-            value={password}
-            setValue={this.setValue}
-            regStr={regPassword}
-            regFail='密码长度6-16位，支持数字字母，下划线'
-          />
-          <Form.Input
-            label='新登录密码'
-            name='confirm'
-            type='password'
-            value={confirm}
-            setValue={this.setValue}
-            isDifferent={ confirm && password !== confirm }
-          />
-          <MainButton handleClick={this.handleClick}>确定</MainButton>
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title='重置密码'
+        step={forgetStep}
+        index={2}
+      >
+        <p className='mobile-number'>手机号／邮箱<span>{ account }</span></p>
+        <Form.Input
+          label='新登录密码'
+          name='password'
+          type='password'
+          placeholder='密码长度6-16位，支持数字字母，下划线'
+          value={password}
+          setValue={this.setValue}
+          regStr={regPassword}
+          regFail='密码长度6-16位，支持数字字母，下划线'
+          disabled={isBusy}
+        />
+        <Form.Input
+          label='新登录密码'
+          name='confirm'
+          type='password'
+          value={confirm}
+          setValue={this.setValue}
+          isDifferent={!!(confirm && password !== confirm)}
+          disabled={isBusy}
+        />
+        <MainButton handleClick={this.handleClick} disabled={isBusy}>
+          { isBusy
+            ? <span>
+              重置中&nbsp;<i className='fas fa-circle-notch fa-spin' />
+            </span>
+            : '确定'
+          }
+        </MainButton>
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

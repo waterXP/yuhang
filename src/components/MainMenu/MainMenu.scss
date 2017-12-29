@@ -1,0 +1,16 @@
+@import '../../styles/baseStyle';
+
+.yh-main-menu {
+  display: inline-block;
+  vertical-align: top;
+  > li {
+    display: inline-block;
+    padding: 25px 20px;
+  }
+  .a-menu {
+    @include fontStyle($mainColor, 14px, 20px);
+    &:active {
+      color: $errorColor;
+    }
+  }
+}

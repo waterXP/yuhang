@@ -28,4 +28,12 @@
     top: 0;
     left: 331px;
   }
+  .form-checkbox[disabled] {
+    @include disabled;
+    color: $llFontColor;
+  }
+  .disabled {
+    color: $llFontColor;
+    cursor: not-allowed;
+  }
 }

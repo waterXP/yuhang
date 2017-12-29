@@ -15,7 +15,9 @@ class Validate extends Component {
   static propTypes = {
     account: PropTypes.string,
     getValidate: PropTypes.func,
-    setValidate: PropTypes.func
+    setValidate: PropTypes.func,
+    toast: PropTypes.func,
+    isBusy: PropTypes.bool
   }
 
   constructor () {
@@ -25,7 +27,13 @@ class Validate extends Component {
   }
 
   handleClick () {
-    this.props.setValidate(
+    const { toast, setValidate } = this.props
+    const { validate } = this.state
+    if (!validate) {
+      toast('请输入验证码')
+      return
+    }
+    setValidate(
       (d) => {
         if (d) {
           goLocation('/login/modify')
@@ -37,36 +45,42 @@ class Validate extends Component {
   }
 
   render () {
-    const { account, getValidate } = this.props
+    const { account, getValidate, isBusy } = this.props
     const { validate, showError } = this.state
     return <div className='yh-login-validate content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title='重置密码'
-          step={forgetStep}
-          index={1}
-        >
-          <p className='mobile-number'>手机号<span>{ account }</span></p>
-          <div className='validate-group'>
-            <InputText
-              value={validate}
-              placeholder='验证码'
-              setValue={v => this.setState({ validate: v })}
-            />
-            <TimerButton handleClick={() => getValidate()} />
-          </div>
-          <div className='warning'>
-            { showError &&
-              <span>
-                <i className='fas fa-exclamation-circle' />
-                输入的账号有误，请重新填写
-              </span>
-            }&nbsp;
-          </div>
-          <MainButton handleClick={this.handleClick}>下一步</MainButton>
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title='重置密码'
+        step={forgetStep}
+        index={1}
+      >
+        <p className='mobile-number'>手机号<span>{ account }</span></p>
+        <div className='validate-group'>
+          <InputText
+            value={validate}
+            placeholder='验证码'
+            setValue={v => this.setState({ validate: v })}
+            disabled={isBusy}
+          />
+          <TimerButton handleClick={() => getValidate()} disabled={isBusy} />
+        </div>
+        <div className='warning'>
+          { showError &&
+            <span>
+              <i className='fas fa-exclamation-circle' />
+              验证码不正确，请重新输入
+            </span>
+          }&nbsp;
+        </div>
+        <MainButton handleClick={this.handleClick} disabled={isBusy}>
+          { isBusy
+            ? <span>验证中&nbsp;<i className='fas fa-circle-notch fa-spin' /></span>
+            : '下一步'
+          }
+        </MainButton>
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

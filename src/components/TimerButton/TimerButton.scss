@@ -15,10 +15,8 @@
   &:focus {
     outline: none;
   }
-  &.disabled {
+  &[disabled] {
+    background-color: $disabledColor;
     cursor: not-allowed;
-    &:active {
-      background-color: $mainColor;
-    }
   }
 }

@@ -39,17 +39,17 @@ class Complete extends Component {
         congratulation: '恭喜，新用户注册成功！'
       }
     return <div className='yh-login-complete content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title={values.title}
-          step={values.step}
-          index={values.index}
-        >
-          <Congratulation text={values.congratulation} />
-          <BigButton text='立即登录' handleClick={this.loginButton} />
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title={values.title}
+        step={values.step}
+        index={values.index}
+      >
+        <Congratulation text={values.congratulation} />
+        <BigButton text='立即登录' handleClick={this.loginButton} />
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

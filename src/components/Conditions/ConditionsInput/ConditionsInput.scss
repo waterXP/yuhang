@@ -1,0 +1,15 @@
+@import '../../../styles/baseStyle';
+
+.yh-conditions-input {
+  @include fontStyle($fontColor, 14px, 18px);
+  @include disabled;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: 1px solid $borderColor;
+  border-radius: 2px;
+  background-color: $mainColor;
+  &:focus {
+    outline: none;
+  }
+}

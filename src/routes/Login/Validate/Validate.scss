@@ -35,5 +35,8 @@
     &:active {
       background-color: darken($warningColor, 10%);
     }
+    &[disabled] {
+      background-color: lighten($warningColor, 10%);
+    }
   }
 }

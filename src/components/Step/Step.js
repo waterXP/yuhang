@@ -10,24 +10,23 @@ class Step extends Component {
 
   render () {
     const { step, index } = this.props
-    const length = step.length
     return <div className='yh-step'>
-        {
-          step.map((v, i) =>
-            <div
-              key={v}
-              className={
-                i <= index
-                  ? 'in-step'
-                  : 'out-step'
-              }
-            >
-              <p className='step'>{ i <= index ? ' ' : i + 1 }</p>
-              <p className='text'>{ v }</p>
-            </div>
-          )
-        }
-      </div>
+      {
+        step.map((v, i) =>
+          <div
+            key={v}
+            className={
+              i <= index
+                ? 'in-step'
+                : 'out-step'
+            }
+          >
+            <p className='step'>{ i <= index ? ' ' : i + 1 }</p>
+            <p className='text'>{ v }</p>
+          </div>
+        )
+      }
+    </div>
   }
 }
 

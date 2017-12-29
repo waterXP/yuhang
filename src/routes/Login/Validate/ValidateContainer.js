@@ -2,13 +2,16 @@ import { connect } from 'react-redux'
 import Validate from './Validate'
 
 import { getValidate, setValidate } from '../modules/login'
+import { toast } from '@/store/root'
 
 const mapStateToProps = (state) => ({
-  account: state.login.account
+  account: state.login.account,
+  isBusy: state.root.isBusy
 })
 const mapDispatchToProps = {
   getValidate,
-  setValidate
+  setValidate,
+  toast
 }
 
 export default connect(

@@ -4,7 +4,8 @@ import './TimerButton.scss'
 
 class TimerButton extends Component {
   static propTypes = {
-    handleClick: PropTypes.func
+    handleClick: PropTypes.func,
+    disabled: PropTypes.bool
   }
 
   constructor () {
@@ -31,7 +32,8 @@ class TimerButton extends Component {
     this.setState(
       ({ clock }) => {
         return ({ clock: seconds || (clock - 1) })
-      }, () => {
+      },
+      () => {
         if (this.state.clock > 0) {
           this.setState({
             tm: setTimeout(this.startTimer, 1000)
@@ -42,13 +44,15 @@ class TimerButton extends Component {
   }
 
   render () {
+    const { disabled } = this.props
     const { clock } = this.state
     return <button
-      className={`yh-timer-button${clock ? ' disabled' : ''}`}
+      className='yh-timer-button'
       type='button'
-      onClick={!clock && this.handleClick}
+      onClick={this.handleClick}
+      disabled={clock || disabled}
     >
-      { clock ? `重新发送(${clock})`  : '发送验证码' }
+      { clock ? `重新发送(${clock})` : '发送验证码' }
     </button>
   }
 }

@@ -17,4 +17,8 @@
   &:active {
     background-color: darken($mainColor, 10%);
   }
+  &[disabled] {
+    background-color: darken($mainColor, 10%);
+    cursor: not-allowed;
+  }
 }

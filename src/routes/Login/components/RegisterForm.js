@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { registerTab, registerForm } from '@/lib/enums'
 
 import Tab from '@/components/Tab'
-import Form from '@/components/Form'
 import FormBuilder from '@/components/Form/FormBuilder'
 
 class RegisterForm extends Component {
@@ -14,7 +13,10 @@ class RegisterForm extends Component {
     handleSubmit: PropTypes.func,
     handleLink: PropTypes.func,
     setValue: PropTypes.func,
-    getValidate: PropTypes.func
+    getValidate: PropTypes.func,
+    wrongValidate: PropTypes.bool,
+    changeTab: PropTypes.func,
+    disabled: PropTypes.bool
   }
   constructor () {
     super(...arguments)
@@ -48,7 +50,8 @@ class RegisterForm extends Component {
     this.setState(
       ({ clock }) => {
         return ({ clock: seconds || (clock - 1) })
-      }, () => {
+      },
+      () => {
         if (this.state.clock > 0) {
           this.setState({
             tm: setTimeout(this.startTimer, 1000)
@@ -84,7 +87,8 @@ class RegisterForm extends Component {
       params = {},
       handleLink,
       changeTab,
-      wrongValidate
+      wrongValidate,
+      disabled
     } = this.props
     const { clock, submited } = this.state
     return <div>
@@ -105,6 +109,7 @@ class RegisterForm extends Component {
         handleSubmit={this.handleSubmit}
         submited={submited}
         wrongValidate={wrongValidate}
+        disabled={disabled}
       />
     </div>
   }

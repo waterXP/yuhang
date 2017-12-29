@@ -21,9 +21,8 @@ class Confirm extends Component {
     this.returnButton = this::this.returnButton
   }
   componentWillMount () {
-    const { account, query } = this.props
+    const { account } = this.props
     if (!account) {
-      const url = query.from === 'forget' ? '/login/forget' : '/login'
       goLocation('/login')
     }
   }
@@ -46,20 +45,20 @@ class Confirm extends Component {
       }
     const { title, step, tips } = values
     return <div className='yh-login-confirm content-panel'>
-        <Breadcrumbs>创新余杭</Breadcrumbs>
-        <StepPanel
-          title={title}
-          step={step}
-          index={1}
-        >
-          <SendMessage
-            mail={mask(account)}
-            tips={tips}
-          />
-          <BigButton text='返回' handleClick={this.returnButton} />
-          <Record />
-        </StepPanel>
-      </div>
+      <Breadcrumbs>创新余杭</Breadcrumbs>
+      <StepPanel
+        title={title}
+        step={step}
+        index={1}
+      >
+        <SendMessage
+          mail={mask(account)}
+          tips={tips}
+        />
+        <BigButton text='返回' handleClick={this.returnButton} />
+        <Record />
+      </StepPanel>
+    </div>
   }
 }
 

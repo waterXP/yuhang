@@ -23,6 +23,9 @@
     &:focus {
       outline: none;
     }
+    &[disabled] {
+      @include disabled;
+    }
   }
   .form-button {
     @include fontStyle($llFontColor, 14px, 19px);
@@ -38,11 +41,8 @@
     &:active {
       background-color: darken($mainColor, 10%);
     }
-    &.disabled {
-      cursor: not-allowed;
-      &:active {
-        background-color: $mainColor;
-      }
+    &[disabled] {
+      @include disabled;
     }
   }
 }
