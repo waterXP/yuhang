@@ -23,7 +23,7 @@ export const registerTab = [
 
 export const regMobile = '^1[34578]\\d{9}$'
 export const regMail = '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$'
-export const regPassword = '^[A-Za-z0-9_]{6,16}$'
+export const regPassword = '^[A-Za-z0-9_]{8,16}$'
 
 export const registerForm = [
   {
@@ -35,12 +35,6 @@ export const registerForm = [
     regStr: regMobile,
     regFail: '手机号格式不正确'
   }, {
-    text: '验证码',
-    key: 'validate',
-    type: 'validate',
-    isRequired: true,
-    unique: 'mobile'
-  }, {
     text: '邮箱',
     key: 'mail',
     type: 'text',
@@ -49,33 +43,45 @@ export const registerForm = [
     regStr: regMail,
     regFail: '邮箱格式不正确'
   }, {
+    text: '验证码',
+    key: 'validate',
+    type: 'validate',
+    isRequired: true,
+    unique: 'mobile'
+  }, {
+    text: '验证码',
+    key: 'vImage',
+    type: 'vImage',
+    isRequired: true,
+    unique: 'mail'
+  }, {
     text: '密码',
     key: 'password',
     type: 'password',
     isRequired: true,
     regStr: regPassword,
-    regFail: '密码长度6-16位，支持数字字母，下划线'
+    regFail: '密码长度8-16位，支持数字字母，下划线'
   }, {
     text: '确认密码',
     key: 'confirm',
     type: 'password',
     isRequired: true
-  }, {
-    text: '真实姓名',
-    key: 'name',
-    type: 'text'
-  }, {
-    text: '公司名称',
-    key: 'company',
-    type: 'text'
-  }, {
-    text: '职位',
-    key: 'position',
-    type: 'text'
-  }, {
-    text: '工作地址',
-    key: 'address',
-    type: 'text'
+  // }, {
+  //   text: '真实姓名',
+  //   key: 'name',
+  //   type: 'text'
+  // }, {
+  //   text: '公司名称',
+  //   key: 'company',
+  //   type: 'text'
+  // }, {
+  //   text: '职位',
+  //   key: 'position',
+  //   type: 'text'
+  // }, {
+  //   text: '工作地址',
+  //   key: 'address',
+  //   type: 'text'
   }, {
     text: '我已阅读并同意遵守',
     key: 'agree',
@@ -135,7 +141,7 @@ export const sidebar = [
         icon: 'users'
       }
     ]
-  },
+  }
 ]
 
 export const pageSizeGroup = [10, 20, 30, 50]

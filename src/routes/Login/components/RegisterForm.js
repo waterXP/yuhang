@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { registerTab, registerForm } from '@/lib/enums'
+import { registerTab, registerForm, regMobile, regMail } from '@/lib/enums'
 
 import Tab from '@/components/Tab'
 import FormBuilder from '@/components/Form/FormBuilder'
@@ -16,7 +16,8 @@ class RegisterForm extends Component {
     getValidate: PropTypes.func,
     wrongValidate: PropTypes.bool,
     changeTab: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    toast: PropTypes.func
   }
   constructor () {
     super(...arguments)
@@ -42,9 +43,35 @@ class RegisterForm extends Component {
     this.props.setValue({ [name]: checked })
   }
   getValidate () {
-    this.props.getValidate(
-      this.startTimer(60)
-    )
+    const { params, toast, type } = this.props
+    const { mobile, mail } = params
+    if (type === 'mobile') {
+      if (mobile && RegExp(regMobile).test(mobile)) {
+        this.props.getValidate(
+          'get /vcode/send-phone',
+          { phone: mobile, type: 1 },
+          () => {
+            toast('correct', '发送成功')
+            this.startTimer(60)
+          }
+        )
+      } else {
+        toast('手机号码格式错误')
+      }
+    } else {
+      if (mail && RegExp(regMail).test(mail)) {
+        this.props.getValidate(
+          'get /vcode/send-email',
+          { email: mail, type: 1 },
+          () => {
+            toast('correct', '发送成功')
+            this.startTimer(60)
+          }
+        )
+      } else {
+        toast('邮箱格式错误')
+      }
+    }
   }
   startTimer (seconds) {
     this.setState(

@@ -7,7 +7,8 @@ import { toast } from '@/store/root'
 const mapStateToProps = (state) => ({
   loginFail: state.login.loginFail,
   userInfo: state.login.userInfo,
-  isBusy: state.root.isBusy
+  isBusy: state.root.isBusy,
+  isShowCode: state.login.isShowCode
 })
 const mapDispatchToProps = {
   login,

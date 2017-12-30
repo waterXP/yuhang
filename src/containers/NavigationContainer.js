@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './Navigation.scss'
 
-
 import { goLocation } from '@/lib/base'
 
-import MainMenu from '../components/MainMenu'
+// import MainMenu from '../components/MainMenu'
 import LoginInfo from '../components/LoginInfo'
 
 import { setLanguage } from '@/store/root'
@@ -14,9 +13,11 @@ import { logout } from '@/routes/Login/modules/login'
 
 class NavigationContainer extends Component {
   static propTypes = {
-    userinfo: PropTypes.object,
+    userInfo: PropTypes.object,
     language: PropTypes.string,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    pathname: PropTypes.string,
+    setLanguage: PropTypes.func
   }
 
   constructor () {
@@ -28,30 +29,41 @@ class NavigationContainer extends Component {
   }
 
   handleRegister () {
-    goLogin('/login/register')
+    if (this.props.pathname !== '/login/register') {
+      goLocation('/login/register')
+    }
   }
   handleLogin () {
-    goLogin('/login')
+    if (this.props.pathname !== '/login') {
+      goLocation('/login')
+    }
   }
   handleLogout () {
-    this.props.logout()
-    goLocation('/login')
+    this.props.logout(() => {
+      if (this.props.pathname !== '/login') {
+        goLocation('/login')
+      }
+    })
   }
   handleLanguage (language) {
     this.props.setLanguage(language)
   }
 
   render () {
-    const { userinfo, language } = this.props
+    const { userInfo, language } = this.props
     return (
       <div className='yh-navigation'>
-        <button className='dropDownMenu'>
-          <i className='fas fa-bars'/>&nbsp;菜单
-        </button>
+        {
+          //   <button className='dropDownMenu'>
+          //   <i className='fas fa-bars'/>&nbsp;菜单
+          // </button>
+        }
         <img className='logo' src='/assets/logo.png' />
-        <MainMenu />
+        {
+          // <MainMenu />
+        }
         <LoginInfo
-          username={userinfo.name}
+          username={userInfo.username}
           language={language}
           handleRegister={this.handleRegister}
           handleLogin={this.handleLogin}
@@ -64,8 +76,9 @@ class NavigationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  userinfo: state.login && state.login.userinfo ? state.login.userinfo : {},
-  language: state.root.language
+  userInfo: state.root.userInfo,
+  language: state.root.language,
+  pathname: state.location.pathname
 })
 
 const mapDispatchToProps = {

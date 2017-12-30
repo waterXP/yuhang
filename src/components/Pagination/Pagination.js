@@ -18,6 +18,7 @@ class Pagination extends Component {
     super(...arguments)
     this.handleBlur = this::this.handleBlur
     this.keyPress = this::this.keyPress
+    this.setPage = this::this.setPage
     this.state = { inputPage: '' }
   }
 
@@ -29,8 +30,12 @@ class Pagination extends Component {
   componentDidUpdate (prevProps, prevState) {
     const { page } = this.props
     if (page !== prevProps.page) {
-      this.setState({ inputPage: '' + page })
+      this.setPage()
     }
+  }
+  setPage () {
+    const { page } = this.props
+    this.setState({ inputPage: '' + page })
   }
   handleBlur ({ target }) {
     const value = +target.value
@@ -51,7 +56,7 @@ class Pagination extends Component {
   }
 
   render () {
-    const { page, pageSize, total, setPageSize, changePage, disabled,
+    const { page, pageSize, total, setPageSize, changePage, disabled
       } = this.props
     const { inputPage } = this.state
     const totalPage = Math.ceil(total / pageSize)

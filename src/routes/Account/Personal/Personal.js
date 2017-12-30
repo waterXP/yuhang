@@ -40,7 +40,7 @@ class Personal extends Component {
         <button
           type='button'
           onClick={() => this.audit(v)}
-          disabled={ this.props.isBusy }
+          disabled={this.props.isBusy}
         >
           审核
         </button>
@@ -76,15 +76,17 @@ class Personal extends Component {
 
   setConditions () {
     const { identity } = this.state
-    this.setState({ conditions: { identity }}, () => this.getList(1))
+    this.setState({ conditions: { identity } }, () => this.getList(1))
   }
   getList (page, pageSize) {
+    const { conditions } = this.state
     this.props.getList(
-      'get /url',
-      Object.assign(
-        { page, pageSize: pageSize || this.props.pageSize },
-        this.state.conditions
-      )
+      'get /person/list',
+      {
+        page,
+        pageSize: pageSize || this.props.pageSize,
+        idCardNum: conditions.identity
+      }
     )
   }
   setValue (target, value) {
@@ -100,13 +102,13 @@ class Personal extends Component {
     return <div className='yh-account-personal panel'>
       <BreadInContent
         breadcrumbs={
-          [{
-            key: 'account',
-            value: '账号管理'
-          }, {
-            key: 'account-personal',
-            value: '个人认证待审核'
-          }]
+        [{
+          key: 'account',
+          value: '账号管理'
+        }, {
+          key: 'account-personal',
+          value: '个人认证待审核'
+        }]
         }
       />
       <PersonalCondition

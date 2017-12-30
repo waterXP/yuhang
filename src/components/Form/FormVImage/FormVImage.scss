@@ -1,0 +1,54 @@
+@import '../../../styles/baseStyle';
+
+.yh-form-v-image {
+  position: relative;
+  margin-bottom: 15px;
+  .required {
+    @include fontStyle($errorColor, 14px, 19px);
+    width: 17px;
+    display: inline-block;
+  }
+  .form-label {
+    @include fontStyle($llFontColor, 14px, 19px);
+    width: 89px;
+    text-align: left;
+    font-weight: normal;
+  }
+  .form-text {
+    @include fontStyle($llFontColor, 14px, 19px);
+    @include border;
+    width: 142px;
+    padding: 5px 9px;
+    margin-right: 10px;
+    &:focus {
+      outline: none;
+    }
+    &[disabled] {
+      @include disabled;
+    }
+  }
+  .form-button {
+    @include fontStyle($llFontColor, 14px, 19px);
+    @include border;
+    @include likeButton;
+    width: 90px;
+    height: 31px;
+    padding: 0;
+    margin-right: 17px;
+    background-color: $mainColor;
+    vertical-align: top;
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      background-color: darken($mainColor, 10%);
+    }
+    &[disabled] {
+      @include disabled;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

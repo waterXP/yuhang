@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import './CoreLayout.scss'
 import '@/styles/core.scss'
 import { goLocation } from '@/lib/base'
@@ -11,17 +12,36 @@ import SidebarContainer from '@/containers/SidebarContainer'
 class CoreLayout extends Component {
   static propTypes = {
     children : PropTypes.element,
-    location: PropTypes.object
+    location: PropTypes.object,
+    userInfo: PropTypes.object
+  }
+
+  constructor () {
+    super(...arguments)
+    this.checkPath = this::this.checkPath
   }
 
   componentWillMount () {
-    if (!this.props.children) {
-      goLocation('/login', true)
-    }
+    this.checkPath()
   }
   componentDidUpdate () {
-    if (!this.props.children) {
+    this.checkPath()
+  }
+
+  checkPath () {
+    const { children, userInfo, location } = this.props
+    const { pathname } = location
+    if (!children) {
       goLocation('/login', true)
+    } else if (
+      userInfo.username === undefined &&
+      pathname !== '/' &&
+      pathname.indexOf('/login') !== 0) {
+      goLocation('/login')
+    } else if (
+      userInfo.username !== undefined &&
+      pathname.indexOf('/login') === 0) {
+      goLocation('/account')
     }
   }
 
@@ -42,4 +62,11 @@ class CoreLayout extends Component {
   }
 }
 
-export default CoreLayout
+const mapStateToProps = state => ({
+  userInfo: state.root.userInfo
+})
+
+const mapDispatchToProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

@@ -23,29 +23,46 @@ class Validate extends Component {
   constructor () {
     super(...arguments)
     this.handleClick = this::this.handleClick
+    this.getValidate = this::this.getValidate
     this.state = { validate: '', showError: false }
+  }
+  componentWillMount () {
+    if (this.props.account === '') {
+      goLocation('/login/forget', true)
+    }
   }
 
   handleClick () {
-    const { toast, setValidate } = this.props
+    const { toast, setValidate, account } = this.props
     const { validate } = this.state
     if (!validate) {
       toast('请输入验证码')
       return
     }
+
     setValidate(
+      { phone: account, code: validate, type: 2 },
+      () => {
+        goLocation('/login/modify')
+      },
+      () => {
+        this.setState({ showError: true })
+      }
+    )
+  }
+  getValidate () {
+    const { account, getValidate, toast } = this.props
+    getValidate(
+      'get /vcode/send-phone',
+      { phone: account, type: 2 },
       (d) => {
-        if (d) {
-          goLocation('/login/modify')
-        } else {
-          this.setState({ showError: true })
-        }
+        toast('correct', '验证码发送成功')
       }
     )
   }
 
   render () {
-    const { account, getValidate, isBusy } = this.props
+    const { account, isBusy } = this.props
     const { validate, showError } = this.state
     return <div className='yh-login-validate content-panel'>
       <Breadcrumbs>创新余杭</Breadcrumbs>
@@ -62,7 +79,7 @@ class Validate extends Component {
             setValue={v => this.setState({ validate: v })}
             disabled={isBusy}
           />
-          <TimerButton handleClick={() => getValidate()} disabled={isBusy} />
+          <TimerButton handleClick={this.getValidate} disabled={isBusy} />
         </div>
         <div className='warning'>
           { showError &&

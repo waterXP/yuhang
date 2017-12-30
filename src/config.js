@@ -6,6 +6,6 @@ export default {
   deviceHeight,
   rootElement,
   isDev,
-  prodApi: 'http://sso.chanyecloud.com/',
+  prodApi: 'http://101.71.130.161/api/',
   devApi: '/api/'
 }

@@ -3,7 +3,7 @@
 .yh-input-text {
   @include fontStyle($llFontColor, 14px, 20px);
   @include border;
-  width: 264px;
+  width: 258px;
   padding: 10px;
   background-color: $mainColor;
   &:focus {

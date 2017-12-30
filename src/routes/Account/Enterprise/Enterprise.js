@@ -39,7 +39,7 @@ class Enterprise extends Component {
         <button
           type='button'
           onClick={() => this.audit(v)}
-          disabled={ this.props.isBusy }
+          disabled={this.props.isBusy}
         >
           审核
         </button>
@@ -75,7 +75,7 @@ class Enterprise extends Component {
 
   setConditions () {
     const { company } = this.state
-    this.setState({ conditions: { company }}, () => this.getList(1))
+    this.setState({ conditions: { company } }, () => this.getList(1))
   }
   getList (page, pageSize) {
     this.props.getList(
@@ -98,15 +98,15 @@ class Enterprise extends Component {
     const { company } = this.state
     return <div className='yh-account-enterprise panel'>
       <BreadInContent
-        breadcrumbs={
-          [{
+        breadcrumbs={[
+          {
             key: 'account',
             value: '账号管理'
           }, {
             key: 'account-enterprise',
             value: '企业认证待审核'
-          }]
-        }
+          }
+        ]}
       />
       <EnterpriseCondition
         company={company}

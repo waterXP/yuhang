@@ -7,4 +7,62 @@
   .yh-step-panel {
     padding-bottom: 54px;
   }
+  .email {
+    @include fontStyle($llFontColor, 14px, 19px);
+    @include disabled;
+    width: 379px;
+    margin: 19px auto;
+    text-align: left;
+    span {
+      display: inline-block;
+      margin-left: 36px;
+      color: $fontColor;
+    }
+  }
+  .validate-group {
+    input {
+      width: 258px;
+    }
+  }
+  .vcode-button {
+    @include likeButton;
+    width: 102px;
+    height: 42px;
+    margin-left: 20px;
+    padding: 0;
+    vertical-align: top;
+    background-color: $mainColor;
+    img {
+      width: 100%;
+      height: 100%;
+      border: 1px solid $borderColor;
+    }
+  }
+  .warning {
+    display: block;
+    margin: 6px auto;
+    span {
+      @include fontStyle($errorColor, 12px, 17px);
+      display: inline-block;
+      width: 379px;
+      text-align: left;
+    }
+    .fa-exclamation-circle {
+      margin-right: 4px;
+    }
+  }
+  .yh-main-button {
+    display: block;
+    width: 379px;
+    margin: 12px auto 0;
+    color: $mainColor;
+    background-color: $warningColor;
+    border-color: $warningColor;
+    &:active {
+      background-color: darken($warningColor, 10%);
+    }
+    &[disabled] {
+      background-color: lighten($warningColor, 10%);
+    }
+  }
 }

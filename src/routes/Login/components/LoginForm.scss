@@ -49,4 +49,28 @@
       color: darken($llFontColor, 10%);
     }
   }
+  .vcode-input.yh-input-text {
+    width: 150px;
+    margin-right: 20px;
+    &:focus {
+      outline: none;
+    }
+  }
+  .vcode-button {
+    @include likeButton;
+    @include disabled;
+    width: 88px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid $borderColor;
+    background-color: $mainColor;
+    vertical-align: top;
+    &:focus {
+      outline: none;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }

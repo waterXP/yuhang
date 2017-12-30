@@ -87,6 +87,21 @@ class FormBuilder extends Component {
               />
             )
             break
+          case 'vImage':
+            content.push(
+              <Form.VImage
+                key={v.key}
+                label={v.text}
+                name={v.key}
+                value={params[v.key]}
+                setValue={setValue}
+                isRequired={v.isRequired}
+                submited={submited}
+                wrongValidate={wrongValidate}
+                disabled={disabled}
+              />
+            )
+            break
           case 'checkbox':
             content.push(
               <Form.Checkbox

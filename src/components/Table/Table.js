@@ -10,7 +10,7 @@ class Table extends Component {
       <thead>
         <tr>
           {
-            columns.map(v => 
+            columns.map(v =>
               <th key={v.key}>{ v.name }</th>
             )
           }

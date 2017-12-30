@@ -1,4 +1,4 @@
-import asyncFetch from '@/lib/base'
+// import { asyncFetch } from '@/lib/base'
 
 export const SET_STEP = 'SET_STEP'
 export const IN_BUSY = 'IN_BUSY'
@@ -7,6 +7,7 @@ export const REMOVE_TOAST = 'REMOVE_TOAST'
 export const SET_LANGUAGE = 'SET_LANGUAGE'
 export const GET_LIST = 'GET_LIST'
 export const CLEAR_LIST = 'CLEAR_LIST'
+export const SET_USER_INFO = 'SET_USER_INFO'
 
 const duration = 2000
 let nextToast = 1
@@ -67,29 +68,33 @@ export const getList = (action, params) => {
   //   })
   // })
   return {
-      type: GET_LIST,
-      list: [
-        {
-          id: 1,
-          name: '张三',
-          company: '张三公司',
-          address: '3333',
-          contact: 'a@bn.com',
-          code: '99879879dfa',
-          identity: '3333',
-          mail: 'a@bn.com',
-          phone: '13444458787',
-          status: 0,
-          time: +new Date()
-        }
-      ],
-      page: _params.page,
-      pageSize: _params.pageSize || 10,
-      total: 77
+    type: GET_LIST,
+    list: [
+      {
+        id: 1,
+        name: '张三',
+        company: '张三公司',
+        address: '3333',
+        contact: 'a@bn.com',
+        code: '99879879dfa',
+        identity: '3333',
+        mail: 'a@bn.com',
+        phone: '13444458787',
+        status: 0,
+        time: +new Date()
+      }
+    ],
+    page: _params.page,
+    pageSize: _params.pageSize || 10,
+    total: 77
   }
 }
 export const clearList = () => ({
   type: CLEAR_LIST
+})
+export const setUserInfo = (userInfo) => ({
+  type: SET_USER_INFO,
+  userInfo
 })
 
 const ACTION_HANDLERS = {
@@ -130,7 +135,9 @@ const ACTION_HANDLERS = {
       page: 1,
       pageSize: 10,
       total: 0
-    })
+    }),
+  [SET_USER_INFO]: (state, { userInfo }) =>
+    Object.assign({}, state, { userInfo })
 }
 
 const initialState = {
@@ -142,7 +149,8 @@ const initialState = {
   list: [],
   page: 1,
   pageSize: 10,
-  total: 0
+  total: 0,
+  userInfo: { username: 'hi' }
 }
 
 export default function (state = initialState, action) {

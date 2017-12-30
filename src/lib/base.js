@@ -61,33 +61,68 @@ export const get = (url, params = {}) => {
   })
 }
 
+export const blob = (url, params = {}) => {
+  const headers = new Headers({
+    'Accept': 'application/json',
+    'Content-Type': 'application/json; charset=UTF-8'
+  })
+  let queryUrl = url
+  if (queryUrl.indexOf('?') < 0) {
+    queryUrl += '?'
+  }
+  for (let str in params) {
+    queryUrl += `${str}=${params[str]}&`
+  }
+  return fetch(queryUrl, {
+    method: 'GET',
+    credentials: 'same-origin',
+    headers: headers
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.blob()
+    } else {
+      errFunc(response.statusText)
+      return response
+    }
+  })
+  // .then((response) => {
+  //   let blob = new Blob()
+  //   blob = response
+  //   // console.log(blob)
+  //   // console.log(window.URL.createObjectURL)
+  //   var img = document.createElement("img");
+  //   img.src = window.URL.createObjectURL(blob)
+  //   return src
+  // })
+}
+
 export const post = (url, params = {}) => {
   const headers = new Headers({
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    'Content-Type': 'application/json'
   })
-  let query = ''
-  for (let str in params) {
-    if (params[str] instanceof Array) {
-      params[str].forEach((v, i) => {
-        if (typeof v === 'number' ||
-          typeof v === 'boolean' ||
-          typeof v === 'string') {
-          query += `${str}[${i}]=${v}&`
-        } else {
-          for (let child in v) {
-            query += `${str}[${i}].${child}=${v[child]}&`
-          }
-        }
-      })
-    } else {
-      query += `${str}=${params[str]}&`
-    }
-  }
+  // let query = ''
+  // for (let str in params) {
+  //   if (params[str] instanceof Array) {
+  //     params[str].forEach((v, i) => {
+  //       if (typeof v === 'number' ||
+  //         typeof v === 'boolean' ||
+  //         typeof v === 'string') {
+  //         query += `${str}[${i}]=${v}&`
+  //       } else {
+  //         for (let child in v) {
+  //           query += `${str}[${i}].${child}=${v[child]}&`
+  //         }
+  //       }
+  //     })
+  //   } else {
+  //     query += `${str}=${params[str]}&`
+  //   }
+  // }
   return fetch(url, {
     method: 'POST',
     credentials: 'same-origin',
     headers: headers,
-    body: query
+    body: JSON.stringify(params)
   }).then((response) => {
     if (response.status === 200) {
       return response.json()
@@ -98,10 +133,10 @@ export const post = (url, params = {}) => {
   })
 }
 
-export const asyncFetch = (action, params = {}, cb) => {
+export const asyncFetch = (action, params = {}, cb, cbError, inBusy) => {
   if (!cb) {
     cb = (data, dispatch, getState) => {
-      let msg = data.msg || '操作成功'
+      let msg = data.message || '操作成功'
       return dispatch({
         type: FETCH_FIN,
         msg
@@ -109,15 +144,30 @@ export const asyncFetch = (action, params = {}, cb) => {
     }
   }
   return (dispatch, getState) => {
+    if (inBusy) {
+      dispatch({
+        type: 'IN_BUSY',
+        isBusy: true,
+        step: 'fetch data'
+      })
+    }
     fetchData(action, params)
     .then((data) => {
-      if (!data.result) {
+      if (inBusy) {
+        dispatch({
+          type: 'IN_BUSY',
+          isBusy: false,
+          step: ''
+        })
+      }
+      if (data.code === '200') {
         return cb(data, dispatch, getState)
       } else {
-        alert(data.msg)
+        cbError && cbError(data, dispatch, getState)
+        alert(data.message)
         return dispatch({
           type: FETCH_FAIL,
-          err: data.msg || '系统忙，请稍后再试'
+          err: data.message || '系统忙，请稍后再试'
         })
       }
     })
@@ -145,8 +195,10 @@ export const fetchData = (action, params = {}) => {
   }
   if (method.toLowerCase() === 'get') {
     return get(url, params)
-  } else {
+  } else if (method.toLowerCase() === 'post') {
     return post(url, params)
+  } else if (method.toLowerCase() === 'blob') {
+    return blob(url, params)
   }
 }
 
@@ -317,3 +369,13 @@ export const mask = (mail) => {
   }
   return a.join('@')
 }
+
+export const getImageCode = (callback) => {
+  fetchData('blob /vcode.jpg')
+  .then((data) => {
+    const src = window.URL.createObjectURL(data)
+    callback && callback(src)
+    return src
+  })
+}
+

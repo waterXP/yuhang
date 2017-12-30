@@ -9,13 +9,15 @@ class InputText extends Component {
     setValue: PropTypes.func,
     type: PropTypes.string,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    className: PropTypes.string
   }
 
   render () {
-    const { value, setValue, type, placeholder, disabled } = this.props
+    const { value, setValue, type, placeholder, disabled,
+      className } = this.props
     return <input
-      className='yh-input-text'
+      className={`yh-input-text${className ? ' ' + className : ''}`}
       type={type || 'text'}
       value={value}
       placeholder={placeholder}

@@ -15,7 +15,8 @@ class Register extends Component {
     register: PropTypes.func,
     getValidate: PropTypes.func,
     wrongValidate: PropTypes.bool,
-    isBusy: PropTypes.bool
+    isBusy: PropTypes.bool,
+    toast: PropTypes.func
   }
 
   constructor () {
@@ -38,21 +39,22 @@ class Register extends Component {
   handleSubmit () {
     const { register } = this.props
     const { type, params } = this.state
-    const { mobile, validate, mail, password, name, company,
-      position, address, agree } = params
+    const { mobile, validate, mail, password, vImage } = params
+      // name, company, position, address, agree,
     const p = {
-      password,
-      name: name || '',
-      company: company || '',
-      position: position || '',
-      address: address || '',
-      agree
+      password
+      // name: name || '',
+      // company: company || '',
+      // position: position || '',
+      // address: address || '',
+      // agree
     }
     if (type === 'mobile') {
-      p.mobile = mobile
-      p.validate = validate
+      p.phone = mobile
+      p.vcode = validate
     } else {
-      p.mail = mail
+      p.email = mail
+      p.vcode = vImage
     }
     register(p, () => goLocation(
       type === 'mobile'
@@ -71,7 +73,7 @@ class Register extends Component {
   }
 
   render () {
-    const { getValidate, wrongValidate, isBusy } = this.props
+    const { getValidate, wrongValidate, isBusy, toast } = this.props
     const { type, params } = this.state
     return <div className='yh-login-register content-panel'>
       <Breadcrumbs>创新余杭</Breadcrumbs>
@@ -82,6 +84,7 @@ class Register extends Component {
       >
         <RegisterForm
           type={type}
+          toast={toast}
           params={params}
           handleLink={this.handleLink}
           handleSubmit={this.handleSubmit}

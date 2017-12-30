@@ -15,7 +15,8 @@ class Login extends Component {
     login: PropTypes.func,
     // clearUserInfo: PropTypes.func,
     isBusy: PropTypes.bool,
-    toast: PropTypes.func
+    toast: PropTypes.func,
+    isShowCode: PropTypes.bool
   }
 
   componentWillMount () {
@@ -24,7 +25,7 @@ class Login extends Component {
   }
 
   render () {
-    const { loginFail, login, children, isBusy, toast } = this.props
+    const { loginFail, login, children, isBusy, toast, isShowCode } = this.props
     const result = children
       ? <div>{ children }</div>
       : <div className='yh-login'>
@@ -37,6 +38,7 @@ class Login extends Component {
             register={() => goLocation('/login/register')}
             isBusy={isBusy}
             toast={toast}
+            isShowCode={isShowCode}
           />
         </div>
       </div>

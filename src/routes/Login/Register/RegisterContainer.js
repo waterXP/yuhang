@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import Register from './Register'
 
 import { register, getValidate } from '../modules/login'
+import { toast } from '@/store/root'
 
 const mapStateToProps = (state) => ({
   wrongValidate: state.login.wrongValidate,
@@ -9,7 +10,8 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = {
   register,
-  getValidate
+  getValidate,
+  toast
 }
 
 export default connect(

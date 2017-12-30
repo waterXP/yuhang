@@ -26,22 +26,42 @@ class Forget extends Component {
       confirm: ''
     }
   }
+  componentWillMount () {
+    if (this.props.account === '') {
+      goLocation('/login/forget', true)
+    }
+  }
 
   handleClick () {
+    const { setNewPassword, account } = this.props
     const { password, confirm } = this.state
     if (!RegExp(regPassword).test(password) || password !== confirm) {
       return
     }
-    this.props.setNewPassword(
+    setNewPassword(
+      { username: account, pwd: password },
+      () => {
+        goLocation({
+          pathname: '/login/complete',
+          query: { from: 'modify' }
+        })
+      },
       (d) => {
-        if (d) {
-          goLocation({
-            pathname: '/login/complete',
-            query: { from: 'modify' }
-          })
+        if (d.code === '20404') {
+          goLocation('/login/validate')
         }
       }
     )
+    // setNewPassword(
+    //   (d) => {
+    //     if (d) {
+    //       goLocation({
+    //         pathname: '/login/complete',
+    //         query: { from: 'modify' }
+    //       })
+    //     }
+    //   }
+    // )
   }
   setValue ({ target }) {
     const { value, name } = target
@@ -49,7 +69,7 @@ class Forget extends Component {
   }
 
   render () {
-    const { account, isBusy} = this.props
+    const { account, isBusy } = this.props
     const { password, confirm } = this.state
     return <div className='yh-login-modify content-panel'>
       <Breadcrumbs>创新余杭</Breadcrumbs>

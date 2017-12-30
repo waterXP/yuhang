@@ -30,7 +30,7 @@ class TableGroup extends Component {
   }
 
   render () {
-    const { data, columns, page, pageSize, total, disabled, } = this.props
+    const { data, columns, page, pageSize, total, disabled } = this.props
     return <div className='yh-table-group'>
       <Table columns={columns} data={data} />
       <Pagination
