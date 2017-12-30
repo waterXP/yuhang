@@ -48,7 +48,14 @@ class Personal extends Component {
   ]
 
   static propTypes = {
-    isBusy: PropTypes.bool
+    isBusy: PropTypes.bool,
+    list: PropTypes.array,
+    page: PropTypes.number,
+    pageSize: PropTypes.number,
+    total: PropTypes.number,
+    getList: PropTypes.func,
+    clearList: PropTypes.func,
+    audit: PropTypes.func
   }
 
   constructor () {
@@ -60,22 +67,35 @@ class Personal extends Component {
     this.state = { identity: '', conditions: {} }
   }
 
+  componentWillMount () {
+    this.getList(1)
+  }
+  componentWillUnmount () {
+    this.props.clearList()
+  }
+
   setConditions () {
     const { identity } = this.state
-    this.setState({ conditions: { identity }}, this.getList(1))
+    this.setState({ conditions: { identity }}, () => this.getList(1))
   }
   getList (page, pageSize) {
-    console.log(page, pageSize, this.state.conditions)
+    this.props.getList(
+      'get /url',
+      Object.assign(
+        { page, pageSize: pageSize || this.props.pageSize },
+        this.state.conditions
+      )
+    )
   }
   setValue (target, value) {
     this.setState({ [target]: value })
   }
   audit (target) {
-    console.log(target)
+    this.props.audit(target.id)
   }
 
   render () {
-    const { isBusy } = this.props
+    const { isBusy, list, page, pageSize, total } = this.props
     const { identity } = this.state
     return <div className='yh-account-personal panel'>
       <BreadInContent
@@ -96,23 +116,11 @@ class Personal extends Component {
         disabled={isBusy}
       />
       <TableGroup
-        data={
-          [
-            {
-              id: 1,
-              name: '张三',
-              identity: '3333',
-              mail: 'a@bn.com',
-              phone: '13444458787',
-              status: 0,
-              time: +new Date()
-            }
-          ]
-        }
+        data={list}
         columns={this.columns}
-        page={8}
-        total={77}
-        pageSize={10}
+        page={page}
+        total={total}
+        pageSize={pageSize}
         getList={this.getList}
         disabled={isBusy}
       />

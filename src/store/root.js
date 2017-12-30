@@ -1,8 +1,12 @@
+import asyncFetch from '@/lib/base'
+
 export const SET_STEP = 'SET_STEP'
 export const IN_BUSY = 'IN_BUSY'
 export const TOAST = 'TOAST'
 export const REMOVE_TOAST = 'REMOVE_TOAST'
 export const SET_LANGUAGE = 'SET_LANGUAGE'
+export const GET_LIST = 'GET_LIST'
+export const CLEAR_LIST = 'CLEAR_LIST'
 
 const duration = 2000
 let nextToast = 1
@@ -43,6 +47,50 @@ export const setLanguage = language => ({
   type: SET_LANGUAGE,
   language
 })
+export const getList = (action, params) => {
+  const _params = {}
+  for (let p in params) {
+    if (params[p] === '') {
+      delete params[p]
+    } else {
+      _params[p] = params[p]
+    }
+  }
+  console.log(_params)
+  // return asyncFetch(action, _params, (d, dispatch) => {
+  //   return dispatch({
+  //     type: GET_LIST,
+  //     list: d.data,
+  //     page: d.page,
+  //     pageSize: d.pageSize,
+  //     total: d.total
+  //   })
+  // })
+  return {
+      type: GET_LIST,
+      list: [
+        {
+          id: 1,
+          name: '张三',
+          company: '张三公司',
+          address: '3333',
+          contact: 'a@bn.com',
+          code: '99879879dfa',
+          identity: '3333',
+          mail: 'a@bn.com',
+          phone: '13444458787',
+          status: 0,
+          time: +new Date()
+        }
+      ],
+      page: _params.page,
+      pageSize: _params.pageSize || 10,
+      total: 77
+  }
+}
+export const clearList = () => ({
+  type: CLEAR_LIST
+})
 
 const ACTION_HANDLERS = {
   [SET_STEP]: (state, { step }) =>
@@ -73,7 +121,16 @@ const ACTION_HANDLERS = {
     return state
   },
   [SET_LANGUAGE]: (state, { language }) =>
-    Object.assign({}, state, { language })
+    Object.assign({}, state, { language }),
+  [GET_LIST]: (state, { list, page, pageSize, total }) =>
+    Object.assign({}, state, { list, page, pageSize, total }),
+  [CLEAR_LIST]: state =>
+    Object.assign({}, state, {
+      list: [],
+      page: 1,
+      pageSize: 10,
+      total: 0
+    })
 }
 
 const initialState = {
@@ -81,7 +138,11 @@ const initialState = {
   isBusy: false,
   alipaySwitch: 0,
   toasts: [],
-  language: 'ch'
+  language: 'ch',
+  list: [],
+  page: 1,
+  pageSize: 10,
+  total: 0
 }
 
 export default function (state = initialState, action) {

@@ -17,4 +17,7 @@
     @include likeButton;
     color: $errorColor;
   }
+  span {
+    color: $secondaryColor;
+  }
 }

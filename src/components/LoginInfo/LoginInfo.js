@@ -18,17 +18,24 @@ class LoginInfo extends Component {
     const { username, language, handleRegister, handleLogin, handleLougout,
       handleLanguage } = this.props
     const langauage = 
-      <span><a
-        key='ch'
-        className={language === 'en' ? 'active' : undefined}
-        onClick={() => handleLanguage('ch')}
-      >中文</a>
-      /
-      <a
-        key='en'
-        className={language === 'ch' ? 'active' : undefined}
-        onClick={() => handleLanguage('en')}
-      >EN</a>
+      <span>
+        {
+          language === 'ch'
+          ? <span>中文</span>
+          : <a
+            key='ch'
+            onClick={() => handleLanguage('ch')}
+          >中文</a>
+        }
+        /
+        {
+          language === 'en'
+          ? <span>EN</span>
+          : <a
+            key='ch'
+            onClick={() => handleLanguage('en')}
+          >EN</a>
+        }
       </span>
     const result = username
       ? <div className='yh-login-info'>
@@ -41,7 +48,7 @@ class LoginInfo extends Component {
         <a
           href={userCenterLink}
           target='_blank'
-        >用互中心</a>
+        >用户中心</a>
         { langauage }
       </div>
       : <div className='yh-login-info'>

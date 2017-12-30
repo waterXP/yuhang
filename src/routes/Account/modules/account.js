@@ -1,4 +1,15 @@
-const ACTION_HANDLERS = {}
+export const ADUIT = 'ADUIT'
+
+export const audit = (id) => {
+  return { type: ADUIT }
+  // return asyncFetch('...', { id }, (d, dispatch) =>
+  //   dispatch({ type: ADUIT })
+  // )
+}
+
+const ACTION_HANDLERS = {
+  [ADUIT]: state => state
+}
 
 const initialState = {
 }

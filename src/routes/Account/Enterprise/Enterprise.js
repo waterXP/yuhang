@@ -47,7 +47,14 @@ class Enterprise extends Component {
   ]
 
   static propTypes = {
-    isBusy: PropTypes.bool
+    isBusy: PropTypes.bool,
+    list: PropTypes.array,
+    page: PropTypes.number,
+    pageSize: PropTypes.number,
+    total: PropTypes.number,
+    getList: PropTypes.func,
+    clearList: PropTypes.func,
+    audit: PropTypes.func
   }
 
   constructor () {
@@ -59,22 +66,35 @@ class Enterprise extends Component {
     this.state = { company: '', conditions: {} }
   }
 
+  componentWillMount () {
+    this.getList(1)
+  }
+  componentWillUnmount () {
+    this.props.clearList()
+  }
+
   setConditions () {
     const { company } = this.state
-    this.setState({ conditions: { company }}, this.getList(1))
+    this.setState({ conditions: { company }}, () => this.getList(1))
   }
   getList (page, pageSize) {
-    console.log(page, pageSize, this.state.conditions)
+    this.props.getList(
+      'get /url',
+      Object.assign(
+        { page, pageSize: pageSize || this.props.pageSize },
+        this.state.conditions
+      )
+    )
   }
   setValue (target, value) {
     this.setState({ [target]: value })
   }
   audit (target) {
-    console.log(target)
+    this.props.audit(target.id)
   }
 
   render () {
-    const { isBusy } = this.props
+    const { isBusy, list, page, pageSize, total } = this.props
     const { company } = this.state
     return <div className='yh-account-enterprise panel'>
       <BreadInContent
@@ -83,8 +103,8 @@ class Enterprise extends Component {
             key: 'account',
             value: '账号管理'
           }, {
-            key: 'account-personal',
-            value: '个人认证待审核'
+            key: 'account-enterprise',
+            value: '企业认证待审核'
           }]
         }
       />
@@ -95,23 +115,11 @@ class Enterprise extends Component {
         disabled={isBusy}
       />
       <TableGroup
-        data={
-          [
-            {
-              id: 1,
-              company: '张三公司',
-              address: '3333',
-              contact: 'a@bn.com',
-              phone: '13444458787',
-              code: '99879879dfa',
-              time: +new Date()
-            }
-          ]
-        }
+        data={list}
         columns={this.columns}
-        page={8}
-        total={77}
-        pageSize={10}
+        page={page}
+        total={total}
+        pageSize={pageSize}
         getList={this.getList}
         disabled={isBusy}
       />

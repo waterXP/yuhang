@@ -6,6 +6,7 @@
   min-height: 70px;
   background-color: #0a2432;
   overflow: auto;
+  text-align: left;
   .dropDownMenu {
     @include fontStyle($mainColor, 16px, 22px);
     @include likeButton;
